@@ -38,16 +38,15 @@ main {
 section {
 	padding: 30px 20px 70px;
 }
+section h2, section p {
+	text-align: center;
+}
 .services-groug, .categories-group {
 	max-width: 1200px;
 	margin: 0 auto;
 	display: flex;
 	justify-content: space-between;
 }
-section h2, section p {
-	text-align: center;
-}
-
 .service {
 	width: 48%;
 	border-radius: 20px;
@@ -55,7 +54,6 @@ section h2, section p {
 	background-color: #333;
 	padding: 25px;
 	color: #fff;
-
 }
 .service-info {
 	display: flex;
@@ -92,6 +90,19 @@ section h2, section p {
 	width: 24%;
 	background-color: #fff;
 }
-.bt-category img {
+.bt-category img, .m-category img {
 	width: 100%;
+}
+
+/*manufacturers section*/
+#manufacturers-section {
+	background-color: #eee;
+}
+.m-category {
+	width: 18%;
+	background-color: #fff;
+	box-shadow: 0 0 3px #444;
+}
+.m-category:hover {
+	box-shadow: 0 2px 5px #444;
 }
