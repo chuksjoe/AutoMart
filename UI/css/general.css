@@ -11,6 +11,7 @@ body {
 
 header {
 	width: 100%;
+	z-index: 100;
 }
 
 header nav, footer div {
@@ -47,4 +48,21 @@ footer {
 	width: 100%;
 	background-color: #fff;
 	font-size: 0.8rem;
+}
+
+input[type="submit"],
+button {
+	width: 100%;
+	font-size: 1rem;
+	padding: 10px;
+	margin-top: 20px;
+	background-color: #0069D9;
+	color: #fff;
+	outline: none;
+	border: none;
+}
+input[type="submit"]:hover,
+button:hover {
+	background-color: #2993E2;
+	transition: all 0.3s ease-out;
 }

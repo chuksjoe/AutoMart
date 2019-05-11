@@ -17,7 +17,6 @@ header {
 /*filter sidebar*/
 .filter-sidebar {
 	width: 25%;
-	background-color: #fff;
 }
 .filter-sidebar h2 {
 	background-color: #333;
@@ -28,6 +27,7 @@ header {
 .filter-attr {
 	padding: 15px;
 	width: 100%;
+	background-color: #fff;
 	border-bottom: 2px solid #eee;
 }
 .filter-attr h3 {
@@ -60,7 +60,51 @@ header {
 	margin-bottom: 5px;
 }
 
+/*cars listing view*/
 main {
 	width: 75%;
 	padding-right: 0;
+}
+.car-list {
+	list-style: none;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	padding: 0;
+	flex-flow: wrap;
+}
+.car-list-item {
+	width: 32%;
+	background-color: #fff;
+	margin-bottom: 30px;
+}
+.car-list-item:hover {
+	box-shadow: 0 0 3px #333;
+}
+.car-image {
+	position: relative;
+}
+.car-state-tag {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	padding: 5px 10px;
+	background-color: #fff;
+	color: #000;
+	font-size: 1rem;
+}
+.car-image img {
+	width: 100%;
+}
+.car-info {
+	padding: 15px;
+	text-align: center;
+}
+h3.car-detail {
+	text-align: center;
+	margin-top: 0px;
+}
+.car-price {
+	font-size: 2rem;
+	margin: 0;
 }
