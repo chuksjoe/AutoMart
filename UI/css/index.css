@@ -82,3 +82,16 @@ section h2, section p {
 	background-color: #2993E2;
 	transition: all 0.3s ease-out;
 }
+
+/*body type section*/
+#body-types-section {
+	background-color: #333;
+	color: #fff;
+}
+.bt-category {
+	width: 24%;
+	background-color: #fff;
+}
+.bt-category img {
+	width: 100%;
+}
