@@ -51,19 +51,6 @@ h1 {
 	background: #e7e7e7;
 	border: 1px solid #005795;
 }
-
-input[type="submit"] {
-	width: 100%;
-	font-size: 1rem;
-	padding: 10px;
-	margin-top: 20px;
-	background-color: #0069D9;
-	color: #fff;
-}
-input[type="submit"]:hover {
-	background-color: #2993E2;
-	transition: all 0.3s ease-out;
-}
 .note{
 	font-size: 12px;
 	color: #1B3F7D;
