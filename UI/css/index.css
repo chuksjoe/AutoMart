@@ -2,6 +2,7 @@ body {
 
 }
 
+/*main banner*/
 main {
 	background: #000 url("../images/background2.jpg") no-repeat;
 	background-size: cover;
@@ -31,4 +32,53 @@ main {
 	font-size: 1.3rem;
 	color: #fff;
 	text-shadow: 0 0 4px #000;
+}
+
+/*service section*/
+section {
+	padding: 30px 20px 70px;
+}
+.services-groug, .categories-group {
+	max-width: 1200px;
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-between;
+}
+section h2, section p {
+	text-align: center;
+}
+
+.service {
+	width: 48%;
+	border-radius: 20px;
+	box-shadow: 0 0 5px #bbb;
+	background-color: #333;
+	padding: 25px;
+	color: #fff;
+
+}
+.service-info {
+	display: flex;
+}
+.service-image {
+	width: 30%;
+}
+.service-image img {
+	width: 90%;
+	height: auto;
+}
+.service-description {
+	width: 70%;
+	padding-left: 20px;
+}
+.service a {
+	float: right;
+	text-decoration: none;
+	color: #fff;
+	padding: 10px 20px;
+	background-color: #0069D9;
+}
+.service a:hover {
+	background-color: #2993E2;
+	transition: all 0.3s ease-out;
 }
