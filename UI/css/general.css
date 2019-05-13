@@ -64,6 +64,7 @@ footer {
 	color: #fff;
 	outline: none;
 	border: none;
+	cursor: pointer;
 }
 .btn:hover {
 	background-color: #2993E2;
