@@ -77,6 +77,12 @@ footer {
 	background-color: #2993E2;
 	transition: all 0.3s ease-out;
 }
+.delete {
+	background-color: #D61313;
+}
+.delete:hover {
+	background-color: #B71513;
+}
 .btn-group {}
 .full-btn {
 	width: 100%;
