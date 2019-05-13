@@ -96,3 +96,31 @@ main {
 	font-size: 2rem;
 	margin: 0;
 }
+
+/*modal view for specific car view*/
+.car-view-image {
+	width: 49%;
+}
+.car-view-image img {
+	width: 100%
+}
+.car-view-main-desc {
+	width: 49%;
+	padding: 0 15px;
+}
+#added-date {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	color: #fff;
+}
+.c-price {
+	margin: 0;
+}
+#prop-list {
+	justify-content: normal;
+}
+.prop {
+	width: 33.3%;
+	margin: 10px 0 0;
+}

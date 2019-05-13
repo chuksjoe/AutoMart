@@ -69,16 +69,19 @@ footer {
 	background-color: #2993E2;
 	transition: all 0.3s ease-out;
 }
-.btn-group {
-	display: flex;
-	width: 100%;
-	justify-content: space-between;
-}
+.btn-group {}
 .full-btn {
 	width: 100%;
 }
 .half-btn {
 	width: 49%;
+}
+
+.flex-container {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
 }
 
 /*modal views and overlay*/
@@ -96,13 +99,43 @@ footer {
 	z-index: 100;
 	padding: 0px 20px;
 }
-.sm-modal-view {
-	width: 350px;
+.close-btn {
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	width: 35px;
+	height: 35px;
+	background-color: #eee;
+	color: #000;
+	font-size: 2rem;
+	padding: 2.5px 6.5px;
+	cursor: pointer;
+}
+.close-btn:hover {
+	background-color: #ccc;
+	color: #400;
+	transition: all 0.3s ease-out;
+}
+.modal-view {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	position: fixed;
 	background-color: #fff;
+}
+.sm-m-v {
+	width: 350px;
+}
+.lg-m-v {
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	max-width: 1000px;
+	height: auto;
+	max-height: 90%;
+	background-color: #fff;
+	margin: 0 auto;
+	overflow: auto;
 }
 h2.modal-header {
 	text-align: center;
@@ -126,5 +159,5 @@ h3.c-details {
 .c-price {
 	text-align: center;
 	font-size: 2rem;
-	margin: 10px 0;
+	margin: 0 0 10px;
 }

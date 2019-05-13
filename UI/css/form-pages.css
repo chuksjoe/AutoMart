@@ -15,11 +15,7 @@
 h1 {
 	text-align: center;
 }
-.input-group {
-	width: 100%;
-	display: flex;
-	justify-content: space-between;
-}
+.input-group {}
 .input-field{
 	margin: 2px 0px 10px 0px;
 	width: 55%;
