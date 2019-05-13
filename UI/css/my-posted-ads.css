@@ -1,0 +1,10 @@
+.user-actions {
+	padding: 0 15px 10px;
+	width: 20%;
+	border-left: 2px solid #eee;
+}
+.preview {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+}

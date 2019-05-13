@@ -1,8 +1,14 @@
+main {
+	width: 75%;
+	padding-right: 0;
+}
 .car-list {
 	width: 100%;
 }
 .car-list-item {
 	width: 100%;
+	background-color: #fff;
+	margin-bottom: 30px;
 }
 .car-image {
 	width: 25%;
