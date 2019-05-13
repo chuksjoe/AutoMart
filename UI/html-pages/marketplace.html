@@ -6,7 +6,9 @@
 		<meta name="description" content="Auto Mart is an online marketplace for automobiles of diverse makes, model or body type. With Auto Mart, users can sell their cars or buy from trusted dealerships or private sellers.">
 		<title>Marketplace - Auto Mart</title>
 
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
 		<link href="../css/general.css" rel="stylesheet">
+		<link href="../css/form-pages.css" rel="stylesheet">
 		<link href="../css/marketplace.css" rel="stylesheet">
 		<link rel="icon" type="image/x-icon" href="../images/favicon.ico">
 	</head>
@@ -48,8 +50,8 @@
 					<div class="filter-attr">
 						<h3>Price Range</h3>
 						<div class="price-range">
-							<input type="text" name="" placeholder="Min Price">
-							<input type="text" name="" placeholder="Max Price">
+							<input type="number" min="1000" name="" placeholder="Min Price(&#8358)">
+							<input type="number" min="1000" name="" placeholder="Max Price(&#8358)">
 						</div>
 					</div>
 					<div class="filter-attr">
@@ -169,9 +171,9 @@
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
-								<h3 class="car-detail">2010 Honda CX422</h3>
-								<p class="car-price">N5,200,000</p>
-								<button class="place-order">Place Order</button>
+								<h3 class="c-details">2010 Honda CX422</h3>
+								<p class="car-price">&#8358 5,200,000</p>
+								<button class="order full-btn btn">Place Order</button>
 							</div>
 						</li>
 						<li class="car-list-item">
@@ -180,9 +182,9 @@
 								<label class="car-state-tag">Used</label>
 							</div>
 							<div class="car-info">
-								<h3 class="car-detail">2003 Toyota Hiacee D2</h3>
-								<p class="car-price">N4,000,000</p>
-								<button class="place-order">Place Order</button>
+								<h3 class="c-details">2003 Toyota Hiacee D2</h3>
+								<p class="car-price">&#8358 4,000,000</p>
+								<button class="order full-btn btn">Place Order</button>
 							</div>
 						</li>
 						<li class="car-list-item">
@@ -191,9 +193,9 @@
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
-								<h3 class="car-detail">2012 Mercedes-Benz Dox W2</h3>
-								<p class="car-price">N7,000,000</p>
-								<button class="place-order">Place Order</button>
+								<h3 class="c-details">2012 Mercedes-Benz Dox W2</h3>
+								<p class="car-price">&#8358 7,000,000</p>
+								<button class="order full-btn btn">Place Order</button>
 							</div>
 						</li>
 						<li class="car-list-item">
@@ -202,9 +204,9 @@
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
-								<h3 class="car-detail">2009 Ford Landoff</h3>
-								<p class="car-price">N12,000,000</p>
-								<button class="place-order">Place Order</button>
+								<h3 class="c-details">2009 Ford Landoff</h3>
+								<p class="car-price">&#8358 12,000,000</p>
+								<button class="order full-btn btn">Place Order</button>
 							</div>
 						</li>
 						<li class="car-list-item">
@@ -213,9 +215,9 @@
 								<label class="car-state-tag">Used</label>
 							</div>
 							<div class="car-info">
-								<h3 class="car-detail">2001 Nissan Fiat</h3>
-								<p class="car-price">N4,000,000</p>
-								<button class="place-order">Place Order</button>
+								<h3 class="c-details">2001 Nissan Fiat</h3>
+								<p class="car-price">&#8358 4,000,000</p>
+								<button class="order full-btn btn">Place Order</button>
 							</div>
 						</li>
 						<li class="car-list-item">
@@ -224,9 +226,9 @@
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
-								<h3 class="car-detail">2012 Cadillac Spider</h3>
-								<p class="car-price">N40,000,000</p>
-								<button class="place-order">Place Order</button>
+								<h3 class="c-details">2012 Cadillac Spider</h3>
+								<p class="car-price">&#8358 40,000,000</p>
+								<button class="order full-btn btn">Place Order</button>
 							</div>
 						</li>
 						<li class="car-list-item">
@@ -235,9 +237,9 @@
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
-								<h3 class="car-detail">1998 Volkswagen Dextar</h3>
-								<p class="car-price">N1,300,000</p>
-								<button class="place-order">Place Order</button>
+								<h3 class="c-details">1998 Volkswagen Dextar</h3>
+								<p class="car-price">&#8358 1,300,000</p>
+								<button class="order full-btn btn">Place Order</button>
 							</div>
 						</li>
 						<li class="car-list-item">
@@ -246,9 +248,9 @@
 								<label class="car-state-tag">Used</label>
 							</div>
 							<div class="car-info">
-								<h3 class="car-detail">2012 Jaguar Egg</h3>
-								<p class="car-price">N14,000,000</p>
-								<button class="place-order">Place Order</button>
+								<h3 class="c-details">2012 Jaguar Egg</h3>
+								<p class="car-price">&#8358 14,000,000</p>
+								<button class="order full-btn btn">Place Order</button>
 							</div>
 						</li>
 						<li class="car-list-item">
@@ -257,9 +259,9 @@
 								<label class="car-state-tag">Used</label>
 							</div>
 							<div class="car-info">
-								<h3 class="car-detail">2017 Nissan Octopus J4</h3>
-								<p class="car-price">N3,000,000</p>
-								<button class="place-order">Place Order</button>
+								<h3 class="c-details">2017 Nissan Octopus J4</h3>
+								<p class="car-price">&#8358 3,000,000</p>
+								<button class="order full-btn btn">Place Order</button>
 							</div>
 						</li>
 						<li class="car-list-item">
@@ -268,9 +270,9 @@
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
-								<h3 class="car-detail">2013 Toyota HighLander</h3>
-								<p class="car-price">N6,000,000</p>
-								<button class="place-order">Place Order</button>
+								<h3 class="c-details">2013 Toyota HighLander</h3>
+								<p class="car-price">&#8358 6,000,000</p>
+								<button class="order full-btn btn">Place Order</button>
 							</div>
 						</li>
 						<li class="car-list-item">
@@ -279,9 +281,9 @@
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
-								<h3 class="car-detail">2017 Ford F-150 XLT</h3>
-								<p class="car-price">N17,000,000</p>
-								<button class="place-order">Place Order</button>
+								<h3 class="c-details">2017 Ford F-150 XLT</h3>
+								<p class="car-price">&#8358 17,000,000</p>
+								<button class="order full-btn btn">Place Order</button>
 							</div>
 						</li>
 						<li class="car-list-item">
@@ -290,9 +292,9 @@
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
-								<h3 class="car-detail">1999 Chevrolet 1500X</h3>
-								<p class="car-price">N7,100,000</p>
-								<button class="place-order">Place Order</button>
+								<h3 class="c-details">1999 Chevrolet 1500X</h3>
+								<p class="car-price">&#8358 7,100,000</p>
+								<button class="order full-btn btn">Place Order</button>
 							</div>
 						</li>
 					</ul>
@@ -305,6 +307,65 @@
 					<p>Chukwunonso did it.</p>
 				</div>
 			</footer>
+		</div>
+
+		<!-- Modal view for purchase order -->
+		<div id="purchase-order-overlay" class="overlay" style="display:none">
+			<div class="modal-view sm-m-v">
+				<h2 class="modal-header">Make Purchase Order</h2>
+				<div class="modal-body">
+					<h3 id="c-details" class="c-details">New Volkswagen Cx3 - 2001</h3>
+					<p id="body-type" class="c-b-type">(Large Van)</p>
+					<p id="car-price" class="c-price">Price: &#8358 13,000,000</p>
+					<form>
+						<div class = "input-field single">
+							<label for="">Offering Price(&#8358):</label><br>
+							<input type="number" min="1000" name="offering-price" placeholder="Offering Price(&#8358):">
+						</div>
+						<div class="btn-group flex-container">
+							<input type="submit" class="half-btn btn" name="" id="place-order half-btn" value="Place Order">
+							<button class="half-btn btn">Cancel</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal view to view a specific car -->
+		<div id="car-preview-overlay" class="overlay">
+			<div class="lg-m-v">
+				<h2 class="modal-header">New Volkswagen Cx3 - 2001</h2>
+				<p id="added-date">Added: 12-03-2019</p>
+				<div id="close-car-preview" class="fa fa-times close-btn"></div>
+				<div class="modal-body">
+					<div class="car-view-detail flex-container">
+						<div class="car-view-image">
+							<img src="../images/car-samples/car-sample-10.jpg">
+						</div>
+						<div class="car-view-main-desc">
+							<p class="c-price">Price: &#8358 23,000,000</p>
+							<div id="prop-list" class="flex-container">
+								<p class="prop"><b>Make:</b><br>Volkswagen</p>
+								<p class="prop"><b>Model:</b><br>Cx3</p>
+								<p class="prop"><b>State:</b><br>Brand New</p>
+								<p class="prop"><b>Body Type:</b><br>Convertible</p>
+								<p class="prop"><b>Color:</b><br>Blue</p>
+								<p class="prop"><b>Year:</b><br>2001</p>
+								<p class="prop"><b>Fuel Type:</b><br>Petrol</p>
+								<p class="prop"><b>Fuel Capacity:</b><br>76L</p>
+								<p class="prop"><b>Mileage:</b><br>74,544km</p>
+								<p class="prop"><b>Transmission:</b><br>Automatic</p>
+								<p class="prop"><b>Engine Detail:</b><br>2.8 Turbo Diesel</p>
+								<p><a href="#">Full Details >></a></p>
+							</div>
+							<div class="btn-group flex-container">
+								<button class="half-btn btn">Place Order</button>
+								<button class="half-btn btn">Flag Fradulent AD</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</body>
 </html>
