@@ -4,12 +4,13 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width initial-scale=1.0">
 		<meta name="description" content="Auto Mart is an online marketplace for automobiles of diverse makes, model or body type. With Auto Mart, users can sell their cars or buy from trusted dealerships or private sellers.">
-		<title>Marketplace - Auto Mart</title>
+		<title>Admin - Auto Mart</title>
 
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
 		<link href="../css/general.css" rel="stylesheet">
 		<link href="../css/form-pages.css" rel="stylesheet">
 		<link href="../css/marketplace.css" rel="stylesheet">
+		<link href="../css/admin.css" rel="stylesheet">
 		<link rel="icon" type="image/x-icon" href="../images/favicon.ico">
 	</head>
 	<body>
@@ -18,10 +19,6 @@
 				<nav>
 					<a href="./index.html"><img src="../images/automart-full-logo-150px.png"></a>
 					<ul>
-						<li><a href="#">Post New AD</a></li>
-						<li><a href="./marketplace.html">Marketplace</a></li>
-						<li><a href="#">My ADs</a></li>
-						<li><a href="#">History</a></li>
 						<li><a href="./index.html">Logout</a></li>
 					</ul>
 				</nav>
@@ -30,6 +27,23 @@
 			<div class="content">
 				<div class="filter-sidebar">
 					<h2>Filter List</h2>
+					<div class="filter-attr">
+						<h3>Car Status</h3>
+						<div class="car-state-group">
+							<label>
+								<input type="radio" name="state" class="state" value="0" checked="">
+								All
+							</label>
+							<label>
+								<input type="radio" name="state" class="state" value="0">
+								Sold
+							</label>
+							<label>
+								<input type="radio" name="state" class="state" value="0">
+								Unsold
+							</label>
+						</div>
+					</div>
 					<div class="filter-attr">
 						<h3>Car State</h3>
 						<div class="car-state-group">
@@ -163,138 +177,78 @@
 				</div>
 
 				<main>
-					<h2>Available Cars for Sale</h2>
-					<ul class="car-list flex-container">
-						<li class="car-list-item">
+					<h2>All Posted ADs by Users</h2>
+					<ul class="car-list">
+						<li class="car-list-item flex-container">
 							<div class="car-image">
 								<img src="../images/car-samples/car-sample-1.jpg">
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
 								<h3 class="c-details">2010 Honda CX422</h3>
+								<label class="car-status-tag">Unsold</label>
 								<p class="car-price">&#8358 5,200,000</p>
-								<button class="order full-btn btn">Place Order</button>
+								<p><b>Body type:</b> Salon Car</p>
+								<p>Posted by: Stephen D.<span>, on: 23-April-2019 12:45am</span></p>
+								
+							</div>
+							<div class="admin-actions">
+								<button class="order full-btn btn">Delete AD</button>
+								<button class="order full-btn btn">Preview AD</button>
 							</div>
 						</li>
-						<li class="car-list-item">
+						<li class="car-list-item flex-container">
 							<div class="car-image">
 								<img src="../images/car-samples/car-sample-2.jpg">
 								<label class="car-state-tag">Used</label>
 							</div>
 							<div class="car-info">
-								<h3 class="c-details">2003 Toyota Hiacee D2</h3>
-								<p class="car-price">&#8358 4,000,000</p>
-								<button class="order full-btn btn">Place Order</button>
+								<h3 class="c-details">2010 Honda CX422</h3>
+								<label class="car-status-tag">Unsold</label>
+								<p class="car-price">&#8358 5,200,000</p>
+								<p><b>Body type:</b> Salon Car</p>
+								<p>Posted by: Stephen D.<span>, on: 23-April-2019 12:45am</span></p>
+								
+							</div>
+							<div class="admin-actions">
+								<button class="order full-btn btn">Delete AD</button>
+								<button class="order full-btn btn">Preview AD</button>
 							</div>
 						</li>
-						<li class="car-list-item">
+						<li class="car-list-item flex-container">
 							<div class="car-image">
 								<img src="../images/car-samples/car-sample-3.jpg">
-								<label class="car-state-tag">New</label>
+								<label class="car-state-tag">Used</label>
 							</div>
 							<div class="car-info">
-								<h3 class="c-details">2012 Mercedes-Benz Dox W2</h3>
-								<p class="car-price">&#8358 7,000,000</p>
-								<button class="order full-btn btn">Place Order</button>
+								<h3 class="c-details">2010 Honda CX422</h3>
+								<label class="car-status-tag">Unsold</label>
+								<p class="car-price">&#8358 5,200,000</p>
+								<p><b>Body type:</b> Salon Car</p>
+								<p>Posted by: Stephen D.<span>, on: 23-April-2019 12:45am</span></p>
+								
+							</div>
+							<div class="admin-actions">
+								<button class="order full-btn btn">Delete AD</button>
+								<button class="order full-btn btn">Preview AD</button>
 							</div>
 						</li>
-						<li class="car-list-item">
+						<li class="car-list-item flex-container">
 							<div class="car-image">
 								<img src="../images/car-samples/car-sample-4.jpg">
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
-								<h3 class="c-details">2009 Ford Landoff</h3>
-								<p class="car-price">&#8358 12,000,000</p>
-								<button class="order full-btn btn">Place Order</button>
+								<h3 class="c-details">2010 Honda CX422</h3>
+								<label class="car-status-tag">Sold</label>
+								<p class="car-price">&#8358 5,200,000</p>
+								<p><b>Body type:</b> Salon Car</p>
+								<p>Posted by: Stephen D.<span>, on: 23-April-2019 12:45am</span></p>
+								
 							</div>
-						</li>
-						<li class="car-list-item">
-							<div class="car-image">
-								<img src="../images/car-samples/car-sample-5.jpg">
-								<label class="car-state-tag">Used</label>
-							</div>
-							<div class="car-info">
-								<h3 class="c-details">2001 Nissan Fiat</h3>
-								<p class="car-price">&#8358 4,000,000</p>
-								<button class="order full-btn btn">Place Order</button>
-							</div>
-						</li>
-						<li class="car-list-item">
-							<div class="car-image">
-								<img src="../images/car-samples/car-sample-6.jpg">
-								<label class="car-state-tag">New</label>
-							</div>
-							<div class="car-info">
-								<h3 class="c-details">2012 Cadillac Spider</h3>
-								<p class="car-price">&#8358 40,000,000</p>
-								<button class="order full-btn btn">Place Order</button>
-							</div>
-						</li>
-						<li class="car-list-item">
-							<div class="car-image">
-								<img src="../images/car-samples/car-sample-7.jpg">
-								<label class="car-state-tag">New</label>
-							</div>
-							<div class="car-info">
-								<h3 class="c-details">1998 Volkswagen Dextar</h3>
-								<p class="car-price">&#8358 1,300,000</p>
-								<button class="order full-btn btn">Place Order</button>
-							</div>
-						</li>
-						<li class="car-list-item">
-							<div class="car-image">
-								<img src="../images/car-samples/car-sample-8.jpg">
-								<label class="car-state-tag">Used</label>
-							</div>
-							<div class="car-info">
-								<h3 class="c-details">2012 Jaguar Egg</h3>
-								<p class="car-price">&#8358 14,000,000</p>
-								<button class="order full-btn btn">Place Order</button>
-							</div>
-						</li>
-						<li class="car-list-item">
-							<div class="car-image">
-								<img src="../images/car-samples/car-sample-9.jpg">
-								<label class="car-state-tag">Used</label>
-							</div>
-							<div class="car-info">
-								<h3 class="c-details">2017 Nissan Octopus J4</h3>
-								<p class="car-price">&#8358 3,000,000</p>
-								<button class="order full-btn btn">Place Order</button>
-							</div>
-						</li>
-						<li class="car-list-item">
-							<div class="car-image">
-								<img src="../images/car-samples/car-sample-10.jpg">
-								<label class="car-state-tag">New</label>
-							</div>
-							<div class="car-info">
-								<h3 class="c-details">2013 Toyota HighLander</h3>
-								<p class="car-price">&#8358 6,000,000</p>
-								<button class="order full-btn btn">Place Order</button>
-							</div>
-						</li>
-						<li class="car-list-item">
-							<div class="car-image">
-								<img src="../images/car-samples/car-sample-11.jpg">
-								<label class="car-state-tag">New</label>
-							</div>
-							<div class="car-info">
-								<h3 class="c-details">2017 Ford F-150 XLT</h3>
-								<p class="car-price">&#8358 17,000,000</p>
-								<button class="order full-btn btn">Place Order</button>
-							</div>
-						</li>
-						<li class="car-list-item">
-							<div class="car-image">
-								<img src="../images/car-samples/car-sample-12.jpg">
-								<label class="car-state-tag">New</label>
-							</div>
-							<div class="car-info">
-								<h3 class="c-details">1999 Chevrolet 1500X</h3>
-								<p class="car-price">&#8358 7,100,000</p>
-								<button class="order full-btn btn">Place Order</button>
+							<div class="admin-actions">
+								<button class="order full-btn btn">Delete AD</button>
+								<button class="order full-btn btn">Preview AD</button>
 							</div>
 						</li>
 					</ul>
@@ -309,33 +263,11 @@
 			</footer>
 		</div>
 
-		<!-- Modal view for purchase order -->
-		<div id="purchase-order-overlay" class="overlay" style="display:none">
-			<div class="modal-view sm-m-v">
-				<h2 class="modal-header">Make Purchase Order</h2>
-				<div class="modal-body">
-					<h3 id="c-details" class="c-details">New Volkswagen Cx3 - 2001</h3>
-					<p id="body-type" class="c-b-type">(Large Van)</p>
-					<p id="car-price" class="c-price">Price: &#8358 13,000,000</p>
-					<form>
-						<div class = "input-field single">
-							<label for="">Offering Price(&#8358):</label><br>
-							<input type="number" min="1000" name="offering-price" placeholder="Offering Price(&#8358):">
-						</div>
-						<div class="btn-group flex-container">
-							<input type="submit" class="half-btn btn" name="" id="place-order half-btn" value="Place Order">
-							<button class="half-btn btn">Cancel</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-
 		<!-- Modal view to view a specific car -->
 		<div id="car-preview-overlay" class="overlay">
 			<div class="lg-m-v">
 				<h2 class="modal-header">New Volkswagen Cx3 - 2001</h2>
-				<p id="added-date">Added: 12-03-2019</p>
+				<p id="added-date">Added: 12-Jan-2019 3:23pm</p>
 				<div id="close-car-preview" class="fa fa-times close-btn"></div>
 				<div class="modal-body">
 					<div class="car-view-detail flex-container">
@@ -356,11 +288,10 @@
 								<p class="prop"><b>Mileage:</b><br>74,544km</p>
 								<p class="prop"><b>Transmission:</b><br>Automatic</p>
 								<p class="prop"><b>Engine Detail:</b><br>2.8 Turbo Diesel</p>
-								<p><a href="#">Full Details >></a></p>
+								<p class="prop"><b>Owner:</b><br>John Chibuike</p>
 							</div>
 							<div class="btn-group flex-container">
-								<button class="half-btn btn">Place Order</button>
-								<button class="half-btn btn">Flag Fradulent AD</button>
+								<button class="half-btn btn">Delete AD</button>
 							</div>
 						</div>
 					</div>
