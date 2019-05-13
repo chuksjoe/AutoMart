@@ -59,11 +59,7 @@ main {
 }
 .car-list {
 	list-style: none;
-	width: 100%;
-	display: flex;
-	justify-content: space-between;
 	padding: 0;
-	flex-flow: wrap;
 }
 .car-list-item {
 	width: 32%;
