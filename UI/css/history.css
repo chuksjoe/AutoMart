@@ -1,0 +1,50 @@
+h2 {
+	text-align: center;
+}
+.history-list {
+	max-width: 1000px;
+	margin: 0 auto;
+	background-color: #fff;
+	list-style: none;
+	padding: 15px;
+}
+.history-list-item {
+	border: 2px solid #eee;
+	margin-bottom: 10px;
+}
+.history-list-item:hover {
+	background-color: #eee;
+	border: 2px solid #fff;
+}
+.history-list-item:hover .purchase-date {
+	border-right: 2px solid #fff;
+}
+.history-list-item:hover .user-actions {
+	border-left: 2px solid #fff;
+}
+.purchase-date {
+	width: 20%;
+	border-right: 2px solid #eee;
+}
+.purchase-details {
+	width: 55%;
+	position: relative;
+}
+.purchase-info {
+	margin: 5px 0 0;
+	text-align: left;
+}
+.status {
+	position: absolute;
+	bottom: 15px;
+	right: 15px;
+	background-color: #FEBD2D;
+	padding: 5px 10px;
+}
+.user-actions {
+	width: 25%;
+	border-left: 2px solid #eee;
+}
+.p-15 {
+	padding: 15px;
+}
