@@ -1,7 +1,7 @@
 .signup-form-container {
 	background-color: #fff;
 	max-width: 700px;
-	margin: 110px auto;
+	margin: 110px auto 50px;
 	padding: 20px;
 }
 
@@ -14,33 +14,4 @@
 
 h1 {
 	text-align: center;
-}
-.input-group {}
-.input-field{
-	margin: 2px 0px 10px 0px;
-	width: 55%;
-}
-.single{
-	width: 100%;
-}
-.input-field label{
-	opacity: 1.0;
-	font-size: 14px;
-	margin-bottom: 2px;
-}
-.input-field input{
-	width: 100%;
-	display: block;
-	border: none;
-	outline: none;
-	border: 1px solid #abadb3;
-	padding: 10px
-}
-.input-field input:focus, .input-field input:hover{
-	background: #e7e7e7;
-	border: 1px solid #005795;
-}
-.note{
-	font-size: 12px;
-	color: #1B3F7D;
 }

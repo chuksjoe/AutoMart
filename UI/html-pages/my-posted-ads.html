@@ -4,12 +4,13 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width initial-scale=1.0">
 		<meta name="description" content="Auto Mart is an online marketplace for automobiles of diverse makes, model or body type. With Auto Mart, users can sell their cars or buy from trusted dealerships or private sellers.">
-		<title>Admin - Auto Mart</title>
+		<title>My Posted ADs - Auto Mart</title>
 
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
 		<link href="../css/general.css" rel="stylesheet">
 		<link href="../css/admin.css" rel="stylesheet">
-		
+		<link href="../css/my-posted-ads.css" rel="stylesheet">
+
 		<link rel="icon" type="image/x-icon" href="../images/favicon.ico">
 	</head>
 	<body>
@@ -18,6 +19,10 @@
 				<nav>
 					<a href="./index.html"><img src="../images/automart-full-logo-150px.png"></a>
 					<ul>
+						<li><a href="#">Post New AD</a></li>
+						<li><a href="./marketplace.html">Marketplace</a></li>
+						<li class="current"><a href="./my-posted-ads.html">My ADs</a></li>
+						<li><a href="#">History</a></li>
 						<li><a href="./index.html">Logout</a></li>
 					</ul>
 				</nav>
@@ -176,7 +181,7 @@
 				</div>
 
 				<main class="main-75">
-					<h2>All Posted ADs by Users</h2>
+					<h2>My Posted ADs</h2>
 					<ul class="car-list">
 						<li class="car-list-item flex-container">
 							<div class="car-image">
@@ -188,66 +193,89 @@
 								<label class="car-status-tag">Unsold</label>
 								<p class="car-price">&#8358 5,200,000</p>
 								<p><b>Body type:</b> Salon Car</p>
-								<p>Posted by: Stephen D.<span>, on: 23-April-2019 12:45am</span></p>
-								
+								<p>Posted on: 23-April-2019 12:45am</p>
+								<button class="preview btn">Preview</button>
 							</div>
-							<div class="admin-actions">
-								<button class="delete order full-btn btn">Delete AD</button>
-								<button class="preview full-btn btn">Preview AD</button>
-							</div>
-						</li>
-						<li class="car-list-item flex-container">
-							<div class="car-image">
-								<img src="../images/car-samples/car-sample-2.jpg">
-								<label class="car-state-tag">Used</label>
-							</div>
-							<div class="car-info">
-								<h3 class="c-details-list">2010 Honda CX422</h3>
-								<label class="car-status-tag">Unsold</label>
-								<p class="car-price">&#8358 5,200,000</p>
-								<p><b>Body type:</b> Salon Car</p>
-								<p>Posted by: Stephen D.<span>, on: 23-April-2019 12:45am</span></p>
-								
-							</div>
-							<div class="admin-actions">
-								<button class="delete order full-btn btn">Delete AD</button>
-								<button class="preview full-btn btn">Preview AD</button>
+							<div class="user-actions">
+								<button class="update full-btn btn">Update Price</button>
+								<button class="mark-sold full-btn btn">Mark Sold</button>
+								<button class="delete full-btn btn">Delete AD</button>
 							</div>
 						</li>
 						<li class="car-list-item flex-container">
 							<div class="car-image">
-								<img src="../images/car-samples/car-sample-3.jpg">
-								<label class="car-state-tag">Used</label>
-							</div>
-							<div class="car-info">
-								<h3 class="c-details-list">2010 Honda CX422</h3>
-								<label class="car-status-tag">Unsold</label>
-								<p class="car-price">&#8358 5,200,000</p>
-								<p><b>Body type:</b> Salon Car</p>
-								<p>Posted by: Stephen D.<span>, on: 23-April-2019 12:45am</span></p>
-								
-							</div>
-							<div class="admin-actions">
-								<button class="delete order full-btn btn">Delete AD</button>
-								<button class="preview full-btn btn">Preview AD</button>
-							</div>
-						</li>
-						<li class="car-list-item flex-container">
-							<div class="car-image">
-								<img src="../images/car-samples/car-sample-4.jpg">
+								<img src="../images/car-samples/car-sample-9.jpg">
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
 								<h3 class="c-details-list">2010 Honda CX422</h3>
-								<label class="car-status-tag">Sold</label>
+								<label class="car-status-tag">Unsold</label>
 								<p class="car-price">&#8358 5,200,000</p>
 								<p><b>Body type:</b> Salon Car</p>
-								<p>Posted by: Stephen D.<span>, on: 23-April-2019 12:45am</span></p>
-								
+								<p>Posted on: 23-April-2019 12:45am</p>
+								<button class="preview btn">Preview</button>
 							</div>
-							<div class="admin-actions">
-								<button class="delete order full-btn btn">Delete AD</button>
-								<button class="preview full-btn btn">Preview AD</button>
+							<div class="user-actions">
+								<button class="update full-btn btn">Update Price</button>
+								<button class="mark-sold full-btn btn">Mark Sold</button>
+								<button class="delete full-btn btn">Delete AD</button>
+							</div>
+						</li>
+						<li class="car-list-item flex-container">
+							<div class="car-image">
+								<img src="../images/car-samples/car-sample-7.jpg">
+								<label class="car-state-tag">New</label>
+							</div>
+							<div class="car-info">
+								<h3 class="c-details-list">2010 Honda CX422</h3>
+								<label class="car-status-tag">Unsold</label>
+								<p class="car-price">&#8358 5,200,000</p>
+								<p><b>Body type:</b> Salon Car</p>
+								<p>Posted on: 23-April-2019 12:45am</p>
+								<button class="preview btn">Preview</button>
+							</div>
+							<div class="user-actions">
+								<button class="update full-btn btn">Update Price</button>
+								<button class="mark-sold full-btn btn">Mark Sold</button>
+								<button class="delete full-btn btn">Delete AD</button>
+							</div>
+						</li>
+						<li class="car-list-item flex-container">
+							<div class="car-image">
+								<img src="../images/car-samples/car-sample-10.jpg">
+								<label class="car-state-tag">New</label>
+							</div>
+							<div class="car-info">
+								<h3 class="c-details-list">2010 Honda CX422</h3>
+								<label class="car-status-tag">Unsold</label>
+								<p class="car-price">&#8358 5,200,000</p>
+								<p><b>Body type:</b> Salon Car</p>
+								<p>Posted on: 23-April-2019 12:45am</p>
+								<button class="preview btn">Preview</button>
+							</div>
+							<div class="user-actions">
+								<button class="update full-btn btn">Update Price</button>
+								<button class="mark-sold full-btn btn">Mark Sold</button>
+								<button class="delete full-btn btn">Delete AD</button>
+							</div>
+						</li>
+						<li class="car-list-item flex-container">
+							<div class="car-image">
+								<img src="../images/car-samples/car-sample-12.jpg">
+								<label class="car-state-tag">New</label>
+							</div>
+							<div class="car-info">
+								<h3 class="c-details-list">2010 Honda CX422</h3>
+								<label class="car-status-tag">Unsold</label>
+								<p class="car-price">&#8358 5,200,000</p>
+								<p><b>Body type:</b> Salon Car</p>
+								<p>Posted on: 23-April-2019 12:45am</p>
+								<button class="preview btn">Preview</button>
+							</div>
+							<div class="user-actions">
+								<button class="update full-btn btn">Update Price</button>
+								<button class="mark-sold full-btn btn">Mark Sold</button>
+								<button class="delete full-btn btn">Delete AD</button>
 							</div>
 						</li>
 					</ul>
@@ -287,15 +315,38 @@
 								<p class="prop"><b>Mileage:</b><br>74,544km</p>
 								<p class="prop"><b>Transmission:</b><br>Automatic</p>
 								<p class="prop"><b>Engine Detail:</b><br>2.8 Turbo Diesel</p>
-								<p class="prop"><b>Owner:</b><br>John Chibuike</p>
+								<p class="prop"><b>Owner:</b><br>Me</p>
 							</div>
 							<div class="btn-group flex-container">
 								<button class="delete half-btn btn">Delete AD</button>
+								<button class="half-btn btn">Mark Sold</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+
+		<!-- Modal view to update posted AD price -->
+		<div id="update-price-overlay" class="overlay" style="display: none">
+			<div class="modal-view sm-m-v">
+				<h2 class="modal-header">Update AD Price</h2>
+				<div class="modal-body">
+					<h3 id="c-details" class="c-details-mv">New Volkswagen Cx3 - 2001</h3>
+					<p id="body-type" class="c-b-type">(Large Van)</p>
+					<p id="car-price" class="c-price">Currrent Price:<br>&#8358 13,000,000</p>
+					<form>
+						<div class = "input-field single">
+							<label for="">New Price(&#8358):</label><br>
+							<input type="number" min="1000" name="offering-price" placeholder="Offering Price(&#8358):">
+						</div>
+						<div class="btn-group flex-container">
+							<input type="submit" class="half-btn btn" name="" id="place-order half-btn" value="Place Order">
+							<button class="half-btn btn">Cancel</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>		
 	</body>
 </html>
