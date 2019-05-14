@@ -189,7 +189,7 @@
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
-								<h3 class="c-details">2010 Honda CX422</h3>
+								<h3 class="c-details-list">2010 Honda CX422</h3>
 								<label class="car-status-tag">Unsold</label>
 								<p class="car-price">&#8358 5,200,000</p>
 								<p><b>Body type:</b> Salon Car</p>
@@ -208,7 +208,7 @@
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
-								<h3 class="c-details">2010 Honda CX422</h3>
+								<h3 class="c-details-list">2010 Honda CX422</h3>
 								<label class="car-status-tag">Unsold</label>
 								<p class="car-price">&#8358 5,200,000</p>
 								<p><b>Body type:</b> Salon Car</p>
@@ -227,7 +227,7 @@
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
-								<h3 class="c-details">2010 Honda CX422</h3>
+								<h3 class="c-details-list">2010 Honda CX422</h3>
 								<label class="car-status-tag">Unsold</label>
 								<p class="car-price">&#8358 5,200,000</p>
 								<p><b>Body type:</b> Salon Car</p>
@@ -246,7 +246,7 @@
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
-								<h3 class="c-details">2010 Honda CX422</h3>
+								<h3 class="c-details-list">2010 Honda CX422</h3>
 								<label class="car-status-tag">Unsold</label>
 								<p class="car-price">&#8358 5,200,000</p>
 								<p><b>Body type:</b> Salon Car</p>
@@ -265,7 +265,7 @@
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
-								<h3 class="c-details">2010 Honda CX422</h3>
+								<h3 class="c-details-list">2010 Honda CX422</h3>
 								<label class="car-status-tag">Unsold</label>
 								<p class="car-price">&#8358 5,200,000</p>
 								<p><b>Body type:</b> Salon Car</p>
@@ -291,7 +291,7 @@
 		</div>
 
 		<!-- Modal view to view a specific car -->
-		<div id="car-preview-overlay" class="overlay">
+		<div id="car-preview-overlay" class="overlay" style="display: none">
 			<div class="lg-m-v">
 				<h2 class="modal-header">New Volkswagen Cx3 - 2001</h2>
 				<p id="added-date">Added: 12-Jan-2019 3:23pm</p>
@@ -326,5 +326,27 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- Modal view to update posted AD price -->
+		<div id="update-price-overlay" class="overlay">
+			<div class="modal-view sm-m-v">
+				<h2 class="modal-header">Update AD Price</h2>
+				<div class="modal-body">
+					<h3 id="c-details" class="c-details-mv">New Volkswagen Cx3 - 2001</h3>
+					<p id="body-type" class="c-b-type">(Large Van)</p>
+					<p id="car-price" class="c-price">Currrent Price:<br>&#8358 13,000,000</p>
+					<form>
+						<div class = "input-field single">
+							<label for="">New Price(&#8358):</label><br>
+							<input type="number" min="1000" name="offering-price" placeholder="Offering Price(&#8358):">
+						</div>
+						<div class="btn-group flex-container">
+							<input type="submit" class="half-btn btn" name="" id="place-order half-btn" value="Place Order">
+							<button class="half-btn btn">Cancel</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>		
 	</body>
 </html>
