@@ -108,6 +108,11 @@ footer {
 .delete:hover {
 	background-color: #B71513;
 }
+button[disabled],
+button[disabled]:hover {
+	background-color: #888;
+	cursor: default;
+}
 .btn-group {}
 .full-btn {
 	width: 100%;
