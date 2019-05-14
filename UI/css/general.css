@@ -127,13 +127,14 @@ footer {
 }
 .input-field label{
 	opacity: 1.0;
-	font-size: 14px;
+	font-size: 1rem;
 	margin-bottom: 2px;
 }
 .input-field textarea,
 .input-field select,
 .input-field input{
 	width: 100%;
+	font-size: 1.5rem;
 	display: block;
 	border: none;
 	outline: none;
