@@ -21,7 +21,12 @@
 						<li><a href="#">Post New AD</a></li>
 						<li class="current"><a href="./marketplace.html">Marketplace</a></li>
 						<li><a href="./my-posted-ads.html">My ADs</a></li>
-						<li><a href="#">History</a></li>
+						<li class="dropdown"><a href="javascript:void(0)">History <i class="fa fa-caret-down"></i></a>
+							<ul class="dropdown-list"></a>
+								<li><a href="./sales-history.html">Sales History</a></li>
+								<li><a href="./purchase-history.html">Purchase History</a></li>
+							</ul>
+						</li>
 						<li><a href="./index.html">Logout</a></li>
 					</ul>
 				</nav>
@@ -167,7 +172,7 @@
 					<ul class="car-list flex-container">
 						<li class="car-list-item">
 							<div class="car-image">
-								<img src="../images/car-samples/car-sample-1.jpg">
+								<img src="../images/car-samples/car-sample-1.jpg" title="Preview AD">
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
@@ -178,7 +183,7 @@
 						</li>
 						<li class="car-list-item">
 							<div class="car-image">
-								<img src="../images/car-samples/car-sample-2.jpg">
+								<img src="../images/car-samples/car-sample-2.jpg" title="Preview AD">
 								<label class="car-state-tag">Used</label>
 							</div>
 							<div class="car-info">
@@ -189,7 +194,7 @@
 						</li>
 						<li class="car-list-item">
 							<div class="car-image">
-								<img src="../images/car-samples/car-sample-3.jpg">
+								<img src="../images/car-samples/car-sample-3.jpg" title="Preview AD">
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
@@ -200,7 +205,7 @@
 						</li>
 						<li class="car-list-item">
 							<div class="car-image">
-								<img src="../images/car-samples/car-sample-4.jpg">
+								<img src="../images/car-samples/car-sample-4.jpg" title="Preview AD">
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
@@ -211,7 +216,7 @@
 						</li>
 						<li class="car-list-item">
 							<div class="car-image">
-								<img src="../images/car-samples/car-sample-5.jpg">
+								<img src="../images/car-samples/car-sample-5.jpg" title="Preview AD">
 								<label class="car-state-tag">Used</label>
 							</div>
 							<div class="car-info">
@@ -222,7 +227,7 @@
 						</li>
 						<li class="car-list-item">
 							<div class="car-image">
-								<img src="../images/car-samples/car-sample-6.jpg">
+								<img src="../images/car-samples/car-sample-6.jpg" title="Preview AD">
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
@@ -233,7 +238,7 @@
 						</li>
 						<li class="car-list-item">
 							<div class="car-image">
-								<img src="../images/car-samples/car-sample-7.jpg">
+								<img src="../images/car-samples/car-sample-7.jpg" title="Preview AD">
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
@@ -244,7 +249,7 @@
 						</li>
 						<li class="car-list-item">
 							<div class="car-image">
-								<img src="../images/car-samples/car-sample-8.jpg">
+								<img src="../images/car-samples/car-sample-8.jpg" title="Preview AD">
 								<label class="car-state-tag">Used</label>
 							</div>
 							<div class="car-info">
@@ -255,7 +260,7 @@
 						</li>
 						<li class="car-list-item">
 							<div class="car-image">
-								<img src="../images/car-samples/car-sample-9.jpg">
+								<img src="../images/car-samples/car-sample-9.jpg" title="Preview AD">
 								<label class="car-state-tag">Used</label>
 							</div>
 							<div class="car-info">
@@ -266,7 +271,7 @@
 						</li>
 						<li class="car-list-item">
 							<div class="car-image">
-								<img src="../images/car-samples/car-sample-10.jpg">
+								<img src="../images/car-samples/car-sample-10.jpg" title="Preview AD">
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
@@ -277,7 +282,7 @@
 						</li>
 						<li class="car-list-item">
 							<div class="car-image">
-								<img src="../images/car-samples/car-sample-11.jpg">
+								<img src="../images/car-samples/car-sample-11.jpg" title="Preview AD">
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
@@ -288,7 +293,7 @@
 						</li>
 						<li class="car-list-item">
 							<div class="car-image">
-								<img src="../images/car-samples/car-sample-12.jpg">
+								<img src="../images/car-samples/car-sample-12.jpg" title="Preview AD">
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
@@ -369,7 +374,7 @@
 		</div>
 
 		<!-- Modal view for flagging/report a posted AD as fraudulent -->
-		<div id="fraudulent-flag-overlay" class="overlay" >
+		<div id="fraudulent-flag-overlay" class="overlay" style="display: none">
 			<div class="modal-view sm-m-v">
 				<h2 class="modal-header">Mark AD as Fradulent</h2>
 				<div class="modal-body">
