@@ -40,6 +40,28 @@ a:hover {
 li.current a:hover {
 	text-decoration: none;
 }
+.dropdown {
+	position: relative;
+}
+.dropdown:hover ul.dropdown-list {
+	display: block;
+}
+ul.dropdown-list {
+	position: absolute;
+	display: none;
+	width: 180px;
+	top: 40px;
+	background-color: #000;
+	color: #fff;
+	z-index: 101;
+}
+.dropdown-list li {
+	
+}
+.dropdown-list li a:hover {
+	color: #fff;
+}
+
 
 /*General containers styling*/
 header {
