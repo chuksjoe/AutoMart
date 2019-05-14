@@ -162,7 +162,7 @@
 					</div>
 				</div>
 
-				<main>
+				<main class="main-75">
 					<h2>Available Cars for Sale</h2>
 					<ul class="car-list flex-container">
 						<li class="car-list-item">
@@ -310,7 +310,7 @@
 		</div>
 
 		<!-- Modal view for purchase order -->
-		<div id="purchase-order-overlay" class="overlay" >
+		<div id="purchase-order-overlay" class="overlay" style="display:none">
 			<div class="modal-view sm-m-v">
 				<h2 class="modal-header">Make Purchase Order</h2>
 				<div class="modal-body">
@@ -364,6 +364,37 @@
 							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal view for flagging/report a posted AD as fraudulent -->
+		<div id="fraudulent-flag-overlay" class="overlay" >
+			<div class="modal-view sm-m-v">
+				<h2 class="modal-header">Mark AD as Fradulent</h2>
+				<div class="modal-body">
+					<h3 id="c-details" class="c-details-mv">New Volkswagen Cx3 - 2001</h3>
+					<p id="body-type" class="c-b-type">(Large Van)</p>
+					<p id="car-price" class="c-price">Price: &#8358 13,000,000</p>
+					<form>
+						<div class = "input-field single">
+							<label for="">Reason:</label><br>
+							<select name="flag-reason">
+								<option value="pricing">Pricing</option>
+								<option value="weird-demands">Weird Demands</option>
+								<option value="stolen">Stolen</option>
+								<option value="others">Others</option>
+							</select>
+						</div>
+						<div class = "input-field single">
+							<label for="">Description:</label><br>
+							<textarea id="flag-desc" name="flag-desc" maxlength="200" placeholder="Description:"></textarea>
+						</div>
+						<div class="btn-group flex-container">
+							<input type="submit" class="half-btn btn" name="" id="place-order half-btn" value="Flag AD">
+							<button class="half-btn btn">Cancel</button>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
