@@ -147,7 +147,7 @@ button[disabled]:hover {
 .input-group {}
 .input-field{
 	margin: 2px 0px 10px 0px;
-	width: 50%;
+	width: 49%;
 }
 .single{
 	width: 100%;
@@ -161,7 +161,7 @@ button[disabled]:hover {
 .input-field select,
 .input-field input{
 	width: 100%;
-	font-size: 1.5rem;
+	font-size: 1.3rem;
 	display: block;
 	border: none;
 	outline: none;
@@ -183,6 +183,10 @@ button[disabled]:hover {
 .note{
 	font-size: 12px;
 	color: #1B3F7D;
+}
+.end-note {
+	text-align: center;
+	margin-bottom: 0;
 }
 
 /*General filter sidebar*/
