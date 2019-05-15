@@ -31,9 +31,12 @@ h1 {
 	width: 25%;
 	margin-bottom: 10px;
 }
-.preview-upload-image {
+#preview-upload-image {
 	width: 100%;
 	min-height: 100px;
 	background-color: #eee;
 	padding: 10px;
+}
+#preview-upload-image img {
+	width: 100%;
 }
