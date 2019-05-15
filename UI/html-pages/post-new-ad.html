@@ -6,7 +6,9 @@
 		<meta name="description" content="Auto Mart is an online marketplace for automobiles of diverse makes, model or body type. With Auto Mart, users can sell their cars or buy from trusted dealerships or private sellers.">
 		<title>Post New AD - Auto Mart</title>
 
+		<link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+		
 		<link href="../css/general.css" rel="stylesheet">
 		<link href="../css/form-pages.css" rel="stylesheet">
 		
@@ -96,7 +98,7 @@
 							<div class="input-group flex-container">
 								<div class = "input-field">
 									<label for="street">Price(&#8358):*</label>
-									<input type="number" id="price" name="price"/>
+									<input type="text" class="price" data-type="number" id="price" name="price"/>
 								</div>
 								<div class = "input-field">
 									<label for="state">State:*</label>
@@ -126,7 +128,7 @@
 								</div>
 								<div class = "input-field">
 									<label for="mileage">Mileage:*</label>
-									<input type="number" id="mileage" name="mileage"/>
+									<input type="text" class="mileage" data-type="number" id="mileage" name="mileage"/>
 								</div>
 							</div>
 							<div class="input-group flex-container">
@@ -159,7 +161,7 @@
 							<div class="input-field single image-upload">
 								<label>Product Image:*</label>
 								<input type="file" id="upload-image" name="image"/>
-								<div class="preview-upload-image"></div>
+								<div id="preview-upload-image"></div>
 							</div>
 
 							<h3>Other Features:</h3>
@@ -195,5 +197,8 @@
 			</footer>
 		</div>
 
+		<!-- scripts -->
+		<script src="../js/general.js"></script>
+		<script src="../js/post-new-ad.js"></script>
 	</body>
 </html>

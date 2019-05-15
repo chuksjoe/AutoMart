@@ -25,6 +25,7 @@ main {
 }
 .headline p {
 	font-size: 1.3rem;
+	line-height: 2rem;
 	color: #fff;
 	text-shadow: 0 0 4px #000;
 }
@@ -63,6 +64,7 @@ section h2, section p {
 .service-description {
 	width: 70%;
 	padding-left: 20px;
+	line-height: 1.6rem;
 }
 .service a {
 	float: right;

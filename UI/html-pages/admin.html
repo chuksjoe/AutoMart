@@ -6,7 +6,9 @@
 		<meta name="description" content="Auto Mart is an online marketplace for automobiles of diverse makes, model or body type. With Auto Mart, users can sell their cars or buy from trusted dealerships or private sellers.">
 		<title>Admin - Auto Mart</title>
 
+		<link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+		
 		<link href="../css/general.css" rel="stylesheet">
 		<link href="../css/admin.css" rel="stylesheet">
 		
@@ -63,8 +65,8 @@
 					<div class="filter-attr">
 						<h3>Price Range</h3>
 						<div class="price-range">
-							<input type="number" min="1000" name="" placeholder="Min Price(&#8358)">
-							<input type="number" min="1000" name="" placeholder="Max Price(&#8358)">
+							<input type="text" class="price" data-type="number" min="1000" name="" placeholder="Min Price(&#8358)">
+							<input type="text" class="price" data-type="number" min="1000" name="" placeholder="Max Price(&#8358)">
 						</div>
 					</div>
 					<div class="filter-attr">
@@ -192,8 +194,8 @@
 								
 							</div>
 							<div class="admin-actions">
+								<button class="preview-ad full-btn btn">Preview AD</button>
 								<button class="delete order full-btn btn">Delete AD</button>
-								<button class="preview full-btn btn">Preview AD</button>
 							</div>
 						</li>
 						<li class="car-list-item flex-container">
@@ -210,8 +212,8 @@
 								
 							</div>
 							<div class="admin-actions">
+								<button class="preview-ad full-btn btn">Preview AD</button>
 								<button class="delete order full-btn btn">Delete AD</button>
-								<button class="preview full-btn btn">Preview AD</button>
 							</div>
 						</li>
 						<li class="car-list-item flex-container">
@@ -228,8 +230,8 @@
 								
 							</div>
 							<div class="admin-actions">
+								<button class="preview-ad full-btn btn">Preview AD</button>
 								<button class="delete order full-btn btn">Delete AD</button>
-								<button class="preview full-btn btn">Preview AD</button>
 							</div>
 						</li>
 						<li class="car-list-item flex-container">
@@ -246,8 +248,8 @@
 								
 							</div>
 							<div class="admin-actions">
+								<button class="preview-ad full-btn btn">Preview AD</button>
 								<button class="delete order full-btn btn">Delete AD</button>
-								<button class="preview full-btn btn">Preview AD</button>
 							</div>
 						</li>
 					</ul>
@@ -305,5 +307,9 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- scripts -->
+		<script src="../js/general.js"></script>
+		<script src="../js/admin.js"></script>
 	</body>
 </html>

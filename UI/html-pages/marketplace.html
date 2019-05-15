@@ -6,7 +6,9 @@
 		<meta name="description" content="Auto Mart is an online marketplace for automobiles of diverse makes, model or body type. With Auto Mart, users can sell their cars or buy from trusted dealerships or private sellers.">
 		<title>Marketplace - Auto Mart</title>
 
+		<link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+		
 		<link href="../css/general.css" rel="stylesheet">
 		<link href="../css/marketplace.css" rel="stylesheet">
 		
@@ -55,8 +57,8 @@
 					<div class="filter-attr">
 						<h3>Price Range</h3>
 						<div class="price-range">
-							<input type="number" min="1000" name="" placeholder="Min Price(&#8358)">
-							<input type="number" min="1000" name="" placeholder="Max Price(&#8358)">
+							<input type="text" class="price" data-type="number" min="1000" name="" placeholder="Min Price(&#8358)">
+							<input type="text" class="price" data-type="number" min="1000" name="" placeholder="Max Price(&#8358)">
 						</div>
 					</div>
 					<div class="filter-attr">
@@ -323,7 +325,7 @@
 		</div>
 
 		<!-- Modal view for purchase order -->
-		<div id="purchase-order-overlay" class="overlay" style="display:none">
+		<div id="purchase-order-overlay" class="overlay">
 			<div class="modal-view sm-m-v">
 				<h2 class="modal-header">Make Purchase Order</h2>
 				<div class="modal-body">
@@ -333,11 +335,11 @@
 					<form>
 						<div class = "input-field single">
 							<label for="">Offering Price(&#8358):</label><br>
-							<input type="number" min="1000" name="offering-price" placeholder="Offering Price(&#8358):">
+							<input type="text" class="price" data-type="number" min="1000" name="offering-price" placeholder="Offering Price(&#8358):">
 						</div>
 						<div class="btn-group flex-container">
-							<input type="submit" class="half-btn btn" name="" id="place-order half-btn" value="Place Order">
-							<button class="half-btn btn">Cancel</button>
+							<button id="place-order" class="half-btn btn">Place Order</button>
+							<button id="close-purchase-modal" class="half-btn btn">Cancel</button>
 						</div>
 					</form>
 				</div>
@@ -345,7 +347,7 @@
 		</div>
 
 		<!-- Modal view to view a specific car -->
-		<div id="car-preview-overlay" class="overlay" style="display:none">
+		<div id="car-preview-overlay" class="overlay">
 			<div class="lg-m-v">
 				<h2 class="modal-header">New Volkswagen Cx3 - 2001</h2>
 				<p id="added-date">Added: 12-03-2019</p>
@@ -372,8 +374,8 @@
 								<p><a href="#">Full Details >></a></p>
 							</div>
 							<div class="btn-group flex-container">
-								<button class="half-btn btn">Place Order</button>
-								<button class="half-btn btn">Flag Fradulent AD</button>
+								<button id="order-from-car-preview" class="half-btn btn">Place Order</button>
+								<button id="flag-fraud" class="half-btn btn">Flag Fradulent AD</button>
 							</div>
 						</div>
 					</div>
@@ -382,7 +384,7 @@
 		</div>
 
 		<!-- Modal view for flagging/report a posted AD as fraudulent -->
-		<div id="fraudulent-flag-overlay" class="overlay" style="display: none">
+		<div id="fraudulent-flag-overlay" class="overlay">
 			<div class="modal-view sm-m-v">
 				<h2 class="modal-header">Mark AD as Fradulent</h2>
 				<div class="modal-body">
@@ -393,6 +395,7 @@
 						<div class = "input-field single">
 							<label for="">Reason:</label><br>
 							<select name="flag-reason">
+								<option value="">--</option>
 								<option value="pricing">Pricing</option>
 								<option value="weird-demands">Weird Demands</option>
 								<option value="stolen">Stolen</option>
@@ -404,12 +407,16 @@
 							<textarea id="flag-desc" name="flag-desc" maxlength="200" placeholder="Description:"></textarea>
 						</div>
 						<div class="btn-group flex-container">
-							<input type="submit" class="half-btn btn" name="" id="place-order half-btn" value="Flag AD">
-							<button class="half-btn btn">Cancel</button>
+							<button class="half-btn btn">Flag/Report AD</button>
+							<button id="close-fraud-modal" class="half-btn btn">Cancel</button>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
+
+		<!-- scripts -->
+		<script src="../js/general.js"></script>
+		<script src="../js/marketplace.js"></script>
 	</body>
 </html>
