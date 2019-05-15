@@ -1,4 +1,4 @@
-const previewAdBtns = document.querySelectorAll(".preview-ad");
+const previewAdBtns = document.querySelectorAll(".car-image");
 const carPreview = document.getElementById("car-preview-overlay");
 const closeCarPreview = document.getElementById("close-car-preview");
 

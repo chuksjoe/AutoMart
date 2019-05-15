@@ -10,6 +10,16 @@ numberInputs.forEach(input => {
 	}
 })
 
+
+const filterContainer = document.getElementById("filter-container");
+const filterDdBtn = document.getElementById("filter-dd-btn");
+
+filterDdBtn.onclick = () => {
+	filterContainer.style.display === "block" ?
+	filterContainer.style.display = "none" : filterContainer.style.display = "block";
+}
+
+
 // Helper functions
 const toggleScroll = () => {
   const overlays = document.querySelectorAll(".overlay");

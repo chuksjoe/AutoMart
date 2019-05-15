@@ -44,6 +44,7 @@ section h2, section p {
 	justify-content: space-between;
 }
 .service {
+	position: relative;
 	width: 48%;
 	border-radius: 20px;
 	box-shadow: 0 0 5px #bbb;
@@ -58,16 +59,20 @@ section h2, section p {
 	width: 30%;
 }
 .service-image img {
-	width: 90%;
+	width: 100%;
 	height: auto;
 }
 .service-description {
+	position: relative;
+	top: -30px;
 	width: 70%;
 	padding-left: 20px;
 	line-height: 1.6rem;
 }
 .service a {
-	float: right;
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
 	text-decoration: none;
 	color: #fff;
 	padding: 10px 20px;
@@ -102,4 +107,41 @@ section h2, section p {
 }
 .m-category:hover {
 	box-shadow: 0 2px 5px #444;
+}
+
+@media only screen and (max-width: 850px) {
+  .service {
+  	width: 100%;
+  	margin-top: 20px;
+  }
+  .services-groug {
+  	display: block;
+  }
+}
+
+@media only screen and (max-width: 470px) {
+	.service {
+	  	width: 100%;
+	  	margin-top: 20px;
+	  	overflow: auto;
+	 }
+	.service-info {
+		display: block;
+	}
+	.service-description {
+		width: 100%;
+		padding: 0;
+		top: 0;
+	}
+	.service-image {
+		width: 55%;
+		margin: 0 auto;
+	}
+	.service a {
+		position: static;
+		float: right;
+	}
+	.services-groug {
+		display: block;
+	}
 }

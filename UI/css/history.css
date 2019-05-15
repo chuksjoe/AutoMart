@@ -24,11 +24,11 @@ h2 {
 }
 .purchase-date {
 	width: 20%;
+	position: relative;
 	border-right: 2px solid #eee;
 }
 .purchase-details {
 	width: 55%;
-	position: relative;
 }
 .purchase-info {
 	margin: 5px 0 0;
@@ -47,4 +47,38 @@ h2 {
 }
 .p-15 {
 	padding: 15px;
+}
+
+@media only screen and (max-width: 820px) {
+	.history-list-item {
+		display: block
+	}
+
+	.purchase-date,
+	.purchase-details,
+	.user-actions {
+		width: 100%;
+	}
+	.purchase-date p {
+		margin: 0;
+	}
+	.purchase-date {
+		border-right: none; 
+		border-bottom: 2px solid #eee;
+	}
+	.user-actions {
+		border-left: none;
+		border-top: 2px solid #eee;
+	}
+	.history-list-item:hover .purchase-date {
+		border-right: none; 
+		border-bottom: 2px solid #fff;
+	}
+	.history-list-item:hover .user-actions {
+		border-left: none;
+		border-top: 2px solid #fff;
+	}
+	.full-btn {
+		width: 49%;
+	}
 }

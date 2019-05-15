@@ -4,7 +4,7 @@ const uploadInput = document.getElementById("upload-image");
 uploadInput.onchange = () => previewImage("upload-image", previewBox);
 
 function previewImage(fieldId, previewB){
-	previewB.innerHTML = "";
+	while (previewB.firstChild) previewB.removeChild(previewB.firstChild);
 	var files = document.getElementById(fieldId).files;
 	var total_file = files.length;
 	for(var i = 0; i < total_file; i++){

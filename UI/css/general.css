@@ -13,7 +13,7 @@ body {
 
 /*General Navigation bar styling*/
 header {
-  background-color: #000;
+  background-color: rgba(0, 0, 0, 0.8);
   position: fixed;
   width: 100%;
   z-index: 10;
@@ -223,6 +223,12 @@ button[disabled]:hover {
   padding: 15px;
   margin: 0;
 }
+#filter-dd-btn {
+    display: none;
+  }
+#filter-container {
+  display: block;
+}
 .filter-attr {
   padding: 15px;
   width: 100%;
@@ -394,4 +400,26 @@ h3.c-details-mv {
   width: 33.3%;
   margin: 10px 0 0;
   line-height: 1.4;
+}
+
+@media only screen and (max-width: 800px) {
+  .content {
+    display: block;
+  }
+  .filter-sidebar,
+  .main-75 {
+    width: 100%;
+  }
+  #filter-container {
+    display: none;
+  }
+  #filter-dd-btn {
+    display: inline;
+    float: right;
+    padding: 0 10px;
+  }
+  #filter-dd-btn:hover {
+    background-color: #fff;
+    color: #000;
+  }
 }

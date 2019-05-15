@@ -30,3 +30,34 @@
 	padding: 15px;
 	border-left: 2px solid #eee;
 }
+
+@media only screen and (max-width: 1090px) {
+	.filter-sidebar {
+		width: 35%;
+	}
+	.main-75 {
+		width: 65%;
+	}
+	.car-list-item {
+		display: block;
+	}
+	.car-image,
+	.car-info,
+	.admin-actions {
+		width: 100%;
+	}
+	.admin-actions {
+		border-left: none;
+		border-top: 2px solid #eee;
+	}
+	.car-image {
+		padding: 10px 100px;
+	}
+	.full-btn {
+		width: 49%;
+	}
+	.car-state-tag {
+		background-color: #eee;
+		color: #333;
+	}
+}
