@@ -6,7 +6,9 @@
 		<meta name="description" content="Auto Mart is an online marketplace for automobiles of diverse makes, model or body type. With Auto Mart, users can sell their cars or buy from trusted dealerships or private sellers.">
 		<title>My Posted ADs - Auto Mart</title>
 
+		<link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+		
 		<link href="../css/general.css" rel="stylesheet">
 		<link href="../css/admin.css" rel="stylesheet">
 		<link href="../css/my-posted-ads.css" rel="stylesheet">
@@ -73,8 +75,8 @@
 					<div class="filter-attr">
 						<h3>Price Range</h3>
 						<div class="price-range">
-							<input type="number" min="1000" name="" placeholder="Min Price(&#8358)">
-							<input type="number" min="1000" name="" placeholder="Max Price(&#8358)">
+							<input type="text" class="price" data-type="number" min="1000" name="" placeholder="Min Price(&#8358)">
+							<input type="text" class="price" data-type="number" min="1000" name="" placeholder="Max Price(&#8358)">
 						</div>
 					</div>
 					<div class="filter-attr">
@@ -199,10 +201,10 @@
 								<p class="car-price">&#8358 5,200,000</p>
 								<p><b>Body type:</b> Salon Car</p>
 								<p>Posted on: 23-April-2019 12:45am</p>
-								<button class="preview btn">Preview</button>
+								<button class="preview-ad btn">Preview</button>
 							</div>
 							<div class="user-actions">
-								<button class="update full-btn btn">Update Price</button>
+								<button class="update-p full-btn btn">Update Price</button>
 								<button class="mark-sold full-btn btn">Mark Sold</button>
 								<button class="delete full-btn btn">Delete AD</button>
 							</div>
@@ -218,10 +220,10 @@
 								<p class="car-price">&#8358 5,200,000</p>
 								<p><b>Body type:</b> Salon Car</p>
 								<p>Posted on: 23-April-2019 12:45am</p>
-								<button class="preview btn">Preview</button>
+								<button class="preview-ad btn">Preview</button>
 							</div>
 							<div class="user-actions">
-								<button class="update full-btn btn">Update Price</button>
+								<button class="update-p full-btn btn">Update Price</button>
 								<button class="mark-sold full-btn btn">Mark Sold</button>
 								<button class="delete full-btn btn">Delete AD</button>
 							</div>
@@ -237,10 +239,10 @@
 								<p class="car-price">&#8358 5,200,000</p>
 								<p><b>Body type:</b> Salon Car</p>
 								<p>Posted on: 23-April-2019 12:45am</p>
-								<button class="preview btn">Preview</button>
+								<button class="preview-ad btn">Preview</button>
 							</div>
 							<div class="user-actions">
-								<button class="update full-btn btn">Update Price</button>
+								<button class="update-p full-btn btn">Update Price</button>
 								<button class="mark-sold full-btn btn">Mark Sold</button>
 								<button class="delete full-btn btn">Delete AD</button>
 							</div>
@@ -256,10 +258,10 @@
 								<p class="car-price">&#8358 5,200,000</p>
 								<p><b>Body type:</b> Salon Car</p>
 								<p>Posted on: 23-April-2019 12:45am</p>
-								<button class="preview btn">Preview</button>
+								<button class="preview-ad btn">Preview</button>
 							</div>
 							<div class="user-actions">
-								<button class="update full-btn btn">Update Price</button>
+								<button class="update-p full-btn btn">Update Price</button>
 								<button class="mark-sold full-btn btn">Mark Sold</button>
 								<button class="delete full-btn btn">Delete AD</button>
 							</div>
@@ -275,10 +277,10 @@
 								<p class="car-price">&#8358 5,200,000</p>
 								<p><b>Body type:</b> Salon Car</p>
 								<p>Posted on: 23-April-2019 12:45am</p>
-								<button class="preview btn">Preview</button>
+								<button class="preview-ad btn">Preview</button>
 							</div>
 							<div class="user-actions">
-								<button class="update full-btn btn">Update Price</button>
+								<button class="update-p full-btn btn">Update Price</button>
 								<button class="mark-sold full-btn btn">Mark Sold</button>
 								<button class="delete full-btn btn">Delete AD</button>
 							</div>
@@ -351,15 +353,19 @@
 					<form>
 						<div class = "input-field single">
 							<label for="">New Price(&#8358):</label><br>
-							<input type="number" min="1000" name="offering-price" placeholder="Offering Price(&#8358):">
+							<input type="text" class="price" data-type="number" min="1000" name="offering-price" placeholder="Offering Price(&#8358):">
 						</div>
 						<div class="btn-group flex-container">
-							<input type="submit" class="half-btn btn" name="" id="place-order half-btn" value="Place Order">
-							<button class="half-btn btn">Cancel</button>
+							<button id="update-price" class="half-btn btn">Update Price</button>
+							<button id="close-update-modal" class="half-btn btn">Cancel</button>
 						</div>
 					</form>
 				</div>
 			</div>
-		</div>		
+		</div>
+		
+		<!-- scripts -->
+		<script src="../js/general.js"></script>
+		<script src="../js/my-posted-ads.js"></script>
 	</body>
 </html>
