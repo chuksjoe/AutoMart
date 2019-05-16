@@ -3,9 +3,6 @@
   background-color: #fff;
   margin-bottom: 30px;
 }
-.car-image {
-  cursor: pointer;
-}
 #purchase-order-overlay {
   z-index: 101;
 }

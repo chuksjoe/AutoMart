@@ -18,10 +18,13 @@
 		<div class="container">
 			<header>
 				<nav>
-					<a href="./index.html"><img src="../images/automart-full-logo-150px.png"></a>
-					<ul>
-						<li><a href="./index.html">Logout</a></li>
-					</ul>
+					<a href="./index.html"><img src="../images/automart-full-logo-250px.png" width="150"></a>
+					<div id="menu-bar">
+						<span id="menu-btn"><i class="fa fa-bars"></i></span>
+						<ul id="menu-list">
+							<li><a href="./index.html">Logout</a></li>
+						</ul>
+					</div>
 				</nav>
 			</header>
 
@@ -184,7 +187,7 @@
 					<ul class="car-list">
 						<li class="car-list-item flex-container">
 							<div class="car-image">
-								<img src="../images/car-samples/car-sample-1.jpg">
+								<img src="../images/car-samples/car-sample-1.jpg" title="Preview AD">
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
@@ -202,7 +205,7 @@
 						</li>
 						<li class="car-list-item flex-container">
 							<div class="car-image">
-								<img src="../images/car-samples/car-sample-2.jpg">
+								<img src="../images/car-samples/car-sample-2.jpg" title="Preview AD">
 								<label class="car-state-tag">Used</label>
 							</div>
 							<div class="car-info">
@@ -220,7 +223,7 @@
 						</li>
 						<li class="car-list-item flex-container">
 							<div class="car-image">
-								<img src="../images/car-samples/car-sample-3.jpg">
+								<img src="../images/car-samples/car-sample-3.jpg" title="Preview AD">
 								<label class="car-state-tag">Used</label>
 							</div>
 							<div class="car-info">
@@ -238,7 +241,7 @@
 						</li>
 						<li class="car-list-item flex-container">
 							<div class="car-image">
-								<img src="../images/car-samples/car-sample-4.jpg">
+								<img src="../images/car-samples/car-sample-4.jpg" title="Preview AD">
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
@@ -302,6 +305,7 @@
 								<p class="prop"><b>Owner:</b><br>John Chibuike</p>
 							</div>
 							<div class="btn-group flex-container">
+								<button class="view-reports half-btn btn">View Reports</button>
 								<button class="delete half-btn btn">Delete AD</button>
 							</div>
 						</div>
@@ -312,6 +316,7 @@
 
 		<!-- scripts -->
 		<script src="../js/general.js"></script>
+		<script src="../js/filter-response.js"></script>
 		<script src="../js/admin.js"></script>
 	</body>
 </html>

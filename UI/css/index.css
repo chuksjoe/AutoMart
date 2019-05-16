@@ -22,6 +22,10 @@ main {
 	font-size: 3rem;
 	text-shadow: 0 0 4px #333;
 	text-transform: uppercase;
+	color: #999;
+}
+#company-name span {
+	color: #0069D9;
 }
 .headline p {
 	font-size: 1.3rem;
@@ -119,13 +123,27 @@ section h2, section p {
   }
 }
 
+@media only screen and (max-width: 680px) {
+	.bt-category {
+		width: 32%;
+	}
+	.m-category {
+		width: 24%;
+	}
+	.btc-4,
+	.mc-5 {
+		display: none;
+	}
+}
+
 @media only screen and (max-width: 470px) {
 	.service {
 	  	width: 100%;
 	  	margin-top: 20px;
 	  	overflow: auto;
 	 }
-	.service-info {
+	.service-info,
+	.services-groug {
 		display: block;
 	}
 	.service-description {
@@ -141,7 +159,14 @@ section h2, section p {
 		position: static;
 		float: right;
 	}
-	.services-groug {
-		display: block;
+	.bt-category {
+		width: 49%;
+	}
+	.m-category {
+		width: 32%;
+	}
+	.btc-3,
+	.mc-4 {
+		display: none;
 	}
 }

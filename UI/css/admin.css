@@ -61,3 +61,29 @@
 		color: #333;
 	}
 }
+
+@media only screen and (max-width: 800px) {
+  .content {
+    display: block;
+  }
+  .filter-sidebar,
+  .main-75 {
+    width: 100%;
+  }
+  .main-75 {
+    padding: 0;
+  }
+  #filter-container {
+    display: none;
+  }
+  #filter-dd-btn {
+    display: inline;
+    float: right;
+    padding: 0 10px;
+    cursor: pointer;
+  }
+  #filter-dd-btn:hover {
+    background-color: #fff;
+    color: #000;
+  }
+}
