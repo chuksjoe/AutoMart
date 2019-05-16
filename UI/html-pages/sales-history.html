@@ -18,19 +18,22 @@
 		<div class="container">
 			<header>
 				<nav>
-					<a href="./index.html"><img src="../images/automart-full-logo-150px.png"></a>
-					<ul>
-						<li><a href="./post-new-ad.html">Post New AD</a></li>
-						<li><a href="./marketplace.html">Marketplace</a></li>
-						<li><a href="./my-posted-ads.html">My ADs</a></li>
-						<li class="current dropdown"><a href="javascript:void(0)">History <i class="fa fa-caret-down"></i></a>
-							<ul class="dropdown-list"></a>
-								<li><a href="./sales-history.html">Sales History</a></li>
-								<li><a href="./purchase-history.html">Purchase History</a></li>
-							</ul>
-						</li>
-						<li><a href="./index.html">Logout</a></li>
-					</ul>
+					<a href="./index.html"><img src="../images/automart-full-logo-250px.png" width="150"></a>
+					<div id="menu-bar">
+						<span id="menu-btn"><i class="fa fa-bars"></i><i class="fa fa-times hide"></i></span>
+						<ul id="menu-list">
+							<li><a href="./post-new-ad.html">Post New AD</a></li>
+							<li><a href="./marketplace.html">Marketplace</a></li>
+							<li><a href="./my-posted-ads.html">My ADs</a></li>
+							<li id="current" class="dropdown"><a href="javascript:void(0)">History <i class="fa fa-caret-down"></i></a>
+								<ul class="dropdown-list"></a>
+									<li id="here"><a href="./sales-history.html">Sales History</a></li>
+									<li><a href="./purchase-history.html">Purchase History</a></li>
+								</ul>
+							</li>
+							<li><a href="./index.html">Logout</a></li>
+						</ul>
+					</div>
 				</nav>
 			</header>
 
@@ -41,12 +44,12 @@
 						<li class="history-list-item flex-container">
 							<div class="purchase-date p-15">
 								<p>24 Jan 2019<br>3:23pm</p>
+								<label class="status">Pending</label>
 							</div>
 							<div class="purchase-details p-15">
 								<h3 class="c-details-list">Purchase Order from John Ebuka</h3>
-								<p class="purchase-info">For Volvo Highlander Dx @ &#8358 5,200,000 (Actual Price)</p>
+								<p class="purchase-info">For Volvo Highlander Dx @ &#8358 5,200,000</p>
 								<p class="purchase-info">Price Offered: &#8358 3,500,000</p>
-								<label class="status">Pending</label>
 							</div>
 							<div class="user-actions p-15">
 								<button class="order full-btn btn">Accept Offer</button>
@@ -56,12 +59,12 @@
 						<li class="history-list-item flex-container">
 							<div class="purchase-date p-15">
 								<p>24 Jan 2019<br>3:23pm</p>
+								<label class="status">Accpeted</label>
 							</div>
 							<div class="purchase-details p-15">
 								<h3 class="c-details-list">Purchase Order from John Ebuka</h3>
-								<p class="purchase-info">For Volvo Highlander Dx @ &#8358 5,200,000 (Actual Price)</p>
+								<p class="purchase-info">For Volvo Highlander Dx @ &#8358 5,200,000</p>
 								<p class="purchase-info">Price Offered: &#8358 3,500,000</p>
-								<label class="status">Accpeted</label>
 							</div>
 							<div class="user-actions p-15">
 								<button class="order full-btn btn" disabled>Accept Offer</button>
@@ -71,12 +74,12 @@
 						<li class="history-list-item flex-container">
 							<div class="purchase-date p-15">
 								<p>24 Jan 2019<br>3:23pm</p>
+								<label class="status">Pending</label>
 							</div>
 							<div class="purchase-details p-15">
 								<h3 class="c-details-list">Purchase Order from John Ebuka</h3>
-								<p class="purchase-info">For Volvo Highlander Dx @ &#8358 5,200,000 (Actual Price)</p>
+								<p class="purchase-info">For Volvo Highlander Dx @ &#8358 5,200,000</p>
 								<p class="purchase-info">Price Offered: &#8358 3,500,000</p>
-								<label class="status">Pending</label>
 							</div>
 							<div class="user-actions p-15">
 								<button class="order full-btn btn">Accept Offer</button>
@@ -86,12 +89,12 @@
 						<li class="history-list-item flex-container">
 							<div class="purchase-date p-15">
 								<p>24 Jan 2019<br>3:23pm</p>
+								<label class="status">Rejected</label>
 							</div>
 							<div class="purchase-details p-15">
 								<h3 class="c-details-list">Purchase Order from John Ebuka</h3>
-								<p class="purchase-info">For Volvo Highlander Dx @ &#8358 5,200,000 (Actual Price)</p>
+								<p class="purchase-info">For Volvo Highlander Dx @ &#8358 5,200,000</p>
 								<p class="purchase-info">Price Offered: &#8358 3,500,000</p>
-								<label class="status">Rejected</label>
 							</div>
 							<div class="user-actions p-15">
 								<button class="order full-btn btn" disabled>Accept Offer</button>
@@ -117,5 +120,8 @@
 				</div>
 			</footer>
 		</div>
+
+		<!-- scripts -->
+		<script src="../js/general.js"></script>
 	</body>
 </html>

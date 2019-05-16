@@ -18,153 +18,158 @@
 		<div class="container">
 			<header>
 				<nav>
-					<a href="./index.html"><img src="../images/automart-full-logo-150px.png"></a>
-					<ul>
-						<li><a href="./post-new-ad.html">Post New AD</a></li>
-						<li class="current"><a href="./marketplace.html">Marketplace</a></li>
-						<li><a href="./my-posted-ads.html">My ADs</a></li>
-						<li class="dropdown"><a href="javascript:void(0)">History <i class="fa fa-caret-down"></i></a>
-							<ul class="dropdown-list"></a>
-								<li><a href="./sales-history.html">Sales History</a></li>
-								<li><a href="./purchase-history.html">Purchase History</a></li>
-							</ul>
-						</li>
-						<li><a href="./index.html">Logout</a></li>
-					</ul>
+					<a href="./index.html"><img src="../images/automart-full-logo-250px.png" width="150"></a>
+					<div id="menu-bar">
+						<span id="menu-btn"><i class="fa fa-bars"></i><i class="fa fa-times hide"></i></span>
+						<ul id="menu-list">
+							<li><a href="./post-new-ad.html">Post New AD</a></li>
+							<li id="current"><a href="./marketplace.html">Marketplace</a></li>
+							<li><a href="./my-posted-ads.html">My ADs</a></li>
+							<li class="dropdown"><a href="javascript:void(0)">History <i class="fa fa-caret-down"></i></a>
+								<ul class="dropdown-list"></a>
+									<li><a href="./sales-history.html">Sales History</a></li>
+									<li><a href="./purchase-history.html">Purchase History</a></li>
+								</ul>
+							</li>
+							<li><a href="./index.html">Logout</a></li>
+						</ul>
+					</div>
 				</nav>
 			</header>
 
 			<div class="content">
 				<div class="filter-sidebar">
-					<h2>Filter List</h2>
-					<div class="filter-attr">
-						<h3>Car State</h3>
-						<div class="car-state-group">
-							<label>
-								<input type="radio" name="state" class="state" value="0" checked="">
-								All
-							</label>
-							<label>
-								<input type="radio" name="state" class="state" value="0">
-								New
-							</label>
-							<label>
-								<input type="radio" name="state" class="state" value="0">
-								Used
-							</label>
+					<h2>Filter List <span id="filter-dd-btn"><i class="fa fa-bars"></i><i class="fa fa-times hide"></i></span></h2>
+					<div id="filter-container">
+						<div class="filter-attr">
+							<h3>Car State</h3>
+							<div class="car-state-group">
+								<label>
+									<input type="radio" name="state" class="state" value="0" checked="">
+									All
+								</label>
+								<label>
+									<input type="radio" name="state" class="state" value="0">
+									New
+								</label>
+								<label>
+									<input type="radio" name="state" class="state" value="0">
+									Used
+								</label>
+							</div>
 						</div>
-					</div>
-					<div class="filter-attr">
-						<h3>Price Range</h3>
-						<div class="price-range">
-							<input type="text" class="price" data-type="number" min="1000" name="" placeholder="Min Price(&#8358)">
-							<input type="text" class="price" data-type="number" min="1000" name="" placeholder="Max Price(&#8358)">
+						<div class="filter-attr">
+							<h3>Price Range</h3>
+							<div class="price-range">
+								<input type="text" class="price" data-type="number" min="1000" name="" placeholder="Min Price(&#8358)">
+								<input type="text" class="price" data-type="number" min="1000" name="" placeholder="Max Price(&#8358)">
+							</div>
 						</div>
-					</div>
-					<div class="filter-attr">
-						<h3>Manufacturer</h3>
-						<div class="manufacturer-group">
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								Mercedes-Benz
-							</label>
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								Volvo
-							</label>
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								Volkswagen
-							</label>
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								Honda
-							</label>
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								Toyota
-							</label>
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								Ferrari
-							</label>
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								BMW
-							</label>
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								Nissan
-							</label>
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								Ford
-							</label>
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								Mitsubishi
-							</label>
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								Cadillac
-							</label>
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								Jaguar
-							</label>
+						<div class="filter-attr">
+							<h3>Manufacturer</h3>
+							<div class="manufacturer-group">
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Mercedes-Benz
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Volvo
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Volkswagen
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Honda
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Toyota
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Ferrari
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									BMW
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Nissan
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Ford
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Mitsubishi
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Cadillac
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Jaguar
+								</label>
+							</div>
 						</div>
-					</div>
-					<div class="filter-attr">
-						<h3>Body Type</h3>
-						<div class="body-type-group">
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								Micro
-							</label>
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								Convertible
-							</label>
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								Large Van
-							</label>
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								Large SUV
-							</label>
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								Small Van
-							</label>
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								Coupe
-							</label>
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								Sudan
-							</label>
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								Truck
-							</label>
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								Truck Cab
-							</label>
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								MPV
-							</label>
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								Pick up
-							</label>
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								Hatch
-							</label>
+						<div class="filter-attr">
+							<h3>Body Type</h3>
+							<div class="body-type-group">
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Micro
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Convertible
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Large Van
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Large SUV
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Small Van
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Coupe
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Sudan
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Truck
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Truck Cab
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									MPV
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Pick up
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Hatch
+								</label>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -178,7 +183,7 @@
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
-								<h3 class="c-details-mv">2010 Honda CX422</h3>
+								<h3 class="c-details-mv">2010 Honda<br>CX422</h3>
 								<p class="car-price">&#8358 5,200,000</p>
 								<button class="order full-btn btn">Place Order</button>
 							</div>
@@ -189,7 +194,7 @@
 								<label class="car-state-tag">Used</label>
 							</div>
 							<div class="car-info">
-								<h3 class="c-details-mv">2003 Toyota Hiacee D2</h3>
+								<h3 class="c-details-mv">2003 Toyota<br>Hiacee D2</h3>
 								<p class="car-price">&#8358 4,000,000</p>
 								<button class="order full-btn btn">Place Order</button>
 							</div>
@@ -200,7 +205,7 @@
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
-								<h3 class="c-details-mv">2012 Mercedes-Benz Dox W2</h3>
+								<h3 class="c-details-mv">2012 Mercedes-Benz<br>Dox W2</h3>
 								<p class="car-price">&#8358 7,000,000</p>
 								<button class="order full-btn btn">Place Order</button>
 							</div>
@@ -211,7 +216,7 @@
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
-								<h3 class="c-details-mv">2009 Ford Landoff</h3>
+								<h3 class="c-details-mv">2009 Ford<br>Landoff</h3>
 								<p class="car-price">&#8358 12,000,000</p>
 								<button class="order full-btn btn">Place Order</button>
 							</div>
@@ -222,7 +227,7 @@
 								<label class="car-state-tag">Used</label>
 							</div>
 							<div class="car-info">
-								<h3 class="c-details-mv">2001 Nissan Fiat</h3>
+								<h3 class="c-details-mv">2001 Nissan<br>Fiat</h3>
 								<p class="car-price">&#8358 4,000,000</p>
 								<button class="order full-btn btn">Place Order</button>
 							</div>
@@ -233,7 +238,7 @@
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
-								<h3 class="c-details-mv">2012 Cadillac Spider</h3>
+								<h3 class="c-details-mv">2012 Cadillac<br>Spider</h3>
 								<p class="car-price">&#8358 40,000,000</p>
 								<button class="order full-btn btn">Place Order</button>
 							</div>
@@ -244,7 +249,7 @@
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
-								<h3 class="c-details-mv">1998 Volkswagen Dextar</h3>
+								<h3 class="c-details-mv">1998 Volkswagen<br>Dextar</h3>
 								<p class="car-price">&#8358 1,300,000</p>
 								<button class="order full-btn btn">Place Order</button>
 							</div>
@@ -255,7 +260,7 @@
 								<label class="car-state-tag">Used</label>
 							</div>
 							<div class="car-info">
-								<h3 class="c-details-mv">2012 Jaguar Egg</h3>
+								<h3 class="c-details-mv">2012 Jaguar<br>Sportbrake</h3>
 								<p class="car-price">&#8358 14,000,000</p>
 								<button class="order full-btn btn">Place Order</button>
 							</div>
@@ -266,7 +271,7 @@
 								<label class="car-state-tag">Used</label>
 							</div>
 							<div class="car-info">
-								<h3 class="c-details-mv">2017 Nissan Octopus J4</h3>
+								<h3 class="c-details-mv">2017 Nissan<br>Octopus J4</h3>
 								<p class="car-price">&#8358 3,000,000</p>
 								<button class="order full-btn btn">Place Order</button>
 							</div>
@@ -277,7 +282,7 @@
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
-								<h3 class="c-details-mv">2013 Toyota HighLander</h3>
+								<h3 class="c-details-mv">2013 Toyota<br>HighLander</h3>
 								<p class="car-price">&#8358 6,000,000</p>
 								<button class="order full-btn btn">Place Order</button>
 							</div>
@@ -288,7 +293,7 @@
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
-								<h3 class="c-details-mv">2017 Ford F-150 XLT</h3>
+								<h3 class="c-details-mv">2017 Ford<br>F-150 XLT</h3>
 								<p class="car-price">&#8358 17,000,000</p>
 								<button class="order full-btn btn">Place Order</button>
 							</div>
@@ -299,7 +304,7 @@
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
-								<h3 class="c-details-mv">1999 Chevrolet 1500X</h3>
+								<h3 class="c-details-mv">1999 Chevrolet<br>1500X</h3>
 								<p class="car-price">&#8358 7,100,000</p>
 								<button class="order full-btn btn">Place Order</button>
 							</div>
@@ -417,6 +422,7 @@
 
 		<!-- scripts -->
 		<script src="../js/general.js"></script>
+		<script src="../js/filter-response.js"></script>
 		<script src="../js/marketplace.js"></script>
 	</body>
 </html>

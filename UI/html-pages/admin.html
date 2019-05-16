@@ -18,162 +18,167 @@
 		<div class="container">
 			<header>
 				<nav>
-					<a href="./index.html"><img src="../images/automart-full-logo-150px.png"></a>
-					<ul>
-						<li><a href="./index.html">Logout</a></li>
-					</ul>
+					<a href="./index.html"><img src="../images/automart-full-logo-250px.png" width="150"></a>
+					<div id="menu-bar">
+						<span id="menu-btn"><i class="fa fa-bars"></i><i class="fa fa-times hide"></i></span>
+						<ul id="menu-list">
+							<li><a href="./index.html">Logout</a></li>
+						</ul>
+					</div>
 				</nav>
 			</header>
 
 			<div class="content">
 				<div class="filter-sidebar">
-					<h2>Filter List</h2>
-					<div class="filter-attr">
-						<h3>Car Status</h3>
-						<div class="car-state-group">
-							<label>
-								<input type="radio" name="state" class="state" value="0" checked="">
-								All
-							</label>
-							<label>
-								<input type="radio" name="state" class="state" value="0">
-								Sold
-							</label>
-							<label>
-								<input type="radio" name="state" class="state" value="0">
-								Unsold
-							</label>
+					<h2>Filter List <span id="filter-dd-btn"><i class="fa fa-bars"></i><i class="fa fa-times hide"></i></span></h2>
+					<div id="filter-container">
+						<div class="filter-attr">
+							<h3>Car Status</h3>
+							<div class="car-state-group">
+								<label>
+									<input type="radio" name="state" class="state" value="0" checked="">
+									All
+								</label>
+								<label>
+									<input type="radio" name="state" class="state" value="0">
+									Sold
+								</label>
+								<label>
+									<input type="radio" name="state" class="state" value="0">
+									Unsold
+								</label>
+							</div>
 						</div>
-					</div>
-					<div class="filter-attr">
-						<h3>Car State</h3>
-						<div class="car-state-group">
-							<label>
-								<input type="radio" name="state" class="state" value="0" checked="">
-								All
-							</label>
-							<label>
-								<input type="radio" name="state" class="state" value="0">
-								New
-							</label>
-							<label>
-								<input type="radio" name="state" class="state" value="0">
-								Used
-							</label>
+						<div class="filter-attr">
+							<h3>Car State</h3>
+							<div class="car-state-group">
+								<label>
+									<input type="radio" name="state" class="state" value="0" checked="">
+									All
+								</label>
+								<label>
+									<input type="radio" name="state" class="state" value="0">
+									New
+								</label>
+								<label>
+									<input type="radio" name="state" class="state" value="0">
+									Used
+								</label>
+							</div>
 						</div>
-					</div>
-					<div class="filter-attr">
-						<h3>Price Range</h3>
-						<div class="price-range">
-							<input type="text" class="price" data-type="number" min="1000" name="" placeholder="Min Price(&#8358)">
-							<input type="text" class="price" data-type="number" min="1000" name="" placeholder="Max Price(&#8358)">
+						<div class="filter-attr">
+							<h3>Price Range</h3>
+							<div class="price-range">
+								<input type="text" class="price" data-type="number" min="1000" name="" placeholder="Min Price(&#8358)">
+								<input type="text" class="price" data-type="number" min="1000" name="" placeholder="Max Price(&#8358)">
+							</div>
 						</div>
-					</div>
-					<div class="filter-attr">
-						<h3>Manufacturer</h3>
-						<div class="manufacturer-group">
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								Mercedes-Benz
-							</label>
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								Volvo
-							</label>
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								Volkswagen
-							</label>
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								Honda
-							</label>
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								Toyota
-							</label>
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								Ferrari
-							</label>
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								BMW
-							</label>
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								Nissan
-							</label>
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								Ford
-							</label>
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								Mitsubishi
-							</label>
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								Cadillac
-							</label>
-							<label>
-								<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-								Jaguar
-							</label>
+						<div class="filter-attr">
+							<h3>Manufacturer</h3>
+							<div class="manufacturer-group">
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Mercedes-Benz
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Volvo
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Volkswagen
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Honda
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Toyota
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Ferrari
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									BMW
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Nissan
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Ford
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Mitsubishi
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Cadillac
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Jaguar
+								</label>
+							</div>
 						</div>
-					</div>
-					<div class="filter-attr">
-						<h3>Body Type</h3>
-						<div class="body-type-group">
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								Micro
-							</label>
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								Convertible
-							</label>
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								Large Van
-							</label>
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								Large SUV
-							</label>
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								Small Van
-							</label>
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								Coupe
-							</label>
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								Sudan
-							</label>
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								Truck
-							</label>
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								Truck Cab
-							</label>
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								MPV
-							</label>
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								Pick up
-							</label>
-							<label>
-								<input type="checkbox" name="body-type" class="body-type" value="0">
-								Hatch
-							</label>
-						</div>
+						<div class="filter-attr">
+							<h3>Body Type</h3>
+							<div class="body-type-group">
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Micro
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Convertible
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Large Van
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Large SUV
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Small Van
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Coupe
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Sudan
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Truck
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Truck Cab
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									MPV
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Pick up
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Hatch
+								</label>
+							</div>
+						</div>	
 					</div>
 				</div>
 
@@ -182,7 +187,7 @@
 					<ul class="car-list">
 						<li class="car-list-item flex-container">
 							<div class="car-image">
-								<img src="../images/car-samples/car-sample-1.jpg">
+								<img src="../images/car-samples/car-sample-1.jpg" title="Preview AD">
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
@@ -194,13 +199,13 @@
 								
 							</div>
 							<div class="admin-actions">
-								<button class="preview-ad full-btn btn">Preview AD</button>
+								<button class="view-reports full-btn btn">View Reports</button>
 								<button class="delete order full-btn btn">Delete AD</button>
 							</div>
 						</li>
 						<li class="car-list-item flex-container">
 							<div class="car-image">
-								<img src="../images/car-samples/car-sample-2.jpg">
+								<img src="../images/car-samples/car-sample-2.jpg" title="Preview AD">
 								<label class="car-state-tag">Used</label>
 							</div>
 							<div class="car-info">
@@ -212,13 +217,13 @@
 								
 							</div>
 							<div class="admin-actions">
-								<button class="preview-ad full-btn btn">Preview AD</button>
+								<button class="view-reports full-btn btn">View Reports</button>
 								<button class="delete order full-btn btn">Delete AD</button>
 							</div>
 						</li>
 						<li class="car-list-item flex-container">
 							<div class="car-image">
-								<img src="../images/car-samples/car-sample-3.jpg">
+								<img src="../images/car-samples/car-sample-3.jpg" title="Preview AD">
 								<label class="car-state-tag">Used</label>
 							</div>
 							<div class="car-info">
@@ -230,13 +235,13 @@
 								
 							</div>
 							<div class="admin-actions">
-								<button class="preview-ad full-btn btn">Preview AD</button>
+								<button class="view-reports full-btn btn">View Reports</button>
 								<button class="delete order full-btn btn">Delete AD</button>
 							</div>
 						</li>
 						<li class="car-list-item flex-container">
 							<div class="car-image">
-								<img src="../images/car-samples/car-sample-4.jpg">
+								<img src="../images/car-samples/car-sample-4.jpg" title="Preview AD">
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
@@ -248,7 +253,7 @@
 								
 							</div>
 							<div class="admin-actions">
-								<button class="preview-ad full-btn btn">Preview AD</button>
+								<button class="view-reports full-btn btn">View Reports</button>
 								<button class="delete order full-btn btn">Delete AD</button>
 							</div>
 						</li>
@@ -300,6 +305,7 @@
 								<p class="prop"><b>Owner:</b><br>John Chibuike</p>
 							</div>
 							<div class="btn-group flex-container">
+								<button class="view-reports half-btn btn">View Reports</button>
 								<button class="delete half-btn btn">Delete AD</button>
 							</div>
 						</div>
@@ -310,6 +316,7 @@
 
 		<!-- scripts -->
 		<script src="../js/general.js"></script>
+		<script src="../js/filter-response.js"></script>
 		<script src="../js/admin.js"></script>
 	</body>
 </html>
