@@ -1,0 +1,89 @@
+.car-list {
+	width: 100%;
+}
+.car-list-item {
+	width: 100%;
+	background-color: #fff;
+	margin-bottom: 30px;
+}
+.car-image {
+	width: 25%;
+}
+.car-info {
+	width: 55%;
+	position: relative;
+	text-align: left;
+}
+.car-info p {
+	margin: 0;
+}
+.car-status-tag {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background-color: #333;
+	color: #eee;
+	padding: 5px 10px;
+}
+.admin-actions {
+	width: 20%;
+	padding: 15px;
+	border-left: 2px solid #eee;
+}
+
+@media only screen and (max-width: 1090px) {
+	.filter-sidebar {
+		width: 35%;
+	}
+	.main-75 {
+		width: 65%;
+	}
+	.car-list-item {
+		display: block;
+	}
+	.car-image,
+	.car-info,
+	.admin-actions {
+		width: 100%;
+	}
+	.admin-actions {
+		border-left: none;
+		border-top: 2px solid #eee;
+	}
+	.car-image {
+		padding: 10px 100px;
+	}
+	.full-btn {
+		width: 49%;
+	}
+	.car-state-tag {
+		background-color: #eee;
+		color: #333;
+	}
+}
+
+@media only screen and (max-width: 800px) {
+  .content {
+    display: block;
+  }
+  .filter-sidebar,
+  .main-75 {
+    width: 100%;
+  }
+  .main-75 {
+    padding: 0;
+  }
+  #filter-container {
+    display: none;
+  }
+  #filter-dd-btn {
+    display: inline;
+    float: right;
+    padding: 0 10px;
+    cursor: pointer;
+  }
+  #filter-dd-btn:hover {
+    background-color: #fff;
+    color: #000;
+  }
+}

@@ -1,0 +1,172 @@
+/*main banner*/
+main {
+	background: #000 url("../images/background2.jpg") no-repeat;
+	background-size: cover;
+	height: 100vh;
+	margin-top: 0px;
+	
+}
+.headline {
+	max-width: 600px;
+	margin: 0 auto;
+	position: relative;
+	top: 35%;
+	text-align: center;
+	color: white;
+}
+.headline h1 {
+	margin-top: 0;
+	font-size: 2.5rem;
+}
+.headline #company-name {
+	font-size: 3rem;
+	text-shadow: 0 0 4px #333;
+	text-transform: uppercase;
+	color: #999;
+}
+#company-name span {
+	color: #0069D9;
+}
+.headline p {
+	font-size: 1.3rem;
+	line-height: 2rem;
+	color: #fff;
+	text-shadow: 0 0 4px #000;
+}
+
+/*service section*/
+section {
+	padding: 30px 20px 70px;
+}
+section h2, section p {
+	text-align: center;
+}
+.services-groug, .categories-group {
+	max-width: 1200px;
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-between;
+}
+.service {
+	position: relative;
+	width: 48%;
+	border-radius: 20px;
+	box-shadow: 0 0 5px #bbb;
+	background-color: #333;
+	padding: 25px;
+	color: #fff;
+}
+.service-info {
+	display: flex;
+}
+.service-image {
+	width: 30%;
+}
+.service-image img {
+	width: 100%;
+	height: auto;
+}
+.service-description {
+	position: relative;
+	top: -30px;
+	width: 70%;
+	padding-left: 20px;
+	line-height: 1.6rem;
+}
+.service a {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	text-decoration: none;
+	color: #fff;
+	padding: 10px 20px;
+	background-color: #0069D9;
+}
+.service a:hover {
+	background-color: #2993E2;
+	transition: all 0.3s ease-out;
+}
+
+/*body type section*/
+#body-types-section {
+	background-color: #333;
+	color: #fff;
+}
+.bt-category {
+	width: 24%;
+	background-color: #fff;
+}
+.bt-category img, .m-category img {
+	width: 100%;
+}
+
+/*manufacturers section*/
+#manufacturers-section {
+	background-color: #eee;
+}
+.m-category {
+	width: 18%;
+	background-color: #fff;
+	box-shadow: 0 0 3px #444;
+}
+.m-category:hover {
+	box-shadow: 0 2px 5px #444;
+}
+
+@media only screen and (max-width: 850px) {
+  .service {
+  	width: 100%;
+  	margin-top: 20px;
+  }
+  .services-groug {
+  	display: block;
+  }
+}
+
+@media only screen and (max-width: 680px) {
+	.bt-category {
+		width: 32%;
+	}
+	.m-category {
+		width: 24%;
+	}
+	.btc-4,
+	.mc-5 {
+		display: none;
+	}
+}
+
+@media only screen and (max-width: 470px) {
+	.service {
+	  	width: 100%;
+	  	margin-top: 20px;
+	  	overflow: auto;
+	 }
+	.service-info,
+	.services-groug {
+		display: block;
+	}
+	.service-description {
+		width: 100%;
+		padding: 0;
+		top: 0;
+	}
+	.service-image {
+		width: 55%;
+		margin: 0 auto;
+	}
+	.service a {
+		position: static;
+		float: right;
+	}
+	.bt-category {
+		width: 49%;
+	}
+	.m-category {
+		width: 32%;
+	}
+	.btc-3,
+	.mc-4 {
+		display: none;
+	}
+}
