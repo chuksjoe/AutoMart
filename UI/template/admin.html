@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width initial-scale=1.0">
+		<meta name="description" content="Auto Mart is an online marketplace for automobiles of diverse makes, model or body type. With Auto Mart, users can sell their cars or buy from trusted dealerships or private sellers.">
+		<title>Admin - Auto Mart</title>
+
+		<link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+		
+		<link href="../css/general.css" rel="stylesheet">
+		<link href="../css/admin.css" rel="stylesheet">
+		
+		<link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	</head>
+	<body>
+		<div class="container">
+			<header>
+				<nav>
+					<a href="./index.html"><img src="../images/automart-full-logo-250px.png" width="150"></a>
+					<div id="menu-bar">
+						<span id="menu-btn"><i class="fa fa-bars"></i><i class="fa fa-times hide"></i></span>
+						<ul id="menu-list">
+							<li><a href="./index.html">Logout</a></li>
+						</ul>
+					</div>
+				</nav>
+			</header>
+
+			<div class="content">
+				<div class="filter-sidebar">
+					<h2>Filter List <span id="filter-dd-btn"><i class="fa fa-bars"></i><i class="fa fa-times hide"></i></span></h2>
+					<div id="filter-container">
+						<div class="filter-attr">
+							<h3>Car Status</h3>
+							<div class="car-state-group">
+								<label>
+									<input type="radio" name="state" class="state" value="0" checked="">
+									All
+								</label>
+								<label>
+									<input type="radio" name="state" class="state" value="0">
+									Sold
+								</label>
+								<label>
+									<input type="radio" name="state" class="state" value="0">
+									Unsold
+								</label>
+							</div>
+						</div>
+						<div class="filter-attr">
+							<h3>Car State</h3>
+							<div class="car-state-group">
+								<label>
+									<input type="radio" name="state" class="state" value="0" checked="">
+									All
+								</label>
+								<label>
+									<input type="radio" name="state" class="state" value="0">
+									New
+								</label>
+								<label>
+									<input type="radio" name="state" class="state" value="0">
+									Used
+								</label>
+							</div>
+						</div>
+						<div class="filter-attr">
+							<h3>Price Range</h3>
+							<div class="price-range">
+								<input type="text" class="price" data-type="number" min="1000" name="" placeholder="Min Price(&#8358)">
+								<input type="text" class="price" data-type="number" min="1000" name="" placeholder="Max Price(&#8358)">
+							</div>
+						</div>
+						<div class="filter-attr">
+							<h3>Manufacturer</h3>
+							<div class="manufacturer-group">
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Mercedes-Benz
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Volvo
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Volkswagen
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Honda
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Toyota
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Ferrari
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									BMW
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Nissan
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Ford
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Mitsubishi
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Cadillac
+								</label>
+								<label>
+									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									Jaguar
+								</label>
+							</div>
+						</div>
+						<div class="filter-attr">
+							<h3>Body Type</h3>
+							<div class="body-type-group">
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Micro
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Convertible
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Large Van
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Large SUV
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Small Van
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Coupe
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Sudan
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Truck
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Truck Cab
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									MPV
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Pick up
+								</label>
+								<label>
+									<input type="checkbox" name="body-type" class="body-type" value="0">
+									Hatch
+								</label>
+							</div>
+						</div>	
+					</div>
+				</div>
+
+				<main class="main-75">
+					<h2>All Posted ADs by Users</h2>
+					<ul class="car-list">
+						<li class="car-list-item flex-container">
+							<div class="car-image">
+								<img src="../images/car-samples/car-sample-1.jpg" title="Preview AD">
+								<label class="car-state-tag">New</label>
+							</div>
+							<div class="car-info">
+								<h3 class="c-details-list">2010 Honda CX422</h3>
+								<label class="car-status-tag">Unsold</label>
+								<p class="car-price">&#8358 5,200,000</p>
+								<p><b>Body type:</b> Salon Car</p>
+								<p>Posted by: Stephen D.<span>, on: 23-April-2019 12:45am</span></p>
+								
+							</div>
+							<div class="admin-actions">
+								<button class="view-reports full-btn btn">View Reports</button>
+								<button class="delete order full-btn btn">Delete AD</button>
+							</div>
+						</li>
+						<li class="car-list-item flex-container">
+							<div class="car-image">
+								<img src="../images/car-samples/car-sample-2.jpg" title="Preview AD">
+								<label class="car-state-tag">Used</label>
+							</div>
+							<div class="car-info">
+								<h3 class="c-details-list">2010 Honda CX422</h3>
+								<label class="car-status-tag">Unsold</label>
+								<p class="car-price">&#8358 5,200,000</p>
+								<p><b>Body type:</b> Salon Car</p>
+								<p>Posted by: Stephen D.<span>, on: 23-April-2019 12:45am</span></p>
+								
+							</div>
+							<div class="admin-actions">
+								<button class="view-reports full-btn btn">View Reports</button>
+								<button class="delete order full-btn btn">Delete AD</button>
+							</div>
+						</li>
+						<li class="car-list-item flex-container">
+							<div class="car-image">
+								<img src="../images/car-samples/car-sample-3.jpg" title="Preview AD">
+								<label class="car-state-tag">Used</label>
+							</div>
+							<div class="car-info">
+								<h3 class="c-details-list">2010 Honda CX422</h3>
+								<label class="car-status-tag">Unsold</label>
+								<p class="car-price">&#8358 5,200,000</p>
+								<p><b>Body type:</b> Salon Car</p>
+								<p>Posted by: Stephen D.<span>, on: 23-April-2019 12:45am</span></p>
+								
+							</div>
+							<div class="admin-actions">
+								<button class="view-reports full-btn btn">View Reports</button>
+								<button class="delete order full-btn btn">Delete AD</button>
+							</div>
+						</li>
+						<li class="car-list-item flex-container">
+							<div class="car-image">
+								<img src="../images/car-samples/car-sample-4.jpg" title="Preview AD">
+								<label class="car-state-tag">New</label>
+							</div>
+							<div class="car-info">
+								<h3 class="c-details-list">2010 Honda CX422</h3>
+								<label class="car-status-tag">Sold</label>
+								<p class="car-price">&#8358 5,200,000</p>
+								<p><b>Body type:</b> Salon Car</p>
+								<p>Posted by: Stephen D.<span>, on: 23-April-2019 12:45am</span></p>
+								
+							</div>
+							<div class="admin-actions">
+								<button class="view-reports full-btn btn">View Reports</button>
+								<button class="delete order full-btn btn">Delete AD</button>
+							</div>
+						</li>
+					</ul>
+				</main>
+			</div>
+			
+			<footer>
+				<div class="inner-div">
+					<p>Auto-Mart 2019 &#169</p>
+					<div class="footer-right">
+						<p>ADC Project by</p>
+						<ul>
+							<a href="https://twitter.com/Chuksjoe" target="_blank"><li><i class="fab fa-twitter" aria-hidden="true"></i></li></a>
+							<a href="https://www.linkedin.com/in/chukwunonso-orjiakor" target="_blank"><li><i class="fab fa-linkedin-in" aria-hidden="true"></i></li></a>
+							<a href="https://github.com/chuksjoe" target="_blank"><li><i class="fab fa-github" title="chuksjoe's DEV Profile"></i></li></a>
+							<a href="https://codepen.io/chuksjoe" target="_blank"><li><i class="fab fa-codepen" title="chuksjoe's DEV Profile"></i></li></a>
+						</ul>
+					</div>
+				</div>
+			</footer>
+		</div>
+
+		<!-- Modal view to view a specific car -->
+		<div id="car-preview-overlay" class="overlay" style="display: none">
+			<div class="lg-m-v">
+				<h2 class="modal-header">New Volkswagen Cx3 - 2001</h2>
+				<p id="added-date">Added: 12-Jan-2019 3:23pm</p>
+				<div id="close-car-preview" class="fa fa-times close-btn"></div>
+				<div class="modal-body">
+					<div class="car-view-detail flex-container">
+						<div class="car-view-image">
+							<img src="../images/car-samples/car-sample-10.jpg">
+						</div>
+						<div class="car-view-main-desc">
+							<p class="c-price">Price: &#8358 23,000,000</p>
+							<div id="prop-list" class="flex-container">
+								<p class="prop"><b>Make:</b><br>Volkswagen</p>
+								<p class="prop"><b>Model:</b><br>Cx3</p>
+								<p class="prop"><b>State:</b><br>Brand New</p>
+								<p class="prop"><b>Body Type:</b><br>Convertible</p>
+								<p class="prop"><b>Color:</b><br>Blue</p>
+								<p class="prop"><b>Year:</b><br>2001</p>
+								<p class="prop"><b>Fuel Type:</b><br>Petrol</p>
+								<p class="prop"><b>Fuel Capacity:</b><br>76L</p>
+								<p class="prop"><b>Mileage:</b><br>74,544km</p>
+								<p class="prop"><b>Transmission:</b><br>Automatic</p>
+								<p class="prop"><b>Engine Detail:</b><br>2.8 Turbo Diesel</p>
+								<p class="prop"><b>Owner:</b><br>John Chibuike</p>
+							</div>
+							<div class="btn-group flex-container">
+								<button class="view-reports half-btn btn">View Reports</button>
+								<button class="delete half-btn btn">Delete AD</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- scripts -->
+		<script src="../js/general.js"></script>
+		<script src="../js/filter-response.js"></script>
+		<script src="../js/admin.js"></script>
+	</body>
+</html>

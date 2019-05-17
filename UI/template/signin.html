@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width initial-scale=1.0">
+		<meta name="description" content="Sign in page for Auto-Mart">
+		<title>Sign In - Auto Mart</title>
+
+		<link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+		
+		<link href="../css/general.css" rel="stylesheet">
+		<link href="../css/form-pages.css" rel="stylesheet">
+		
+		<link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	</head>
+	<body>
+		<div class="container">
+			<header>
+				<nav>
+					<a href="./index.html"><img src="../images/automart-full-logo-250px.png" width="150"></a>
+					<div id="menu-bar">
+						<span id="menu-btn"><i class="fa fa-bars"></i><i class="fa fa-times hide"></i></span>
+						<ul id="menu-list">
+							<li><a href="./marketplace.html">Marketplace</a></li>
+							<li><a href="#">About Us</a></li>
+							<li><a href="./signup.html">Sign Up</a></li>
+						</ul>
+					</div>
+				</nav>
+			</header>
+			<main class="main-100">
+				<div class="signin-form-container">
+					<h1>Sign In</h1>
+					<form>
+						<div>
+							<div id="error-div"></div>
+							<div class = "input-field single">
+								<label for="email">E-mail:</label>
+								<input type="email" id="email" name="email"/>
+							</div>
+							<div class = "input-field single">
+								<label for="password">Password:</label>
+								<input type="password" id="password" name="password"/>
+							</div>
+							<input type="submit" id="submit" class="full-btn btn" name="submit" value = "Sign In"/>
+							<p class="end-note">New to Auto Mart, <a href="./signup.html">Create New Account</a></p>
+						</div>
+					</form>
+				</div>
+			</main>
+			<footer>
+				<div class="inner-div">
+					<p>Auto-Mart 2019 &#169</p>
+					<div class="footer-right">
+						<p>ADC Project by</p>
+						<ul>
+							<a href="https://twitter.com/Chuksjoe" target="_blank"><li><i class="fab fa-twitter" aria-hidden="true"></i></li></a>
+							<a href="https://www.linkedin.com/in/chukwunonso-orjiakor" target="_blank"><li><i class="fab fa-linkedin-in" aria-hidden="true"></i></li></a>
+							<a href="https://github.com/chuksjoe" target="_blank"><li><i class="fab fa-github" title="chuksjoe's DEV Profile"></i></li></a>
+							<a href="https://codepen.io/chuksjoe" target="_blank"><li><i class="fab fa-codepen" title="chuksjoe's DEV Profile"></i></li></a>
+						</ul>
+					</div>
+				</div>
+			</footer>
+		</div>
+
+		<!-- scripts -->
+		<script src="../js/general.js"></script>
+	</body>
+</html>

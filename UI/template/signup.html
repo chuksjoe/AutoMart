@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width initial-scale=1.0">
+		<meta name="description" content="Sign up page for Auto-Mart">
+		<title>Sign Up - Auto Mart</title>
+
+		<link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+		
+		<link href="../css/general.css" rel="stylesheet">
+		<link href="../css/form-pages.css" rel="stylesheet">
+		
+		<link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	</head>
+	<body>
+		<div class="container">
+			<header>
+				<nav>
+					<a href="./index.html"><img src="../images/automart-full-logo-250px.png" width="150"></a>
+					<div id="menu-bar">
+						<span id="menu-btn"><i class="fa fa-bars"></i><i class="fa fa-times hide"></i></span>
+						<ul id="menu-list">
+							<li><a href="./marketplace.html">Marketplace</a></li>
+							<li><a href="#">About Us</a></li>
+							<li><a href="./signin.html">Sign In</a></li>
+						</ul>
+					</div>
+				</nav>
+			</header>
+			<main class="main-100">
+				<div class="signup-form-container">
+					<h1>Create New Account</h1>
+					<form>
+						<div>
+							<div id="error-div"></div>
+							<div class = "input-group flex-container">
+								<div class = "input-field">
+									<label for="fname">First Name:*</label>
+									<input type="text" id="fname" name="fname" autofocus/>
+								</div>
+								<div class = "input-field">
+									<label for="lname">Last Name:*</label>
+									<input type="text" id="lname" name="lname"/>
+								</div>
+							</div>
+							<div class = "input-field single">
+								<label for="email">E-mail:*</label>
+								<input type="email" id="email" name="email"/>
+							</div>
+							<div class="input-group flex-container">
+								<div class = "input-field">
+									<label for="password1">Password:*</label>
+									<input type="password" id="password1" name="password1"/>
+								</div>
+								<div class = "input-field">
+									<label for="password2">Verify Password:*</label>
+									<input type="password" id="password2" name="password2"/>
+								</div>
+							</div>
+							<div class="input-group flex-container">
+								<div class = "input-field">
+									<label for="street">Street:</label>
+									<input type="text" id="street" name="street"/>
+								</div>
+								<div class = "input-field">
+									<label for="city">City:</label>
+									<input type="text" id="city" name="city"/>
+								</div>
+							</div>
+							<div class="input-group flex-container">
+								<div class = "input-field">
+									<label for="state">State:</label>
+									<input type="text" id="state" name="state"/>
+								</div>
+								<div class = "input-field">
+									<label for="country">Country:</label>
+									<input type="text" id="country" name="country"/>
+								</div>
+							</div>
+							<div class="input-group flex-container">
+								<div class = "input-field">
+									<label for="phone">Telephone Number:</label>
+									<input type="text" id="phone" name="phone"/>
+								</div>
+								<div class = "input-field">
+									<label for="zip-code">Zip-code:</label>
+									<input type="text" id="zip-code" name="zip-code"/>
+								</div>
+							</div>
+							
+							<p class = "note">Note: The feilds with astherisk(*) are <b>compulsory</b>.</p>
+							<input type="submit" id="submit" class="full-btn btn" name="submit" value = "Create Account"/>
+						</div>
+					</form>
+				</div>
+			</main>
+			<footer>
+				<div class="inner-div">
+					<p>Auto-Mart 2019 &#169</p>
+					<div class="footer-right">
+						<p>ADC Project by</p>
+						<ul>
+							<a href="https://twitter.com/Chuksjoe" target="_blank"><li><i class="fab fa-twitter" aria-hidden="true"></i></li></a>
+							<a href="https://www.linkedin.com/in/chukwunonso-orjiakor" target="_blank"><li><i class="fab fa-linkedin-in" aria-hidden="true"></i></li></a>
+							<a href="https://github.com/chuksjoe" target="_blank"><li><i class="fab fa-github" title="chuksjoe's DEV Profile"></i></li></a>
+							<a href="https://codepen.io/chuksjoe" target="_blank"><li><i class="fab fa-codepen" title="chuksjoe's DEV Profile"></i></li></a>
+						</ul>
+					</div>
+				</div>
+			</footer>
+		</div>
+
+		<!-- scripts -->
+		<script src="../js/general.js"></script>
+	</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width initial-scale=1.0">
+		<meta name="description" content="Auto Mart is an online marketplace for automobiles of diverse makes, model or body type. With Auto Mart, users can sell their cars or buy from trusted dealerships or private sellers.">
+		<title>Post New AD - Auto Mart</title>
+
+		<link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+		
+		<link href="../css/general.css" rel="stylesheet">
+		<link href="../css/form-pages.css" rel="stylesheet">
+		
+		<link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	</head>
+	<body>
+		<div class="container">
+			<header>
+				<nav>
+					<a href="./index.html"><img src="../images/automart-full-logo-250px.png" width="150"></a>
+					<div id="menu-bar">
+						<span id="menu-btn"><i class="fa fa-bars"></i><i class="fa fa-times hide"></i></span>
+						<ul id="menu-list">
+							<li id="current"><a href="./post-new-ad.html">Post New AD</a></li>
+							<li><a href="./marketplace.html">Marketplace</a></li>
+							<li><a href="./my-posted-ads.html">My ADs</a></li>
+							<li class="dropdown"><a href="javascript:void(0)">History <i class="fa fa-caret-down"></i></a>
+								<ul class="dropdown-list"></a>
+									<li><a href="./sales-history.html">Sales History</a></li>
+									<li><a href="./purchase-history.html">Purchase History</a></li>
+								</ul>
+							</li>
+							<li><a href="./index.html">Logout</a></li>
+						</ul>
+					</div>
+				</nav>
+			</header>
+
+			<main class="main-100">
+				
+				<div class="new-post-form-container">
+					<h1>Want to Sell Your Car?</h1>
+					<h3>Enter Your Car Details:</h3>
+					<form>
+						<div>
+							<div id="error-div"></div>
+							<div class = "input-group flex-container">
+								<div class = "input-field">
+									<label for="manufacturer">Manufacturer:*</label>
+									<select id="manufacturer" name="manufacturer">
+										<option value="0">--</option>
+										<option value="audi">Audi</option>
+										<option value="audi">Acura</option>
+										<option value="audi">Cadillac</option>
+										<option value="audi">Ferarri</option>
+										<option value="audi">Honda</option>
+										<option value="audi">Mercedes-Benz</option>
+										<option value="audi">Toyota</option>
+										<option value="audi">Volkswagen</option>
+										<option value="audi">Volvo</option>
+									</select>
+								</div>
+								<div class = "input-field">
+									<label for="model">Model:*</label>
+									<input type="text" id="model" name="model"/>
+								</div>
+							</div>
+							<div class="input-group flex-container">
+								<div class = "input-field">
+									<label for="body-type">Body Type:*</label>
+									<select id="body-type" name="body-type">
+										<option value="0">--</option>
+										<option value="audi">Convertible</option>
+										<option value="audi">Coupe</option>
+										<option value="audi">Hatch</option>
+										<option value="audi">Micro</option>
+										<option value="audi">MPV</option>
+										<option value="audi">SUV Large</option>
+										<option value="audi">SUV Small</option>
+										<option value="audi">Van Large</option>
+										<option value="audi">Truck Jeep</option>
+									</select>
+								</div>
+								<div class = "input-field">
+									<label for="year">Year:*</label>
+									<select id="year" name="year">
+										<option value="0">--</option>
+										<option value="audi">1998</option>
+										<option value="audi">1999</option>
+										<option value="audi">2000</option>
+										<option value="audi">2001</option>
+										<option value="audi">2002</option>
+										<option value="audi">2003</option>
+										<option value="audi">2004</option>
+										<option value="audi">2005</option>
+										<option value="audi">2006</option>
+									</select>
+								</div>
+							</div>
+							<div class="input-group flex-container">
+								<div class = "input-field">
+									<label for="street">Price(&#8358):*</label>
+									<input type="text" class="price" data-type="number" id="price" name="price"/>
+								</div>
+								<div class = "input-field">
+									<label for="state">State:*</label>
+									<select id="state" name="state">
+										<option value="0">--</option>
+										<option value="new">Brand New</option>
+										<option value="used">Fairly Used</option>
+										<option value="others">Others</option>
+									</select>
+								</div>
+							</div>
+							<div class="input-group flex-container">
+								<div class = "input-field">
+									<label for="color">Color:*</label>
+									<select id="color" name="color">
+										<option value="0">--</option>
+										<option value="audi">Black</option>
+										<option value="audi">Blue</option>
+										<option value="audi">Brown</option>
+										<option value="audi">Gray</option>
+										<option value="audi">Green</option>
+										<option value="audi">Pink</option>
+										<option value="audi">Purple</option>
+										<option value="audi">Red</option>
+										<option value="audi">Yellow</option>
+									</select>
+								</div>
+								<div class = "input-field">
+									<label for="mileage">Mileage:*</label>
+									<input type="text" class="mileage" data-type="number" id="mileage" name="mileage"/>
+								</div>
+							</div>
+							<div class="input-group flex-container">
+								<div class = "input-field">
+									<label for="transmission">Transmission Type:*</label>
+									<select id="transmission" name="transmission">
+										<option value="0">--</option>
+										<option value="new">Automatic</option>
+										<option value="used">Manual</option>
+										<option value="others">Others</option>
+									</select>
+								</div>
+								<div class = "input-field">
+									<label for="fuel-type">Fuel Type:*</label>
+									<select id="fuel-type" name="fuel-type">
+										<option value="0">--</option>
+										<option value="new">Desiel</option>
+										<option value="used">Petrol</option>
+										<option value="others">Electric</option>
+										<option value="others">Hybrid</option>
+										<option value="others">Others</option>
+									</select>
+								</div>
+							</div>
+							<div class="input-field single description textarea">
+								<label>Decription:</label>
+								<textarea id="description" name="description" maxlength="500"></textarea>
+								<div class="char-counter"><span id="desc-count">0</span>/500</div>
+							</div>
+							<div class="input-field single image-upload">
+								<label>Product Image:*</label>
+								<input type="file" id="upload-image" name="image"/>
+								<div id="preview-upload-image"></div>
+							</div>
+
+							<h3>Other Features:</h3>
+							<div class="other-features">
+								<label><input type="checkbox" name="features" value="">Air Conditioning</label>
+								<label><input type="checkbox" name="features" value="">AM/FM Radio</label>
+								<label><input type="checkbox" name="features" value="">Tinted Windows</label>
+								<label><input type="checkbox" name="features" value="">Armrests</label>
+								<label><input type="checkbox" name="features" value="">Air Bags</label>
+								<label><input type="checkbox" name="features" value="">DVD Player</label>
+							</div>
+
+							<p class = "note">Note: The feilds with astherisk(*) are <b>compulsory</b>.</p>
+							<input type="submit" id="submit" class="full-btn btn" name="submit" value = "Post AD"/>
+						</div>
+					</form>
+				</div>
+			</main>
+			
+			<footer>
+				<div class="inner-div">
+					<p>Auto-Mart 2019 &#169</p>
+					<div class="footer-right">
+						<p>ADC Project by</p>
+						<ul>
+							<a href="https://twitter.com/Chuksjoe" target="_blank"><li><i class="fab fa-twitter" aria-hidden="true"></i></li></a>
+							<a href="https://www.linkedin.com/in/chukwunonso-orjiakor" target="_blank"><li><i class="fab fa-linkedin-in" aria-hidden="true"></i></li></a>
+							<a href="https://github.com/chuksjoe" target="_blank"><li><i class="fab fa-github" title="chuksjoe's DEV Profile"></i></li></a>
+							<a href="https://codepen.io/chuksjoe" target="_blank"><li><i class="fab fa-codepen" title="chuksjoe's DEV Profile"></i></li></a>
+						</ul>
+					</div>
+				</div>
+			</footer>
+		</div>
+
+		<!-- scripts -->
+		<script src="../js/general.js"></script>
+		<script src="../js/post-new-ad.js"></script>
+	</body>
+</html>

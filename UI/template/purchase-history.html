@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width initial-scale=1.0">
+		<meta name="description" content="Auto Mart is an online marketplace for automobiles of diverse makes, model or body type. With Auto Mart, users can sell their cars or buy from trusted dealerships or private sellers.">
+		<title>Purchase History - Auto Mart</title>
+
+		<link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+		
+		<link href="../css/general.css" rel="stylesheet">
+		<link href="../css/history.css" rel="stylesheet">
+		
+		<link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	</head>
+	<body>
+		<div class="container">
+			<header>
+				<nav>
+					<a href="./index.html"><img src="../images/automart-full-logo-250px.png" width="150"></a>
+					<div id="menu-bar">
+						<span id="menu-btn"><i class="fa fa-bars"></i><i class="fa fa-times hide"></i></span>
+						<ul id="menu-list">
+							<li><a href="./post-new-ad.html">Post New AD</a></li>
+							<li><a href="./marketplace.html">Marketplace</a></li>
+							<li><a href="./my-posted-ads.html">My ADs</a></li>
+							<li id="current" class="dropdown"><a href="javascript:void(0)">History <i class="fa fa-caret-down"></i></a>
+								<ul class="dropdown-list"></a>
+									<li><a href="./sales-history.html">Sales History</a></li>
+									<li id="here"><a href="./purchase-history.html">Purchase History</a></li>
+								</ul>
+							</li>
+							<li><a href="./index.html">Logout</a></li>
+						</ul>
+					</div>
+				</nav>
+			</header>
+
+			<div class="content">
+				<main class="main-100">
+					<h2>My Purchase History</h2>
+					<ul class="history-list">
+						<li class="history-list-item flex-container">
+							<div class="purchase-date p-15">
+								<p>24 Jan 2019<br>3:23pm</p>
+								<label class="status">Pending</label>
+							</div>
+							<div class="purchase-details p-15">
+								<h3 class="c-details-list">Purchase Order for Volvo Highlander Dx</h3>
+								<p class="purchase-info">Actual Price: &#8358 5,200,000. Owner: John Ebuka</p>
+								<p class="purchase-info">Price Offered: &#8358 5,200,000</p>
+							</div>
+							<div class="user-actions p-15">
+								<button class="update-p full-btn btn">Update Price</button>
+								<button class="delete full-btn btn">Cancel Purchase</button>
+							</div>
+						</li>
+						<li class="history-list-item flex-container">
+							<div class="purchase-date p-15">
+								<p>24 Jan 2019<br>3:23pm</p>
+								<label class="status">Rejected</label>
+							</div>
+							<div class="purchase-details p-15">
+								<h3 class="c-details-list">Purchase Order for Volvo Highlander Dx</h3>
+								<p class="purchase-info">Actual Price: &#8358 5,200,000. Owner: John Ebuka</p>
+								<p class="purchase-info">Price Offered: &#8358 5,200,000</p>
+							</div>
+							<div class="user-actions p-15">
+								<button class="update-p full-btn btn" disabled>Update Price</button>
+								<button class="delete full-btn btn" disabled>Cancel Purchase</button>
+							</div>
+						</li>
+						<li class="history-list-item flex-container">
+							<div class="purchase-date p-15">
+								<p>24 Jan 2019<br>3:23pm</p>
+								<label class="status">Pending</label>
+							</div>
+							<div class="purchase-details p-15">
+								<h3 class="c-details-list">Purchase Order for Volvo Highlander Dx</h3>
+								<p class="purchase-info">Actual Price: &#8358 5,200,000. Owner: John Ebuka</p>
+								<p class="purchase-info">Price Offered: &#8358 5,200,000</p>
+							</div>
+							<div class="user-actions p-15">
+								<button class="update-p full-btn btn">Update Price</button>
+								<button class="delete full-btn btn">Cancel Purchase</button>
+							</div>
+						</li>
+					</ul>
+				</main>
+			</div>
+			
+			<footer>
+				<div class="inner-div">
+					<p>Auto-Mart 2019 &#169</p>
+					<div class="footer-right">
+						<p>ADC Project by</p>
+						<ul>
+							<a href="https://twitter.com/Chuksjoe" target="_blank"><li><i class="fab fa-twitter" aria-hidden="true"></i></li></a>
+							<a href="https://www.linkedin.com/in/chukwunonso-orjiakor" target="_blank"><li><i class="fab fa-linkedin-in" aria-hidden="true"></i></li></a>
+							<a href="https://github.com/chuksjoe" target="_blank"><li><i class="fab fa-github" title="chuksjoe's DEV Profile"></i></li></a>
+							<a href="https://codepen.io/chuksjoe" target="_blank"><li><i class="fab fa-codepen" title="chuksjoe's DEV Profile"></i></li></a>
+						</ul>
+					</div>
+				</div>
+			</footer>
+		</div>
+
+		<!-- Modal view to update price for Purchase order -->
+		<div id="update-price-overlay" class="overlay" style="display: none">
+			<div class="modal-view sm-m-v">
+				<h2 class="modal-header">Update Purchase Price</h2>
+				<div class="modal-body">
+					<h3 id="c-details" class="c-details-mv">New Volkswagen Cx3 - 2001</h3>
+					<p id="body-type" class="c-b-type">(Large Van)</p>
+					<p id="car-price" class="c-price">Price: &#8358 13,000,000</p><hr>
+					<p id="car-price" class="c-price">Current Price Offered:<br>&#8358 11,500,000</p>
+					<form>
+						<div class = "input-field single">
+							<label for="">New Offering Price(&#8358):</label><br>
+							<input type="number" min="1000" name="offering-price" placeholder="Offering Price(&#8358):">
+						</div>
+						<div class="btn-group flex-container">
+							<button id="update-price" class="half-btn btn">Update Price</button>
+							<button id="close-update-modal" class="half-btn btn">Cancel</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<!-- scripts -->
+		<script src="../js/general.js"></script>
+		<script src="../js/purchase-history.js"></script>
+	</body>
+</html>
