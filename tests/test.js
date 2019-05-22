@@ -1,4 +1,4 @@
-import chai from 'chai';
+import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import config from 'config';
 import server from '../api/v1/index';
@@ -17,7 +17,7 @@ describe('Server', () => {
 		.end((err, res) => {
 			res.should.have.status(202);
 			res.should.have.message('Welcome on Board: AutoMart API.');
-			res.body.should.be.a('integer');
+			expect(res.body).to.be.an.instanceof(Object);
 		});
 	});
 });
