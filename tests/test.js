@@ -15,8 +15,8 @@ describe('Server', () => {
 		chai.request(server)
 		.get('*')
 		.end((err, res) => {
-			res.should.have.status(202);
-			res.should.have.message('Welcome on Board: AutoMart API.');
+			expect(res.status).to.equal(200);
+			expect(res.message).to.equal('Welcome on Board: AutoMart API.');
 			expect(res.body).to.be.an.instanceof(Object);
 		});
 	});
