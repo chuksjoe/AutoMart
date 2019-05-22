@@ -16,7 +16,7 @@ app.get('/cars', (req, res) => {
 	.send({ message: 'No car is currently listed.' });
 });
 
-app.get('*', (req, res) => res.status(200).send({ message: 'Welcome on Board: AutoMart API.' }));
+app.get('/', (req, res) => res.status(200).send({ message: 'Welcome on Board: AutoMart API.' }));
 
 const listen = app.listen(port, () => {
 	debug(`AutoMart Server is running on port ${port} and in ${config.get('mode')} mode...`);

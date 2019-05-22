@@ -13,10 +13,10 @@ describe('Server', () => {
 
 	it('it should send a message on default', () => {
 		chai.request(server)
-		.get('*')
+		.get('/')
 		.end((err, res) => {
 			expect(res.status).to.equal(200);
-			expect(res.message).to.equal('Welcome on Board: AutoMart API.');
+			expect(res.body.message).to.equal('Welcome on Board: AutoMart API.');
 			expect(res.body).to.be.an.instanceof(Object);
 		});
 	});
