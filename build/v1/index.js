@@ -23,12 +23,19 @@ app.use(_bodyParser2.default.urlencoded({ extended: false }));
 
 var port = _config2.default.get('port');
 
+app.get('/cars', function (req, res) {
+	res.status(200).send({ message: 'No car is currently listed.' });
+});
+
 app.get('*', function (req, res) {
 	return res.status(200).send({ message: 'Welcome on Board: AutoMart API.' });
 });
 
-app.listen(port, function () {
+var listen = app.listen(port, function () {
 	debug('AutoMart Server is running on port ' + port + ' and in ' + _config2.default.get('mode') + ' mode...');
 	console.log('AutoMart Server is running on port ' + port + ' and in ' + _config2.default.get('mode') + ' mode...');
 });
+
+module.exports = app;
+module.exports.port = listen.address().port;
 //# sourceMappingURL=index.js.map
