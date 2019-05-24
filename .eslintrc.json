@@ -2,6 +2,7 @@
     "extends": "airbnb-base",
     "rules": {
     	"indent": [0, "tab"],
-    	"no-tabs": 0
+    	"no-tabs": 0,
+    	"camelcase": 0
     }
 }
