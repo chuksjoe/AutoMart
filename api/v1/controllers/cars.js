@@ -45,4 +45,19 @@ export default {
 		});
 		return res.status(201).send({ status: 201, data: newCar });
 	},
+	// get a specific car give the car id
+	getACar(req, res) {
+		const car = cars.getACar(parseInt(req.params.car_id, 10));
+		const user = users.getAUserById(parseInt(req.body.user_id, 10));
+
+		if (car !== null) {
+			if (car.status === 'available' || (user !== null && (car.owner_id === user.id || user.is_admin))) {
+				res.status(200).send({ status: 200, data: car });
+			} else {
+				res.status(401).send({ status: 401, data: 'Unauthorized Access!' });
+			}
+		} else {
+			res.status(404).send({ status: 404, data: 'Car not found in database.' });
+		}
+	},
 };

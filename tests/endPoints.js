@@ -119,6 +119,7 @@ describe('Testing the car ads endpoints', () => {
 			tinted_windows: false,
 		},
 	};
+	// test for creating new car sale ad if the user is registered
 	it('it should allow a valid user to create a car sale ad', (done) => {
 		chai.request(app)
 		.post('/api/v1/car').set('Accept', 'application/json').send(car)
@@ -135,6 +136,7 @@ describe('Testing the car ads endpoints', () => {
 			done();
 		});
 	});
+	// test for creating new car sale ad if the user is not registered
 	it('it should not allow an unregistered user to post a car sale ad', (done) => {
 		car.owner_id = 3; // there is no user with id 3
 		chai.request(app)
@@ -142,6 +144,47 @@ describe('Testing the car ads endpoints', () => {
 		.end((err, res) => {
 			res.should.have.status(401);
 			expect(res.body.data).to.include('Unauthorized Access!');
+			done();
+		});
+	});
+	// test for viewing a specific car sale ad that is still available
+	// car with id = 1 is available, and user with id = 2 does not exist
+	it('it should allow all users to view view a car ad that is still available', (done) => {
+		chai.request(app)
+		.get('/api/v1/car/1').send({ user_id: 2 })
+		.end((err, res) => {
+			res.should.have.status(200);
+			const { data } = res.body;
+			expect(data).to.include({
+				id: data.id,
+				name: data.name,
+				price: data.price,
+			});
+			done();
+		});
+	});
+	// car with id = 2 is sold, user with id = 3 does not exist
+	it('it should not allow a user who is not the owner of a car and is not an admin to view sold car ad', (done) => {
+		chai.request(app)
+		.get('/api/v1/car/2').send({ user_id: 3 })
+		.end((err, res) => {
+			res.should.have.status(401);
+			expect(res.body.data).to.include('Unauthorized Access!');
+			done();
+		});
+	});
+	// car with id = 2 is sold, user with id = 1 is an admin
+	it('it should allow a user who is either an admin or the owner to view a sold car ad', (done) => {
+		chai.request(app)
+		.get('/api/v1/car/2').send({ user_id: 1 })
+		.end((err, res) => {
+			res.should.have.status(200);
+			const { data } = res.body;
+			expect(data).to.include({
+				id: data.id,
+				name: data.name,
+				price: data.price,
+			});
 			done();
 		});
 	});
