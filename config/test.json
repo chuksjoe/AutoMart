@@ -1,5 +1,6 @@
 {
 	"mode": "Server Test",
 	"port": 3100,
+	"path": "http://localhost:3100",
 	"database": ""
 }
