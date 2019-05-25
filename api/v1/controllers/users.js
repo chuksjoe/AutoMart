@@ -50,4 +50,21 @@ export default {
 			}
 		});
 	},
+	// sign in a user if valid credentials are provided
+	signinUser(req, res) {
+		const { email, password } = req.body;
+		const user = users.getAUserByEmail(email);
+
+		if (user !== null) {
+			bcrypt.compare(password, user.password, (err, result) => {
+				if (result === true) {
+					res.status(201).send({ status: 201, data: user });
+				} else {
+					res.status(200).send({ status: 200, data: 'Invalid Username or Password!' });
+				}
+			});
+		} else {
+			res.status(200).send({ status: 200, data: 'Invalid Username or Password!' });
+		}
+	},
 };

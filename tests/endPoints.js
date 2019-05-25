@@ -3,11 +3,10 @@ import chaiHttp from 'chai-http';
 import config from 'config';
 
 import app from '../api/v1/index';
-// import util from '../api/v1/util';
+import util from '../api/v1/util';
 
 chai.use(chaiHttp);
 chai.should();
-const prePath = config.get('path');
 
 describe('Server', () => {
 	it(`it should test that server is running on port ${config.get('port')}`, () => {
@@ -79,5 +78,28 @@ describe('Testing User endpoints', () => {
         expect(res.body.data).to.include('One of the main entries is not defined.');
         done();
       });
+	});
+	it('it should allow a user to sign into their account if they supply valid credentials', (done) => {
+		chai.request(app)
+		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing' })
+		.end((err, res) => {
+			res.should.have.status(201);
+			expect(res.body.data).to.include({
+          id: res.body.data.id,
+          token: res.body.data.token,
+          email: res.body.data.email,
+          first_name: res.body.data.first_name,
+        });
+			done();
+		});
+	});
+	it('it should not allow a user to sign in if they supply invalid credentials', (done) => {
+		chai.request(app)
+		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'wrongpassword' })
+		.end((err, res) => {
+			res.should.have.status(200);
+			expect(res.body.data).to.include('Invalid Username or Password!');
+			done();
+		});
 	});
 });
