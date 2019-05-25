@@ -6,8 +6,7 @@ import util from '../util';
 export default {
 	// get list of all the users
 	getAllUsers(req, res) {
-		res.status(200)
-		.send({ status: 200, data: users.getAllUsers() });
+		res.status(200).send({ status: 200, data: users.getAllUsers() });
 	},
 	// create new user and add to database
 	createNewUser(req, res) {
@@ -19,12 +18,12 @@ export default {
 		} = req.body;
 		if (first_name === undefined || last_name === undefined || password === undefined
 			|| email === undefined || is_admin === undefined) {
-			res.status(400).send({ status: 400, data: 'One of the main entries is not defined.' });
+			return res.status(400).send({ status: 400, data: 'One of the main entries is not defined.' });
 		}
 
 		bcrypt.hash(password, saltRound, (err, hash) => {
 			if (err) {
-				res.status(500).send({ status: 500, data: 'Internal Server Error. 1' });
+				return res.status(500).send({ status: 500, data: 'Internal Server Error. 1' });
 			}
 			response = users.createNewUser({
 				token: util.getToken(),
@@ -44,10 +43,26 @@ export default {
 				registered_on: Date(),
 			});
 			if (response !== null) {
-				res.status(201).send({ status: 201, data: response });
-			} else {
-				res.status(500).send({ status: 500, data: 'Internal Server Error. 2' });
+				return res.status(201).send({ status: 201, data: response });
 			}
+			return res.status(500).send({ status: 500, data: 'Internal Server Error. 2' });
 		});
+		return 0;
+	},
+	// sign in a user if valid credentials are provided
+	signinUser(req, res) {
+		const { email, password } = req.body;
+		const user = users.getAUserByEmail(email);
+
+		if (user !== null) {
+			bcrypt.compare(password, user.password, (err, result) => {
+				if (result === true) {
+					return res.status(201).send({ status: 201, data: user });
+				}
+				return res.status(200).send({ status: 200, data: 'Invalid Username or Password!' });
+			});
+		} else {
+			res.status(200).send({ status: 200, data: 'Invalid Username or Password!' });
+		}
 	},
 };
