@@ -3,10 +3,10 @@ import chaiHttp from 'chai-http';
 import config from 'config';
 
 import app from '../api/v1/index';
-import util from '../api/v1/util';
+// import util from '../api/v1/util';
 
 chai.use(chaiHttp);
-const should = chai.should();
+chai.should();
 const prePath = config.get('path');
 
 describe('Server', () => {
@@ -26,7 +26,7 @@ describe('Server', () => {
 });
 
 describe('Testing User endpoints', () => {
-	it('It should create new user account when valid entries are supplied', () => {
+	it('It should create new user account when valid entries are supplied', (done) => {
 		const user = {
 			first_name: 'ChuksJoe',
 			last_name: 'Orjiakor',
@@ -43,11 +43,11 @@ describe('Testing User endpoints', () => {
 			zip: '234-001',
 		};
 		chai.request(app)
-			.post(`${prePath}/api/v1/auth/signup`).set('Accept', 'application/json').send(user)
+			.post('/api/v1/auth/signup').set('Accept', 'application/json').send(user)
 			.end((err, res) => {
-        expect(res.status).to.equal(201);
+        expect(res).to.have.status(201);
         expect(res.body.data).to.include({
-          id: 1,
+          id: res.body.data.id,
           token: res.body.data.token,
           email: user.email,
           first_name: user.first_name,
@@ -55,7 +55,7 @@ describe('Testing User endpoints', () => {
         done();
       });
 	});
-	it('It should not create new user account if any of the required entries are not supplied', () => {
+	it('It should not create new user account if any of the required entries are not supplied', (done) => {
 		// required entries: first_name, last_name, email, password, is_admin
 		const user = {
 			// first_name: 'ChuksJoe',
@@ -73,12 +73,10 @@ describe('Testing User endpoints', () => {
 			zip: '234-001',
 		};
 		chai.request(app)
-			.post(`${prePath}/api/v1/auth/signup`).set('Accept', 'application/json').send(user)
+			.post('/api/v1/auth/signup').set('Accept', 'application/json').send(user)
 			.end((err, res) => {
-        expect(res.status).to.equal(400);
-        expect(res.body.data).to.include({
-          message: 'One of the main entries is not defined.',
-        });
+        expect(res).to.have.status(400);
+        expect(res.body.data).to.include('One of the main entries is not defined.');
         done();
       });
 	});
