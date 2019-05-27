@@ -318,4 +318,28 @@ describe('Testing the car sale ads endpoints', () => {
 		});
 		done();
 	});
+	it('it should mark the car sale ad as SOLD if the user is the owner', (done) => {
+		chai.request(app)
+		.patch('/api/v1/car/4/status').send({ user_id: 1 })
+		.end((err, res) => {
+			const { data } = res.body;
+			res.should.have.status(201);
+			expect(data).to.include({
+				status: 'sold',
+				id: 4,
+				owner_id: 1,
+			});
+		});
+		done();
+	});
+	it('it should not update the car ad if the user is not the owner', (done) => {
+		chai.request(app)
+		.patch('/api/v1/car/1/status').send({ user_id: 2 })
+		.end((err, res) => {
+			const { data } = res.body;
+			res.should.have.status(401);
+			expect(data).to.equal('Unauthorized Access!');
+		});
+		done();
+	});
 });

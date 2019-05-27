@@ -119,7 +119,7 @@ export default {
 			res.status(404).send({ status: 404, data: 'Car not found in database.' });
 		}
 	},
-	// // it's only the owner of a sale ad that can update the price of a posted ad
+	// it's only the owner of a sale ad that can update the price of a posted ad
 	updateCarPrice(req, res) {
 		const car = cars.getACar(parseInt(req.params.car_id, 10));
 		const user = users.getAUserById(parseInt(req.body.user_id, 10));
@@ -127,6 +127,22 @@ export default {
 		if (car !== null) {
 			if (user !== null && user.id === car.owner_id) {
 				car.price = new_price;
+				const response = cars.updateACar(car.id, car);
+				res.status(201).send({ status: 201, data: response });
+			} else {
+				res.status(401).send({ status: 401, data: 'Unauthorized Access!' });
+			}
+		} else {
+			res.status(404).send({ status: 404, data: 'Car not found in database.' });
+		}
+	},
+	// it's only the owner of a sale ad that can update the price of a posted ad
+	updateCarStatus(req, res) {
+		const car = cars.getACar(parseInt(req.params.car_id, 10));
+		const user = users.getAUserById(parseInt(req.body.user_id, 10));
+		if (car !== null) {
+			if (user !== null && user.id === car.owner_id) {
+				car.status = 'sold';
 				const response = cars.updateACar(car.id, car);
 				res.status(201).send({ status: 201, data: response });
 			} else {
