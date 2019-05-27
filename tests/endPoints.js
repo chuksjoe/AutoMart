@@ -201,4 +201,15 @@ describe('Testing the car ads endpoints', () => {
 			done();
 		});
 	});
+	// user with id = 1 is defined and is an admin
+	it('it should return all car ads if the user is an admin', (done) => {
+		chai.request(app)
+		.get('/api/v1/car').send({ user_id: 1 })
+		.end((err, res) => {
+			const { data } = res.body;
+			res.should.have.status(200);
+			expect(data.length).to.equal(6); // 5 in the car model + 1 created in this test script
+		});
+		done();
+	});
 });
