@@ -275,4 +275,15 @@ describe('Testing the car ads endpoints', () => {
 		});
 		done();
 	});
+	it('it should return all used unsold car ads', (done) => {
+		chai.request(app)
+		.get('/api/v1/car?state=used')
+		.end((err, res) => {
+			const { data } = res.body;
+			res.should.have.status(200);
+			expect(data.length).to.equal(3); // 3 defined in the car model and 1 defined in this script
+			expect(data[0].state).to.equal('used');
+		});
+		done();
+	});
 });
