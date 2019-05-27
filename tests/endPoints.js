@@ -295,4 +295,27 @@ describe('Testing the car sale ads endpoints', () => {
 		});
 		done();
 	});
+	it('it should not delete a car sale ad if the user is not an admin or the owner', (done) => {
+		chai.request(app)
+		.delete('/api/v1/car/2').send({ user_id: 2 })
+		.end((err, res) => {
+			res.should.have.status(401);
+			expect(res.body.data).to.equal('Unauthorized Access!');
+		});
+		done();
+	});
+	it('it should update the price of the car sale ad if the user is the owner', (done) => {
+		chai.request(app)
+		.patch('api/v1/car/1/price').send({ user_id: 1, new_price: 2000000 })
+		.end((err, res) => {
+			const { data } = res.body;
+			res.should.have.status(201);
+			expect(data).to.include({
+				price: 2000000,
+				id: 1,
+				owner_id: 1,
+			});
+		});
+		done();
+	});
 });

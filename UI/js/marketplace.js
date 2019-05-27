@@ -1,50 +1,50 @@
-const carImages = document.querySelectorAll(".car-image");
-const carPreview = document.getElementById("car-preview-overlay");
-const closeCarPreview = document.getElementById("close-car-preview");
+const carImages = document.querySelectorAll('.car-image');
+const carPreview = document.getElementById('car-preview-overlay');
+const closeCarPreview = document.getElementById('close-car-preview');
 
-carImages.forEach(carImage => {
+carImages.forEach((carImage) => {
   carImage.onclick = () => {
-    carPreview.style.display = "block";
+    carPreview.style.display = 'block';
     toggleScroll();
   };
 });
 
 closeCarPreview.onclick = () => {
-  carPreview.style.display = "none";
+  carPreview.style.display = 'none';
   toggleScroll();
 };
 
-const openPurModalFromCP = document.getElementById("order-from-car-preview");
-const openPurModalBtns = document.querySelectorAll(".order");
-const purchaseModal = document.getElementById("purchase-order-overlay");
-const closePurModal = document.getElementById("close-purchase-modal");
+const openPurModalFromCP = document.getElementById('order-from-car-preview');
+const openPurModalBtns = document.querySelectorAll('.order');
+const purchaseModal = document.getElementById('purchase-order-overlay');
+const closePurModal = document.getElementById('close-purchase-modal');
 
-openPurModalBtns.forEach(btn => {
+openPurModalBtns.forEach((btn) => {
   btn.onclick = () => {
-    purchaseModal.style.display = "block";
+    purchaseModal.style.display = 'block';
     toggleScroll();
   };
 });
 
 openPurModalFromCP.onclick = () => {
-  purchaseModal.style.display = "block";
+  purchaseModal.style.display = 'block';
   toggleScroll();
 };
 
-closePurModal.onclick = e => {
+closePurModal.onclick = (e) => {
   e.preventDefault();
-  purchaseModal.style.display = "none";
+  purchaseModal.style.display = 'none';
   toggleScroll();
 };
 
-const openFraudModal = document.getElementById("flag-fraud");
-const fraudModal = document.getElementById("fraudulent-flag-overlay");
-const closeFraudModal = document.getElementById("close-fraud-modal");
+const openFraudModal = document.getElementById('flag-fraud');
+const fraudModal = document.getElementById('fraudulent-flag-overlay');
+const closeFraudModal = document.getElementById('close-fraud-modal');
 
-openFraudModal.onclick = () => (fraudModal.style.display = "block");
+openFraudModal.onclick = () => (fraudModal.style.display = 'block');
 
-closeFraudModal.onclick = e => {
+closeFraudModal.onclick = (e) => {
   e.preventDefault();
-  fraudModal.style.display = "none";
+  fraudModal.style.display = 'none';
   toggleScroll();
 };
