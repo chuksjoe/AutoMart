@@ -11,7 +11,7 @@ export default {
 	// create new user and add to database
 	createNewUser(req, res) {
 		let response = null;
-		const saltRound = Math.floor(Math.random() * Math.floor(5) + 12);
+		const saltRound = Math.floor(Math.random() * Math.floor(5) + 2);
 		const {
 			first_name, last_name, email,	password, is_admin,
 			street,	city,	state, country,	phone, zip,

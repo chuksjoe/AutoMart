@@ -60,4 +60,48 @@ export default {
 			res.status(404).send({ status: 404, data: 'Car not found in database.' });
 		}
 	},
+	// get all cars whether sold or unsold if user is admin, else get all unsold cars
+	// if filter query is entered, get a filered list of cars depending on the queries.
+	getAllCars(req, res) {
+		const user = users.getAUserById(parseInt(req.body.user_id, 10));
+		let he_is_admin = false;
+		if (user !== null) {
+			he_is_admin = user.is_admin;
+		}
+		let carsList = cars.getAllCars();
+		if (!he_is_admin) {
+			carsList = carsList.filter(car => car.status === 'available');
+		}
+
+		// filter car ads based on price range
+		const { min_price, max_price } = req.query;
+		if (min_price !== undefined && max_price !== undefined) {
+			carsList = carsList.filter(car => car.price >= min_price && car.price <= max_price);
+		}
+
+		// filter car ads based on car status
+		const { status } = req.query;
+		if (status !== undefined) {
+			carsList = carsList.filter(car => car.status === status);
+		}
+
+		// filter car ads based on car state
+		const { state } = req.query;
+		if (state !== undefined) {
+			carsList = carsList.filter(car => car.state === state);
+		}
+
+		// filter car ads based on car manufacturer
+		const { manufacturer } = req.query;
+		if (manufacturer !== undefined) {
+			carsList = carsList.filter(car => car.manufacturer === manufacturer);
+		}
+
+		// filter car ads based on car body type
+		const { body_type } = req.query;
+		if (body_type !== undefined) {
+			carsList = carsList.filter(car => car.body_type === body_type);
+		}
+		return res.status(200).send({ status: 200, data: carsList });
+	},
 };

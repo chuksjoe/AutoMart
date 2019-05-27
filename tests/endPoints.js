@@ -71,8 +71,8 @@ describe('Testing User endpoints', () => {
 		chai.request(app)
 		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing' })
 		.end((err, res) => {
-			res.should.have.status(201);
 			const { data } = res.body;
+			res.should.have.status(201);
 			expect(data).to.include({
           id: data.id,
           token: data.token,
@@ -101,10 +101,10 @@ describe('Testing the car ads endpoints', () => {
 		year: 2001,
 		state: 'used',
 		status: 'available',
-		price: 1500000.20,
-		manufacturer: 'mercedes-benz',
-		model: 'L-Class L34',
-		body_type: 'coupe',
+		price: 5500000.20,
+		manufacturer: 'Toyota',
+		model: 'Camry R2',
+		body_type: 'hatch',
 		fuel_type: 'petrol',
 		mileage: 3400,
 		color: 'yellow',
@@ -124,14 +124,14 @@ describe('Testing the car ads endpoints', () => {
 		chai.request(app)
 		.post('/api/v1/car').set('Accept', 'application/json').send(car)
 		.end((err, res) => {
-			res.should.have.status(201);
 			const { data } = res.body;
+			res.should.have.status(201);
 			expect(data).to.include({
 				id: data.id,
 				name: data.name,
 				owner_id: 1,
 				mileage: 3400,
-				model: 'L-Class L34',
+				model: 'Camry R2',
 			});
 			done();
 		});
@@ -149,12 +149,12 @@ describe('Testing the car ads endpoints', () => {
 	});
 	// test for viewing a specific car sale ad that is still available
 	// car with id = 1 is available, and user with id = 2 does not exist
-	it('it should allow all users to view view a car ad that is still available', (done) => {
+	it('it should allow all users to view a car ad that is still available', (done) => {
 		chai.request(app)
 		.get('/api/v1/car/1').send({ user_id: 2 })
 		.end((err, res) => {
-			res.should.have.status(200);
 			const { data } = res.body;
+			res.should.have.status(200);
 			expect(data).to.include({
 				id: data.id,
 				name: data.name,
@@ -178,8 +178,8 @@ describe('Testing the car ads endpoints', () => {
 		chai.request(app)
 		.get('/api/v1/car/2').send({ user_id: 1 })
 		.end((err, res) => {
-			res.should.have.status(200);
 			const { data } = res.body;
+			res.should.have.status(200);
 			expect(data).to.include({
 				id: data.id,
 				name: data.name,
@@ -187,5 +187,103 @@ describe('Testing the car ads endpoints', () => {
 			});
 			done();
 		});
+	});
+	// user with id = 2 is undefined
+	// Note: there is no need including 'status=available&' to the url since a user
+	// who is not an admin cannot view SOLD car ads
+	it('it should return all unsold car ads if the user is not an admin', (done) => {
+		chai.request(app)
+		.get('/api/v1/car').send({ user_id: 2 })
+		.end((err, res) => {
+			const { data } = res.body;
+			res.should.have.status(200);
+			expect(data[0]).to.include({
+				status: 'available',
+			});
+			done();
+		});
+	});
+	// user with id = 1 is defined and is an admin
+	it('it should return all car ads if the user is an admin', (done) => {
+		chai.request(app)
+		.get('/api/v1/car').send({ user_id: 1 })
+		.end((err, res) => {
+			const { data } = res.body;
+			res.should.have.status(200);
+			expect(data.length).to.equal(6); // 5 in the car model + 1 created in this test script
+		});
+		done();
+	});
+	// for a user you need not enter query for the car ad status,
+	// because, its only the unsold ads they have access to on the main view
+	it('it should filter the list of unsold car ads based on a price range', (done) => {
+		chai.request(app)
+		.get('/api/v1/car?status=available&min_price=1500000&max_price=5000000').send({ user_id: 2 })
+		.end((err, res) => {
+			const { data } = res.body;
+			res.should.have.status(200);
+			expect(data[0]).to.include({ status: 'available' });
+			expect(data[0].price).to.be.above(1500000);
+			expect(data[0].price).to.be.below(5000000);
+			expect(data.length).to.equal(2);
+		});
+		done();
+	});
+	// in this case, a user is not defined
+	it('it should filter the list of unsold car ads based on the manufacturer', (done) => {
+		chai.request(app)
+		.get('/api/v1/car?status=available&manufacturer=mercedes-benz')
+		.end((err, res) => {
+			const { data } = res.body;
+			res.should.have.status(200);
+			expect(data.length).to.equal(2);
+			expect(data[0].manufacturer).to.equal('mercedes-benz');
+		});
+		done();
+	});
+	it('it should filter the list of unsold car ads based on the body type', (done) => {
+		chai.request(app)
+		.get('/api/v1/car?status=available&body_type=coupe')
+		.end((err, res) => {
+			const { data } = res.body;
+			res.should.have.status(200);
+			expect(data.length).to.equal(3);
+			expect(data[0].body_type).to.equal('coupe');
+		});
+		done();
+	});
+	// this can only be done by an admin
+	it('it should filter the list of all car ads based on the body type', (done) => {
+		chai.request(app)
+		.get('/api/v1/car?body_type=coupe').send({ user_id: 1 })
+		.end((err, res) => {
+			const { data } = res.body;
+			res.should.have.status(200);
+			expect(data.length).to.equal(4);
+			expect(data[0].body_type).to.equal('coupe');
+		});
+		done();
+	});
+	it('it should return all new unsold car ads', (done) => {
+		chai.request(app)
+		.get('/api/v1/car?status=available&state=new')
+		.end((err, res) => {
+			const { data } = res.body;
+			res.should.have.status(200);
+			expect(data.length).to.equal(2);
+			expect(data[0].state).to.equal('new');
+		});
+		done();
+	});
+	it('it should return all used unsold car ads', (done) => {
+		chai.request(app)
+		.get('/api/v1/car?status=available&state=used')
+		.end((err, res) => {
+			const { data } = res.body;
+			res.should.have.status(200);
+			expect(data.length).to.equal(3); // 3 defined in the car model and 1 defined in this script
+			expect(data[0].state).to.equal('used');
+		});
+		done();
 	});
 });
