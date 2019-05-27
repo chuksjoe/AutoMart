@@ -7,6 +7,7 @@ h2 {
 	background-color: #fff;
 	list-style: none;
 	padding: 15px;
+	box-shadow: 0 0 3px #333;
 }
 .history-list-item {
 	border: 2px solid #eee;

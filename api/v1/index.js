@@ -1,13 +1,15 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import config from 'config';
+import logger from 'morgan';
 
 import router from './server';
 
-const debug = require('debug')('server:debug');
+const debug = require('debug')('http');
 
 const app = express();
 
+app.use(logger('combined'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -18,7 +20,6 @@ app.get('*', (req, res) => res.status(200).send({ message: 'Welcome on Board: Au
 
 const listen = app.listen(port, () => {
 	debug(`AutoMart Server is running on port ${port} and in ${config.get('mode')} mode...`);
-	console.log(`AutoMart Server is running on port ${port} and in ${config.get('mode')} mode...`);
 });
 
 // for testing

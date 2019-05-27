@@ -14,5 +14,6 @@ router.post('/car', cars.createNewCarAd);
 router.get('/car/:car_id', cars.getACar);
 router.get('/car', cars.getAllCars);
 router.delete('/car/:car_id', cars.deleteACar);
+router.patch('/car/:car_id/price', cars.updateCarPrice);
 
 module.exports = router;

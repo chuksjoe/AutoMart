@@ -5,7 +5,7 @@ const filterDdBtn = document.getElementById('filter-dd-btn');
 filterDdBtn.addEventListener('click', () => {
   const icons = document.querySelectorAll('#filter-dd-btn i');
   icons.forEach((icon) => {
-    //function defined in general.js
+    // function defined in general.js
     toggleClass(icon, 'hide');
   });
   filterContainer.style.display === 'block'
@@ -14,6 +14,11 @@ filterDdBtn.addEventListener('click', () => {
 });
 
 window.addEventListener('resize', () => {
-	if(window.innerWidth > 800) filterContainer.style.display = 'block';
-	else filterContainer.style.display = 'none';
+	if (window.innerWidth > 800) {
+    filterContainer.style.display = 'block';
+	} else {
+    filterContainer.style.display = 'none';
+    filterDdBtn.firstChild.classList.remove('hide');
+    filterDdBtn.lastChild.classList.add('hide');
+  }
 });
