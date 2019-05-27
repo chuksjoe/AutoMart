@@ -306,7 +306,7 @@ describe('Testing the car sale ads endpoints', () => {
 	});
 	it('it should update the price of the car sale ad if the user is the owner', (done) => {
 		chai.request(app)
-		.patch('api/v1/car/1/price').send({ user_id: 1, new_price: 2000000 })
+		.patch('/api/v1/car/1/price').send({ user_id: 1, new_price: 2000000 })
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(201);

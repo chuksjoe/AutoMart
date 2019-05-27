@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import config from 'config';
+import logger from 'morgan';
 
 import router from './server';
 
@@ -8,6 +9,7 @@ const debug = require('debug')('http');
 
 const app = express();
 
+app.use(logger('combined'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
