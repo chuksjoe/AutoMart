@@ -238,4 +238,15 @@ describe('Testing the car ads endpoints', () => {
 		});
 		done();
 	});
+	it('it should filter the list of unsold car ads based on the body type', (done) => {
+		chai.request(app)
+		.get('/api/v1/car?body_type=coupe')
+		.end((err, res) => {
+			const { data } = res.body;
+			res.should.have.status(200);
+			expect(data.length).to.equal(3);
+			expect(data[0].body_type).to.equal('coupe');
+		});
+		done();
+	});
 });
