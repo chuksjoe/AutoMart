@@ -229,6 +229,7 @@ describe('Testing the car ads endpoints', () => {
 		});
 		done();
 	});
+	// in this case, a user is not defined
 	it('it should filter the list of unsold car ads based on the manufacturer', (done) => {
 		chai.request(app)
 		.get('/api/v1/car?manufacturer=mercedes-benz')
@@ -260,6 +261,17 @@ describe('Testing the car ads endpoints', () => {
 			res.should.have.status(200);
 			expect(data.length).to.equal(4);
 			expect(data[0].body_type).to.equal('coupe');
+		});
+		done();
+	});
+	it('it should return all new unsold car ads', (done) => {
+		chai.request(app)
+		.get('/api/v1/car?state=new')
+		.end((err, res) => {
+			const { data } = res.body;
+			res.should.have.status(200);
+			expect(data.length).to.equal(2);
+			expect(data[0].state).to.equal('new');
 		});
 		done();
 	});
