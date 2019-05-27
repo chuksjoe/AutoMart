@@ -212,4 +212,19 @@ describe('Testing the car ads endpoints', () => {
 		});
 		done();
 	});
+	// for a user you need not enter query for the car ad status,
+	// because, its only the unsold ads they have access to on the main view
+	it('it should filter the list of unsold car ads based on a price range', (done) => {
+		chai.request(app)
+		.get('/api/v1/car?min_price=1500000&max_price=5000000').send({ user_id: 2 })
+		.end((err, res) => {
+			const { data } = res.body;
+			res.should.have.status(200);
+			expect(data[0]).to.include({ status: 'available' });
+			expect(data[0].price).to.be.above(1500000);
+			expect(data[0].price).to.be.below(5000000);
+			expect(data.length).to.equal(2);
+		});
+		done();
+	});
 });
