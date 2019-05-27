@@ -218,7 +218,7 @@ describe('Testing the car ads endpoints', () => {
 	// because, its only the unsold ads they have access to on the main view
 	it('it should filter the list of unsold car ads based on a price range', (done) => {
 		chai.request(app)
-		.get('/api/v1/car?min_price=1500000&max_price=5000000').send({ user_id: 2 })
+		.get('/api/v1/car?status=available&min_price=1500000&max_price=5000000').send({ user_id: 2 })
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
@@ -232,7 +232,7 @@ describe('Testing the car ads endpoints', () => {
 	// in this case, a user is not defined
 	it('it should filter the list of unsold car ads based on the manufacturer', (done) => {
 		chai.request(app)
-		.get('/api/v1/car?manufacturer=mercedes-benz')
+		.get('/api/v1/car?status=available&manufacturer=mercedes-benz')
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
@@ -243,7 +243,7 @@ describe('Testing the car ads endpoints', () => {
 	});
 	it('it should filter the list of unsold car ads based on the body type', (done) => {
 		chai.request(app)
-		.get('/api/v1/car?body_type=coupe')
+		.get('/api/v1/car?status=available&body_type=coupe')
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
@@ -266,7 +266,7 @@ describe('Testing the car ads endpoints', () => {
 	});
 	it('it should return all new unsold car ads', (done) => {
 		chai.request(app)
-		.get('/api/v1/car?state=new')
+		.get('/api/v1/car?status=available&state=new')
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
@@ -277,7 +277,7 @@ describe('Testing the car ads endpoints', () => {
 	});
 	it('it should return all used unsold car ads', (done) => {
 		chai.request(app)
-		.get('/api/v1/car?state=used')
+		.get('/api/v1/car?status=available&state=used')
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
