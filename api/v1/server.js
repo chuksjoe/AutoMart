@@ -12,5 +12,6 @@ router.post('/auth/signin', users.signinUser);
 // for car Ads
 router.post('/car', cars.createNewCarAd);
 router.get('/car/:car_id', cars.getACar);
+router.get('/car', cars.getAllCars);
 
 module.exports = router;

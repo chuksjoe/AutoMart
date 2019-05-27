@@ -1,8 +1,8 @@
 import carsData from './carsData';
 
 const cars = {
-	last_id: 3,
-	count: 3,
+	last_id: 5,
+	count: 5,
 	cars_list: carsData,
 
 	// get list of all the cars

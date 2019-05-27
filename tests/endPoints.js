@@ -71,8 +71,8 @@ describe('Testing User endpoints', () => {
 		chai.request(app)
 		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing' })
 		.end((err, res) => {
-			res.should.have.status(201);
 			const { data } = res.body;
+			res.should.have.status(201);
 			expect(data).to.include({
           id: data.id,
           token: data.token,
@@ -101,10 +101,10 @@ describe('Testing the car ads endpoints', () => {
 		year: 2001,
 		state: 'used',
 		status: 'available',
-		price: 1500000.20,
-		manufacturer: 'mercedes-benz',
-		model: 'L-Class L34',
-		body_type: 'coupe',
+		price: 5500000.20,
+		manufacturer: 'Toyota',
+		model: 'Camry R2',
+		body_type: 'hatch',
 		fuel_type: 'petrol',
 		mileage: 3400,
 		color: 'yellow',
@@ -124,14 +124,14 @@ describe('Testing the car ads endpoints', () => {
 		chai.request(app)
 		.post('/api/v1/car').set('Accept', 'application/json').send(car)
 		.end((err, res) => {
-			res.should.have.status(201);
 			const { data } = res.body;
+			res.should.have.status(201);
 			expect(data).to.include({
 				id: data.id,
 				name: data.name,
 				owner_id: 1,
 				mileage: 3400,
-				model: 'L-Class L34',
+				model: 'Camry R2',
 			});
 			done();
 		});
@@ -153,8 +153,8 @@ describe('Testing the car ads endpoints', () => {
 		chai.request(app)
 		.get('/api/v1/car/1').send({ user_id: 2 })
 		.end((err, res) => {
-			res.should.have.status(200);
 			const { data } = res.body;
+			res.should.have.status(200);
 			expect(data).to.include({
 				id: data.id,
 				name: data.name,
@@ -178,12 +178,25 @@ describe('Testing the car ads endpoints', () => {
 		chai.request(app)
 		.get('/api/v1/car/2').send({ user_id: 1 })
 		.end((err, res) => {
-			res.should.have.status(200);
 			const { data } = res.body;
+			res.should.have.status(200);
 			expect(data).to.include({
 				id: data.id,
 				name: data.name,
 				price: data.price,
+			});
+			done();
+		});
+	});
+	// user with id = 2 is undefined
+	it('it should return all unsold car ads if the user is not an admin', (done) => {
+		chai.request(app)
+		.get('/api/v1/car').send({ user_id: 2 })
+		.end((err, res) => {
+			const { data } = res.body;
+			res.should.have.status(200);
+			expect(data[0]).to.include({
+				status: 'available',
 			});
 			done();
 		});

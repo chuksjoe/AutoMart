@@ -8,7 +8,7 @@ const usersList = [
 		first_name: 'ChuksJoe',
 		last_name: 'Orjiakor',
 		email: 'chuksjoe@live.com',
-		password: util.hashPassword('testing', 12),
+		password: util.hashPassword('testing', 3),
 		is_admin: true,
 		address: {
 			street: '15 Aborishade road, Lawanson',
