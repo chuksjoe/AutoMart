@@ -227,4 +227,15 @@ describe('Testing the car ads endpoints', () => {
 		});
 		done();
 	});
+	it('it should filter the list of unsold car ads based on the manufacturer', (done) => {
+		chai.request(app)
+		.get('/api/v1/car?manufacturer=mercedes-benz').send({ user_id: 2 })
+		.end((err, res) => {
+			const { data } = res.body;
+			res.should.have.status(200);
+			expect(data.length).to.equal(2);
+			expect(data[0].manufacturer).to.equal('mercedes-benz');
+		});
+		done();
+	});
 });
