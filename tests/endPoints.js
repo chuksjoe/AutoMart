@@ -63,7 +63,7 @@ describe('Testing User endpoints', () => {
 		.post('/api/v1/auth/signup').set('Accept', 'application/json').send(user)
 		.end((err, res) => {
       expect(res).to.have.status(400);
-      expect(res.body.data).to.include('One of the main entries is not defined.');
+      expect(res.body.data).to.equal('One of the main entries is not defined.');
       done();
     });
 	});
@@ -87,14 +87,14 @@ describe('Testing User endpoints', () => {
 		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'wrongpassword' })
 		.end((err, res) => {
 			res.should.have.status(200);
-			expect(res.body.data).to.include('Invalid Username or Password!');
+			expect(res.body.data).to.equal('Invalid Username or Password!');
 			done();
 		});
 	});
 });
 
 // testing the car ad endpoints
-describe('Testing the car ads endpoints', () => {
+describe('Testing the car sale ads endpoints', () => {
 	const car = {
 		img_url: 'url link to new car image',
 		owner_id: 1,
@@ -138,20 +138,20 @@ describe('Testing the car ads endpoints', () => {
 	});
 	// test for creating new car sale ad if the user is not registered
 	it('it should not allow an unregistered user to post a car sale ad', (done) => {
-		car.owner_id = 3; // there is no user with id 3
+		car.owner_id = 4; // there is no user with id 3
 		chai.request(app)
 		.post('/api/v1/car').set('Accept', 'application/json').send(car)
 		.end((err, res) => {
 			res.should.have.status(401);
-			expect(res.body.data).to.include('Unauthorized Access!');
+			expect(res.body.data).to.equal('Unauthorized Access!');
 			done();
 		});
 	});
 	// test for viewing a specific car sale ad that is still available
-	// car with id = 1 is available, and user with id = 2 does not exist
+	// car with id = 1 is available, and user with id = 3 does not exist
 	it('it should allow all users to view a car ad that is still available', (done) => {
 		chai.request(app)
-		.get('/api/v1/car/1').send({ user_id: 2 })
+		.get('/api/v1/car/1').send({ user_id: 3 })
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
@@ -169,7 +169,7 @@ describe('Testing the car ads endpoints', () => {
 		.get('/api/v1/car/2').send({ user_id: 3 })
 		.end((err, res) => {
 			res.should.have.status(401);
-			expect(res.body.data).to.include('Unauthorized Access!');
+			expect(res.body.data).to.equal('Unauthorized Access!');
 			done();
 		});
 	});
@@ -188,7 +188,7 @@ describe('Testing the car ads endpoints', () => {
 			done();
 		});
 	});
-	// user with id = 2 is undefined
+	// user with id = 2 is is not an admin
 	// Note: there is no need including 'status=available&' to the url since a user
 	// who is not an admin cannot view SOLD car ads
 	it('it should return all unsold car ads if the user is not an admin', (done) => {
@@ -283,6 +283,15 @@ describe('Testing the car ads endpoints', () => {
 			res.should.have.status(200);
 			expect(data.length).to.equal(3); // 3 defined in the car model and 1 defined in this script
 			expect(data[0].state).to.equal('used');
+		});
+		done();
+	});
+	it('it should delete a car sale ad if the user is an admin or the owner', (done) => {
+		chai.request(app)
+		.delete('/api/v1/car/3').send({ user_id: 1 })
+		.end((err, res) => {
+			res.should.have.status(200);
+			expect(res.body.data).to.equal('Car AD successfully deleted.');
 		});
 		done();
 	});

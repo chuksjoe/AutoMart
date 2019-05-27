@@ -13,5 +13,6 @@ router.post('/auth/signin', users.signinUser);
 router.post('/car', cars.createNewCarAd);
 router.get('/car/:car_id', cars.getACar);
 router.get('/car', cars.getAllCars);
+router.delete('/car/:car_id', cars.deleteACar);
 
 module.exports = router;
