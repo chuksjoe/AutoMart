@@ -20,11 +20,29 @@ const usersList = [
 		zip: '234-001',
 		registered_on: Date(),
 	},
+	{
+		id: 2,
+		token: util.getToken(),
+		first_name: 'Emmanuel',
+		last_name: 'Okechukwu',
+		email: 'emma@live.com',
+		password: util.hashPassword('testing', 3),
+		is_admin: false,
+		address: {
+			street: '4A Zamba street, Ikate',
+			city: 'Surulere',
+			state: 'Lagos',
+			country: 'Nigeria',
+		},
+		phone: '09044950334',
+		zip: '234-001',
+		registered_on: Date(),
+	},
 ];
 
 const users = {
-	last_id: 1,
-	count: 1,
+	last_id: 2,
+	count: 2,
 	users_list: usersList,
 
 	// get list of all registered Users
