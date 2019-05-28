@@ -45,17 +45,17 @@ export default {
 			return res.status(404).send({ status: 404, data: 'Car does not exist!' });
 		}
 		const { first_name, last_name } = buyer;
-		const { car_id, buyer_id, amount_offered } = req.body;
+		const { car_id, buyer_id, price_offered } = req.body;
 
 		const newOrder = orders.createNewOrder({
 			car_id: parseInt(car_id, 10),
 			car_name: car.name,
-			car_price: car.price,
+			price: car.price,
 			owner_id: car.owner_id,
 			owner_name: car.owner_name,
 			buyer_id: parseInt(buyer_id, 10),
 			buyer_name: `${first_name} ${last_name.charAt(0)}.`,
-			amount_offered: parseFloat(amount_offered),
+			price_offered: parseFloat(price_offered),
 			status: 'pending',
 			created_on: Date(),
 		});

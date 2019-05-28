@@ -3,12 +3,12 @@ const order = {
 	id: 1,
 	car_id: 5,
 	car_name: 'new Volkswagen Cx4 - 2001',
+	price: 4500000,
 	owner_id: 2,
 	owner_name: 'Lorita M.',
 	buyer_id: 4,
 	buyer_name: 'Jonathan J.',
-	car_price: 4500000,
-	amount_offered: 4000000,
+	price_offered: 4000000,
 	created_on: Date(),
 	status: 'pending', // options: pending, accepted, rejected, cancelled
 };

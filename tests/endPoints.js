@@ -347,13 +347,13 @@ describe('Testing the car sale ads endpoints', () => {
 describe('Tests for the orders api endpoints', () => {
 	it('it should allow a registered user to place a purchase order for an unsold car ad', (done) => {
 		chai.request(app)
-		.post('/api/v1/order').send({ car_id: 1, buyer_id: 2, amount_offered: 1400000 })
+		.post('/api/v1/order').send({ car_id: 1, buyer_id: 2, price_offered: 1400000 })
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(201);
 			expect(data).to.include({
 				car_id: 1,
-				amount_offered: 1400000,
+				price_offered: 1400000,
 				buyer_id: 2,
 			});
 			done();
@@ -362,7 +362,7 @@ describe('Tests for the orders api endpoints', () => {
 	// user with id = 6 does not exist
 	it('it should not allow an unregistered user to place a purchase order', (done) => {
 		chai.request(app)
-		.post('/api/v1/order').send({ car_id: 5, buyer_id: 6, amount_offered: 1400000 })
+		.post('/api/v1/order').send({ car_id: 5, buyer_id: 6, price_offered: 1400000 })
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(401);
@@ -373,7 +373,7 @@ describe('Tests for the orders api endpoints', () => {
 	// car with id = 2 is sold
 	it('it should not allow a registered user to place a purchase order for a sold car ad', (done) => {
 		chai.request(app)
-		.post('/api/v1/order').send({ car_id: 2, buyer_id: 2, amount_offered: 1400000 })
+		.post('/api/v1/order').send({ car_id: 2, buyer_id: 2, price_offered: 1400000 })
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(401);
@@ -384,7 +384,7 @@ describe('Tests for the orders api endpoints', () => {
 	// car with id = 10 does not exist
 	it('it should not allow a registered user to place a purchase order for a car ad that does not exist', (done) => {
 		chai.request(app)
-		.post('/api/v1/order').send({ car_id: 8, buyer_id: 2, amount_offered: 1400000 })
+		.post('/api/v1/order').send({ car_id: 8, buyer_id: 2, price_offered: 1400000 })
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(404);
