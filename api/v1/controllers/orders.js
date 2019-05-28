@@ -45,20 +45,44 @@ export default {
 			return res.status(404).send({ status: 404, data: 'Car does not exist!' });
 		}
 		const { first_name, last_name } = buyer;
-		const { car_id, buyer_id, amount_offered } = req.body;
+		const { car_id, buyer_id, price_offered } = req.body;
 
 		const newOrder = orders.createNewOrder({
 			car_id: parseInt(car_id, 10),
 			car_name: car.name,
-			car_price: car.price,
+			price: car.price,
 			owner_id: car.owner_id,
 			owner_name: car.owner_name,
 			buyer_id: parseInt(buyer_id, 10),
 			buyer_name: `${first_name} ${last_name.charAt(0)}.`,
-			amount_offered: parseFloat(amount_offered),
+			price_offered: parseFloat(price_offered),
 			status: 'pending',
 			created_on: Date(),
 		});
 		return res.status(201).send({ status: 201, data: newOrder });
+	},
+	// update the price of a purchase order by the buyer who initialized it
+	updateOrderPrice(req, res) {
+		const order = orders.getAnOrder(parseInt(req.params.order_id, 10));
+		const buyer = users.getAUserById(parseInt(req.body.buyer_id, 10));
+		const new_price = parseFloat(req.body.new_price);
+		if (order !== null) {
+			const old_price_offered = order.price_offered;
+			if (buyer !== null && buyer.id === order.buyer_id && order.status === 'pending') {
+				order.price_offered = new_price;
+				// to avoid the changes to the response from affect the order object in the database
+				const response = Object.assign({}, cars.updateACar(order.id, order));
+				if (response !== null) {
+					response.old_price_offered = old_price_offered;
+					response.new_price_offered = new_price;
+					delete response.price_offered;
+				}
+				res.status(201).send({ status: 201, data: response });
+			} else {
+				res.status(401).send({ status: 401, data: 'Unauthorized Access!' });
+			}
+		} else {
+			res.status(404).send({ status: 404, data: 'Purchase order not found in database.' });
+		}
 	},
 };

@@ -21,5 +21,6 @@ router.patch('/car/:car_id/status', cars.updateCarStatus);
 // for purchase orders
 router.get('/order', orders.getAllOrders);
 router.post('/order', orders.createNewOrder);
+router.patch('/order/:order_id/price', orders.updateOrderPrice);
 
 module.exports = router;

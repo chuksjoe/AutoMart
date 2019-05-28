@@ -1,8 +1,8 @@
 # Auto-Mart
 
-[![Build Status](https://travis-ci.com/chuksjoe/AutoMart.svg?branch=master)](https://travis-ci.com/chuksjoe/AutoMart)
+[![Build Status](https://travis-ci.com/chuksjoe/AutoMart.svg?branch=develop)](https://travis-ci.com/chuksjoe/AutoMart)
 [![Build Status](https://travis-ci.com/chuksjoe/AutoMart.svg?branch=api-v1)](https://travis-ci.com/chuksjoe/AutoMart)
-[![Coverage Status](https://coveralls.io/repos/github/chuksjoe/AutoMart/badge.svg?branch=master)](https://coveralls.io/github/chuksjoe/AutoMart?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/chuksjoe/AutoMart/badge.svg?branch=develop)](https://coveralls.io/github/chuksjoe/AutoMart?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/1c755fa5581069ff8171/maintainability)](https://codeclimate.com/github/chuksjoe/AutoMart/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/1c755fa5581069ff8171/test_coverage)](https://codeclimate.com/github/chuksjoe/AutoMart/test_coverage)
 
