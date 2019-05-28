@@ -1,32 +1,32 @@
-const previewAdBtns = document.querySelectorAll(".car-image");
-const carPreview = document.getElementById("car-preview-overlay");
-const closeCarPreview = document.getElementById("close-car-preview");
+const previewAdBtns = document.querySelectorAll('.car-image');
+const carPreview = document.getElementById('car-preview-overlay');
+const closeCarPreview = document.getElementById('close-car-preview');
 
-previewAdBtns.forEach(btn => {
+previewAdBtns.forEach((btn) => {
   btn.onclick = () => {
-    carPreview.style.display = "block";
+    carPreview.style.display = 'block';
     toggleScroll();
   };
 });
 
 closeCarPreview.onclick = () => {
-  carPreview.style.display = "none";
+  carPreview.style.display = 'none';
   toggleScroll();
 };
 
-const openUpdateModalBtns = document.querySelectorAll(".update-p");
-const updatePriceModal = document.getElementById("update-price-overlay");
-const closeUpdateModal = document.getElementById("close-update-modal");
+const openUpdateModalBtns = document.querySelectorAll('.update-p');
+const updatePriceModal = document.getElementById('update-price-overlay');
+const closeUpdateModal = document.getElementById('close-update-modal');
 
-openUpdateModalBtns.forEach(btn => {
+openUpdateModalBtns.forEach((btn) => {
   btn.onclick = () => {
-    updatePriceModal.style.display = "block";
+    updatePriceModal.style.display = 'block';
     toggleScroll();
   };
 });
 
-closeUpdateModal.onclick = e => {
+closeUpdateModal.onclick = (e) => {
   e.preventDefault();
-  updatePriceModal.style.display = "none";
+  updatePriceModal.style.display = 'none';
   toggleScroll();
 };
