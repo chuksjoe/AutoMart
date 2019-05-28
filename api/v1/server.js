@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import users from './controllers/users';
 import cars from './controllers/cars';
+import orders from './controllers/orders';
 
 const router = Router();
 
@@ -16,5 +17,9 @@ router.get('/car', cars.getAllCars);
 router.delete('/car/:car_id', cars.deleteACar);
 router.patch('/car/:car_id/price', cars.updateCarPrice);
 router.patch('/car/:car_id/status', cars.updateCarStatus);
+
+// for purchase orders
+router.get('/order', orders.getAllOrders);
+router.post('/order', orders.createNewOrder);
 
 module.exports = router;
