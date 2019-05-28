@@ -61,4 +61,28 @@ export default {
 		});
 		return res.status(201).send({ status: 201, data: newOrder });
 	},
+	// update the price of a purchase order by the buyer who initialized it
+	updateOrderPrice(req, res) {
+		const order = orders.getAnOrder(parseInt(req.params.order_id, 10));
+		const buyer = users.getAUserById(parseInt(req.body.buyer_id, 10));
+		const new_price = parseFloat(req.body.new_price);
+		if (order !== null) {
+			const old_price_offered = order.price_offered;
+			if (buyer !== null && buyer.id === order.buyer_id && order.status === 'pending') {
+				order.price_offered = new_price;
+				// to avoid the changes to the response from affect the order object in the database
+				const response = Object.assign({}, cars.updateACar(order.id, order));
+				if (response !== null) {
+					response.old_price_offered = old_price_offered;
+					response.new_price_offered = new_price;
+					delete response.price_offered;
+				}
+				res.status(201).send({ status: 201, data: response });
+			} else {
+				res.status(401).send({ status: 401, data: 'Unauthorized Access!' });
+			}
+		} else {
+			res.status(404).send({ status: 404, data: 'Purchase order not found in database.' });
+		}
+	},
 };
