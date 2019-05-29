@@ -9,7 +9,7 @@
     "start": "set NODE_ENV=development& babel-node api/v1/index.js",
     "dev": "set DEBUG=http & set NODE_ENV=development& nodemon api/v1/index.js --exec babel-node",
     "test": "set DEBUG=http & set NODE_ENV=test& mocha --timeout 0 --require babel-core/register --reporter spec --exit tests/ --exec babel-node",
-    "coverage": "npm run build && ./node_modules/bin/istanbul cover ./node_modules/mocha/bin/_mocha --  -R spec dist/test/*.js && cat ./coverage/lcov.info | node ./node_modules/coveralls/bin/coveralls.js"
+    "coverage": "npm run build && ./node_modules/bin/istanbul cover ./node_modules/mocha/bin/_mocha --  -R spec ./test/*.js && cat ./coverage/lcov.info | node ./node_modules/coveralls/bin/coveralls.js"
   },
   "repository": {
     "type": "git",
