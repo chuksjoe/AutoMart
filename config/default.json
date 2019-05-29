@@ -1,0 +1,6 @@
+{
+	"mode": "Server Development",
+	"port": 3000,
+	"path": "http://localhost:3000",
+	"database": ""
+}
