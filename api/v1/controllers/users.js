@@ -6,7 +6,7 @@ import util from '../util';
 export default {
 	// get list of all the users
 	getAllUsers(req, res) {
-		res.status(200).send({ status: 200, data: users.getAllUsers() });
+		return res.status(200).send({ status: 200, data: users.getAllUsers() });
 	},
 	// create new user and add to database
 	createNewUser(req, res) {
@@ -18,12 +18,20 @@ export default {
 		} = req.body;
 		if (first_name === undefined || last_name === undefined || password === undefined
 			|| email === undefined || is_admin === undefined) {
-			return res.status(400).send({ status: 400, data: 'One of the main entries is not defined.' });
+			return res.status(206).send({ status: 206, data: 'some of the main entries is not defined.' });
 		}
+
+		const usersList = users.getAllUsers();
+		usersList.map((user) => {
+			if (user.email === email) {
+				return res.status(200).send({ status: 200, data: `a user with this e-mail (${email}) already exists.` });
+			}
+			return 0;
+		});
 
 		bcrypt.hash(password, saltRound, (err, hash) => {
 			if (err) {
-				return res.status(500).send({ status: 500, data: 'Internal Server Error. 1' });
+				return res.status(500).send({ status: 500, data: 'Something strange has happen, please refresh and then try again.' });
 			}
 			response = users.createNewUser({
 				token: util.getToken(),
@@ -43,9 +51,11 @@ export default {
 				registered_on: Date(),
 			});
 			if (response !== null) {
-				return res.status(201).send({ status: 201, data: response });
+				const data = Object.assign({}, response);
+				delete data.password;
+				return res.status(201).send({ status: 201, data });
 			}
-			return res.status(500).send({ status: 500, data: 'Internal Server Error. 2' });
+			return res.status(500).send({ status: 500, data: 'Something strange has happen, please refresh and then try again.' });
 		});
 		return 0;
 	},
@@ -57,7 +67,9 @@ export default {
 		if (user !== null) {
 			bcrypt.compare(password, user.password, (err, result) => {
 				if (result === true) {
-					return res.status(201).send({ status: 201, data: user });
+					const data = Object.assign({}, user);
+					delete data.password;
+					return res.status(201).send({ status: 201, data });
 				}
 				return res.status(200).send({ status: 200, data: 'Invalid Username or Password!' });
 			});

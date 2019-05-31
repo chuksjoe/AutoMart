@@ -1,3 +1,5 @@
 node_modules/
 .coveralls.yml 
 *Thumbs.db
+.nyc_output
+dist

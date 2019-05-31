@@ -34,29 +34,28 @@
 					<h1>Create New Account</h1>
 					<form>
 						<div>
-							<div id="error-div"></div>
 							<div class = "input-group flex-container">
 								<div class = "input-field">
 									<label for="fname">First Name:*</label>
-									<input type="text" id="fname" name="fname" autofocus/>
+									<input type="text" id="first-name" required name="first-name" autofocus/>
 								</div>
 								<div class = "input-field">
 									<label for="lname">Last Name:*</label>
-									<input type="text" id="lname" name="lname"/>
+									<input type="text" id="last-name" required name="last-name"/>
 								</div>
 							</div>
 							<div class = "input-field single">
 								<label for="email">E-mail:*</label>
-								<input type="email" id="email" name="email"/>
+								<input type="email" id="email" required name="email"/>
 							</div>
 							<div class="input-group flex-container">
 								<div class = "input-field">
 									<label for="password1">Password:*</label>
-									<input type="password" id="password1" name="password1"/>
+									<input type="password" id="password1" required name="password1"/>
 								</div>
 								<div class = "input-field">
 									<label for="password2">Verify Password:*</label>
-									<input type="password" id="password2" name="password2"/>
+									<input type="password" id="password2" required name="password2"/>
 								</div>
 							</div>
 							<div class="input-group flex-container">
@@ -89,9 +88,9 @@
 									<input type="text" id="zip-code" name="zip-code"/>
 								</div>
 							</div>
-							
+							<div id="error-div" class="hide"></div>
 							<p class = "note">Note: The feilds with astherisk(*) are <b>compulsory</b>.</p>
-							<input type="submit" id="submit" class="full-btn btn" name="submit" value = "Create Account"/>
+							<button id="signupBtn" class="full-btn btn">Create Account</button>
 						</div>
 					</form>
 				</div>
@@ -114,5 +113,6 @@
 
 		<!-- scripts -->
 		<script src="/js/general.js"></script>
+		<script src="/js/signup.js"></script>
 	</body>
 </html>

@@ -3,7 +3,7 @@ import chai, { expect } from 'chai';
 import app from '../api/v1/index';
 
 describe('Tests for the orders api endpoints', () => {
-	it('it should allow a registered user to place a purchase order for an unsold car ad', (done) => {
+	it('should allow a registered user to place a purchase order for an unsold car ad', (done) => {
 		chai.request(app)
 		.post('/api/v1/order').send({ car_id: 1, buyer_id: 2, price_offered: 1400000 })
 		.end((err, res) => {
@@ -18,7 +18,7 @@ describe('Tests for the orders api endpoints', () => {
 		});
 	});
 	// user with id = 6 does not exist
-	it('it should not allow an unregistered user to place a purchase order', (done) => {
+	it('should not allow an unregistered user to place a purchase order', (done) => {
 		chai.request(app)
 		.post('/api/v1/order').send({ car_id: 5, buyer_id: 6, price_offered: 1400000 })
 		.end((err, res) => {
@@ -28,7 +28,7 @@ describe('Tests for the orders api endpoints', () => {
 		});
 	});
 	// car with id = 2 is sold
-	it('it should not allow a registered user to place a purchase order for a sold car ad', (done) => {
+	it('should not allow a registered user to place a purchase order for a sold car ad', (done) => {
 		chai.request(app)
 		.post('/api/v1/order').send({ car_id: 2, buyer_id: 2, price_offered: 1400000 })
 		.end((err, res) => {
@@ -38,7 +38,7 @@ describe('Tests for the orders api endpoints', () => {
 		});
 	});
 	// car with id = 10 does not exist
-	it('it should not allow a registered user to place a purchase order for a car ad that does not exist', (done) => {
+	it('should not allow a registered user to place a purchase order for a car ad that does not exist', (done) => {
 		chai.request(app)
 		.post('/api/v1/order').send({ car_id: 8, buyer_id: 2, price_offered: 1400000 })
 		.end((err, res) => {
@@ -47,7 +47,7 @@ describe('Tests for the orders api endpoints', () => {
 			done();
 		});
 	});
-	it('it should allow a buyer to update the price he/she offered for a posted ad if its still pending', (done) => {
+	it('should allow a buyer to update the price he/she offered for a posted ad if its still pending', (done) => {
 		chai.request(app)
 		.patch('/api/v1/order/1/price').send({ buyer_id: 2, new_price: 1500000 })
 		.end((err, res) => {
@@ -61,7 +61,7 @@ describe('Tests for the orders api endpoints', () => {
 			done();
 		});
 	});
-	it('it should not allow a user who is not the buyer to update the price offered', (done) => {
+	it('should not allow a user who is not the buyer to update the price offered', (done) => {
 		chai.request(app)
 		.patch('/api/v1/order/1/price').send({ buyer_id: 1, new_price: 1600000 })
 		.end((err, res) => {
