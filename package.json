@@ -4,12 +4,14 @@
   "description": "Auto Mart is an online marketplace for automobiles of diverse makes, model or body type.",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf ./dist && babel -d ./dist ./api -s",
+    "build": "babel -d ./dist ./api -s",
     "serve": "set NODE_ENV=production& node dist/index.js",
     "start": "set NODE_ENV=development& babel-node api/v1/index.js",
     "dev": "set DEBUG=http & set NODE_ENV=development& nodemon api/v1/index.js --exec babel-node",
     "test": "set DEBUG=http & set NODE_ENV=test& mocha --timeout 0 --require babel-core/register --reporter spec --exit tests/ --exec babel-node",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "coverage": "./node_modules/.bin/nyc report --reporter=lcov | coveralls",
+    "coveralls": "coveralls < coverage/lcov.info",
+    "coverage-test": "./node_modules/.bin/nyc npm test"
   },
   "repository": {
     "type": "git",
