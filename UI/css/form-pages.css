@@ -14,7 +14,11 @@
 	padding: 20px;
 	box-shadow: 0 0 3px #333;
 }
-
+#error-div {
+	color: #fff;
+	text-align: center;
+	padding: 10px 20px;
+}
 h1 {
 	text-align: center;
 	margin-top: 0;

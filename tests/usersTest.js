@@ -7,8 +7,8 @@ import app from '../api/v1/index';
 chai.use(chaiHttp);
 chai.should();
 // testing to ensure the server is running
-describe('Server', () => {
-	it(`it should test that server is running on port ${config.get('port')}`, () => {
+describe('Check Server', () => {
+	it(`should test that server is running on port ${config.get('port')}`, () => {
 		app.port.should.be.eql(config.get('port'));
 	});
 });
@@ -18,7 +18,7 @@ describe('Testing User endpoints', () => {
 	const user = {
 		first_name: 'ChuksJoe',
 		last_name: 'Orjiakor',
-		email: 'chuksjoe@live.com',
+		email: 'chuks@live.com',
 		password: 'testing',
 		is_admin: false,
 		address: {
@@ -30,7 +30,7 @@ describe('Testing User endpoints', () => {
 		phone: '08131172617',
 		zip: '234-001',
 	};
-	it('It should create new user account when valid entries are supplied', (done) => {
+	it('should create new user account when valid entries are supplied', (done) => {
 		chai.request(app)
 		.post('/api/v1/auth/signup').set('Accept', 'application/json').send(user)
 		.end((err, res) => {
@@ -44,19 +44,19 @@ describe('Testing User endpoints', () => {
       done();
     });
 	});
-	it('It should not create new user account if any of the required entries are not supplied', (done) => {
+	it('should not create new user account if any of the required entries are not supplied', (done) => {
 		// required entries: first_name, last_name, email, password, is_admin
 		user.first_name = undefined;
 		user.email = undefined;
 		chai.request(app)
 		.post('/api/v1/auth/signup').set('Accept', 'application/json').send(user)
 		.end((err, res) => {
-      expect(res).to.have.status(400);
-      expect(res.body.data).to.equal('One of the main entries is not defined.');
+      expect(res).to.have.status(206);
+      expect(res.body.data).to.equal('some of the main entries is not defined.');
       done();
     });
 	});
-	it('it should allow a user to sign into their account if they supply valid credentials', (done) => {
+	it('should allow a user to sign into their account if they supply valid credentials', (done) => {
 		chai.request(app)
 		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing' })
 		.end((err, res) => {
@@ -71,7 +71,7 @@ describe('Testing User endpoints', () => {
 			done();
 		});
 	});
-	it('it should not allow a user to sign in if they supply invalid credentials', (done) => {
+	it('should not allow a user to sign in if they supply invalid credentials', (done) => {
 		chai.request(app)
 		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'wrongpassword' })
 		.end((err, res) => {

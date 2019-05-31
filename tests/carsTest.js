@@ -29,7 +29,7 @@ describe('Testing the car sale ads endpoints', () => {
 		},
 	};
 	// test for creating new car sale ad if the user is registered
-	it('it should allow a valid user to create a car sale ad', (done) => {
+	it('should allow a valid user to create a car sale ad', (done) => {
 		chai.request(app)
 		.post('/api/v1/car').set('Accept', 'application/json').send(car)
 		.end((err, res) => {
@@ -46,7 +46,7 @@ describe('Testing the car sale ads endpoints', () => {
 		});
 	});
 	// test for creating new car sale ad if the user is not registered
-	it('it should not allow an unregistered user to post a car sale ad', (done) => {
+	it('should not allow an unregistered user to post a car sale ad', (done) => {
 		car.owner_id = 4; // there is no user with id 3
 		chai.request(app)
 		.post('/api/v1/car').set('Accept', 'application/json').send(car)
@@ -58,7 +58,7 @@ describe('Testing the car sale ads endpoints', () => {
 	});
 	// test for viewing a specific car sale ad that is still available
 	// car with id = 1 is available, and user with id = 3 does not exist
-	it('it should allow all users to view a car ad that is still available', (done) => {
+	it('should allow all users to view a car ad that is still available', (done) => {
 		chai.request(app)
 		.get('/api/v1/car/1').send({ user_id: 3 })
 		.end((err, res) => {
@@ -73,7 +73,7 @@ describe('Testing the car sale ads endpoints', () => {
 		});
 	});
 	// car with id = 2 is sold, user with id = 3 does not exist
-	it('it should not allow a user who is not the owner of a car and is not an admin to view sold car ad', (done) => {
+	it('should not allow a user who is not the owner of a car and is not an admin to view sold car ad', (done) => {
 		chai.request(app)
 		.get('/api/v1/car/2').send({ user_id: 3 })
 		.end((err, res) => {
@@ -83,7 +83,7 @@ describe('Testing the car sale ads endpoints', () => {
 		});
 	});
 	// car with id = 2 is sold, user with id = 1 is an admin
-	it('it should allow a user who is either an admin or the owner to view a sold car ad', (done) => {
+	it('should allow a user who is either an admin or the owner to view a sold car ad', (done) => {
 		chai.request(app)
 		.get('/api/v1/car/2').send({ user_id: 1 })
 		.end((err, res) => {
@@ -100,7 +100,7 @@ describe('Testing the car sale ads endpoints', () => {
 	// user with id = 2 is is not an admin
 	// Note: there is no need including 'status=available&' to the url since a user
 	// who is not an admin cannot view SOLD car ads
-	it('it should return all unsold car ads if the user is not an admin', (done) => {
+	it('should return all unsold car ads if the user is not an admin', (done) => {
 		chai.request(app)
 		.get('/api/v1/car').send({ user_id: 2 })
 		.end((err, res) => {
@@ -113,7 +113,7 @@ describe('Testing the car sale ads endpoints', () => {
 		});
 	});
 	// user with id = 1 is defined and is an admin
-	it('it should return all car ads if the user is an admin', (done) => {
+	it('should return all car ads if the user is an admin', (done) => {
 		chai.request(app)
 		.get('/api/v1/car').send({ user_id: 1 })
 		.end((err, res) => {
@@ -125,7 +125,7 @@ describe('Testing the car sale ads endpoints', () => {
 	});
 	// for a user you need not enter query for the car ad status,
 	// because, its only the unsold ads they have access to on the main view
-	it('it should filter the list of unsold car ads based on a price range', (done) => {
+	it('should filter the list of unsold car ads based on a price range', (done) => {
 		chai.request(app)
 		.get('/api/v1/car?status=available&min_price=1500000&max_price=5000000').send({ user_id: 2 })
 		.end((err, res) => {
@@ -139,7 +139,7 @@ describe('Testing the car sale ads endpoints', () => {
 		done();
 	});
 	// in this case, a user is not defined
-	it('it should filter the list of unsold car ads based on the manufacturer', (done) => {
+	it('should filter the list of unsold car ads based on the manufacturer', (done) => {
 		chai.request(app)
 		.get('/api/v1/car?status=available&manufacturer=mercedes-benz')
 		.end((err, res) => {
@@ -150,7 +150,7 @@ describe('Testing the car sale ads endpoints', () => {
 		});
 		done();
 	});
-	it('it should filter the list of unsold car ads based on the body type', (done) => {
+	it('should filter the list of unsold car ads based on the body type', (done) => {
 		chai.request(app)
 		.get('/api/v1/car?status=available&body_type=coupe')
 		.end((err, res) => {
@@ -162,7 +162,7 @@ describe('Testing the car sale ads endpoints', () => {
 		done();
 	});
 	// this can only be done by an admin
-	it('it should filter the list of all car ads based on the body type', (done) => {
+	it('should filter the list of all car ads based on the body type', (done) => {
 		chai.request(app)
 		.get('/api/v1/car?body_type=coupe').send({ user_id: 1 })
 		.end((err, res) => {
@@ -173,7 +173,7 @@ describe('Testing the car sale ads endpoints', () => {
 		});
 		done();
 	});
-	it('it should return all new unsold car ads', (done) => {
+	it('should return all new unsold car ads', (done) => {
 		chai.request(app)
 		.get('/api/v1/car?status=available&state=new')
 		.end((err, res) => {
@@ -184,7 +184,7 @@ describe('Testing the car sale ads endpoints', () => {
 		});
 		done();
 	});
-	it('it should return all used unsold car ads', (done) => {
+	it('should return all used unsold car ads', (done) => {
 		chai.request(app)
 		.get('/api/v1/car?status=available&state=used')
 		.end((err, res) => {
@@ -195,7 +195,7 @@ describe('Testing the car sale ads endpoints', () => {
 		});
 		done();
 	});
-	it('it should delete a car sale ad if the user is an admin or the owner', (done) => {
+	it('should delete a car sale ad if the user is an admin or the owner', (done) => {
 		chai.request(app)
 		.delete('/api/v1/car/3').send({ user_id: 1 })
 		.end((err, res) => {
@@ -204,7 +204,7 @@ describe('Testing the car sale ads endpoints', () => {
 		});
 		done();
 	});
-	it('it should not delete a car sale ad if the user is not an admin or the owner', (done) => {
+	it('should not delete a car sale ad if the user is not an admin or the owner', (done) => {
 		chai.request(app)
 		.delete('/api/v1/car/2').send({ user_id: 2 })
 		.end((err, res) => {
@@ -213,7 +213,7 @@ describe('Testing the car sale ads endpoints', () => {
 		});
 		done();
 	});
-	it('it should update the price of the car sale ad if the user is the owner', (done) => {
+	it('should update the price of the car sale ad if the user is the owner', (done) => {
 		chai.request(app)
 		.patch('/api/v1/car/1/price').send({ user_id: 1, new_price: 2000000 })
 		.end((err, res) => {
@@ -227,7 +227,7 @@ describe('Testing the car sale ads endpoints', () => {
 		});
 		done();
 	});
-	it('it should mark the car sale ad as SOLD if the user is the owner', (done) => {
+	it('should mark the car sale ad as SOLD if the user is the owner', (done) => {
 		chai.request(app)
 		.patch('/api/v1/car/4/status').send({ user_id: 1 })
 		.end((err, res) => {
@@ -241,7 +241,7 @@ describe('Testing the car sale ads endpoints', () => {
 		});
 		done();
 	});
-	it('it should not update the car ad if the user is not the owner', (done) => {
+	it('should not update the car ad if the user is not the owner', (done) => {
 		chai.request(app)
 		.patch('/api/v1/car/1/status').send({ user_id: 2 })
 		.end((err, res) => {
