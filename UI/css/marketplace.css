@@ -1,3 +1,7 @@
+.visitor-nav,
+.member-nav {
+	display: none;
+}
 .car-list-item {
   width: 32%;
   background-color: #fff;
