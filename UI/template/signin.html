@@ -34,7 +34,6 @@
 					<h1>Sign In</h1>
 					<form>
 						<div>
-							<div id="error-div"></div>
 							<div class = "input-field single">
 								<label for="email">E-mail:</label>
 								<input type="email" id="email" name="email"/>
@@ -43,7 +42,8 @@
 								<label for="password">Password:</label>
 								<input type="password" id="password" name="password"/>
 							</div>
-							<input type="submit" id="submit" class="full-btn btn" name="submit" value = "Sign In"/>
+							<div id="error-div" class="hide"></div>
+							<button id="signin-btn" class="full-btn btn">Sign In</button>
 							<p class="end-note">New to Auto Mart, <a href="./signup">Create New Account</a></p>
 						</div>
 					</form>
@@ -67,5 +67,6 @@
 
 		<!-- scripts -->
 		<script src="/js/general.js"></script>
+		<script src="/js/signin.js"></script>
 	</body>
 </html>

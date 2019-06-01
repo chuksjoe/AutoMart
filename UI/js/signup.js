@@ -9,7 +9,7 @@ const state = document.getElementById('state');
 const country = document.getElementById('country');
 
 const errorDiv = document.getElementById('error-div');
-const signup = document.getElementById('signupBtn');
+const signupBtn = document.getElementById('signup-btn');
 const phone = document.getElementById('phone');
 const zip = document.getElementById('zip-code');
 
@@ -38,7 +38,7 @@ zip.onkeyup = () => {
 	zip.value = zip.value.replace(/[^0-9][^-]/g, '');
 };
 
-signup.onclick = (e) => {
+signupBtn.onclick = (e) => {
 	e.preventDefault();
 	errorDiv.classList.add('hide');
 	errorDiv.style.backgroundColor = '#a45';
@@ -79,8 +79,8 @@ signup.onclick = (e) => {
 		});
 	} else {
 		// process the form
-		signup.innerHTML = 'Processing data...';
-		signup.disabled = 'disabled';
+		signupBtn.innerHTML = 'Processing data...';
+		signupBtn.disabled = 'disabled';
 		const data = {
 			first_name: first_name.value,
 			last_name: last_name.value,
@@ -113,8 +113,8 @@ signup.onclick = (e) => {
 				click <a href='/api/v1/signin'>here to sign into your account.</a>`;
 			}
 			errorDiv.classList.remove('hide');
-			signup.innerHTML = 'Create Account';
-			signup.disabled = null;
+			signupBtn.innerHTML = 'Create Account';
+			signupBtn.disabled = null;
 		})
 		.catch((error) => {
 			errorDiv.innerHTML = error;
