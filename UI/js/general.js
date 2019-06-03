@@ -10,18 +10,20 @@ const toggleScroll = () => {
 };
 
 const toggleClass = (node, classN) => {
-  node.classList.contains(classN)
-    ? node.classList.remove(classN) : node.classList.add(classN);
+  if (node.classList.contains(classN)) node.classList.remove(classN);
+  else node.classList.add(classN);
 };
 
-const formatCurrency = (val) => {
-  val = val.replace(/[\D\s\._\-]+/g, '');
+const formatCurrency = (value) => {
+  let val = value;
+  val = val.replace(/\D/g, '');
   val = val ? parseInt(val, 10) : 0;
   return val === 0 ? '' : `N ${val.toLocaleString('en-US')}`;
 };
 
-const formatKilometer = (val) => {
-  val = val.replace(/[\D\s\._\-]+/g, '');
+const formatKilometer = (value) => {
+  let val = value;
+  val = val.replace(/\D/g, '');
   val = val ? parseInt(val, 10) : 0;
   return val === 0 ? '' : `(Km) ${val.toLocaleString('en-US')}`;
 };
@@ -36,9 +38,7 @@ menuBtn.onclick = () => {
   icons.forEach((icon) => {
     toggleClass(icon, 'hide');
   });
-  menuList.style.display === 'block'
-    ? (menuList.style.display = 'none')
-    : (menuList.style.display = 'block');
+  menuList.style.display = menuList.style.display === 'block' ? ('none') : ('block');
 };
 
 window.addEventListener('resize', () => {
@@ -54,10 +54,11 @@ window.addEventListener('resize', () => {
 // Format the values entered into a text input for either price or mileage
 const numberInputs = document.querySelectorAll('input[data-type="number"]');
 numberInputs.forEach((input) => {
-  input.onkeyup = function formatEntry() {
+  const inp = input;
+  inp.onkeyup = function formatEntry() {
     const val = this.value;
     if (this.classList.contains('price')) this.value = formatCurrency(val);
-    else if (this.classList.contains('mileage')) { this.value = formatKilometer(val); }
+    else if (this.classList.contains('mileage')) this.value = formatKilometer(val);
   };
 });
 

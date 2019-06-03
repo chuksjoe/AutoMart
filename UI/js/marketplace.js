@@ -24,25 +24,67 @@ const displayNavBar = () => {
 };
 
 /* =================== MAIN LOGICS ========================= */
-// Setup the right Nav Bar depending on whether the user is registered or not
-window.onload = () => {
-  displayNavBar();
-};
-
-window.addEventListener('resize', () => {
-  displayNavBar();
-});
-
-//  Car Ad preview modal management
-const carImages = document.querySelectorAll('.car-image');
 const carPreview = document.getElementById('car-preview-overlay');
+const purchaseModal = document.getElementById('purchase-order-overlay');
 const closeCarPreview = document.getElementById('close-car-preview');
 
-carImages.forEach((carImage) => {
-  carImage.onclick = () => {
-    carPreview.style.display = 'block';
-    toggleScroll();
+window.onload = () => {
+  // Setup the right Nav Bar depending on whether the user is registered or not
+  displayNavBar();
+
+  // fetch the cars from database and populate the marketplace
+  const init = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
   };
+  fetch('/api/v1/car?status=available', init)
+  .then(res => res.json())
+  .then((response) => {
+    const res = response;
+    const carList = document.querySelector('.car-list');
+    if (res.data.length > 0) {
+      res.data.map((car) => {
+        const {
+          id, model, manufacturer, year, state, price, img_url,
+        } = car;
+        const carCard = document.createElement('li');
+        const carImg = document.createElement('div');
+        const carInfo = document.createElement('div');
+        const btn = document.createElement('button');
+        carCard.classList.add('car-card');
+        carCard.setAttribute('data-id', id);
+        carImg.classList.add('car-image');
+        carImg.onclick = () => {
+          carPreview.style.display = 'block';
+          toggleScroll();
+        };
+        carInfo.classList.add('car-info');
+        btn.classList.add('order', 'full-btn', 'btn');
+        btn.onclick = () => {
+          purchaseModal.style.display = 'block';
+          toggleScroll();
+        };
+        btn.innerHTML = 'Place Order';
+        carImg.innerHTML = `<img src="${img_url}" title="Preview AD">
+            <label class="car-state-tag">${state}</label>`;
+        carInfo.innerHTML = `<h3 class="c-details-mv">${year} ${manufacturer}<br>${model}</h3>
+            <p class="car-price">&#8358 ${price.toLocaleString('en-US')}</p>`;
+        carInfo.appendChild(btn);
+        carCard.appendChild(carImg);
+        carCard.appendChild(carInfo);
+        carList.appendChild(carCard);
+        return 0;
+      });
+    } else {
+      // the car list is empty
+    }
+  })
+  .catch(error => console.log(error));
+};
+
+// if the window is resized, it should check on the nav bar, and make neccesary adjustments
+window.addEventListener('resize', () => {
+  displayNavBar();
 });
 
 closeCarPreview.onclick = () => {
@@ -52,16 +94,7 @@ closeCarPreview.onclick = () => {
 
 // Purchase car form modal view management
 const openPurModalFromCP = document.getElementById('order-from-car-preview');
-const openPurModalBtns = document.querySelectorAll('.order');
-const purchaseModal = document.getElementById('purchase-order-overlay');
 const closePurModal = document.getElementById('close-purchase-modal');
-
-openPurModalBtns.forEach((btn) => {
-  btn.onclick = () => {
-    purchaseModal.style.display = 'block';
-    toggleScroll();
-  };
-});
 
 openPurModalFromCP.onclick = () => {
   purchaseModal.style.display = 'block';

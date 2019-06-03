@@ -48,14 +48,8 @@ export default {
 	// get a specific car give the car id
 	getACar(req, res) {
 		const car = cars.getACar(parseInt(req.params.car_id, 10));
-		const user = users.getAUserById(parseInt(req.body.user_id, 10));
-
 		if (car !== null) {
-			if (car.status === 'available' || (user !== null && (car.owner_id === user.id || user.is_admin))) {
-				res.status(200).send({ status: 200, data: car });
-			} else {
-				res.status(401).send({ status: 401, data: 'Unauthorized Access!' });
-			}
+			res.status(200).send({ status: 200, data: car });
 		} else {
 			res.status(404).send({ status: 404, data: 'Car not found in database.' });
 		}
@@ -63,16 +57,7 @@ export default {
 	// get all cars whether sold or unsold if user is admin, else get all unsold cars
 	// if filter query is entered, get a filered list of cars depending on the queries.
 	getAllCars(req, res) {
-		const user = users.getAUserById(parseInt(req.body.user_id, 10));
-		let he_is_admin = false;
-		if (user !== null) {
-			he_is_admin = user.is_admin;
-		}
 		let carsList = cars.getAllCars();
-		if (!he_is_admin) {
-			carsList = carsList.filter(car => car.status === 'available');
-		}
-
 		// filter car ads based on price range
 		const { min_price, max_price } = req.query;
 		if (min_price !== undefined && max_price !== undefined) {
@@ -107,14 +92,9 @@ export default {
 	// it's only the owner of a sale ad or an admin that can delete a posted ad
 	deleteACar(req, res) {
 		const car = cars.getACar(parseInt(req.params.car_id, 10));
-		const user = users.getAUserById(parseInt(req.body.user_id, 10));
 		if (car !== null) {
-			if (user !== null && (car.owner_id === user.id || user.is_admin)) {
-				cars.deleteACar(car.id);
-				res.status(200).json({ status: 200, data: 'Car AD successfully deleted.' });
-			} else {
-				res.status(401).send({ status: 401, data: 'Unauthorized Access!' });
-			}
+			cars.deleteACar(car.id);
+			res.status(200).json({ status: 200, data: 'Car AD successfully deleted.' });
 		} else {
 			res.status(404).send({ status: 404, data: 'Car not found in database.' });
 		}

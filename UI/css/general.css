@@ -134,7 +134,7 @@ footer .inner-div {
 .flex-container {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-wrap: wrap;
 }
 
@@ -304,7 +304,7 @@ button[disabled]:hover {
   list-style: none;
   padding: 0;
 }
-.car-list-item:hover {
+.car-card:hover {
   box-shadow: 0 0 3px #333;
 }
 .car-image {
