@@ -424,13 +424,13 @@ h3.c-details-mv {
   width: 49%;
   padding: 0 15px;
 }
-#added-date {
+.added-date {
   position: absolute;
   top: 10px;
   left: 10px;
   color: #fff;
 }
-#prop-list {
+.prop-list {
   justify-content: normal;
 }
 .prop {

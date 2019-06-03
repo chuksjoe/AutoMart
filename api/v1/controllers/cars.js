@@ -1,5 +1,6 @@
 import cars from '../models/cars';
 import users from '../models/users';
+import util from '../util';
 
 export default {
 	// create a new car Ad and add it to car ads list
@@ -22,7 +23,7 @@ export default {
 			owner_id: parseInt(owner_id, 10),
 			owner_name: `${first_name} ${last_name.charAt(0)}.`,
 			email,
-			created_on: Date(),
+			created_on: util.getDate(),
 			state,
 			status,
 			price: parseFloat(price, 10),

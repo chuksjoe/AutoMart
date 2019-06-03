@@ -1,14 +1,14 @@
 import { Router } from 'express';
 
-import users from './controllers/users';
+import auth from './controllers/auth';
 import cars from './controllers/cars';
 import orders from './controllers/orders';
 
 const router = Router();
 
-// for the users
-router.post('/auth/signup', users.createNewUser);
-router.post('/auth/signin', users.signinUser);
+// for the auth
+router.post('/auth/signup', auth.createNewUser);
+router.post('/auth/signin', auth.signinUser);
 
 // for car Ads
 router.post('/car', cars.createNewCarAd);
