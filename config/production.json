@@ -1,6 +1,6 @@
 {
 	"mode": "Server Production",
-	"port": 3200,
+	"port": 5000,
 	"path": "",
 	"database": ""
 }

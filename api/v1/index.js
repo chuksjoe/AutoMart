@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // serve the api endpoints built in server.js
 app.use(prefix, router);
 
-// serving the UI pages
+/* ========== serving the UI pages ============= */
 app.use(compression());
 
 const dirName = '../../UI/template';
