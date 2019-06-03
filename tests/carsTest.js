@@ -8,7 +8,7 @@ describe('Testing the car sale ads endpoints', () => {
 		img_url: 'url link to new car image',
 		owner_id: 1,
 		year: 2001,
-		state: 'used',
+		state: 'Used',
 		status: 'available',
 		price: 5500000.20,
 		manufacturer: 'Toyota',
@@ -57,10 +57,10 @@ describe('Testing the car sale ads endpoints', () => {
 		});
 	});
 	// test for viewing a specific car sale ad that is still available
-	// car with id = 1 is available, and user with id = 3 does not exist
+	// this endpoint is usually for normal users
 	it('should allow all users to view a car ad that is still available', (done) => {
 		chai.request(app)
-		.get('/api/v1/car/1').send({ user_id: 3 })
+		.get('/api/v1/car/1')
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
@@ -72,81 +72,55 @@ describe('Testing the car sale ads endpoints', () => {
 			done();
 		});
 	});
-	// car with id = 2 is sold, user with id = 3 does not exist
-	it('should not allow a user who is not the owner of a car and is not an admin to view sold car ad', (done) => {
+	// this endpoint is usually for normal users
+	it('should return all unsold car ads', (done) => {
 		chai.request(app)
-		.get('/api/v1/car/2').send({ user_id: 3 })
-		.end((err, res) => {
-			res.should.have.status(401);
-			expect(res.body.data).to.equal('Unauthorized Access!');
-			done();
-		});
-	});
-	// car with id = 2 is sold, user with id = 1 is an admin
-	it('should allow a user who is either an admin or the owner to view a sold car ad', (done) => {
-		chai.request(app)
-		.get('/api/v1/car/2').send({ user_id: 1 })
+		.get('/api/v1/car?status=available')
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
-			expect(data).to.include({
-				id: data.id,
-				name: data.name,
-				price: data.price,
+			data.map((c) => {
+				expect(c).to.include({
+					status: 'available',
+				});
+				return 0;
 			});
-			done();
-		});
-	});
-	// user with id = 2 is is not an admin
-	// Note: there is no need including 'status=available&' to the url since a user
-	// who is not an admin cannot view SOLD car ads
-	it('should return all unsold car ads if the user is not an admin', (done) => {
-		chai.request(app)
-		.get('/api/v1/car').send({ user_id: 2 })
-		.end((err, res) => {
-			const { data } = res.body;
-			res.should.have.status(200);
-			expect(data[0]).to.include({
-				status: 'available',
-			});
-			done();
-		});
-	});
-	// user with id = 1 is defined and is an admin
-	it('should return all car ads if the user is an admin', (done) => {
-		chai.request(app)
-		.get('/api/v1/car').send({ user_id: 1 })
-		.end((err, res) => {
-			const { data } = res.body;
-			res.should.have.status(200);
-			expect(data.length).to.equal(6); // 5 in the car model + 1 created in this test script
+			expect(data.length).to.equal(12);
 		});
 		done();
 	});
-	// for a user you need not enter query for the car ad status,
-	// because, its only the unsold ads they have access to on the main view
+	// this is mainly used for an admin
+	it('should return all car ads', (done) => {
+		chai.request(app)
+		.get('/api/v1/car')
+		.end((err, res) => {
+			const { data } = res.body;
+			res.should.have.status(200);
+			expect(data.length).to.equal(13); // 12 in the car model + 1 created in this test script
+		});
+		done();
+	});
 	it('should filter the list of unsold car ads based on a price range', (done) => {
 		chai.request(app)
-		.get('/api/v1/car?status=available&min_price=1500000&max_price=5000000').send({ user_id: 2 })
+		.get('/api/v1/car?status=available&min_price=20000000&max_price=30000000')
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
 			expect(data[0]).to.include({ status: 'available' });
-			expect(data[0].price).to.be.above(1500000);
-			expect(data[0].price).to.be.below(5000000);
-			expect(data.length).to.equal(2);
+			expect(data[0].price).to.be.above(20000000);
+			expect(data[0].price).to.be.below(30000000);
+			expect(data.length).to.equal(5);
 		});
 		done();
 	});
-	// in this case, a user is not defined
 	it('should filter the list of unsold car ads based on the manufacturer', (done) => {
 		chai.request(app)
-		.get('/api/v1/car?status=available&manufacturer=mercedes-benz')
+		.get('/api/v1/car?status=available&manufacturer=Mercedes-Benz')
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
-			expect(data.length).to.equal(2);
-			expect(data[0].manufacturer).to.equal('mercedes-benz');
+			expect(data.length).to.equal(1);
+			expect(data[0].manufacturer).to.equal('Mercedes-Benz');
 		});
 		done();
 	});
@@ -156,7 +130,7 @@ describe('Testing the car sale ads endpoints', () => {
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
-			expect(data.length).to.equal(3);
+			expect(data.length).to.equal(7);
 			expect(data[0].body_type).to.equal('coupe');
 		});
 		done();
@@ -168,48 +142,39 @@ describe('Testing the car sale ads endpoints', () => {
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
-			expect(data.length).to.equal(4);
+			expect(data.length).to.equal(7);
 			expect(data[0].body_type).to.equal('coupe');
 		});
 		done();
 	});
 	it('should return all new unsold car ads', (done) => {
 		chai.request(app)
-		.get('/api/v1/car?status=available&state=new')
+		.get('/api/v1/car?status=available&state=New')
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
-			expect(data.length).to.equal(2);
-			expect(data[0].state).to.equal('new');
+			expect(data.length).to.equal(5);
+			expect(data[0].state).to.equal('New');
 		});
 		done();
 	});
 	it('should return all used unsold car ads', (done) => {
 		chai.request(app)
-		.get('/api/v1/car?status=available&state=used')
+		.get('/api/v1/car?status=available&state=Used')
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
-			expect(data.length).to.equal(3); // 3 defined in the car model and 1 defined in this script
-			expect(data[0].state).to.equal('used');
+			expect(data.length).to.equal(7); // 3 defined in the car model and 1 defined in this script
+			expect(data[0].state).to.equal('Used');
 		});
 		done();
 	});
 	it('should delete a car sale ad if the user is an admin or the owner', (done) => {
 		chai.request(app)
-		.delete('/api/v1/car/3').send({ user_id: 1 })
+		.delete('/api/v1/car/3')
 		.end((err, res) => {
 			res.should.have.status(200);
 			expect(res.body.data).to.equal('Car AD successfully deleted.');
-		});
-		done();
-	});
-	it('should not delete a car sale ad if the user is not an admin or the owner', (done) => {
-		chai.request(app)
-		.delete('/api/v1/car/2').send({ user_id: 2 })
-		.end((err, res) => {
-			res.should.have.status(401);
-			expect(res.body.data).to.equal('Unauthorized Access!');
 		});
 		done();
 	});

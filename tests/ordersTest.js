@@ -37,10 +37,10 @@ describe('Tests for the orders api endpoints', () => {
 			done();
 		});
 	});
-	// car with id = 10 does not exist
+	// car with id = 25 does not exist
 	it('should not allow a registered user to place a purchase order for a car ad that does not exist', (done) => {
 		chai.request(app)
-		.post('/api/v1/order').send({ car_id: 8, buyer_id: 2, price_offered: 1400000 })
+		.post('/api/v1/order').send({ car_id: 25, buyer_id: 2, price_offered: 1400000 })
 		.end((err, res) => {
 			res.should.have.status(404);
 			expect(res.body.data).to.equal('Car does not exist!');

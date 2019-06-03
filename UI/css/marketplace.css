@@ -1,4 +1,8 @@
-.car-list-item {
+.visitor-nav,
+.member-nav {
+	display: none;
+}
+.car-card {
   width: 32%;
   background-color: #fff;
   margin-bottom: 30px;
@@ -14,7 +18,7 @@
 	.main-75 {
 		width: 70%;
 	}
-	.car-list-item {
+	.car-card {
 		width: 48%;
 	}
 }
@@ -23,12 +27,12 @@
 	.main-75 {
 		width: 100%;
 	}
-	.car-list-item {
+	.car-card {
 		width: 48%;
 	}
 }
 @media only screen and (max-width: 550px) {
-	.car-list-item {
+	.car-card {
 		width: 100%;
 	}
 }

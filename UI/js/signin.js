@@ -67,10 +67,17 @@ signinBtn.onclick = (e) => {
 				sessionStorage.setItem('email', res.data.email);
 				sessionStorage.setItem('user_id', res.data.id);
 				sessionStorage.setItem('is_admin', res.data.is_admin);
+				sessionStorage.setItem('is_loggedin', true);
 
-				setTimeout(() => {
-					window.location.href = '/api/v1/marketplace';
-				}, 1000);
+				if (res.data.is_admin) {
+					setTimeout(() => {
+						window.location.href = '/api/v1/admin';
+					}, 1000);
+				} else {
+					setTimeout(() => {
+						window.location.href = '/api/v1/marketplace';
+					}, 1000);
+				}
 			}
 		})
 		.catch((error) => {
