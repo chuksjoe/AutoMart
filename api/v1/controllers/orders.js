@@ -2,6 +2,8 @@ import orders from '../models/orders';
 import users from '../models/users';
 import cars from '../models/cars';
 
+import util from '../util';
+
 export default {
 	/* returns 2 lists for a user.
 		purchase list, which contains the user's purchase
@@ -10,7 +12,7 @@ export default {
 		any of is posted sales ad, it returns empty arrays.
 	*/
 	getAllOrders(req, res) {
-		const user = users.getAUserById(parseInt(req.body.user_id, 10));
+		const user = users.getAUserById(parseInt(req.query.user_id, 10));
 		const ordersList = orders.getAllOrders();
 		const purchaseList = [];
 		const salesList = [];
@@ -50,6 +52,7 @@ export default {
 		const newOrder = orders.createNewOrder({
 			car_id: parseInt(car_id, 10),
 			car_name: car.name,
+			car_body_type: car.body_type,
 			price: car.price,
 			owner_id: car.owner_id,
 			owner_name: car.owner_name,
@@ -57,7 +60,7 @@ export default {
 			buyer_name: `${first_name} ${last_name.charAt(0)}.`,
 			price_offered: parseFloat(price_offered),
 			status: 'pending',
-			created_on: Date(),
+			created_on: util.getDate(),
 		});
 		return res.status(201).send({ status: 201, data: newOrder });
 	},

@@ -3,6 +3,7 @@ const order = {
 	id: 1,
 	car_id: 5,
 	car_name: 'new Volkswagen Cx4 - 2001',
+	car_body_type: 'Van',
 	price: 4500000,
 	owner_id: 2,
 	owner_name: 'Lorita M.',

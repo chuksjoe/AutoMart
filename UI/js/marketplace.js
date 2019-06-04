@@ -38,16 +38,16 @@ const openPurchaseModal = (params) => {
   const {
     id, name, price, body_type,
   } = params;
-  const PlaceOrderBtn = document.getElementById('place-order');
+  const placeOrderBtn = document.getElementById('place-order');
 
-  document.querySelector('#purchase-order-overlay #c-details').innerHTML = name;
-  document.querySelector('#purchase-order-overlay #body-type').innerHTML = `(${body_type})`;
-  document.querySelector('#purchase-order-overlay #car-price').innerHTML = `&#8358 ${price.toLocaleString('en-US')}`;
+  document.querySelector('#purchase-order-overlay .c-details-mv').innerHTML = name;
+  document.querySelector('#purchase-order-overlay .c-b-type').innerHTML = `(${body_type})`;
+  document.querySelector('#purchase-order-overlay .c-price').innerHTML = `&#8358 ${price.toLocaleString('en-US')}`;
 
   purchaseModal.style.display = 'block';
   toggleScroll();
 
-  PlaceOrderBtn.onclick = (e) => {
+  placeOrderBtn.onclick = (e) => {
     e.preventDefault();
     let price_offered = document.querySelector('.purchase-order-form .price').value;
     price_offered = price_offered.replace(/\D/g, '');
@@ -64,7 +64,7 @@ const openPurchaseModal = (params) => {
       const message = document.querySelector('#notification-overlay .message');
       const res = response;
       if (res.status === 201) {
-        message.innerHTML = `You have successfully placed an order for ${res.data.car_name}.<br/>
+        message.innerHTML = `You have successfully placed an order for <b>${res.data.car_name}</b>.<br/><br/>
         Actual Price: &#8358 ${res.data.price.toLocaleString('en-US')}<br/>
         Price Offered: &#8358 ${res.data.price_offered.toLocaleString('en-US')}`;
       } else {
