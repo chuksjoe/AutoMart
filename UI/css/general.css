@@ -407,7 +407,8 @@ h3.c-details-mv {
   text-align: center;
   font-size: 1.3rem;
 }
-.c-price {
+.c-price,
+.c-c-o-price {
   text-align: center;
   font-size: 2rem;
   margin: 0;
