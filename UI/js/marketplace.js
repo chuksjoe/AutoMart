@@ -68,7 +68,8 @@ const openPurchaseModal = (params) => {
         Actual Price: &#8358 ${res.data.price.toLocaleString('en-US')}<br/>
         Price Offered: &#8358 ${res.data.price_offered.toLocaleString('en-US')}`;
       } else {
-        message.innerHTML = res.data;
+        message.innerHTML = `${res.data}!<br/>Please ensure you are logged-in before placing an order.<br/>
+        If you don't have an account on AutoMart,<br/><a href='/api/v1/signup'>Click here to Sign-up.</a>`;
       }
       purchaseModal.style.display = 'none';
       notificationModal.style.display = 'block';
