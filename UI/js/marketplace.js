@@ -96,7 +96,7 @@ const getCarDetils = (carId) => {
       const desc = document.querySelector('#car-preview-overlay .car-view-main-desc');
       document.querySelector('#car-preview-overlay .modal-header').innerHTML = name;
       document.querySelector('#car-preview-overlay .added-date').innerHTML = `Added on: ${created_on}`;
-      document.querySelector('#car-preview-overlay img').setAttribute('src', img_url);      
+      document.querySelector('#car-preview-overlay img').setAttribute('src', img_url);
       desc.innerHTML = `<p class="c-price">Price: &#8358 ${price.toLocaleString('en-US')}</p>
               <div class="prop-list flex-container">
                 <p class="prop"><b>Make:</b><br>${manufacturer}</p>

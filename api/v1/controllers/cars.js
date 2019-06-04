@@ -88,6 +88,13 @@ export default {
 		if (body_type !== undefined) {
 			carsList = carsList.filter(car => car.body_type === body_type);
 		}
+
+		// filter cars for a specific owner
+		let { owner_id } = req.query;
+		if (owner_id !== undefined) {
+			owner_id = parseInt(owner_id, 10);
+			carsList = carsList.filter(car => car.owner_id === owner_id);
+		}
 		return res.status(200).send({ status: 200, data: carsList });
 	},
 	// it's only the owner of a sale ad or an admin that can delete a posted ad

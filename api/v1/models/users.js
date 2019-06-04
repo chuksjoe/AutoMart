@@ -18,7 +18,7 @@ const usersList = [
 		},
 		phone: '08131172617',
 		zip: '234-001',
-		registered_on: Date(),
+		registered_on: util.getDate(),
 	},
 	{
 		id: 2,
@@ -36,13 +36,31 @@ const usersList = [
 		},
 		phone: '09044950334',
 		zip: '234-001',
-		registered_on: Date(),
+		registered_on: util.getDate(),
+	},
+	{
+		id: 3,
+		token: util.getToken(),
+		first_name: 'Tolulope',
+		last_name: 'Banjo',
+		email: 'tolu@live.com',
+		password: util.hashPassword('testing', 3),
+		is_admin: false,
+		address: {
+			street: '4A Zamba street, Ikate',
+			city: 'Surulere',
+			state: 'Lagos',
+			country: 'Nigeria',
+		},
+		phone: '09044950334',
+		zip: '234-001',
+		registered_on: util.getDate(),
 	},
 ];
 
 const users = {
-	last_id: 2,
-	count: 2,
+	last_id: 3,
+	count: 3,
 	users_list: usersList,
 
 	// get list of all registered Users
