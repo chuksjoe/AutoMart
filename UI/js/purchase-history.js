@@ -7,7 +7,50 @@ const user_id = sessionStorage.getItem('user_id');
 const is_loggedin = sessionStorage.getItem('is_loggedin');
 
 const openUpdateModal = (params) => {
-	// logic for updating price of an order
+	const {
+    id, car_name, price, car_body_type, price_offered,
+  } = params;
+  const updatePriceBtn = document.getElementById('update-price');
+
+  document.querySelector('#update-price-overlay .c-details-mv').innerHTML = car_name;
+  document.querySelector('#update-price-overlay .c-b-type').innerHTML = `(${car_body_type})`;
+  document.querySelector('#update-price-overlay .c-price')
+  .innerHTML = `Price: &#8358 ${price.toLocaleString('en-US')}`;
+  document.querySelector('#update-price-overlay .c-c-o-price')
+  .innerHTML = `Current Price Offered:<br>&#8358 ${price_offered.toLocaleString('en-US')}`;
+
+  updatePriceModal.style.display = 'block';
+  toggleScroll();
+
+  updatePriceBtn.onclick = (e) => {
+    e.preventDefault();
+    let new_price = document.querySelector('.update-order-form .price').value;
+    new_price = new_price.replace(/\D/g, '');
+    
+    const data = { buyer_id: user_id, new_price };
+    const init = {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' },
+    };
+    fetch(`/api/v1/order/${id}/price`, init)
+    .then(res => res.json())
+    .then((response) => {
+      const message = document.querySelector('#notification-overlay .message');
+      const res = response;
+      if (res.status === 201) {
+        message.innerHTML = `You have successfully updated the price you offered for <b>${res.data.car_name}.</b><br/><br/>
+        Actual Price: &#8358 ${res.data.price.toLocaleString('en-US')}<br/>
+        Old Price Offered: &#8358 ${res.data.old_price_offered.toLocaleString('en-US')}<br/>
+        New Price Offered: &#8358 ${res.data.new_price_offered.toLocaleString('en-US')}`;
+      } else {
+        message.innerHTML = `${res.data}!<br/>Please ensure you are logged-in before placing an order.<br/>
+        If you don't have an account on AutoMart,<br/><a href='/api/v1/signup'>Click here to Sign-up.</a>`;
+      }
+      updatePriceModal.style.display = 'none';
+      notificationModal.style.display = 'block';
+    });
+  };
 };
 
 window.onload = () => {
