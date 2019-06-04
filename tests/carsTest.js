@@ -6,7 +6,7 @@ import app from '../api/v1/index';
 describe('Testing the car sale ads endpoints', () => {
 	const car = {
 		img_url: 'url link to new car image',
-		owner_id: 1,
+		owner_id: 2,
 		year: 2001,
 		state: 'Used',
 		status: 'available',
@@ -38,7 +38,7 @@ describe('Testing the car sale ads endpoints', () => {
 			expect(data).to.include({
 				id: data.id,
 				name: data.name,
-				owner_id: 1,
+				owner_id: 2,
 				mileage: 3400,
 				model: 'Camry R2',
 			});
@@ -47,7 +47,7 @@ describe('Testing the car sale ads endpoints', () => {
 	});
 	// test for creating new car sale ad if the user is not registered
 	it('should not allow an unregistered user to post a car sale ad', (done) => {
-		car.owner_id = 4; // there is no user with id 3
+		car.owner_id = 6; // there is no user with id 3
 		chai.request(app)
 		.post('/api/v1/car').set('Accept', 'application/json').send(car)
 		.end((err, res) => {
@@ -138,7 +138,7 @@ describe('Testing the car sale ads endpoints', () => {
 	// this can only be done by an admin
 	it('should filter the list of all car ads based on the body type', (done) => {
 		chai.request(app)
-		.get('/api/v1/car?body_type=coupe').send({ user_id: 1 })
+		.get('/api/v1/car?body_type=coupe')
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
@@ -180,35 +180,35 @@ describe('Testing the car sale ads endpoints', () => {
 	});
 	it('should update the price of the car sale ad if the user is the owner', (done) => {
 		chai.request(app)
-		.patch('/api/v1/car/1/price').send({ user_id: 1, new_price: 2000000 })
+		.patch('/api/v1/car/1/price').send({ user_id: 3, new_price: 20000000 })
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(201);
 			expect(data).to.include({
-				price: 2000000,
+				price: 20000000,
 				id: 1,
-				owner_id: 1,
+				owner_id: 3,
 			});
 		});
 		done();
 	});
 	it('should mark the car sale ad as SOLD if the user is the owner', (done) => {
 		chai.request(app)
-		.patch('/api/v1/car/4/status').send({ user_id: 1 })
+		.patch('/api/v1/car/4/status').send({ user_id: 3 })
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(201);
 			expect(data).to.include({
 				status: 'sold',
 				id: 4,
-				owner_id: 1,
+				owner_id: 3,
 			});
 		});
 		done();
 	});
 	it('should not update the car ad if the user is not the owner', (done) => {
 		chai.request(app)
-		.patch('/api/v1/car/1/status').send({ user_id: 2 })
+		.patch('/api/v1/car/1/status').send({ user_id: 1 })
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(401);
