@@ -246,13 +246,13 @@
 			<div class="modal-view sm-m-v">
 				<h2 class="modal-header">Make Purchase Order</h2>
 				<div class="modal-body">
-					<h3 id="c-details" class="c-details-mv">New Volkswagen Cx3 - 2001</h3>
-					<p id="body-type" class="c-b-type">(Large Van)</p>
-					<p id="car-price" class="c-price">Price: &#8358 13,000,000</p>
-					<form>
+					<h3 id="c-details" class="c-details-mv"></h3>
+					<p id="body-type" class="c-b-type"></p>
+					<p id="car-price" class="c-price"></p>
+					<form class="purchase-order-form">
 						<div class = "input-field single">
 							<label for="">Offering Price(&#8358):</label><br>
-							<input type="text" class="price" data-type="number" min="1000" name="offering-price" placeholder="Offering Price(&#8358):">
+							<input type="text" class="price" data-type="number" min="1000" placeholder="Offering Price(&#8358):">
 						</div>
 						<div class="btn-group flex-container">
 							<button id="place-order" class="half-btn btn">Place Order</button>
@@ -291,6 +291,17 @@
 							<button id="close-fraud-modal" class="half-btn btn">Cancel</button>
 						</div>
 					</form>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal view for flagging/report a posted AD as fraudulent -->
+		<div id="notification-overlay" class="overlay">
+			<div class="modal-view sm-m-v">
+				<h2 class="modal-header">Notification</h2>
+				<div class="modal-body">
+					<div class="message"></div>
+					<button class="full-btn btn close-notification">Close</button>
 				</div>
 			</div>
 		</div>
