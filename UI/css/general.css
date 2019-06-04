@@ -439,6 +439,14 @@ h3.c-details-mv {
   line-height: 1.4;
 }
 
+/*for notification modal*/
+#notification-overlay {
+  z-index: 200;
+}
+.message {
+  text-align: center;
+}
+
 @media only screen and (max-width: 800px) {
   .content {
     display: block;

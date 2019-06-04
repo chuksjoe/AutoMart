@@ -4,9 +4,11 @@ const visitorNav = document.querySelector('.visitor-nav');
 const carPreview = document.getElementById('car-preview-overlay');
 const purchaseModal = document.getElementById('purchase-order-overlay');
 const fraudModal = document.getElementById('fraudulent-flag-overlay');
+const notificationModal = document.getElementById('notification-overlay');
 const closeCarPreview = document.getElementById('close-car-preview');
 const closePurModal = document.getElementById('close-purchase-modal');
 const closeFraudModal = document.getElementById('close-fraud-modal');
+const closeNotifation = document.querySelector('.close-notification');
 
 const user_id = sessionStorage.getItem('user_id');
 const is_loggedin = sessionStorage.getItem('is_loggedin');
@@ -32,12 +34,50 @@ const displayNavBar = () => {
   }
 };
 
-const openPurchaseModal = (param) => {
+const openPurchaseModal = (params) => {
+  const {
+    id, name, price, body_type,
+  } = params;
+  const PlaceOrderBtn = document.getElementById('place-order');
+
+  document.querySelector('#purchase-order-overlay #c-details').innerHTML = name;
+  document.querySelector('#purchase-order-overlay #body-type').innerHTML = `(${body_type})`;
+  document.querySelector('#purchase-order-overlay #car-price').innerHTML = `&#8358 ${price.toLocaleString('en-US')}`;
+
   purchaseModal.style.display = 'block';
   toggleScroll();
+
+  PlaceOrderBtn.onclick = (e) => {
+    e.preventDefault();
+    let price_offered = document.querySelector('.purchase-order-form .price').value;
+    price_offered = price_offered.replace(/\D/g, '');
+    
+    const data = { car_id: id, buyer_id: user_id, price_offered };
+    const init = {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' },
+    };
+    fetch('/api/v1/order', init)
+    .then(res => res.json())
+    .then((response) => {
+      const message = document.querySelector('#notification-overlay .message');
+      const res = response;
+      if (res.status === 201) {
+        message.innerHTML = `You have successfully placed an order for ${res.data.car_name}.<br/>
+        Actual Price: &#8358 ${res.data.price.toLocaleString('en-US')}<br/>
+        Price Offered: &#8358 ${res.data.price_offered.toLocaleString('en-US')}`;
+      } else {
+        message.innerHTML = `${res.data}!<br/>Please ensure you are logged-in before placing an order.<br/>
+        If you don't have an account on AutoMart,<br/><a href='/api/v1/signup'>Click here to Sign-up.</a>`;
+      }
+      purchaseModal.style.display = 'none';
+      notificationModal.style.display = 'block';
+    });
+  };
 };
 
-const openFraudModal = (param) => {
+const openFraudModal = (params) => {
   fraudModal.style.display = 'block';
 };
 
@@ -78,12 +118,12 @@ const getCarDetils = (carId) => {
       btnGrp.setAttribute('class', 'btn-group flex-container');
       orderBtn.setAttribute('class', 'half-btn btn');
       orderBtn.onclick = () => openPurchaseModal({
-        id, name, price, body_type, user_id,
+        id, name, price, body_type,
       });
       orderBtn.innerHTML = 'Place Order';
       flagBtn.setAttribute('class', 'half-btn btn');
       flagBtn.onclick = () => openFraudModal({
-        id, name, price, body_type, user_id,
+        id, name, price, body_type,
       });
       flagBtn.innerHTML = 'Flag Fradulent AD';
 
@@ -91,6 +131,11 @@ const getCarDetils = (carId) => {
       btnGrp.appendChild(flagBtn);
 
       desc.appendChild(btnGrp);
+    } else {
+      const message = document.querySelector('#notification-overlay .message');
+      message.innerHTML = response.data;
+      notificationModal.style.display = 'block';
+      toggleScroll();
     }
   });
 };
@@ -101,11 +146,7 @@ window.onload = () => {
   displayNavBar();
 
   // fetch the cars from database and populate the marketplace
-  const init = {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-  };
-  fetch('/api/v1/car?status=available', init)
+   fetch('/api/v1/car?status=available')
   .then(res => res.json())
   .then((response) => {
     const res = response;
@@ -130,7 +171,7 @@ window.onload = () => {
         carInfo.classList.add('car-info');
         btn.classList.add('order', 'full-btn', 'btn');
         btn.onclick = () => openPurchaseModal({
-          id, name, price, body_type, user_id,
+          id, name, price, body_type,
         });
         btn.innerHTML = 'Place Order';
         carImg.innerHTML = `<img src="${img_url}" title="Preview AD">
@@ -145,9 +186,15 @@ window.onload = () => {
       });
     } else {
       // the car list is empty
+      carList.innerHTML = 'No car ad found!';
     }
   })
-  .catch(error => console.log(error));
+  .catch((error) => {
+    const message = document.querySelector('#notification-overlay .message');
+    message.innerHTML = error;
+    notificationModal.style.display = 'block';
+    toggleScroll();
+  });
 };
 
 // if the window is resized, it should check on the nav bar, and make neccesary adjustments
@@ -171,5 +218,11 @@ closePurModal.onclick = (e) => {
 closeFraudModal.onclick = (e) => {
   e.preventDefault();
   fraudModal.style.display = 'none';
+  toggleScroll();
+};
+
+closeNotifation.onclick = (e) => {
+  e.preventDefault();
+  notificationModal.style.display = 'none';
   toggleScroll();
 };

@@ -1,5 +1,4 @@
 import express from 'express';
-import bodyParser from 'body-parser';
 import config from 'config';
 import logger from 'morgan';
 import path from 'path';
@@ -14,8 +13,8 @@ const port = config.get('port');
 const prefix = '/api/v1';
 
 app.use(logger('combined'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // serve the api endpoints built in server.js
 app.use(prefix, router);
