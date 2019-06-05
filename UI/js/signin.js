@@ -53,7 +53,7 @@ signinBtn.onclick = (e) => {
 		.then(res => res.json())
 		.then((response) => {
 			const res = response;
-			if (res.status !== 201) {
+			if (res.status !== 200) {
 				errorDiv.innerHTML = res.data;
 
 				errorDiv.classList.remove('hide');

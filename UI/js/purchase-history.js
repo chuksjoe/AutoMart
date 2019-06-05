@@ -38,7 +38,7 @@ const openUpdateModal = (params) => {
     .then((response) => {
       const message = document.querySelector('#notification-overlay .message');
       const res = response;
-      if (res.status === 201) {
+      if (res.status === 200) {
         message.innerHTML = `You have successfully updated the price you offered for <b>${res.data.car_name}.</b><br/><br/>
         Actual Price: &#8358 ${res.data.price.toLocaleString('en-US')}<br/>
         Old Price Offered: &#8358 ${res.data.old_price_offered.toLocaleString('en-US')}<br/>

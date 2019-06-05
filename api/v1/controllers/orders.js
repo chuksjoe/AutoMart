@@ -74,7 +74,7 @@ export default {
 			if (buyer !== null && buyer.id === order.buyer_id && order.status === 'pending') {
 				order.price_offered = new_price;
 				// to avoid the changes to the response from affect the order object in the database
-				const response = Object.assign({}, cars.updateACar(order.id, order));
+				const response = Object.assign({}, orders.updateOrder(order.id, order));
 				if (response !== null) {
 					response.old_price_offered = old_price_offered;
 					response.new_price_offered = new_price;
