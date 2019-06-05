@@ -183,7 +183,7 @@ describe('Testing the car sale ads endpoints', () => {
 		.patch('/api/v1/car/1/price').send({ user_id: 3, new_price: 20000000 })
 		.end((err, res) => {
 			const { data } = res.body;
-			res.should.have.status(201);
+			res.should.have.status(200);
 			expect(data).to.include({
 				price: 20000000,
 				id: 1,
@@ -197,7 +197,7 @@ describe('Testing the car sale ads endpoints', () => {
 		.patch('/api/v1/car/4/status').send({ user_id: 3 })
 		.end((err, res) => {
 			const { data } = res.body;
-			res.should.have.status(201);
+			res.should.have.status(200);
 			expect(data).to.include({
 				status: 'sold',
 				id: 4,

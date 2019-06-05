@@ -116,7 +116,7 @@ export default {
 			if (user !== null && user.id === car.owner_id) {
 				car.price = new_price;
 				const response = cars.updateACar(car.id, car);
-				res.status(201).send({ status: 201, data: response });
+				res.status(200).send({ status: 200, data: response });
 			} else {
 				res.status(401).send({ status: 401, data: 'Unauthorized Access!' });
 			}
@@ -132,7 +132,9 @@ export default {
 			if (user !== null && user.id === car.owner_id) {
 				car.status = 'sold';
 				const response = cars.updateACar(car.id, car);
-				res.status(201).send({ status: 201, data: response, message: `Successfully marked ${car.name} as sold.` });
+				res.status(200).send({
+					status: 200, data: response, message: `You have successfully marked<br><b>${car.name}</b><br>as sold.`,
+				});
 			} else {
 				res.status(401).send({ status: 401, data: 'Unauthorized Access!' });
 			}

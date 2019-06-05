@@ -39,7 +39,7 @@ const openUpdateModal = (params) => {
     .then((response) => {
       const message = document.querySelector('#notification-overlay .message');
       const res = response;
-      if (res.status === 201) {
+      if (res.status === 200) {
         message.innerHTML = `You have successfully updated the price for <b>${res.data.name}.</b><br/><br/>
         Old Price: &#8358 ${price.toLocaleString('en-US')}<br/>
         New Price: &#8358 ${res.data.price.toLocaleString('en-US')}`;
@@ -64,7 +64,7 @@ const updateAdStatus = (car_id) => {
   .then((response) => {
     const message = document.querySelector('#notification-overlay .message');
     const res = response;
-    if (res.status === 201) {
+    if (res.status === 200) {
       message.innerHTML = res.message;
     } else {
       message.innerHTML = `${res.data}!<br/>Please ensure you are logged-in before accessing this page.<br/>

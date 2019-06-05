@@ -90,7 +90,7 @@ const getCarDetils = (carId) => {
       const car = response.data;
       const {
         id, name, img_url, manufacturer, model, year, state,
-        owner_name, price, body_type, fuel_type, mileage,
+        owner_id, owner_name, price, body_type, fuel_type, mileage,
         color, transmission_type, fuel_cap, created_on,
       } = car;
       const desc = document.querySelector('#car-preview-overlay .car-view-main-desc');
@@ -109,7 +109,7 @@ const getCarDetils = (carId) => {
                 <p class="prop"><b>Fuel Capacity:</b><br>${fuel_cap}L</p>
                 <p class="prop"><b>Mileage:</b><br>${mileage.toLocaleString('en-US')}km</p>
                 <p class="prop"><b>Transmission:</b><br>${transmission_type}</p>
-                <p class="prop"><b>Posted By:</b><br>${owner_name}</p>
+                <p class="prop"><b>Posted By:</b><br>${(owner_id === parseInt(user_id, 10) ? 'Me' : owner_name)}</p>
                 <p><a href="#">Full Details >></a></p>
               </div>`;
       const btnGrp = document.createElement('div');
@@ -117,16 +117,23 @@ const getCarDetils = (carId) => {
       const flagBtn = document.createElement('button');
       btnGrp.setAttribute('class', 'btn-group flex-container');
       orderBtn.setAttribute('class', 'half-btn btn');
-      orderBtn.onclick = () => openPurchaseModal({
-        id, name, price, body_type,
-      });
+      orderBtn.onclick = () => {
+        openPurchaseModal({
+          id, name, price, body_type,
+        });
+      };
       orderBtn.innerHTML = 'Place Order';
       flagBtn.setAttribute('class', 'half-btn btn');
-      flagBtn.onclick = () => openFraudModal({
-        id, name, price, body_type,
-      });
+      flagBtn.onclick = () => {
+        openFraudModal({
+          id, name, price, body_type,
+        });
+      };
       flagBtn.innerHTML = 'Flag Fradulent AD';
-
+      if (owner_id === parseInt(user_id, 10)) {
+        orderBtn.setAttribute('disabled', 'disabled');
+        flagBtn.setAttribute('disabled', 'disabled');
+      }
       btnGrp.appendChild(orderBtn);
       btnGrp.appendChild(flagBtn);
 
@@ -154,12 +161,12 @@ window.onload = () => {
     if (res.data.length > 0) {
       res.data.map((car) => {
         const {
-          id, name, model, body_type, manufacturer, year, state, price, img_url,
+          id, name, model, body_type, manufacturer, year, state, price, img_url, owner_id,
         } = car;
         const carCard = document.createElement('li');
         const carImg = document.createElement('div');
         const carInfo = document.createElement('div');
-        const btn = document.createElement('button');
+        const orderBtn = document.createElement('button');
         carCard.classList.add('car-card');
         carCard.setAttribute('data-id', id);
         carImg.classList.add('car-image');
@@ -169,16 +176,19 @@ window.onload = () => {
           toggleScroll();
         };
         carInfo.classList.add('car-info');
-        btn.classList.add('order', 'full-btn', 'btn');
-        btn.onclick = () => openPurchaseModal({
+        orderBtn.classList.add('order', 'full-btn', 'btn');
+        orderBtn.onclick = () => openPurchaseModal({
           id, name, price, body_type,
         });
-        btn.innerHTML = 'Place Order';
+        orderBtn.innerHTML = 'Place Order';
+        if (owner_id === parseInt(user_id, 10)) {
+          orderBtn.setAttribute('disabled', 'disabled');
+        }
         carImg.innerHTML = `<img src="${img_url}" title="Preview AD">
             <label class="car-state-tag">${state}</label>`;
         carInfo.innerHTML = `<h3 class="c-details-mv">${year} ${manufacturer}<br>${model}</h3>
             <p class="car-price">&#8358 ${price.toLocaleString('en-US')}</p>`;
-        carInfo.appendChild(btn);
+        carInfo.appendChild(orderBtn);
         carCard.appendChild(carImg);
         carCard.appendChild(carInfo);
         carList.appendChild(carCard);
