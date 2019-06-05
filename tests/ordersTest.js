@@ -52,7 +52,7 @@ describe('Tests for the orders api endpoints', () => {
 		.patch('/api/v1/order/1/price').send({ buyer_id: 2, new_price: 1500000 })
 		.end((err, res) => {
 			const { data } = res.body;
-			res.should.have.status(201);
+			res.should.have.status(200);
 			expect(data).to.include({
 				old_price_offered: data.old_price_offered,
 				new_price_offered: 1500000,

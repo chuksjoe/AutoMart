@@ -80,7 +80,7 @@ export default {
 					response.new_price_offered = new_price;
 					delete response.price_offered;
 				}
-				res.status(201).send({ status: 201, data: response });
+				res.status(200).send({ status: 200, data: response });
 			} else {
 				res.status(401).send({ status: 401, data: 'Unauthorized Access!' });
 			}
