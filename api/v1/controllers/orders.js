@@ -39,7 +39,7 @@ export default {
 		const buyer = users.getAUserById(parseInt(req.body.buyer_id, 10));
 		const car = cars.getACar(parseInt(req.body.car_id, 10));
 		if (car !== null) {
-			if (buyer === null || car.status === 'sold') {
+			if (buyer === null || car.status === 'Sold') {
 				return res.status(401).send({ status: 401, data: 'Unauthorized Access!' });
 			}
 		}
@@ -59,7 +59,7 @@ export default {
 			buyer_id: parseInt(buyer_id, 10),
 			buyer_name: `${first_name} ${last_name.charAt(0)}.`,
 			price_offered: parseFloat(price_offered),
-			status: 'pending',
+			status: 'Pending',
 			created_on: util.getDate(),
 		});
 		return res.status(201).send({ status: 201, data: newOrder });
@@ -71,7 +71,7 @@ export default {
 		const new_price = parseFloat(req.body.new_price);
 		if (order !== null) {
 			const old_price_offered = order.price_offered;
-			if (buyer !== null && buyer.id === order.buyer_id && order.status === 'pending') {
+			if (buyer !== null && buyer.id === order.buyer_id && order.status === 'Pending') {
 				order.price_offered = new_price;
 				// to avoid the changes to the response from affect the order object in the database
 				const response = Object.assign({}, orders.updateOrder(order.id, order));
