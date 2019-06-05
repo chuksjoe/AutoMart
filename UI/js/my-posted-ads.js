@@ -1,5 +1,7 @@
 const carPreview = document.getElementById('car-preview-overlay');
 const notificationModal = document.getElementById('notification-overlay');
+const updatePriceModal = document.getElementById('update-price-overlay');
+const closeUpdateModal = document.getElementById('close-update-modal');
 const closeCarPreview = document.getElementById('close-car-preview');
 const closeNotifation = document.querySelector('.close-notification');
 
@@ -8,6 +10,49 @@ const is_loggedin = sessionStorage.getItem('is_loggedin');
 
 /* ================ Helper funtions ================= */
 // used to get details of a car from the database
+const openUpdateModal = (params) => {
+  const {
+    id, name, price, body_type,
+  } = params;
+  const updatePriceBtn = document.getElementById('update-price');
+
+  document.querySelector('#update-price-overlay .c-details-mv').innerHTML = name;
+  document.querySelector('#update-price-overlay .c-b-type').innerHTML = `(${body_type})`;
+  document.querySelector('#update-price-overlay .c-price')
+  .innerHTML = `Current Price: &#8358 ${price.toLocaleString('en-US')}`;
+  
+  updatePriceModal.style.display = 'block';
+  toggleScroll();
+
+  updatePriceBtn.onclick = (e) => {
+    e.preventDefault();
+    let new_price = document.querySelector('.update-price-form .price').value;
+    new_price = new_price.replace(/\D/g, '');
+    
+    const init = {
+      method: 'PATCH',
+      body: JSON.stringify({ user_id, new_price }),
+      headers: { 'Content-Type': 'application/json' },
+    };
+    fetch(`/api/v1/car/${id}/price`, init)
+    .then(res => res.json())
+    .then((response) => {
+      const message = document.querySelector('#notification-overlay .message');
+      const res = response;
+      if (res.status === 201) {
+        message.innerHTML = `You have successfully updated the price for <b>${res.data.name}.</b><br/><br/>
+        Old Price: &#8358 ${price.toLocaleString('en-US')}<br/>
+        New Price: &#8358 ${res.data.price.toLocaleString('en-US')}`;
+      } else {
+        message.innerHTML = `${res.data}!<br/>Please ensure you are logged-in before accessing this page.<br/>
+        If you don't have an account on AutoMart,<br/><a href='/api/v1/signup'>Click here to Sign-up.</a>`;
+      }
+      updatePriceModal.style.display = 'none';
+      notificationModal.style.display = 'block';
+    });
+  };
+};
+
 const getCarDetils = (carId) => {
   fetch(`/api/v1/car/${carId}`)
   .then(res => res.json())
@@ -110,6 +155,11 @@ window.onload = () => {
         
         updatePriceBtn.setAttribute('class', 'update-p full-btn btn');
         updatePriceBtn.innerHTML = 'Update Price';
+        updatePriceBtn.onclick = () => {
+          openUpdateModal({
+            id, name, price, body_type,
+          });
+        };
         markSoldBtn.setAttribute('class', 'mark-sold full-btn btn');
         markSoldBtn.innerHTML = 'Mark Sold';
         if (status === 'sold') {
@@ -151,5 +201,11 @@ closeCarPreview.onclick = () => {
 closeNotifation.onclick = (e) => {
   e.preventDefault();
   notificationModal.style.display = 'none';
+  document.location.reload();
+};
+
+closeUpdateModal.onclick = (e) => {
+  e.preventDefault();
+  updatePriceModal.style.display = 'none';
   toggleScroll();
 };
