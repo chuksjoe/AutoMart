@@ -102,7 +102,11 @@ export default {
 		const car = cars.getACar(parseInt(req.params.car_id, 10));
 		if (car !== null) {
 			cars.deleteACar(car.id);
-			res.status(200).json({ status: 200, data: 'Car AD successfully deleted.' });
+			res.status(200).json({
+				status: 200,
+				data: 'Car AD successfully deleted.',
+				message: `You have successfully deleted Ad for<br><b>${car.name}</b>`,
+			});
 		} else {
 			res.status(404).send({ status: 404, data: 'Car not found in database.' });
 		}

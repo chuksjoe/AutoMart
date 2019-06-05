@@ -16,9 +16,9 @@ describe('Check Server', () => {
 // testing the user sign up and sign in endpoints
 describe('Testing User endpoints', () => {
 	const user = {
-		first_name: 'ChuksJoe',
-		last_name: 'Orjiakor',
-		email: 'chuks@live.com',
+		first_name: 'Douglas',
+		last_name: 'Ejiofor',
+		email: 'doug@live.com',
 		password: 'testing',
 		is_admin: false,
 		address: {
@@ -61,7 +61,7 @@ describe('Testing User endpoints', () => {
 		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing' })
 		.end((err, res) => {
 			const { data } = res.body;
-			res.should.have.status(201);
+			res.should.have.status(200);
 			expect(data).to.include({
           id: data.id,
           token: data.token,
@@ -75,7 +75,7 @@ describe('Testing User endpoints', () => {
 		chai.request(app)
 		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'wrongpassword' })
 		.end((err, res) => {
-			res.should.have.status(200);
+			res.should.have.status(401);
 			expect(res.body.data).to.equal('Invalid Username or Password!');
 			done();
 		});

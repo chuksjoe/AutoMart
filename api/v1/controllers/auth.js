@@ -69,12 +69,12 @@ export default {
 				if (result === true) {
 					const data = Object.assign({}, user);
 					delete data.password;
-					return res.status(201).send({ status: 201, data });
+					return res.status(200).send({ status: 200, data });
 				}
-				return res.status(200).send({ status: 200, data: 'Invalid Username or Password!' });
+				return res.status(401).send({ status: 401, data: 'Invalid Username or Password!' });
 			});
 		} else {
-			res.status(200).send({ status: 200, data: 'Invalid Username or Password!' });
+			res.status(401).send({ status: 401, data: 'Invalid Username or Password!' });
 		}
 	},
 };

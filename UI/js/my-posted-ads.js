@@ -9,7 +9,24 @@ const user_id = sessionStorage.getItem('user_id');
 const is_loggedin = sessionStorage.getItem('is_loggedin');
 
 /* ================ Helper funtions ================= */
-// used to get details of a car from the database
+const deleteAd = (car_id) => {
+  const init = {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+  };
+  fetch(`/api/v1/car/${car_id}`, init)
+  .then(res => res.json())
+  .then((response) => {
+    const message = document.querySelector('#notification-overlay .message');
+    if (response.status === 200) {
+      message.innerHTML = response.message;
+    } else {
+      message.innerHTML = response.data;
+    }
+    notificationModal.style.display = 'block';
+  });
+};
+
 const openUpdateModal = (params) => {
   const {
     id, name, price, body_type,
@@ -116,6 +133,9 @@ const getCarDetils = (carId) => {
       };
       deleteAdBtn.setAttribute('class', 'delete half-btn btn');
       deleteAdBtn.innerHTML = 'Delete Ad';
+      deleteAdBtn.onclick = () => {
+        deleteAd(id);
+      };
       if (status === 'sold') {
         markSoldBtn.setAttribute('disabled', 'disabled');
       }
@@ -196,6 +216,9 @@ window.onload = () => {
         }
         deleteAdBtn.setAttribute('class', 'delete full-btn btn');
         deleteAdBtn.innerHTML = 'Delete Ad';
+        deleteAdBtn.onclick = () => {
+          deleteAd(id);
+        };
         btnGrp.setAttribute('class', 'user-actions');
         btnGrp.appendChild(updatePriceBtn);
         btnGrp.appendChild(markSoldBtn);

@@ -4,14 +4,26 @@ const updatePriceModal = document.getElementById('update-price-overlay');
 const closeCarPreview = document.getElementById('close-car-preview');
 const closeNotifation = document.querySelector('.close-notification');
 
-const user_id = sessionStorage.getItem('user_id');
 const is_loggedin = sessionStorage.getItem('is_loggedin');
 const is_admin = sessionStorage.getItem('is_admin');
 
 /* ================ Helper funtions ================= */
-// used to get details of a car from the database
 const deleteAd = (car_id) => {
-  // logic to delete a posted ad
+  const init = {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+  };
+  fetch(`/api/v1/car/${car_id}`, init)
+  .then(res => res.json())
+  .then((response) => {
+    const message = document.querySelector('#notification-overlay .message');
+    if (response.status === 200) {
+      message.innerHTML = response.message;
+    } else {
+      message.innerHTML = response.data;
+    }
+    notificationModal.style.display = 'block';
+  });
 };
 
 const getCarDetils = (carId) => {
