@@ -53,6 +53,28 @@ const openUpdateModal = (params) => {
   };
 };
 
+const updateAdStatus = (car_id) => {
+  const init = {
+    method: 'PATCH',
+    body: JSON.stringify({ user_id }),
+    headers: { 'Content-Type': 'application/json' },
+  };
+  fetch(`/api/v1/car/${car_id}/status`, init)
+  .then(res => res.json())
+  .then((response) => {
+    const message = document.querySelector('#notification-overlay .message');
+    const res = response;
+    if (res.status === 201) {
+      message.innerHTML = res.message;
+    } else {
+      message.innerHTML = `${res.data}!<br/>Please ensure you are logged-in before accessing this page.<br/>
+      If you don't have an account on AutoMart,<br/><a href='/api/v1/signup'>Click here to Sign-up.</a>`;
+    }
+    updatePriceModal.style.display = 'none';
+    notificationModal.style.display = 'block';
+  });
+};
+
 const getCarDetils = (carId) => {
   fetch(`/api/v1/car/${carId}`)
   .then(res => res.json())
@@ -89,6 +111,9 @@ const getCarDetils = (carId) => {
 
       markSoldBtn.setAttribute('class', 'half-btn btn');
       markSoldBtn.innerHTML = 'Mark Sold';
+      markSoldBtn.onclick = () => {
+        updateAdStatus(id);
+      };
       deleteAdBtn.setAttribute('class', 'delete half-btn btn');
       deleteAdBtn.innerHTML = 'Delete Ad';
       if (status === 'sold') {
@@ -162,6 +187,9 @@ window.onload = () => {
         };
         markSoldBtn.setAttribute('class', 'mark-sold full-btn btn');
         markSoldBtn.innerHTML = 'Mark Sold';
+        markSoldBtn.onclick = () => {
+          updateAdStatus(id);
+        };
         if (status === 'sold') {
           updatePriceBtn.setAttribute('disabled', 'disabled');
           markSoldBtn.setAttribute('disabled', 'disabled');

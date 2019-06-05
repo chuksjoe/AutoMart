@@ -71,7 +71,7 @@ window.onload = () => {
       res.data.purchase_list.map((order) => {
         const {
           id, car_name, car_body_type, price, owner_name,
-          buyer_id, price_offered, created_on, status,
+          price_offered, created_on, status,
         } = order;
         const orderCard = document.createElement('li');
         const btnGrp = document.createElement('div');
@@ -97,6 +97,9 @@ window.onload = () => {
 						id, car_name, price, car_body_type, price_offered,
 					});
 				};
+        if (status !== 'pending') {
+          updateOrderBtn.setAttribute('disbled', 'disbled');
+        }
 				cancelOrderBtn.setAttribute('class', 'delete full-btn btn');
 				cancelOrderBtn.innerHTML = 'Cancel Purchase';
 

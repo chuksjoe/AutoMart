@@ -132,7 +132,7 @@ export default {
 			if (user !== null && user.id === car.owner_id) {
 				car.status = 'sold';
 				const response = cars.updateACar(car.id, car);
-				res.status(201).send({ status: 201, data: response });
+				res.status(201).send({ status: 201, data: response, message: `Successfully marked ${car.name} as sold.` });
 			} else {
 				res.status(401).send({ status: 401, data: 'Unauthorized Access!' });
 			}
