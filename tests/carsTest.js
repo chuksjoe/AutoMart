@@ -9,11 +9,11 @@ describe('Testing the car sale ads endpoints', () => {
 		owner_id: 2,
 		year: 2001,
 		state: 'Used',
-		status: 'available',
+		status: 'Available',
 		price: 5500000.20,
 		manufacturer: 'Toyota',
 		model: 'Camry R2',
-		body_type: 'hatch',
+		body_type: 'Hatch',
 		fuel_type: 'petrol',
 		mileage: 3400,
 		color: 'yellow',
@@ -56,9 +56,9 @@ describe('Testing the car sale ads endpoints', () => {
 			done();
 		});
 	});
-	// test for viewing a specific car sale ad that is still available
+	// test for viewing a specific car sale ad that is still Available
 	// this endpoint is usually for normal users
-	it('should allow all users to view a car ad that is still available', (done) => {
+	it('should allow all users to view a car ad that is still Available', (done) => {
 		chai.request(app)
 		.get('/api/v1/car/1')
 		.end((err, res) => {
@@ -75,13 +75,13 @@ describe('Testing the car sale ads endpoints', () => {
 	// this endpoint is usually for normal users
 	it('should return all unsold car ads', (done) => {
 		chai.request(app)
-		.get('/api/v1/car?status=available')
+		.get('/api/v1/car?status=Available')
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
 			data.map((c) => {
 				expect(c).to.include({
-					status: 'available',
+					status: 'Available',
 				});
 				return 0;
 			});
@@ -102,11 +102,11 @@ describe('Testing the car sale ads endpoints', () => {
 	});
 	it('should filter the list of unsold car ads based on a price range', (done) => {
 		chai.request(app)
-		.get('/api/v1/car?status=available&min_price=20000000&max_price=30000000')
+		.get('/api/v1/car?status=Available&min_price=20000000&max_price=30000000')
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
-			expect(data[0]).to.include({ status: 'available' });
+			expect(data[0]).to.include({ status: 'Available' });
 			expect(data[0].price).to.be.above(20000000);
 			expect(data[0].price).to.be.below(30000000);
 			expect(data.length).to.equal(5);
@@ -115,7 +115,7 @@ describe('Testing the car sale ads endpoints', () => {
 	});
 	it('should filter the list of unsold car ads based on the manufacturer', (done) => {
 		chai.request(app)
-		.get('/api/v1/car?status=available&manufacturer=Mercedes-Benz')
+		.get('/api/v1/car?status=Available&manufacturer=Mercedes-Benz')
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
@@ -126,30 +126,30 @@ describe('Testing the car sale ads endpoints', () => {
 	});
 	it('should filter the list of unsold car ads based on the body type', (done) => {
 		chai.request(app)
-		.get('/api/v1/car?status=available&body_type=coupe')
+		.get('/api/v1/car?status=Available&body_type=Coupe')
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
 			expect(data.length).to.equal(7);
-			expect(data[0].body_type).to.equal('coupe');
+			expect(data[0].body_type).to.equal('Coupe');
 		});
 		done();
 	});
 	// this can only be done by an admin
 	it('should filter the list of all car ads based on the body type', (done) => {
 		chai.request(app)
-		.get('/api/v1/car?body_type=coupe')
+		.get('/api/v1/car?body_type=Coupe')
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
 			expect(data.length).to.equal(7);
-			expect(data[0].body_type).to.equal('coupe');
+			expect(data[0].body_type).to.equal('Coupe');
 		});
 		done();
 	});
 	it('should return all new unsold car ads', (done) => {
 		chai.request(app)
-		.get('/api/v1/car?status=available&state=New')
+		.get('/api/v1/car?status=Available&state=New')
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
@@ -160,7 +160,7 @@ describe('Testing the car sale ads endpoints', () => {
 	});
 	it('should return all used unsold car ads', (done) => {
 		chai.request(app)
-		.get('/api/v1/car?status=available&state=Used')
+		.get('/api/v1/car?status=Available&state=Used')
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
@@ -199,7 +199,7 @@ describe('Testing the car sale ads endpoints', () => {
 			const { data } = res.body;
 			res.should.have.status(200);
 			expect(data).to.include({
-				status: 'sold',
+				status: 'Sold',
 				id: 4,
 				owner_id: 3,
 			});

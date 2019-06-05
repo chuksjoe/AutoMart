@@ -134,7 +134,7 @@ export default {
 		const user = users.getAUserById(parseInt(req.body.user_id, 10));
 		if (car !== null) {
 			if (user !== null && user.id === car.owner_id) {
-				car.status = 'sold';
+				car.status = 'Sold';
 				const response = cars.updateACar(car.id, car);
 				res.status(200).send({
 					status: 200, data: response, message: `You have successfully marked<br><b>${car.name}</b><br>as sold.`,

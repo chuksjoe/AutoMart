@@ -16,11 +16,11 @@ const is_loggedin = sessionStorage.getItem('is_loggedin');
 /* ================ Helper funtions ================= */
 const toggleNavBar = (is_logged, display = 'flex') => {
   if (is_logged) {
-    // display marketplace with nav bar for registered users
+    // display marketplace with nav bar for logged in users
     visitorNav.style.display = 'none';
     memberNav.style.display = display;
   } else {
-    // display marketplace with nav bar for unregistered users
+    // display marketplace with nav bar for a users that is not logged in
     memberNav.style.display = 'none';
     visitorNav.style.display = display;
   }
@@ -147,17 +147,13 @@ const getCarDetils = (carId) => {
   });
 };
 
-/* ==================== MAIN LOGICS ====================== */
-window.onload = () => {
-  // Setup the right Nav Bar depending on whether the user is registered or not
-  displayNavBar();
-
-  // fetch the cars from database and populate the marketplace
-   fetch('/api/v1/car?status=available')
+const fetchCarAds = (url) => {
+  const carList = document.querySelector('.car-list');
+  carList.innerHTML = null;
+  fetch(url)
   .then(res => res.json())
   .then((response) => {
     const res = response;
-    const carList = document.querySelector('.car-list');
     if (res.data.length > 0) {
       res.data.map((car) => {
         const {
@@ -207,6 +203,15 @@ window.onload = () => {
   });
 };
 
+/* ==================== MAIN LOGICS ====================== */
+window.onload = () => {
+  // Setup the right Nav Bar depending on whether the user is registered or not
+  displayNavBar();
+
+  // fetch the cars from database and populate the marketplace
+   fetchCarAds('/api/v1/car?status=Available');
+};
+
 // if the window is resized, it should check on the nav bar, and make neccesary adjustments
 window.addEventListener('resize', () => {
   displayNavBar();
@@ -236,3 +241,47 @@ closeNotifation.onclick = (e) => {
   notificationModal.style.display = 'none';
   toggleScroll();
 };
+
+/* ============= MANAGE FILTER LOGICS HERE ============= */
+const filterSelectors = document.querySelectorAll('.common-seletor');
+const variables = {
+  min_price: null,
+  max_price: null,
+  manufacturer: null,
+  body_type: null,
+  state: null,
+};
+
+filterSelectors.forEach((selector) => {
+  const sel = selector;
+  sel.onchange = () => {
+    let url = '/api/v1/car?status=Available';
+
+    if (sel.classList.contains('min-price')) {
+      const val = sel.value.replace(/\D/g, '');
+      variables.min_price = isNaN(parseFloat(val)) ? null : parseFloat(val);
+    } else if (sel.classList.contains('max-price')) {
+      const val = sel.value.replace(/\D/g, '');
+      variables.max_price = isNaN(parseFloat(val)) ? null : parseFloat(val);
+    } else if (sel.classList.contains('manufacturer')) {
+      if (sel.checked) {
+        variables.manufacturer = sel.value === 'on' ? null : sel.value;
+      }
+    } else if (sel.classList.contains('body-type')) {
+      if (sel.checked) {
+        variables.body_type = sel.value === 'on' ? null : sel.value;
+      }
+    } else if (sel.classList.contains('state')) {
+      if (sel.checked) {
+        variables.state = sel.value === 'on' ? null : sel.value;
+      }
+    }
+    Object.keys(variables).forEach((key) => {
+      if (variables[key] !== null) {
+        url += `&${key}=${variables[key]}`;
+      }
+    });
+    fetchCarAds(url);
+  };
+  return 0;
+});

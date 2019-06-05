@@ -46,15 +46,15 @@
 							<h3>Car Status</h3>
 							<div class="car-state-group">
 								<label>
-									<input type="radio" name="state" class="state" value="0" checked="">
+									<input type="radio" name="status" class="status common-seletor" checked>
 									All
 								</label>
 								<label>
-									<input type="radio" name="state" class="state" value="0">
+									<input type="radio" name="status" class="status common-seletor" value="Sold">
 									Sold
 								</label>
 								<label>
-									<input type="radio" name="state" class="state" value="0">
+									<input type="radio" name="status" class="status common-seletor" value="Available">
 									Unsold
 								</label>
 							</div>
@@ -63,15 +63,15 @@
 							<h3>Car State</h3>
 							<div class="car-state-group">
 								<label>
-									<input type="radio" name="state" class="state" value="0" checked="">
+									<input type="radio" name="state" class="state common-seletor" checked>
 									All
 								</label>
 								<label>
-									<input type="radio" name="state" class="state" value="0">
+									<input type="radio" name="state" class="state common-seletor" value="New">
 									New
 								</label>
 								<label>
-									<input type="radio" name="state" class="state" value="0">
+									<input type="radio" name="state" class="state common-seletor" value="Used">
 									Used
 								</label>
 							</div>
@@ -79,59 +79,63 @@
 						<div class="filter-attr">
 							<h3>Price Range</h3>
 							<div class="price-range">
-								<input type="text" class="price" data-type="number" min="1000" name="" placeholder="Min Price(&#8358)">
-								<input type="text" class="price" data-type="number" min="1000" name="" placeholder="Max Price(&#8358)">
+								<input type="text" class="price min-price common-seletor" data-type="number" min="1000" placeholder="Min Price(&#8358)">
+								<input type="text" class="price max-price common-seletor" data-type="number" min="1000" placeholder="Max Price(&#8358)">
 							</div>
 						</div>
 						<div class="filter-attr">
 							<h3>Manufacturer</h3>
 							<div class="manufacturer-group">
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" checked>
+									All
+								</label>
+								<label>
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="Mercedes-Benz">
 									Mercedes-Benz
 								</label>
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-									Volvo
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="Porsche">
+									Porsche
 								</label>
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="Volkswagen">
 									Volkswagen
 								</label>
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="Honda">
 									Honda
 								</label>
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="Toyota">
 									Toyota
 								</label>
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="Ferrari">
 									Ferrari
 								</label>
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="BMW">
 									BMW
 								</label>
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-									Nissan
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="Chevrolet">
+									Chevrolet
 								</label>
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="Ford">
 									Ford
 								</label>
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-									Mitsubishi
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="Cobra">
+									Cobra
 								</label>
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="Cadillac">
 									Cadillac
 								</label>
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="Jaguar">
 									Jaguar
 								</label>
 							</div>
@@ -140,51 +144,55 @@
 							<h3>Body Type</h3>
 							<div class="body-type-group">
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
+									<input type="radio" name="body-type" class="body-type common-seletor" checked>
+									All
+								</label>
+								<label>
+									<input type="radio" name="body-type" class="body-type common-seletor" value="Micro">
 									Micro
 								</label>
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
+									<input type="radio" name="body-type" class="body-type common-seletor" value="Convertible">
 									Convertible
 								</label>
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
+									<input type="radio" name="body-type" class="body-type common-seletor" value="Large Van">
 									Large Van
 								</label>
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
+									<input type="radio" name="body-type" class="body-type common-seletor" value="Large SUV">
 									Large SUV
 								</label>
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
+									<input type="radio" name="body-type" class="body-type common-seletor" value="Small Van">
 									Small Van
 								</label>
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
+									<input type="radio" name="body-type" class="body-type common-seletor" value="Coupe">
 									Coupe
 								</label>
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
+									<input type="radio" name="body-type" class="body-type common-seletor" value="Sudan">
 									Sudan
 								</label>
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
+									<input type="radio" name="body-type" class="body-type common-seletor" value="Truck">
 									Truck
 								</label>
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
+									<input type="radio" name="body-type" class="body-type common-seletor" value="Truck Cab">
 									Truck Cab
 								</label>
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
+									<input type="radio" name="body-type" class="body-type common-seletor" value="MPV">
 									MPV
 								</label>
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
-									Pick up
+									<input type="radio" name="body-type" class="body-type common-seletor" value="Pick Up">
+									Pick Up
 								</label>
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
+									<input type="radio" name="body-type" class="body-type common-seletor" value="Hatch">
 									Hatch
 								</label>
 							</div>

@@ -1,6 +1,5 @@
 const carPreview = document.getElementById('car-preview-overlay');
 const notificationModal = document.getElementById('notification-overlay');
-const updatePriceModal = document.getElementById('update-price-overlay');
 const closeCarPreview = document.getElementById('close-car-preview');
 const closeNotifation = document.querySelector('.close-notification');
 
@@ -80,21 +79,13 @@ const getCarDetils = (carId) => {
   });
 };
 
-/* ==================== MAIN LOGICS ====================== */
-window.onload = () => {
-  // redirect to sign in page if the user is not logged in
-  if (!(is_loggedin || is_admin)) {
-      setTimeout(() => {
-      window.location.href = '/api/v1/signin';
-    }, 0);
-  }
-
-  // fetch the cars from database and populate the marketplace
-   fetch('/api/v1/car')
+const fetchCarAds = (url) => {
+  const carList = document.querySelector('.car-list');
+  carList.innerHTML = null;
+  fetch(url)
   .then(res => res.json())
   .then((response) => {
     const res = response;
-    const carList = document.querySelector('.car-list');
     if (res.data.length > 0) {
       res.data.map((car) => {
         const {
@@ -155,6 +146,19 @@ window.onload = () => {
   });
 };
 
+/* ==================== MAIN LOGICS ====================== */
+window.onload = () => {
+  // redirect to sign in page if the user is not logged in
+  if (!(is_loggedin || is_admin)) {
+    setTimeout(() => {
+      window.location.href = '/api/v1/signin';
+    }, 0);
+  }
+
+  // fetch the cars from database and populate the marketplace
+  fetchCarAds('/api/v1/car');
+};
+
 closeCarPreview.onclick = () => {
   carPreview.style.display = 'none';
   toggleScroll();
@@ -165,3 +169,52 @@ closeNotifation.onclick = (e) => {
   notificationModal.style.display = 'none';
   document.location.reload();
 };
+
+/* ============= MANAGE FILTER LOGICS HERE ============= */
+const filterSelectors = document.querySelectorAll('.common-seletor');
+const variables = {
+  min_price: null,
+  max_price: null,
+  manufacturer: null,
+  body_type: null,
+  state: null,
+  status: null,
+};
+
+filterSelectors.forEach((selector) => {
+  const sel = selector;
+  sel.onchange = () => {
+    let url = '/api/v1/car?';
+
+    if (sel.classList.contains('min-price')) {
+      const val = sel.value.replace(/\D/g, '');
+      variables.min_price = isNaN(parseFloat(val)) ? null : parseFloat(val);
+    } else if (sel.classList.contains('max-price')) {
+      const val = sel.value.replace(/\D/g, '');
+      variables.max_price = isNaN(parseFloat(val)) ? null : parseFloat(val);
+    } else if (sel.classList.contains('manufacturer')) {
+      if (sel.checked) {
+        variables.manufacturer = sel.value === 'on' ? null : sel.value;
+      }
+    } else if (sel.classList.contains('body-type')) {
+      if (sel.checked) {
+        variables.body_type = sel.value === 'on' ? null : sel.value;
+      }
+    } else if (sel.classList.contains('state')) {
+      if (sel.checked) {
+        variables.state = sel.value === 'on' ? null : sel.value;
+      }
+    } else if (sel.classList.contains('status')) {
+      if (sel.checked) {
+        variables.status = sel.value === 'on' ? null : sel.value;
+      }
+    }
+    Object.keys(variables).forEach((key) => {
+      if (variables[key] !== null) {
+        url += `&${key}=${variables[key]}`;
+      }
+    });
+    fetchCarAds(url);
+  };
+  return 0;
+});
