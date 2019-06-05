@@ -8,9 +8,7 @@ filterDdBtn.addEventListener('click', () => {
     // function defined in general.js
     toggleClass(icon, 'hide');
   });
-  filterContainer.style.display === 'block'
-    ? (filterContainer.style.display = 'none')
-    : (filterContainer.style.display = 'block');
+  filterContainer.style.display = filterContainer.style.display === 'block' ? 'none' : 'block';
 });
 
 window.addEventListener('resize', () => {
