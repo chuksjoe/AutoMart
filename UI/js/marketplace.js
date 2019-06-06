@@ -91,7 +91,7 @@ const getCarDetils = (carId) => {
       const {
         id, name, img_url, manufacturer, model, year, state,
         owner_id, owner_name, price, body_type, fuel_type, mileage,
-        color, transmission_type, fuel_cap, created_on,
+        color, transmission_type, fuel_cap, created_on, doors,
       } = car;
       const desc = document.querySelector('#car-preview-overlay .car-view-main-desc');
       document.querySelector('#car-preview-overlay .modal-header').innerHTML = name;
@@ -110,7 +110,7 @@ const getCarDetils = (carId) => {
                 <p class="prop"><b>Mileage:</b><br>${mileage.toLocaleString('en-US')}km</p>
                 <p class="prop"><b>Transmission:</b><br>${transmission_type}</p>
                 <p class="prop"><b>Posted By:</b><br>${(owner_id === parseInt(user_id, 10) ? 'Me' : owner_name)}</p>
-                <p><a href="#">Full Details >></a></p>
+                <p class="prop"><b>Doors:</b><br>${doors} doors</p>
               </div>`;
       const btnGrp = document.createElement('div');
       const orderBtn = document.createElement('button');
@@ -147,7 +147,7 @@ const getCarDetils = (carId) => {
   });
 };
 
-const fetchCarAds = (url) => {
+const fetchCarAds = (url, msgIfEmpty) => {
   const carList = document.querySelector('.car-list');
   carList.innerHTML = null;
   fetch(url)
@@ -192,7 +192,7 @@ const fetchCarAds = (url) => {
       });
     } else {
       // the car list is empty
-      carList.innerHTML = 'No car ad found!';
+      carList.innerHTML = msgIfEmpty;
     }
   })
   .catch((error) => {
@@ -209,7 +209,7 @@ window.onload = () => {
   displayNavBar();
 
   // fetch the cars from database and populate the marketplace
-   fetchCarAds('/api/v1/car?status=Available');
+   fetchCarAds('/api/v1/car?status=Available', 'No car ad found!');
 };
 
 // if the window is resized, it should check on the nav bar, and make neccesary adjustments
@@ -281,7 +281,7 @@ filterSelectors.forEach((selector) => {
         url += `&${key}=${variables[key]}`;
       }
     });
-    fetchCarAds(url);
+    fetchCarAds(url, 'No car AD matches the filter parameter.');
   };
   return 0;
 });

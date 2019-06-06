@@ -31,7 +31,7 @@ app.use('/js', express.static(path.join(__dirname, '../../UI/js')));
 app.use('/images', express.static(path.join(__dirname, '../../UI/images')));
 
 app.get(`${prefix}`, (req, res) => {
-  res.sendFile(path.join(__dirname, dirName, '/index.html'));
+  res.redirect(`${prefix}/index`);
 });
 
 app.get(`${prefix}/index`, (req, res) => {
@@ -72,7 +72,7 @@ app.get(`${prefix}/sales-history`, (req, res) => {
 
 // default page is set to the index page
 app.get('*', (req, res) => {
-	res.sendFile(path.join(__dirname, dirName, '/index.html'));
+	res.redirect(`${prefix}/index`);
 });
 
 const listen = app.listen(port, () => {

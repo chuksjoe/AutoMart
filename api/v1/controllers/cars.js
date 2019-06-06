@@ -1,6 +1,16 @@
+import config from 'config';
+
 import cars from '../models/cars';
 import users from '../models/users';
 import util from '../util';
+
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+	cloud_name: config.get('cloud_name'),
+	api_key: config.get('api_key'),
+	api_secret: config.get('api_secret'),
+});
 
 export default {
 	// create a new car Ad and add it to car ads list
@@ -11,40 +21,61 @@ export default {
 		}
 		const { first_name, last_name, email } = owner;
 		const {
-			img_url, state, status, price, manufacturer,
+			state, price, manufacturer, transmission_type,
 			model, body_type, fuel_type, description, mileage,
 			color, year, ac, arm_rest, fm_radio, dvd_player,
-			tinted_windows, air_bag, owner_id,
+			tinted_windows, air_bag, owner_id, doors, fuel_cap,
 		} = req.body;
 
-		const newCar = cars.createNewCar({
-			img_url,
-			name: `${state} ${manufacturer} ${model} - ${year}`,
-			owner_id: parseInt(owner_id, 10),
-			owner_name: `${first_name} ${last_name.charAt(0)}.`,
-			email,
-			created_on: util.getDate(),
-			state,
-			status,
-			price: parseFloat(price, 10),
-			manufacturer,
-			model,
-			body_type,
-			fuel_type,
-			mileage: parseInt(mileage, 10),
-			color,
-			year: parseInt(year, 10),
-			description,
-			features: {
-				ac: ac === 'true',
-				arm_rest: arm_rest === 'true',
-				fm_radio: fm_radio === 'true',
-				dvd_player: dvd_player === 'true',
-				tinted_windows: tinted_windows === 'true',
-				air_bag: air_bag === 'true',
-			},
+		// for (let ke in req.files.img_url) {
+		// 	console.warn(`req.files.image properties: ${ke}: ${req.files.img_url[ke]}`);
+		// }
+		cloudinary.uploader.upload(req.files.img_url.path, {
+			tags: 'auto-mart',
+			folder: 'uploads/',
+			resource_type: 'auto',
+		})
+		.then((file) => {
+			const newCar = cars.createNewCar({
+				img_url: file.url,
+				name: `${state} ${year} ${manufacturer} ${model}`,
+				owner_id: parseInt(owner_id, 10),
+				owner_name: `${first_name} ${last_name.charAt(0)}.`,
+				email,
+				created_on: util.getDate(),
+				state,
+				status: 'Available',
+				price: parseFloat(price.replace(/\D/g, ''), 10),
+				manufacturer,
+				model,
+				body_type,
+				fuel_type,
+				fuel_cap: parseInt(fuel_cap, 10),
+				doors: parseInt(doors, 10),
+				mileage: parseInt(mileage.replace(/\D/g, ''), 10),
+				transmission_type,
+				color,
+				year: parseInt(year, 10),
+				description,
+				features: {
+					ac: ac === 'true',
+					arm_rest: arm_rest === 'true',
+					fm_radio: fm_radio === 'true',
+					dvd_player: dvd_player === 'true',
+					tinted_windows: tinted_windows === 'true',
+					air_bag: air_bag === 'true',
+				},
+			});
+			return res.status(201).send({ status: 201, data: newCar });
+		})
+		.catch((err) => {
+			if (err) {
+				// console.warn(err);
+				return res.status(510).send({ status: 510, data: err });
+			}
+			return 0;
 		});
-		return res.status(201).send({ status: 201, data: newCar });
+		return 0;
 	},
 	// get a specific car give the car id
 	getACar(req, res) {
@@ -60,8 +91,10 @@ export default {
 	getAllCars(req, res) {
 		let carsList = cars.getAllCars();
 		// filter car ads based on price range
-		const { min_price, max_price } = req.query;
-		if (min_price !== undefined && max_price !== undefined) {
+		let { min_price, max_price } = req.query;
+		if (min_price !== undefined || max_price !== undefined) {
+			if (min_price === undefined) min_price = 1000;
+			if (max_price === undefined) max_price = Number.MAX_VALUE;
 			carsList = carsList.filter(car => car.price >= min_price && car.price <= max_price);
 		}
 
@@ -137,7 +170,9 @@ export default {
 				car.status = 'Sold';
 				const response = cars.updateACar(car.id, car);
 				res.status(200).send({
-					status: 200, data: response, message: `You have successfully marked<br><b>${car.name}</b><br>as sold.`,
+					status: 200,
+					data: response,
+					message: `You have successfully marked<br><b>${car.name}</b><br>as sold.`,
 				});
 			} else {
 				res.status(401).send({ status: 401, data: 'Unauthorized Access!' });
