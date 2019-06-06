@@ -79,7 +79,7 @@ const getCarDetils = (carId) => {
   });
 };
 
-const fetchCarAds = (url) => {
+const fetchCarAds = (url, msgIfEmpty) => {
   const carList = document.querySelector('.car-list');
   carList.innerHTML = null;
   fetch(url)
@@ -135,7 +135,7 @@ const fetchCarAds = (url) => {
     } else {
       // the car list is empty
       carList.style.textAlign = 'center';
-      carList.innerHTML = 'No car sale ad has been posted.';
+      carList.innerHTML = msgIfEmpty;
     }
   })
   .catch((error) => {
@@ -156,7 +156,7 @@ window.onload = () => {
   }
 
   // fetch the cars from database and populate the marketplace
-  fetchCarAds('/api/v1/car');
+  fetchCarAds('/api/v1/car', 'No car sale ad has been posted.');
 };
 
 closeCarPreview.onclick = () => {
@@ -214,7 +214,7 @@ filterSelectors.forEach((selector) => {
         url += `&${key}=${variables[key]}`;
       }
     });
-    fetchCarAds(url);
+    fetchCarAds(url, 'No car AD matches the filter parameter.');
   };
   return 0;
 });

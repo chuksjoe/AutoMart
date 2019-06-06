@@ -100,7 +100,7 @@ const getCarDetils = (carId) => {
       const car = response.data;
       const {
         id, name, img_url, manufacturer, model, year, state,
-        price, body_type, fuel_type, mileage, status,
+        price, body_type, fuel_type, mileage, status, doors,
         color, transmission_type, fuel_cap, created_on,
       } = car;
       const desc = document.querySelector('#car-preview-overlay .car-view-main-desc');
@@ -119,8 +119,8 @@ const getCarDetils = (carId) => {
                 <p class="prop"><b>Fuel Capacity:</b><br>${fuel_cap}L</p>
                 <p class="prop"><b>Mileage:</b><br>${mileage.toLocaleString('en-US')}km</p>
                 <p class="prop"><b>Transmission:</b><br>${transmission_type}</p>
+                <p class="prop"><b>Doors:</b><br>${doors} doors</p>
                 <p class="prop"><b>Posted By:</b><br>Me</p>
-                <p><a href="#">Full Details >></a></p>
               </div>`;
       const btnGrp = document.createElement('div');
       const markSoldBtn = document.createElement('button');
@@ -136,7 +136,7 @@ const getCarDetils = (carId) => {
       deleteAdBtn.onclick = () => {
         deleteAd(id);
       };
-      if (status === 'sold') {
+      if (status === 'Sold') {
         markSoldBtn.setAttribute('disabled', 'disabled');
       }
 
@@ -153,7 +153,7 @@ const getCarDetils = (carId) => {
   });
 };
 
-const fetchCarAds = (url) => {
+const fetchCarAds = (url, msgIfEmpty) => {
   const carList = document.querySelector('.car-list');
   carList.innerHTML = null;
   fetch(url)
@@ -202,7 +202,7 @@ const fetchCarAds = (url) => {
         markSoldBtn.onclick = () => {
           updateAdStatus(id);
         };
-        if (status === 'sold') {
+        if (status === 'Sold') {
           updatePriceBtn.setAttribute('disabled', 'disabled');
           markSoldBtn.setAttribute('disabled', 'disabled');
         }
@@ -225,7 +225,7 @@ const fetchCarAds = (url) => {
     } else {
       // the car list is empty
       carList.style.textAlign = 'center';
-      carList.innerHTML = 'You have not posted any car sales ad!';
+      carList.innerHTML = msgIfEmpty;
     }
   })
   .catch((error) => {
@@ -246,7 +246,7 @@ window.onload = () => {
   }
 
   // fetch the cars from database and populate the marketplace
-  fetchCarAds(`/api/v1/car?owner_id=${user_id}`);
+  fetchCarAds(`/api/v1/car?owner_id=${user_id}`, 'You have not posted any car sale AD.');
 };
 
 closeCarPreview.onclick = () => {
@@ -310,7 +310,7 @@ filterSelectors.forEach((selector) => {
         url += `&${key}=${variables[key]}`;
       }
     });
-    fetchCarAds(url);
+    fetchCarAds(url, 'No car AD matches the filter parameter.');
   };
   return 0;
 });

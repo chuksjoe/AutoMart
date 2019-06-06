@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 
 // utility functions
 const appendLeadZero = val => (Number(val) > 10 ? val : `0${val}`);
+
 const getToken = () => crypto.randomBytes(10).toString('hex');
 
 const hashPassword = (password, saltRound) => bcrypt.hashSync(password, saltRound);

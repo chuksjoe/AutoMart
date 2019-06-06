@@ -35,7 +35,7 @@ phone.onkeyup = () => {
 	phone.value = phone.value.replace(/\D/g, '');
 };
 zip.onkeyup = () => {
-	zip.value = zip.value.replace(/[^0-9][^-]/g, '');
+	zip.value = zip.value.replace(/\D/g, '');
 };
 
 signupBtn.onclick = (e) => {
