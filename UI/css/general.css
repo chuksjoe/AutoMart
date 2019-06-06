@@ -22,7 +22,7 @@ header {
   z-index: 10;
   top: 0;
 }
-#menu-list {
+.menu-list {
   list-style: none;
   display: flex;
   align-items: center;
@@ -30,10 +30,10 @@ header {
   margin: 0;
   padding: 0;
 }
-#menu-bar {
+.menu-bar {
   margin-top: 10px;
 }
-#menu-btn {
+.menu-btn {
   display: none;
   color: #fff;
   padding: 0 10px;
@@ -41,44 +41,44 @@ header {
   font-size: 1.5rem;
   cursor: pointer;
 }
-#menu-btn:hover {
+.menu-btn:hover {
   color: #000;
   background-color: #fff;
 }
-#menu-list li {
+.menu-list li {
   margin: 0px 10px;
   padding-bottom: 10px;
 }
-li#current {
+li.current {
   border-bottom: 2px solid #fff;
   padding-top: 2px;
 }
-#menu-list li a {
+.menu-list li a {
   text-decoration: none;
   font-size: 1.3rem;
   color: #fff;
 }
-#menu-list li a:hover {
+.menu-list li a:hover {
   text-decoration: underline;
 }
-li#current a {
+li.current a {
   color: #aaa;
 }
-li#current a:hover {
+li.current a:hover {
   text-decoration: none;
 }
-li#current ul.dropdown-list a {
+li.current ul.dropdown-list a {
   color: #fff;
 }
-li#current ul.dropdown-list a:hover {
+li.current ul.dropdown-list a:hover {
   text-decoration: underline;
 }
-li#current ul.dropdown-list #here {
+li.current ul.dropdown-list .here {
   background-color: #aaa;
   padding: 0 10px 10px;
   margin: 0;
 }
-li#current ul.dropdown-list #here a:hover {
+li.current ul.dropdown-list .here a:hover {
   text-decoration: none;
 }
 .dropdown {
@@ -134,7 +134,7 @@ footer .inner-div {
 .flex-container {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-wrap: wrap;
 }
 
@@ -304,7 +304,7 @@ button[disabled]:hover {
   list-style: none;
   padding: 0;
 }
-.car-list-item:hover {
+.car-card:hover {
   box-shadow: 0 0 3px #333;
 }
 .car-image {
@@ -407,7 +407,8 @@ h3.c-details-mv {
   text-align: center;
   font-size: 1.3rem;
 }
-.c-price {
+.c-price,
+.c-c-o-price {
   text-align: center;
   font-size: 2rem;
   margin: 0;
@@ -424,19 +425,27 @@ h3.c-details-mv {
   width: 49%;
   padding: 0 15px;
 }
-#added-date {
+.added-date {
   position: absolute;
   top: 10px;
   left: 10px;
   color: #fff;
 }
-#prop-list {
+.prop-list {
   justify-content: normal;
 }
 .prop {
   width: 33.3%;
   margin: 10px 0 0;
   line-height: 1.4;
+}
+
+/*for notification modal*/
+#notification-overlay {
+  z-index: 200;
+}
+.message {
+  text-align: center;
 }
 
 @media only screen and (max-width: 800px) {
@@ -472,10 +481,18 @@ h3.c-details-mv {
   .car-view-main-desc {
     width: 100%;
   }
+  .added-date {
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    color: #000;
+    background-color: #fff;
+    padding: 5px 10px;
+  }
 }
 
 @media only screen and (max-width: 750px) {
-  #menu-list {
+  .menu-list {
     display: none;
     width: 100%;
     position: absolute;
@@ -485,13 +502,13 @@ h3.c-details-mv {
     background-color: rgba(0, 0, 0, 0.8);
     text-align: center;
   }
-  #menu-list li {
+  .menu-list li {
     padding: 10px 10px;
   }
-  #menu-list li:hover {
+  .menu-list li:hover {
     background-color: #2993e2;
   }
-  #menu-btn {
+  .menu-btn {
     display: block;
   }
   ul.dropdown-list {
@@ -502,14 +519,6 @@ h3.c-details-mv {
     padding-bottom: 10px;
     background-color: #000;
     color: #fff;
-  }
-  #added-date {
-    position: absolute;
-    top: 60px;
-    left: 20px;
-    color: #000;
-    background-color: #fff;
-    padding: 5px 10px;
   }
 }
 

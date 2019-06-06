@@ -2,5 +2,10 @@
 	"mode": "Server Development",
 	"port": 3000,
 	"path": "http://localhost:3000",
-	"database": ""
+	"database": "",
+	"cloud_name": "chuks-automart",
+  "api_key": 265174745867676,
+  "api_secret": "9t57ggkAE7HqFUuDNPPQTExpNAg",
+  "enhance_image_tag": true,
+  "static_file_support": false
 }

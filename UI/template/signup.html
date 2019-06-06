@@ -9,22 +9,22 @@
 		<link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
 		
-		<link href="../css/general.css" rel="stylesheet">
-		<link href="../css/form-pages.css" rel="stylesheet">
+		<link href="/css/general.css" rel="stylesheet">
+		<link href="/css/form-pages.css" rel="stylesheet">
 		
-		<link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+		<link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 	</head>
 	<body>
 		<div class="container">
 			<header>
 				<nav>
-					<a href="./index.html"><img src="../images/automart-full-logo-250px.png" width="150"></a>
-					<div id="menu-bar">
-						<span id="menu-btn"><i class="fa fa-bars"></i><i class="fa fa-times hide"></i></span>
-						<ul id="menu-list">
-							<li><a href="./marketplace.html">Marketplace</a></li>
-							<li><a href="#">About Us</a></li>
-							<li><a href="./signin.html">Sign In</a></li>
+					<a href="./index"><img src="/images/automart-full-logo-250px.png" width="150"></a>
+					<div class="menu-bar">
+						<span class="menu-btn"><i class="fa fa-bars"></i><i class="fa fa-times hide"></i></span>
+						<ul class="menu-list">
+							<li><a href="./marketplace">Marketplace</a></li>
+							<li><a href="https://documenter.getpostman.com/view/7607196/S1TYWGgG" target="_blank">Doc</a></li>
+							<li><a href="./signin">Sign In</a></li>
 						</ul>
 					</div>
 				</nav>
@@ -34,29 +34,28 @@
 					<h1>Create New Account</h1>
 					<form>
 						<div>
-							<div id="error-div"></div>
 							<div class = "input-group flex-container">
 								<div class = "input-field">
 									<label for="fname">First Name:*</label>
-									<input type="text" id="fname" name="fname" autofocus/>
+									<input type="text" id="first-name" required name="first-name" autofocus/>
 								</div>
 								<div class = "input-field">
 									<label for="lname">Last Name:*</label>
-									<input type="text" id="lname" name="lname"/>
+									<input type="text" id="last-name" required name="last-name"/>
 								</div>
 							</div>
 							<div class = "input-field single">
 								<label for="email">E-mail:*</label>
-								<input type="email" id="email" name="email"/>
+								<input type="email" id="email" required name="email"/>
 							</div>
 							<div class="input-group flex-container">
 								<div class = "input-field">
 									<label for="password1">Password:*</label>
-									<input type="password" id="password1" name="password1"/>
+									<input type="password" id="password1" required name="password1"/>
 								</div>
 								<div class = "input-field">
 									<label for="password2">Verify Password:*</label>
-									<input type="password" id="password2" name="password2"/>
+									<input type="password" id="password2" required name="password2"/>
 								</div>
 							</div>
 							<div class="input-group flex-container">
@@ -89,9 +88,9 @@
 									<input type="text" id="zip-code" name="zip-code"/>
 								</div>
 							</div>
-							
+							<div id="error-div" class="hide"></div>
 							<p class = "note">Note: The feilds with astherisk(*) are <b>compulsory</b>.</p>
-							<input type="submit" id="submit" class="full-btn btn" name="submit" value = "Create Account"/>
+							<button id="signup-btn" class="full-btn btn">Create Account</button>
 						</div>
 					</form>
 				</div>
@@ -113,6 +112,7 @@
 		</div>
 
 		<!-- scripts -->
-		<script src="../js/general.js"></script>
+		<script src="/js/general.js"></script>
+		<script src="/js/signup.js"></script>
 	</body>
 </html>

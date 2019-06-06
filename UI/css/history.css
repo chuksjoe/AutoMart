@@ -70,7 +70,12 @@ h2 {
 	.user-actions {
 		border-left: none;
 		border-top: 2px solid #eee;
+		display: flex;
+    justify-content: space-between;
 	}
+  .user-actions .btn {
+    margin: 0 2px;
+  }
 	.history-list-item:hover .purchase-date {
 		border-right: none; 
 		border-bottom: 2px solid #fff;

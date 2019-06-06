@@ -1,6 +1,11 @@
 {
 	"mode": "Server Test",
-	"port": 3100,
-	"path": "http://localhost:3100",
-	"database": ""
+	"port": 4000,
+	"path": "http://localhost:4000",
+	"database": "",
+	"cloud_name": "chuks-automart",
+  "api_key": "'265174745867676'",
+  "api_secret": "9t57ggkAE7HqFUuDNPPQTExpNAg",
+  "enhance_image_tag": true,
+  "static_file_support": false
 }

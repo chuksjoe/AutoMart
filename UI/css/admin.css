@@ -1,7 +1,7 @@
 .car-list {
 	width: 100%;
 }
-.car-list-item {
+.car-card {
 	width: 100%;
 	background-color: #fff;
 	margin-bottom: 30px;
@@ -38,7 +38,7 @@
 	.main-75 {
 		width: 65%;
 	}
-	.car-list-item {
+	.car-card {
 		display: block;
 	}
 	.car-image,

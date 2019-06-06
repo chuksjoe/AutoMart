@@ -9,30 +9,30 @@
 		<link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
 		
-		<link href="../css/general.css" rel="stylesheet">
-		<link href="../css/admin.css" rel="stylesheet">
-		<link href="../css/my-posted-ads.css" rel="stylesheet">
+		<link href="/css/general.css" rel="stylesheet">
+		<link href="/css/admin.css" rel="stylesheet">
+		<link href="/css/my-posted-ads.css" rel="stylesheet">
 
-		<link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+		<link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 	</head>
 	<body>
 		<div class="container">
 			<header>
 				<nav>
-					<a href="./index.html"><img src="../images/automart-full-logo-250px.png" width="150"></a>
-					<div id="menu-bar">
-						<span id="menu-btn"><i class="fa fa-bars"></i><i class="fa fa-times hide"></i></span>
-						<ul id="menu-list">
-							<li><a href="./post-new-ad.html">Post New AD</a></li>
-							<li><a href="./marketplace.html">Marketplace</a></li>
-							<li id="current"><a href="./my-posted-ads.html">My ADs</a></li>
+					<a href="./index"><img src="/images/automart-full-logo-250px.png" width="150"></a>
+					<div class="menu-bar">
+						<span class="menu-btn"><i class="fa fa-bars"></i><i class="fa fa-times hide"></i></span>
+						<ul class="menu-list">
+							<li><a href="./post-new-ad">Post New AD</a></li>
+							<li><a href="./marketplace">Marketplace</a></li>
+							<li class="current"><a href="./my-posted-ads">My ADs</a></li>
 							<li class="dropdown"><a href="javascript:void(0)">History <i class="fa fa-caret-down"></i></a>
 								<ul class="dropdown-list"></a>
-									<li><a href="./sales-history.html">Sales History</a></li>
-									<li><a href="./purchase-history.html">Purchase History</a></li>
+									<li><a href="./sales-history">Sales History</a></li>
+									<li><a href="./purchase-history">Purchase History</a></li>
 								</ul>
 							</li>
-							<li><a href="./index.html">Logout</a></li>
+							<li><a href="javascript:void(0)" class="logout">Logout</a></li>
 						</ul>
 					</div>
 				</nav>
@@ -46,15 +46,15 @@
 							<h3>Car Status</h3>
 							<div class="car-state-group">
 								<label>
-									<input type="radio" name="state" class="state" value="0" checked="">
+									<input type="radio" name="status" class="status common-seletor" checked>
 									All
 								</label>
 								<label>
-									<input type="radio" name="state" class="state" value="0">
+									<input type="radio" name="status" class="status common-seletor" value="Sold">
 									Sold
 								</label>
 								<label>
-									<input type="radio" name="state" class="state" value="0">
+									<input type="radio" name="status" class="status common-seletor" value="Available">
 									Unsold
 								</label>
 							</div>
@@ -63,15 +63,15 @@
 							<h3>Car State</h3>
 							<div class="car-state-group">
 								<label>
-									<input type="radio" name="state" class="state" value="0" checked="">
+									<input type="radio" name="state" class="state common-seletor" checked>
 									All
 								</label>
 								<label>
-									<input type="radio" name="state" class="state" value="0">
+									<input type="radio" name="state" class="state common-seletor" value="New">
 									New
 								</label>
 								<label>
-									<input type="radio" name="state" class="state" value="0">
+									<input type="radio" name="state" class="state common-seletor" value="Used">
 									Used
 								</label>
 							</div>
@@ -79,59 +79,63 @@
 						<div class="filter-attr">
 							<h3>Price Range</h3>
 							<div class="price-range">
-								<input type="text" class="price" data-type="number" min="1000" name="" placeholder="Min Price(&#8358)">
-								<input type="text" class="price" data-type="number" min="1000" name="" placeholder="Max Price(&#8358)">
+								<input type="text" class="price min-price common-seletor" data-type="number" min="1000" placeholder="Min Price(&#8358)">
+								<input type="text" class="price max-price common-seletor" data-type="number" min="1000" placeholder="Max Price(&#8358)">
 							</div>
 						</div>
 						<div class="filter-attr">
 							<h3>Manufacturer</h3>
 							<div class="manufacturer-group">
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" checked>
+									All
+								</label>
+								<label>
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="Mercedes-Benz">
 									Mercedes-Benz
 								</label>
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-									Volvo
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="Porsche">
+									Porsche
 								</label>
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="Volkswagen">
 									Volkswagen
 								</label>
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="Honda">
 									Honda
 								</label>
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="Toyota">
 									Toyota
 								</label>
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="Ferrari">
 									Ferrari
 								</label>
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="BMW">
 									BMW
 								</label>
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-									Nissan
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="Chevrolet">
+									Chevrolet
 								</label>
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="Ford">
 									Ford
 								</label>
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
-									Mitsubishi
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="Cobra">
+									Cobra
 								</label>
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="Cadillac">
 									Cadillac
 								</label>
 								<label>
-									<input type="checkbox" name="manufacturer" class="manufacturer" value="0">
+									<input type="radio" name="manufacturer" class="manufacturer common-seletor" value="Jaguar">
 									Jaguar
 								</label>
 							</div>
@@ -140,51 +144,55 @@
 							<h3>Body Type</h3>
 							<div class="body-type-group">
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
+									<input type="radio" name="body-type" class="body-type common-seletor" checked>
+									All
+								</label>
+								<label>
+									<input type="radio" name="body-type" class="body-type common-seletor" value="Micro">
 									Micro
 								</label>
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
+									<input type="radio" name="body-type" class="body-type common-seletor" value="Convertible">
 									Convertible
 								</label>
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
+									<input type="radio" name="body-type" class="body-type common-seletor" value="Large Van">
 									Large Van
 								</label>
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
+									<input type="radio" name="body-type" class="body-type common-seletor" value="Large SUV">
 									Large SUV
 								</label>
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
+									<input type="radio" name="body-type" class="body-type common-seletor" value="Small Van">
 									Small Van
 								</label>
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
+									<input type="radio" name="body-type" class="body-type common-seletor" value="Coupe">
 									Coupe
 								</label>
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
+									<input type="radio" name="body-type" class="body-type common-seletor" value="Sudan">
 									Sudan
 								</label>
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
+									<input type="radio" name="body-type" class="body-type common-seletor" value="Truck">
 									Truck
 								</label>
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
+									<input type="radio" name="body-type" class="body-type common-seletor" value="Truck Cab">
 									Truck Cab
 								</label>
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
+									<input type="radio" name="body-type" class="body-type common-seletor" value="MPV">
 									MPV
 								</label>
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
-									Pick up
+									<input type="radio" name="body-type" class="body-type common-seletor" value="Pick Up">
+									Pick Up
 								</label>
 								<label>
-									<input type="checkbox" name="body-type" class="body-type" value="0">
+									<input type="radio" name="body-type" class="body-type common-seletor" value="Hatch">
 									Hatch
 								</label>
 							</div>
@@ -195,9 +203,9 @@
 				<main class="main-75">
 					<h2>My Posted ADs</h2>
 					<ul class="car-list">
-						<li class="car-list-item flex-container">
+						<!-- <li class="car-card flex-container">
 							<div class="car-image">
-								<img src="../images/car-samples/car-sample-1.jpg" title="Preview AD">
+								<img src="/images/car-samples/car-sample-1.jpg" title="Preview AD">
 								<label class="car-state-tag">New</label>
 							</div>
 							<div class="car-info">
@@ -212,79 +220,7 @@
 								<button class="mark-sold full-btn btn">Mark Sold</button>
 								<button class="delete full-btn btn">Delete AD</button>
 							</div>
-						</li>
-						<li class="car-list-item flex-container">
-							<div class="car-image">
-								<img src="../images/car-samples/car-sample-9.jpg" title="Preview AD">
-								<label class="car-state-tag">New</label>
-							</div>
-							<div class="car-info">
-								<h3 class="c-details-list">2010 Honda CX422</h3>
-								<label class="car-status-tag">Unsold</label>
-								<p class="car-price">&#8358 5,200,000</p>
-								<p><b>Body type:</b> Salon Car</p>
-								<p>Posted on: 23-April-2019 12:45am</p>
-							</div>
-							<div class="user-actions">
-								<button class="update-p full-btn btn">Update Price</button>
-								<button class="mark-sold full-btn btn">Mark Sold</button>
-								<button class="delete full-btn btn">Delete AD</button>
-							</div>
-						</li>
-						<li class="car-list-item flex-container">
-							<div class="car-image">
-								<img src="../images/car-samples/car-sample-7.jpg" title="Preview AD">
-								<label class="car-state-tag">New</label>
-							</div>
-							<div class="car-info">
-								<h3 class="c-details-list">2010 Honda CX422</h3>
-								<label class="car-status-tag">Unsold</label>
-								<p class="car-price">&#8358 5,200,000</p>
-								<p><b>Body type:</b> Salon Car</p>
-								<p>Posted on: 23-April-2019 12:45am</p>
-							</div>
-							<div class="user-actions">
-								<button class="update-p full-btn btn">Update Price</button>
-								<button class="mark-sold full-btn btn">Mark Sold</button>
-								<button class="delete full-btn btn">Delete AD</button>
-							</div>
-						</li>
-						<li class="car-list-item flex-container">
-							<div class="car-image">
-								<img src="../images/car-samples/car-sample-10.jpg" title="Preview AD">
-								<label class="car-state-tag">New</label>
-							</div>
-							<div class="car-info">
-								<h3 class="c-details-list">2010 Honda CX422</h3>
-								<label class="car-status-tag">Unsold</label>
-								<p class="car-price">&#8358 5,200,000</p>
-								<p><b>Body type:</b> Salon Car</p>
-								<p>Posted on: 23-April-2019 12:45am</p>
-							</div>
-							<div class="user-actions">
-								<button class="update-p full-btn btn">Update Price</button>
-								<button class="mark-sold full-btn btn">Mark Sold</button>
-								<button class="delete full-btn btn">Delete AD</button>
-							</div>
-						</li>
-						<li class="car-list-item flex-container">
-							<div class="car-image">
-								<img src="../images/car-samples/car-sample-12.jpg" title="Preview AD">
-								<label class="car-state-tag">New</label>
-							</div>
-							<div class="car-info">
-								<h3 class="c-details-list">2010 Honda CX422</h3>
-								<label class="car-status-tag">Unsold</label>
-								<p class="car-price">&#8358 5,200,000</p>
-								<p><b>Body type:</b> Salon Car</p>
-								<p>Posted on: 23-April-2019 12:45am</p>
-							</div>
-							<div class="user-actions">
-								<button class="update-p full-btn btn">Update Price</button>
-								<button class="mark-sold full-btn btn">Mark Sold</button>
-								<button class="delete full-btn btn">Delete AD</button>
-							</div>
-						</li>
+						</li> -->
 					</ul>
 				</main>
 			</div>
@@ -306,19 +242,19 @@
 		</div>
 
 		<!-- Modal view to view a specific car -->
-		<div id="car-preview-overlay" class="overlay" style="display: none">
+		<div id="car-preview-overlay" class="overlay">
 			<div class="lg-m-v">
-				<h2 class="modal-header">New Volkswagen Cx3 - 2001</h2>
-				<p id="added-date">Added: 12-Jan-2019 3:23pm</p>
+				<h2 class="modal-header"></h2>
+				<p class="added-date"></p>
 				<div id="close-car-preview" class="fa fa-times close-btn"></div>
 				<div class="modal-body">
 					<div class="car-view-detail flex-container">
 						<div class="car-view-image">
-							<img src="../images/car-samples/car-sample-10.jpg">
+							<img src="">
 						</div>
 						<div class="car-view-main-desc">
-							<p class="c-price">Price: &#8358 23,000,000</p>
-							<div id="prop-list" class="flex-container">
+							<!-- <p class="c-price">Price: &#8358 23,000,000</p>
+							<div class="prop-list flex-container">
 								<p class="prop"><b>Make:</b><br>Volkswagen</p>
 								<p class="prop"><b>Model:</b><br>Cx3</p>
 								<p class="prop"><b>State:</b><br>Brand New</p>
@@ -330,12 +266,12 @@
 								<p class="prop"><b>Mileage:</b><br>74,544km</p>
 								<p class="prop"><b>Transmission:</b><br>Automatic</p>
 								<p class="prop"><b>Engine Detail:</b><br>2.8 Turbo Diesel</p>
-								<p class="prop"><b>Owner:</b><br>Me</p>
+								<p><a href="#">Full Details >></a></p>
 							</div>
 							<div class="btn-group flex-container">
-								<button class="delete half-btn btn">Delete AD</button>
-								<button class="half-btn btn">Mark Sold</button>
-							</div>
+								<button id="order-from-car-preview" class="half-btn btn">Place Order</button>
+								<button id="flag-fraud" class="half-btn btn">Flag Fradulent AD</button>
+							</div> -->
 						</div>
 					</div>
 				</div>
@@ -343,17 +279,17 @@
 		</div>
 
 		<!-- Modal view to update posted AD price -->
-		<div id="update-price-overlay" class="overlay" style="display: none">
+		<div id="update-price-overlay" class="overlay">
 			<div class="modal-view sm-m-v">
 				<h2 class="modal-header">Update AD Price</h2>
 				<div class="modal-body">
-					<h3 id="c-details" class="c-details-mv">New Volkswagen Cx3 - 2001</h3>
-					<p id="body-type" class="c-b-type">(Large Van)</p>
-					<p id="car-price" class="c-price">Currrent Price:<br>&#8358 13,000,000</p>
-					<form>
+					<h3 class="c-details-mv"></h3>
+					<p class="c-b-type"></p>
+					<p class="c-price"></p>
+					<form class="update-price-form">
 						<div class = "input-field single">
 							<label for="">New Price(&#8358):</label><br>
-							<input type="text" class="price" data-type="number" min="1000" name="offering-price" placeholder="Offering Price(&#8358):">
+							<input type="text" class="price" data-type="number" placeholder="Offering Price(&#8358):">
 						</div>
 						<div class="btn-group flex-container">
 							<button id="update-price" class="half-btn btn">Update Price</button>
@@ -364,9 +300,20 @@
 			</div>
 		</div>
 		
+		<!-- Modal view for All Notifications -->
+		<div id="notification-overlay" class="overlay">
+			<div class="modal-view sm-m-v">
+				<h2 class="modal-header">Notification</h2>
+				<div class="modal-body">
+					<div class="message"></div>
+					<button class="full-btn btn close-notification">Close</button>
+				</div>
+			</div>
+		</div>
+
 		<!-- scripts -->
-		<script src="../js/general.js"></script>
-		<script src="../js/filter-response.js"></script>
-		<script src="../js/my-posted-ads.js"></script>
+		<script src="/js/general.js"></script>
+		<script src="/js/filter-response.js"></script>
+		<script src="/js/my-posted-ads.js"></script>
 	</body>
 </html>
