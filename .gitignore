@@ -5,3 +5,5 @@ node_modules/
 dist
 cloudinary.yml
 package-lock.json
+.env*
+config/

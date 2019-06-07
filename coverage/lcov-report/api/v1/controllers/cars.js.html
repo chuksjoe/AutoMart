@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">59.41% </span>
+        <span class="strong">56.31% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>60/101</span>
+        <span class='fraction'>58/103</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">72.5% </span>
+        <span class="strong">70% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>29/40</span>
+        <span class='fraction'>28/40</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">66.67% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>6/9</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">76.06% </span>
+        <span class="strong">71.23% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>54/71</span>
+        <span class='fraction'>52/73</span>
       </div>
     </div>
     <p class="quiet">
@@ -229,14 +229,13 @@
 <a name='L181'></a><a href='#L181'>181</a>
 <a name='L182'></a><a href='#L182'>182</a>
 <a name='L183'></a><a href='#L183'>183</a>
-<a name='L184'></a><a href='#L184'>184</a>
-<a name='L185'></a><a href='#L185'>185</a>
-<a name='L186'></a><a href='#L186'>186</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L184'></a><a href='#L184'>184</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -248,20 +247,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -274,6 +262,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -303,7 +302,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -413,12 +412,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import config from 'config';
-&nbsp;
-import cars from '../models/cars';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import cars from '../models/cars';
 import users from '../models/users';
 import util from '../utils';
 &nbsp;
@@ -426,38 +420,38 @@ const cloudinary = require('cloudinary').v2;
 const debug = require('debug')('http');
 &nbsp;
 cloudinary.config({
-	cloud_name: config.get('cloud_name'),
-	api_key: config.get('api_key'),
-	api_secret: config.get('api_secret'),
+	cloud_name: process.env.CLOUD_NAME,
+	api_key: process.env.API_KEY,
+	api_secret: process.env.API_SECRET,
 });
 &nbsp;
 export default {
-	// create a new car Ad an<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >d add it to car ads list</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>
+	// create a new car Ad and add it to car ads list
 	createNewCarAd(req, res) {
-		<span class="missing-if-branch" title="else path not taken" >E</span>const owner = users.getAUserById(parseInt(req.body.owner_id, 10));
-		if (owner === null) {
-			return res.status(401).send({ status: 401, data: 'Unauthorized Access!' });
-		}<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ></span></span></span>
-		const { first_name, last_name, email } = owner;
+		const owner = users.getAUserById(parseInt(req.body.owner_id, 10));
+		if (owner === null) {<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>
+			return res.st<span class="cstat-no" title="statement not covered" >atus(40</span>1).send({ status: 401, data: 'Unauthorized Access!' });
+<span class="cstat-no" title="statement not covered" >		}</span>
+		c<span class="cstat-no" title="statement not covered" >onst { f</span>irst_name, last_name, email } = owner;
 		const {
-			state, price, manufacturer, transmission_type,
+			state, price, manufacturer, transmission<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >_type,</span></span></span>
 			model, body_type, fuel_type, description, mileage,
 			color, year, ac, arm_rest, fm_radio, dvd_player,
-			tin<span class="cstat-no" title="statement not covered" >ted_windows, air_bag, owner_id, doors, fuel_cap,</span>
+			tinted_windows, air_bag, owner_id, doors, fuel_cap,
 		} = req.body;
 &nbsp;
-		// for (let ke in req.files.img_url) {
+		// f<span class="cstat-no" title="statement not covered" >or (let ke in req.files.img_url) {</span>
 		// 	console.warn(`req.files.image properties: ${ke}: ${req.files.img_url[ke]}`);
-<span class="cstat-no" title="statement not covered" >		// }</span>
+		// }
 		cloudinary.uploader.upload(req.files.img_url.path, {
 			tags: 'auto-mart',
-			folder: 'uploads/',
+<span class="cstat-no" title="statement not covered" >			folder: 'up</span>loads/',
 			resource_type: 'auto',
-		})<span class="fstat-no" title="function not covered" ></span>
-		.then((file) =&gt; <span class="cstat-no" title="statement not covered" >{</span>
+		})
+		.then((file) =&gt; {
 			const newCar = cars.createNewCar({
-				img_url: file.url,
-				name: `${state} ${year} ${manufacturer} ${model}`,
+				img_<span class="fstat-no" title="function not covered" >ur</span>l: file.url,
+				name: `${state<span class="cstat-no" title="statement not covered" >} ${ye</span>ar} ${manufacturer} ${model}`,
 				owner_id: parseInt(owner_id, 10),
 				owner_name: `${first_name} ${last_name.charAt(0)}.`,
 				email,
@@ -484,38 +478,38 @@ export default {
 					tinted_windows: tinted_windows === 'true',
 					air_bag: air_bag === 'true',
 				},
-<span class="cstat-no" title="statement not covered" >			});</span>
+			});
 			return res.status(201).send({ status: 201, data: newCar });
-		})<span class="fstat-no" title="function not covered" ></span>
-		.<span class="cstat-no" title="statement not covered" >catch((err) =&gt; {</span>
+		})
+		.<span class="cstat-no" title="statement not covered" >catch((e</span>rr) =&gt; {
 			if (err) {
-<span class="cstat-no" title="statement not covered" >				debug(er</span>r);
-				return res.status(510).send({ status: 510, data: 'Seems like your network connection is down.' });
-<span class="cstat-no" title="statement not covered" >			}</span>
-			return 0;
-<span class="cstat-no" title="statement not covered" >		});</span>
-		return 0;
+				debug<span class="fstat-no" title="function not covered" >(e</span>rr);
+<span class="cstat-no" title="statement not covered" >				return res.status(510).send({ status: 510, data: 'Seems like your network connection is down.' });</span>
+			}<span class="cstat-no" title="statement not covered" ></span>
+			r<span class="cstat-no" title="statement not covered" >eturn 0;</span>
+		});
+		r<span class="cstat-no" title="statement not covered" >eturn 0;</span>
 	},
-	// get a specific car give the car id
+	/<span class="cstat-no" title="statement not covered" >/ get a </span>specific car give the car id
 	getACar(req, res) {
-		<span class="missing-if-branch" title="else path not taken" >E</span>const car = cars.getACar(parseInt(req.params.car_id, 10));
+		const car = cars.getACar(parseInt(req.params.car_id, 10));
 		if (car !== null) {
 			res.status(200).send({ status: 200, data: car });
-		}<span class="cstat-no" title="statement not covered" > else</span> {
+		<span class="missing-if-branch" title="else path not taken" >E</span>} else {
 			res.status(404).send({ status: 404, data: 'Car not found in database.' });
 		}
-	},
+	},<span class="cstat-no" title="statement not covered" ></span>
 	// get all cars whether sold or unsold if user is admin, else get all unsold cars
 	// if filter query is entered, get a filered list of cars depending on the queries.
 	getAllCars(req, res) {
 		let carsList = cars.getAllCars();
 		// filter car ads based on price range
 		let { min_price, max_price } = req.query;
-		i<span class="missing-if-branch" title="if path not taken" >I</span>f (min_price !== undefined ||<span class="cstat-no" title="statement not covered" > max_price !=</span>= undefined) {
-			<span class="missing-if-branch" title="if path not taken" >I</span>if (min_price === undefined) <span class="cstat-no" title="statement not covered" >min_price = 1</span>000;
+		if (min_price !== undefined || max_price !== undefined) {
+			if (min_price === undefined) min_price = 1000;
 			if (max_price === undefined) max_price = Number.MAX_VALUE;
-			carsList = carsList.filter(car =&gt; car.price &gt;= min_price &amp;&amp; car.price &lt;= max_price);
-		}
+			<span class="missing-if-branch" title="if path not taken" >I</span>carsList = carsList.filter(ca<span class="cstat-no" title="statement not covered" >r =&gt; car.pric</span>e &gt;= min_price &amp;&amp; car.price &lt;= max_price);
+		}<span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="if path not taken" >I</span></span>
 &nbsp;
 		// filter car ads based on car status
 		const { status } = req.query;
@@ -542,51 +536,51 @@ export default {
 		}
 &nbsp;
 		// filter cars for a specific owner
-		<span class="missing-if-branch" title="if path not taken" >I</span>let { owner_id } = req.query;
-		i<span class="cstat-no" title="statement not covered" >f (owner_id </span>!== undefined) {
-<span class="cstat-no" title="statement not covered" >			owner_id = p</span>arseInt(owner_i<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >d, 10);</span></span>
-			carsList = carsList.filter(car =&gt; car.owner_id === owner_id);
-		}
-		return res.status(200).send({ status: 200, data: carsList });
+		let { owner_id } = req.query;
+		if (owner_id !== undefined) {
+			owner_id = parseInt(owner_id, 10);
+		<span class="missing-if-branch" title="if path not taken" >I</span>	carsList = carsList.filter(car =&gt; car.owner_id === owner_id);
+		}<span class="cstat-no" title="statement not covered" ></span>
+		r<span class="cstat-no" title="statement not covered" >eturn res.st</span>atus(200).send(<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >{ status</span></span>: 200, data: carsList });
 	},
 	// it's only the owner of a sale ad or an admin that can delete a posted ad
 	deleteACar(req, res) {
-		<span class="missing-if-branch" title="else path not taken" >E</span>const car = cars.getACar(parseInt(req.params.car_id, 10));
+		const car = cars.getACar(parseInt(req.params.car_id, 10));
 		if (car !== null) {
 			cars.deleteACar(car.id);
-			res.status(200).json({
+		<span class="missing-if-branch" title="else path not taken" >E</span>	res.status(200).json({
 				status: 200,
 				data: 'Car AD successfully deleted.',
 				message: `You have successfully deleted Ad for&lt;br&gt;&lt;b&gt;${car.name}&lt;/b&gt;`,
 			});
-		}<span class="cstat-no" title="statement not covered" > else</span> {
+		} else {
 			res.status(404).send({ status: 404, data: 'Car not found in database.' });
 		}
-	},
+	},<span class="cstat-no" title="statement not covered" ></span>
 	// it's only the owner of a sale ad that can update the price of a posted ad
 	updateCarPrice(req, res) {
 		const car = cars.getACar(parseInt(req.params.car_id, 10));
 		const user = users.getAUserById(parseInt(req.body.user_id, 10));
-		<span class="missing-if-branch" title="else path not taken" >E</span>const new_price = parseFloat(req.body.new_price);
-		i<span class="missing-if-branch" title="else path not taken" >E</span>f (car !== null) {
+		const new_price = parseFloat(req.body.new_price);
+		if (car !== null) {
 			if (user !== null &amp;&amp; user.id === car.owner_id) {
-				car.price = new_price;
-				const response = cars.updateACar(car.id, car);
+		<span class="missing-if-branch" title="else path not taken" >E</span>		car.price = new_price;
+			<span class="missing-if-branch" title="else path not taken" >E</span>	const response = cars.updateACar(car.id, car);
 				res.status(200).send({ status: 200, data: response });
-			}<span class="cstat-no" title="statement not covered" > else</span> {
+			} else {
 				res.status(401).send({ status: 401, data: 'Unauthorized Access!' });
 			}
-		}<span class="cstat-no" title="statement not covered" > else</span> {
+		} <span class="cstat-no" title="statement not covered" >else </span>{
 			res.status(404).send({ status: 404, data: 'Car not found in database.' });
 		}
-	},
+	},<span class="cstat-no" title="statement not covered" ></span>
 	// it's only the owner of a sale ad that can update the price of a posted ad
 	updateCarStatus(req, res) {
 		const car = cars.getACar(parseInt(req.params.car_id, 10));
-		<span class="missing-if-branch" title="else path not taken" >E</span>const user = users.getAUserById(parseInt(req.body.user_id, 10));
+		const user = users.getAUserById(parseInt(req.body.user_id, 10));
 		if (car !== null) {
 			if (user !== null &amp;&amp; user.id === car.owner_id) {
-				car.status = 'Sold';
+		<span class="missing-if-branch" title="else path not taken" >E</span>		car.status = 'Sold';
 				const response = cars.updateACar(car.id, car);
 				res.status(200).send({
 					status: 200,
@@ -596,10 +590,10 @@ export default {
 			} else {
 				res.status(401).send({ status: 401, data: 'Unauthorized Access!' });
 			}
-		}<span class="cstat-no" title="statement not covered" > else</span> {
+		} else {
 			res.status(404).send({ status: 404, data: 'Car not found in database.' });
 		}
-	},
+	},<span class="cstat-no" title="statement not covered" ></span>
 };
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -607,7 +601,7 @@ export default {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Jun 07 2019 13:15:52 GMT+0100 (West Africa Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Jun 07 2019 15:40:21 GMT+0100 (West Africa Standard Time)
 </div>
 </div>
 <script src="..\..\..\prettify.js"></script>

@@ -1,7 +1,6 @@
 import chai, { expect } from 'chai';
 
 import app from '../api/v1/index';
-import users from '../api/v1/models/users';
 
 describe('Tests for the orders api endpoints', () => {
 	it('should allow a user to sign into their account if they supply valid credentials', (done) => {

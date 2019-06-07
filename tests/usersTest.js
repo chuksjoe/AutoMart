@@ -1,15 +1,17 @@
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
-import config from 'config';
 
 import app from '../api/v1/index';
+
+require('dotenv').config();
+require('custom-env').env(true);
 
 chai.use(chaiHttp);
 chai.should();
 // testing to ensure the server is running
 describe('Check Server', () => {
-	it(`should test that server is running on port ${config.get('port')}`, () => {
-		app.port.should.be.eql(config.get('port'));
+	it(`should test that server is running on port ${process.env.PORT}`, () => {
+		app.port.should.be.eql(parseInt(process.env.PORT, 10));
 	});
 });
 

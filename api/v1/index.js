@@ -1,15 +1,16 @@
 import express from 'express';
-import config from 'config';
 import logger from 'morgan';
 import path from 'path';
 import compression from 'compression';
 
 import router from './server';
 
+require('dotenv').config();
+require('custom-env').env(true);
 const debug = require('debug')('http');
 
 const app = express();
-const port = config.get('port');
+const port = process.env.PORT;
 const prefix = '/api/v1';
 
 app.use(logger('combined'));
@@ -75,8 +76,8 @@ app.get('*', (req, res) => {
 	res.redirect(`${prefix}/index`);
 });
 
-const listen = app.listen(port, () => {
-	debug(`AutoMart Server is running on port ${port} and in ${config.get('mode')} mode...`);
+const listen = app.listen(port || 5000, () => {
+	debug(`AutoMart Server is running on port ${port} and in ${process.env.MODE} mode...`);
 });
 
 // for testing

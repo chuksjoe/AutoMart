@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import config from 'config';
+
+require('dotenv').config();
+require('custom-env').env(true);
 
 // utility functions
 const appendLeadZero = val => (Number(val) > 10 ? val : `0${val}`);
@@ -9,7 +11,7 @@ module.exports = {
 	encodeToken: (email, id = 0) => {
 		const payload = { email, id };
 		const option = { expiresIn: '1d', issuer: 'automart' };
-		const secret = config.get('jwt_secret');
+		const secret = process.env.JWT_SECRET;
 		return jwt.sign(payload, secret, option);
 	},
 
@@ -37,7 +39,7 @@ module.exports = {
 				issuer: 'automart',
 			};
 			try {
-				result = jwt.verify(token, config.get('jwt_secret'), options);
+				result = jwt.verify(token, process.env.JWT_SECRET, options);
 				req.decoded = result;
 				next();
 			}	catch (err) {

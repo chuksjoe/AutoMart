@@ -130,7 +130,8 @@
 <a name='L82'></a><a href='#L82'>82</a>
 <a name='L83'></a><a href='#L83'>83</a>
 <a name='L84'></a><a href='#L84'>84</a>
-<a name='L85'></a><a href='#L85'>85</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -214,18 +215,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import express from 'express';
-import config from 'config';
 import logger from 'morgan';
 import path from 'path';
 import compression from 'compression';
 &nbsp;
 import router from './server';
 &nbsp;
+require('dotenv').config();
+require('custom-env').env(true);
 const debug = require('debug')('http');
 &nbsp;
 const app = express();
-const port = config.get('port');
+const port = process.env.PORT || 5000;
 const prefix = '/api/v1';
 &nbsp;
 app.use(logger('combined'));
@@ -245,54 +248,54 @@ app.use(express.static(resoursePath));
 app.use('/css', express.static(path.join(__dirname, '../../UI/css')));
 app.use('/js', express.static(path.join(__dirname, '../../UI/js')));
 app.use('/images', express.static(path.join(__dirname, '../../UI/images')));
-&nbsp;
-app.get(`${prefix}`, <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >  res.r</span>edirect(`${prefix}/index`);
+<span class="fstat-no" title="function not covered" ></span>
+ap<span class="cstat-no" title="statement not covered" >p.get</span>(`${prefix}`, (req, res) =&gt; {
+  res.redirect(`${prefix}/index`);
+});
+<span class="fstat-no" title="function not covered" ></span>
+ap<span class="cstat-no" title="statement not covered" >p.get</span>(`${prefix}/index`, (req, res) =&gt; {
+  res.sendFile(path.join(__dirname, dirName, '/index.html'));
+});
+<span class="fstat-no" title="function not covered" ></span>
+ap<span class="cstat-no" title="statement not covered" >p.get</span>(`${prefix}/signup`, (req, res) =&gt; {
+  res.sendFile(path.join(__dirname, dirName, '/signup.html'));
+});
+<span class="fstat-no" title="function not covered" ></span>
+ap<span class="cstat-no" title="statement not covered" >p.get</span>(`${prefix}/signin`, (req, res) =&gt; {
+  res.sendFile(path.join(__dirname, dirName, '/signin.html'));
+});
+<span class="fstat-no" title="function not covered" ></span>
+ap<span class="cstat-no" title="statement not covered" >p.get</span>(`${prefix}/admin`, (req, res) =&gt; {
+  res.sendFile(path.join(__dirname, dirName, '/admin.html'));
+});
+<span class="fstat-no" title="function not covered" ></span>
+ap<span class="cstat-no" title="statement not covered" >p.get</span>(`${prefix}/marketplace`, (req, res) =&gt; {
+  res.sendFile(path.join(__dirname, dirName, '/marketplace.html'));
+});
+<span class="fstat-no" title="function not covered" ></span>
+ap<span class="cstat-no" title="statement not covered" >p.get</span>(`${prefix}/my-posted-ads`, (req, res) =&gt; {
+  res.sendFile(path.join(__dirname, dirName, '/my-posted-ads.html'));
+});
+<span class="fstat-no" title="function not covered" ></span>
+ap<span class="cstat-no" title="statement not covered" >p.get</span>(`${prefix}/post-new-ad`, (req, res) =&gt; {
+  res.sendFile(path.join(__dirname, dirName, '/post-new-ad.html'));
+});
+<span class="fstat-no" title="function not covered" ></span>
+ap<span class="cstat-no" title="statement not covered" >p.get</span>(`${prefix}/purchase-history`, (req, res) =&gt; {
+  res.sendFile(path.join(__dirname, dirName, '/purchase-history.html'));
+});
+<span class="fstat-no" title="function not covered" ></span>
+ap<span class="cstat-no" title="statement not covered" >p.get</span>(`${prefix}/sales-history`, (req, res) =&gt; {
+  res.sendFile(path.join(__dirname, dirName, '/sales-history.html'));
 });
 &nbsp;
-app.get(`${prefix}/index`, <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >  res.s</span>endFile(path.join(__dirname, dirName, '/index.html'));
-});
-&nbsp;
-app.get(`${prefix}/signup`, <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >  res.s</span>endFile(path.join(__dirname, dirName, '/signup.html'));
-});
-&nbsp;
-app.get(`${prefix}/signin`, <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >  res.s</span>endFile(path.join(__dirname, dirName, '/signin.html'));
-});
-&nbsp;
-app.get(`${prefix}/admin`, <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >  res.s</span>endFile(path.join(__dirname, dirName, '/admin.html'));
-});
-&nbsp;
-app.get(`${prefix}/marketplace`, <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >  res.s</span>endFile(path.join(__dirname, dirName, '/marketplace.html'));
-});
-&nbsp;
-app.get(`${prefix}/my-posted-ads`, <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >  res.s</span>endFile(path.join(__dirname, dirName, '/my-posted-ads.html'));
-});
-&nbsp;
-app.get(`${prefix}/post-new-ad`, <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >  res.s</span>endFile(path.join(__dirname, dirName, '/post-new-ad.html'));
-});
-&nbsp;
-app.get(`${prefix}/purchase-history`, <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >  res.s</span>endFile(path.join(__dirname, dirName, '/purchase-history.html'));
-});
-&nbsp;
-app.get(`${prefix}/sales-history`, <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >  res.s</span>endFile(path.join(__dirname, dirName, '/sales-history.html'));
-});
-&nbsp;
-// default page is set to the index page
-app.get('*', <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >	res.r</span>edirect(`${prefix}/index`);
+// default pa<span class="fstat-no" title="function not covered" >ge</span> is set to the index page
+a<span class="cstat-no" title="statement not covered" >pp.ge</span>t('*', (req, res) =&gt; {
+	res.redirect(`${prefix}/index`);
 });
 &nbsp;
 const listen = app.listen(port, () =&gt; {
-	debug(`AutoMart Server is running on port ${port} and in ${config.get('mode')} mode...`);
+	debug(`AutoMart Server is running on port ${port} and in ${process.env.MODE} mode...`);
 });
 &nbsp;
 // for testing
@@ -304,7 +307,7 @@ module.exports.port = listen.address().port;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Jun 07 2019 13:15:52 GMT+0100 (West Africa Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Jun 07 2019 15:40:21 GMT+0100 (West Africa Standard Time)
 </div>
 </div>
 <script src="..\..\prettify.js"></script>
