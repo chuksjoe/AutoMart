@@ -5,6 +5,7 @@ const closeNotifation = document.querySelector('.close-notification');
 
 const user_id = sessionStorage.getItem('user_id');
 const is_loggedin = sessionStorage.getItem('is_loggedin');
+const token = sessionStorage.getItem('token');
 
 const openUpdateModal = (params) => {
 	const {
@@ -31,7 +32,7 @@ const openUpdateModal = (params) => {
     const init = {
       method: 'PATCH',
       body: JSON.stringify(data),
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', authorization: `Bearer ${token}` },
     };
     fetch(`/api/v1/order/${id}/price`, init)
     .then(res => res.json())
@@ -62,7 +63,12 @@ window.onload = () => {
   }
 
   // fetch the purchase orders from database and populate the purchase history page
-   fetch(`/api/v1/order?user_id=${user_id}`)
+  const init = {
+    method: 'GET',
+    headers: { authorization: `Bearer ${token}` },
+  };
+    
+  fetch(`/api/v1/order?user_id=${user_id}`, init)
   .then(res => res.json())
   .then((response) => {
     const res = response;

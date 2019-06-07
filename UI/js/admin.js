@@ -5,12 +5,13 @@ const closeNotifation = document.querySelector('.close-notification');
 
 const is_loggedin = sessionStorage.getItem('is_loggedin');
 const is_admin = sessionStorage.getItem('is_admin');
+const token = sessionStorage.getItem('token');
 
 /* ================ Helper funtions ================= */
 const deleteAd = (car_id) => {
   const init = {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', authorization: `Bearer ${token}` },
   };
   fetch(`/api/v1/car/${car_id}`, init)
   .then(res => res.json())

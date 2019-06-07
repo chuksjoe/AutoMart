@@ -12,6 +12,7 @@ const closeNotifation = document.querySelector('.close-notification');
 
 const user_id = sessionStorage.getItem('user_id');
 const is_loggedin = sessionStorage.getItem('is_loggedin');
+const token = sessionStorage.getItem('token');
 
 /* ================ Helper funtions ================= */
 const toggleNavBar = (is_logged, display = 'flex') => {
@@ -56,7 +57,7 @@ const openPurchaseModal = (params) => {
     const init = {
       method: 'POST',
       body: JSON.stringify(data),
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', authorization: `Bearer ${token}` },
     };
     fetch('/api/v1/order', init)
     .then(res => res.json())

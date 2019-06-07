@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for api/v1/index.js</title>
+    <title>Code coverage report for api/v1/controllers/auth.js</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="..\..\prettify.css" />
-    <link rel="stylesheet" href="..\..\base.css" />
+    <link rel="stylesheet" href="..\..\..\prettify.css" />
+    <link rel="stylesheet" href="..\..\..\base.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(..\..\sort-arrow-sprite.png);
+            background-image: url(..\..\..\sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -16,35 +16,35 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="..\..\index.html">All files</a> / <a href="index.html">api/v1</a> index.js
+      <a href="..\..\..\index.html">All files</a> / <a href="index.html">api/v1/controllers</a> auth.js
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">77.08% </span>
+        <span class="strong">89.36% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>37/48</span>
+        <span class='fraction'>42/47</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">76.47% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>13/17</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
-        <span class="quiet">Branches</span>
-        <span class='fraction'>0/0</span>
-      </div>
-      <div class='fl pad1y space-right2'>
-        <span class="strong">8.33% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/12</span>
+        <span class='fraction'>4/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">77.08% </span>
+        <span class="strong">86.11% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>37/48</span>
+        <span class='fraction'>31/36</span>
       </div>
     </div>
     <p class="quiet">
       Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
     </p>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -128,176 +128,170 @@
 <a name='L80'></a><a href='#L80'>80</a>
 <a name='L81'></a><a href='#L81'>81</a>
 <a name='L82'></a><a href='#L82'>82</a>
-<a name='L83'></a><a href='#L83'>83</a>
-<a name='L84'></a><a href='#L84'>84</a>
-<a name='L85'></a><a href='#L85'>85</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L83'></a><a href='#L83'>83</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import express from 'express';
-import config from 'config';
-import logger from 'morgan';
-import path from 'path';
-import compression from 'compression';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import bcrypt from 'bcrypt';
 &nbsp;
-import router from './server';
+import users from '../models/users';
+import util from '../utils';
 &nbsp;
-const debug = require('debug')('http');
+export default {
+	// get list of all the users
+	getAllUsers(req, res) {
+<span class="cstat-no" title="statement not covered" >		return r</span>es.status(200).send({ status: 200, data: users.getAllUsers() });
+	},
+	// create new user and add to database
+	createNewUser(req, res) {
+		let response = null;
+		const saltRound = Math.floor(Math.random() * Math.floor(5) + 2);
+		const {
+			first_name, last_name, email,	password, is_admin,
+			street,	city,	state, country,	phone, zip,
+		} = req.body;
+		if (first_name === undefined || last_name === undefined || password === undefined
+			|| email === undefined || is_admin === undefined) {
+			return res.status(206).send({ status: 206, data: 'some of the main entries is not defined.' });
+		}
 &nbsp;
-const app = express();
-const port = config.get('port');
-const prefix = '/api/v1';
+		const usersList = users.getAllUsers();
+		usersList.map((user) =&gt; {
+			<span class="missing-if-branch" title="if path not taken" >I</span>if (user.email === email) {
+<span class="cstat-no" title="statement not covered" >				return r</span>es.status(200).send({ status: 200, data: `a user with this e-mail (${email}) already exists.` });
+			}
+			return 0;
+		});
 &nbsp;
-app.use(logger('combined'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+		bcrypt.hash(password, saltRound, (err, hash) =&gt; {
+			<span class="missing-if-branch" title="if path not taken" >I</span>if (err) {
+<span class="cstat-no" title="statement not covered" >				return r</span>es.status(500).send({ status: 500, data: 'Something strange has happen, please refresh and then try again.' });
+			}
+			response = users.createNewUser({
+				token: util.encodeToken(email),
+				first_name,
+				last_name,
+				email,
+				password: hash,
+				is_admin: is_admin === 'true',
+				address: {
+					street,
+					city,
+					state,
+					country,
+				},
+				phone,
+				zip,
+				registered_on: Date(),
+			});
+			<span class="missing-if-branch" title="else path not taken" >E</span>if (response !== null) {
+				const data = Object.assign({}, response);
+				delete data.password;
+				return res.status(201).send({ status: 201, data });
+			}
+<span class="cstat-no" title="statement not covered" >			return r</span>es.status(500).send({ status: 500, data: 'Something strange has happen, please refresh and then try again.' });
+		});
+		return 0;
+	},
+	// sign in a user if valid credentials are provided
+	signinUser(req, res) {
+		const { email, password } = req.body;
+		const user = users.getAUserByEmail(email);
 &nbsp;
-// serve the api endpoints built in server.js
-app.use(prefix, router);
+		<span class="missing-if-branch" title="else path not taken" >E</span>if (user !== null) {
+			bcrypt.compare(password, user.password, (err, result) =&gt; {
+				if (result === true) {
+					user.token = util.encodeToken(user.email, user.id);
 &nbsp;
-/* ========== serving the UI pages ============= */
-app.use(compression());
-&nbsp;
-const dirName = '../../UI/template';
-const resoursePath = path.join(__dirname, '../../UI');
-debug(`Resource Path: ${resoursePath}`);
-app.use(express.static(resoursePath));
-app.use('/css', express.static(path.join(__dirname, '../../UI/css')));
-app.use('/js', express.static(path.join(__dirname, '../../UI/js')));
-app.use('/images', express.static(path.join(__dirname, '../../UI/images')));
-&nbsp;
-app.get(`${prefix}`, <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >  res.r</span>edirect(`${prefix}/index`);
-});
-&nbsp;
-app.get(`${prefix}/index`, <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >  res.s</span>endFile(path.join(__dirname, dirName, '/index.html'));
-});
-&nbsp;
-app.get(`${prefix}/signup`, <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >  res.s</span>endFile(path.join(__dirname, dirName, '/signup.html'));
-});
-&nbsp;
-app.get(`${prefix}/signin`, <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >  res.s</span>endFile(path.join(__dirname, dirName, '/signin.html'));
-});
-&nbsp;
-app.get(`${prefix}/admin`, <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >  res.s</span>endFile(path.join(__dirname, dirName, '/admin.html'));
-});
-&nbsp;
-app.get(`${prefix}/marketplace`, <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >  res.s</span>endFile(path.join(__dirname, dirName, '/marketplace.html'));
-});
-&nbsp;
-app.get(`${prefix}/my-posted-ads`, <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >  res.s</span>endFile(path.join(__dirname, dirName, '/my-posted-ads.html'));
-});
-&nbsp;
-app.get(`${prefix}/post-new-ad`, <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >  res.s</span>endFile(path.join(__dirname, dirName, '/post-new-ad.html'));
-});
-&nbsp;
-app.get(`${prefix}/purchase-history`, <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >  res.s</span>endFile(path.join(__dirname, dirName, '/purchase-history.html'));
-});
-&nbsp;
-app.get(`${prefix}/sales-history`, <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >  res.s</span>endFile(path.join(__dirname, dirName, '/sales-history.html'));
-});
-&nbsp;
-// default page is set to the index page
-app.get('*', <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >	res.r</span>edirect(`${prefix}/index`);
-});
-&nbsp;
-const listen = app.listen(port, () =&gt; {
-	debug(`AutoMart Server is running on port ${port} and in ${config.get('mode')} mode...`);
-});
-&nbsp;
-// for testing
-module.exports = app;
-module.exports.port = listen.address().port;
+					const data = Object.assign({}, user);
+					delete data.password;
+					return res.status(200).send({ status: 200, data });
+				}
+				return res.status(401).send({ status: 401, data: 'Invalid Username or Password!' });
+<span class="cstat-no" title="statement not covered" >			});</span>
+		} else {
+			res.status(401).send({ status: 401, data: 'Invalid Username or Password!' });
+		}
+	},
+};
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
@@ -307,7 +301,7 @@ module.exports.port = listen.address().port;
   generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Jun 07 2019 13:15:52 GMT+0100 (West Africa Standard Time)
 </div>
 </div>
-<script src="..\..\prettify.js"></script>
+<script src="..\..\..\prettify.js"></script>
 <script>
 window.onload = function () {
         if (typeof prettyPrint === 'function') {
@@ -315,7 +309,7 @@ window.onload = function () {
         }
 };
 </script>
-<script src="..\..\sorter.js"></script>
-<script src="..\..\block-navigation.js"></script>
+<script src="..\..\..\sorter.js"></script>
+<script src="..\..\..\block-navigation.js"></script>
 </body>
 </html>

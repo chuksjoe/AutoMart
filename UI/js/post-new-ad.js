@@ -29,6 +29,7 @@ const postAdBtn = document.querySelector('.post-new-ad');
 
 const user_id = sessionStorage.getItem('user_id');
 const is_loggedin = sessionStorage.getItem('is_loggedin');
+const token = sessionStorage.getItem('token');
 
 window.onload = () => {
   // redirect to sign in page if the user is not logged in
@@ -148,6 +149,7 @@ postAdBtn.onclick = (e) => {
 		const init = {
 			body: formData,
 			method: 'POST',
+			headers: { authorization: `Bearer ${token}` },
 		};
 		fetch('/api/v1/car', init)
 		.then(res => res.json())

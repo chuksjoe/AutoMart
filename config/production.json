@@ -1,11 +1,12 @@
 {
 	"mode": "Server Production",
-	"port": 5000,
-	"path": "",
+	"port": 8000,
+	"path": "http://localhost:8000",
 	"database": "",
 	"cloud_name": "chuks-automart",
-  "api_key": "'265174745867676'",
+  "api_key": 265174745867676,
   "api_secret": "9t57ggkAE7HqFUuDNPPQTExpNAg",
   "enhance_image_tag": true,
-  "static_file_support": true
+  "static_file_support": true,
+  "jwt_secret": "jjfh89088uhjnju9n89nvnnjjifvjdoi0i90ar;j'pi0@@ui3&e"
 }

@@ -7,12 +7,13 @@ const closeNotifation = document.querySelector('.close-notification');
 
 const user_id = sessionStorage.getItem('user_id');
 const is_loggedin = sessionStorage.getItem('is_loggedin');
+const token = sessionStorage.getItem('token');
 
 /* ================ Helper funtions ================= */
 const deleteAd = (car_id) => {
   const init = {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', authorization: `Bearer ${token}` },
   };
   fetch(`/api/v1/car/${car_id}`, init)
   .then(res => res.json())
@@ -49,7 +50,7 @@ const openUpdateModal = (params) => {
     const init = {
       method: 'PATCH',
       body: JSON.stringify({ user_id, new_price }),
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', authorization: `Bearer ${token}` },
     };
     fetch(`/api/v1/car/${id}/price`, init)
     .then(res => res.json())
@@ -74,7 +75,7 @@ const updateAdStatus = (car_id) => {
   const init = {
     method: 'PATCH',
     body: JSON.stringify({ user_id }),
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', authorization: `Bearer ${token}` },
   };
   fetch(`/api/v1/car/${car_id}/status`, init)
   .then(res => res.json())

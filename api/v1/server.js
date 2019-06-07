@@ -4,6 +4,7 @@ import multipart from 'connect-multiparty';
 import auth from './controllers/auth';
 import cars from './controllers/cars';
 import orders from './controllers/orders';
+import util from './utils';
 
 const multipartMiddleware = multipart();
 const router = Router();
@@ -13,16 +14,16 @@ router.post('/auth/signup', auth.createNewUser);
 router.post('/auth/signin', auth.signinUser);
 
 // for car Ads
-router.post('/car', multipartMiddleware, cars.createNewCarAd);
+router.post('/car', util.validateToken, multipartMiddleware, cars.createNewCarAd);
 router.get('/car/:car_id', cars.getACar);
 router.get('/car', cars.getAllCars);
-router.delete('/car/:car_id', cars.deleteACar);
-router.patch('/car/:car_id/price', cars.updateCarPrice);
-router.patch('/car/:car_id/status', cars.updateCarStatus);
+router.delete('/car/:car_id', util.validateToken, cars.deleteACar);
+router.patch('/car/:car_id/price', util.validateToken, cars.updateCarPrice);
+router.patch('/car/:car_id/status', util.validateToken, cars.updateCarStatus);
 
 // for purchase orders
-router.get('/order', orders.getAllOrders);
-router.post('/order', orders.createNewOrder);
-router.patch('/order/:order_id/price', orders.updateOrderPrice);
+router.get('/order', util.validateToken, orders.getAllOrders);
+router.post('/order', util.validateToken, orders.createNewOrder);
+router.patch('/order/:order_id/price', util.validateToken, orders.updateOrderPrice);
 
 module.exports = router;

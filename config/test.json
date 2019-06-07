@@ -7,5 +7,6 @@
   "api_key": "'265174745867676'",
   "api_secret": "9t57ggkAE7HqFUuDNPPQTExpNAg",
   "enhance_image_tag": true,
-  "static_file_support": false
+  "static_file_support": false,
+  "jwt_secret": "jjfh89088uhjnju9n89nvnn8f9vhn89fhv;uhi7"
 }

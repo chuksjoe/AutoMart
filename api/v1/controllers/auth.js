@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 
 import users from '../models/users';
-import util from '../util';
+import util from '../utils';
 
 export default {
 	// get list of all the users
@@ -34,7 +34,7 @@ export default {
 				return res.status(500).send({ status: 500, data: 'Something strange has happen, please refresh and then try again.' });
 			}
 			response = users.createNewUser({
-				token: util.getToken(),
+				token: util.encodeToken(email),
 				first_name,
 				last_name,
 				email,
@@ -67,6 +67,8 @@ export default {
 		if (user !== null) {
 			bcrypt.compare(password, user.password, (err, result) => {
 				if (result === true) {
+					user.token = util.encodeToken(user.email, user.id);
+
 					const data = Object.assign({}, user);
 					delete data.password;
 					return res.status(200).send({ status: 200, data });

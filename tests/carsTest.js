@@ -54,8 +54,8 @@ describe('Testing the car sale ads endpoints', () => {
 		chai.request(app)
 		.post('/api/v1/car').set('Accept', 'application/json').send(car)
 		.end((err, res) => {
-			res.should.have.status(401);
-			expect(res.body.data).to.equal('Unauthorized Access!');
+			res.should.have.status(400);
+			expect(res.body.data).to.equal('Ensure you are logged in.');
 			done();
 		});
 	});
@@ -174,49 +174,72 @@ describe('Testing the car sale ads endpoints', () => {
 	});
 	it('should delete a car sale ad if the user is an admin or the owner', (done) => {
 		chai.request(app)
-		.delete('/api/v1/car/3')
-		.end((err, res) => {
-			res.should.have.status(200);
-			expect(res.body.data).to.equal('Car AD successfully deleted.');
-		});
-		done();
+    .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing' })
+    .end((error, response) => {
+			chai.request(app)
+			.delete('/api/v1/car/3').set('authorization', `Bearer ${response.body.data.token}`)
+			.end((err, res) => {
+				res.should.have.status(200);
+				expect(res.body.data).to.equal('Car AD successfully deleted.');
+			});
+			done();
+      response.status.should.eql(200);
+    });
 	});
 	it('should update the price of the car sale ad if the user is the owner', (done) => {
 		chai.request(app)
-		.patch('/api/v1/car/1/price').send({ user_id: 3, new_price: 20000000 })
-		.end((err, res) => {
-			const { data } = res.body;
-			res.should.have.status(200);
-			expect(data).to.include({
-				price: 20000000,
-				id: 1,
-				owner_id: 3,
+    .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing' })
+    .end((error, response) => {
+			chai.request(app)
+			.patch('/api/v1/car/1/price').set('authorization', `Bearer ${response.body.data.token}`)
+			.send({ user_id: 3, new_price: 20000000 })
+			.end((err, res) => {
+				const { data } = res.body;
+				res.should.have.status(200);
+				expect(data).to.include({
+					price: 20000000,
+					id: 1,
+					owner_id: 3,
+				});
+				done();
 			});
-		});
-		done();
+			response.status.should.eql(200);
+    });
 	});
 	it('should mark the car sale ad as SOLD if the user is the owner', (done) => {
 		chai.request(app)
-		.patch('/api/v1/car/4/status').send({ user_id: 3 })
-		.end((err, res) => {
-			const { data } = res.body;
-			res.should.have.status(200);
-			expect(data).to.include({
-				status: 'Sold',
-				id: 4,
-				owner_id: 3,
+    .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing' })
+    .end((error, response) => {
+			chai.request(app)
+			.patch('/api/v1/car/4/status').set('authorization', `Bearer ${response.body.data.token}`)
+			.send({ user_id: 3 })
+			.end((err, res) => {
+				const { data } = res.body;
+				res.should.have.status(200);
+				expect(data).to.include({
+					status: 'Sold',
+					id: 4,
+					owner_id: 3,
+				});
+				done();
 			});
-		});
-		done();
+			response.status.should.eql(200);
+    });
 	});
 	it('should not update the car ad if the user is not the owner', (done) => {
 		chai.request(app)
-		.patch('/api/v1/car/1/status').send({ user_id: 1 })
-		.end((err, res) => {
-			const { data } = res.body;
-			res.should.have.status(401);
-			expect(data).to.equal('Unauthorized Access!');
-		});
-		done();
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing' })
+    .end((error, response) => {
+			chai.request(app)
+			.patch('/api/v1/car/1/status').set('authorization', `Bearer ${response.body.data.token}`)
+			.send({ user_id: 1 })
+			.end((err, res) => {
+				const { data } = res.body;
+				res.should.have.status(401);
+				expect(data).to.equal('Unauthorized Access!');
+			});
+			done();
+			response.status.should.eql(200);
+    });
 	});
 });

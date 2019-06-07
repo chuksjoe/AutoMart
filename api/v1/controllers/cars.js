@@ -2,9 +2,10 @@ import config from 'config';
 
 import cars from '../models/cars';
 import users from '../models/users';
-import util from '../util';
+import util from '../utils';
 
 const cloudinary = require('cloudinary').v2;
+const debug = require('debug')('http');
 
 cloudinary.config({
 	cloud_name: config.get('cloud_name'),
@@ -70,8 +71,8 @@ export default {
 		})
 		.catch((err) => {
 			if (err) {
-				// console.warn(err);
-				return res.status(510).send({ status: 510, data: err });
+				debug(err);
+				return res.status(510).send({ status: 510, data: 'Seems like your network connection is down.' });
 			}
 			return 0;
 		});

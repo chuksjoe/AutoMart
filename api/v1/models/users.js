@@ -1,10 +1,10 @@
-import util from '../util';
+import util from '../utils';
 
 // sample user
 const usersList = [
 	{
 		id: 1,
-		token: util.getToken(),
+		token: util.encodeToken(),
 		first_name: 'ChuksJoe',
 		last_name: 'Orjiakor',
 		email: 'chuksjoe@live.com',
@@ -22,7 +22,7 @@ const usersList = [
 	},
 	{
 		id: 2,
-		token: util.getToken(),
+		token: util.encodeToken(),
 		first_name: 'Emmanuel',
 		last_name: 'Okechukwu',
 		email: 'emma@live.com',
@@ -40,7 +40,7 @@ const usersList = [
 	},
 	{
 		id: 3,
-		token: util.getToken(),
+		token: util.encodeToken(),
 		first_name: 'Tolulope',
 		last_name: 'Banjo',
 		email: 'tolu@live.com',

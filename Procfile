@@ -1,0 +1,1 @@
+web: NODE_ENV=production& node dist/v1/index.js

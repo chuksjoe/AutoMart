@@ -20,31 +20,31 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">40.54% </span>
+        <span class="strong">64.86% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>15/37</span>
+        <span class='fraction'>24/37</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">10% </span>
+        <span class="strong">30% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>1/10</span>
+        <span class='fraction'>3/10</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">75% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>2/4</span>
+        <span class='fraction'>3/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">43.75% </span>
+        <span class="strong">68.75% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>14/32</span>
+        <span class='fraction'>22/32</span>
       </div>
     </div>
     <p class="quiet">
       Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
     </p>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line medium'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -121,7 +121,9 @@
 <a name='L73'></a><a href='#L73'>73</a>
 <a name='L74'></a><a href='#L74'>74</a>
 <a name='L75'></a><a href='#L75'>75</a>
-<a name='L76'></a><a href='#L76'>76</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -168,16 +170,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -201,6 +203,7 @@ const order = {
 	id: 1,
 	car_id: 5,
 	car_name: 'new Volkswagen Cx4 - 2001',
+	car_body_type: 'Van',
 	price: 4500000,
 	owner_id: 2,
 	owner_name: 'Lorita M.',
@@ -243,16 +246,16 @@ const orders = {
 	},
 	// update a specific order in the orders list and return the new order object, else return null
 	updateOrder(orderId, orderToUpdate) {
-		const id = <span class="cstat-no" title="statement not covered" >orderId;</span>
-		let orderIndex = <span class="cstat-no" title="statement not covered" >null;</span>
-<span class="cstat-no" title="statement not covered" >		this.o</span>rders_list.map(<span class="fstat-no" title="function not covered" >(o</span>rderItem, index) =&gt; {
-<span class="cstat-no" title="statement not covered" >			if (orderItem.id === id) <span class="cstat-no" title="statement not covered" >orderIndex = i</span></span>ndex;
-<span class="cstat-no" title="statement not covered" >			return 0</span>;
+		const id = orderId;
+		let orderIndex = null;
+		this.orders_list.map((orderItem, index) =&gt; {
+			<span class="missing-if-branch" title="else path not taken" >E</span>if (orderItem.id === id) orderIndex = index;
+			return 0;
 		});
-<span class="cstat-no" title="statement not covered" >		if (orderIndex === null) <span class="cstat-no" title="statement not covered" >return n</span></span>ull;
+		<span class="missing-if-branch" title="if path not taken" >I</span>if (orderIndex === null) <span class="cstat-no" title="statement not covered" >return n</span>ull;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >		this.o</span>rders_list.splice(orderIndex, 1, orderToUpdate);
-<span class="cstat-no" title="statement not covered" >		return o</span>rderToUpdate;
+		this.orders_list.splice(orderIndex, 1, orderToUpdate);
+		return orderToUpdate;
 	},
 	// delete a order from the orders list and return the courrent count value, else return null
 	deleteOrder(orderId) {
@@ -277,7 +280,7 @@ module.exports = orders;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri May 31 2019 20:08:50 GMT+0100 (West Africa Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Jun 07 2019 13:15:52 GMT+0100 (West Africa Standard Time)
 </div>
 </div>
 <script src="..\..\..\prettify.js"></script>

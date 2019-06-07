@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "babel -d ./dist ./api -s",
-    "serve": "set NODE_ENV=production& node dist/index.js",
-    "start": "set NODE_ENV=development& babel-node api/v1/index.js",
+    "prod-start": "set NODE_ENV=production& node dist/v1/index.js",
+    "dev-start": "set NODE_ENV=development& babel-node api/v1/index.js",
     "dev": "set DEBUG=http & set NODE_ENV=development& nodemon api/v1/index.js --exec babel-node",
     "test": "set DEBUG=http & set NODE_ENV=test& mocha --timeout 0 --require babel-core/register --reporter spec --exit tests/ --exec babel-node",
     "coverage": "./node_modules/.bin/nyc report --reporter=lcov | coveralls",
@@ -62,8 +62,8 @@
     "eslint-plugin-import": "^2.17.2",
     "express": "^4.17.0",
     "istanbul": "^0.4.5",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "^1.9.1",
-    "multer": "^1.4.1",
     "path": "^0.12.7"
   },
   "babel": {

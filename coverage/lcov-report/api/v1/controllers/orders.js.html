@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">71.11% </span>
+        <span class="strong">71.74% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>32/45</span>
+        <span class='fraction'>33/46</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">65.22% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>1/2</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">69.05% </span>
+        <span class="strong">69.77% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>29/42</span>
+        <span class='fraction'>30/43</span>
       </div>
     </div>
     <p class="quiet">
@@ -134,8 +134,13 @@
 <a name='L86'></a><a href='#L86'>86</a>
 <a name='L87'></a><a href='#L87'>87</a>
 <a name='L88'></a><a href='#L88'>88</a>
-<a name='L89'></a><a href='#L89'>89</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -195,6 +200,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -226,6 +232,8 @@
 import users from '../models/users';
 import cars from '../models/cars';
 &nbsp;
+import util from '../utils';
+&nbsp;
 export default {
 	/* returns 2 lists for a user.
 		purchase list, which contains the user's purchase
@@ -234,7 +242,7 @@ export default {
 		any of is posted sales ad, it returns empty arrays.
 	*/
 	getAllOrders(req, res) {
-		const user = <span class="cstat-no" title="statement not covered" >users.g</span>etAUserById(parseInt(req.body.user_id, 10));
+		const user = <span class="cstat-no" title="statement not covered" >users.g</span>etAUserById(parseInt(req.query.user_id, 10));
 		const ordersList = <span class="cstat-no" title="statement not covered" >orders.g</span>etAllOrders();
 		const purchaseList = <span class="cstat-no" title="statement not covered" >[];</span>
 		const salesList = <span class="cstat-no" title="statement not covered" >[];</span>
@@ -261,7 +269,7 @@ export default {
 		const buyer = users.getAUserById(parseInt(req.body.buyer_id, 10));
 		const car = cars.getACar(parseInt(req.body.car_id, 10));
 		if (car !== null) {
-			if (buyer === null || car.status === 'sold') {
+			if (buyer === null || car.status === 'Sold') {
 				return res.status(401).send({ status: 401, data: 'Unauthorized Access!' });
 			}
 		}
@@ -274,14 +282,15 @@ export default {
 		const newOrder = orders.createNewOrder({
 			car_id: parseInt(car_id, 10),
 			car_name: car.name,
+			car_body_type: car.body_type,
 			price: car.price,
 			owner_id: car.owner_id,
 			owner_name: car.owner_name,
 			buyer_id: parseInt(buyer_id, 10),
 			buyer_name: `${first_name} ${last_name.charAt(0)}.`,
 			price_offered: parseFloat(price_offered),
-			status: 'pending',
-			created_on: Date(),
+			status: 'Pending',
+			created_on: util.getDate(),
 		});
 		return res.status(201).send({ status: 201, data: newOrder });
 	},
@@ -292,16 +301,16 @@ export default {
 		const new_price = parseFloat(req.body.new_price);
 		<span class="missing-if-branch" title="else path not taken" >E</span>if (order !== null) {
 			const old_price_offered = order.price_offered;
-			if (buyer !== null &amp;&amp; buyer.id === order.buyer_id &amp;&amp; order.status === 'pending') {
+			if (buyer !== null &amp;&amp; buyer.id === order.buyer_id &amp;&amp; order.status === 'Pending') {
 				order.price_offered = new_price;
 				// to avoid the changes to the response from affect the order object in the database
-				const response = Object.assign({}, cars.updateACar(order.id, order));
+				const response = Object.assign({}, orders.updateOrder(order.id, order));
 				<span class="missing-if-branch" title="else path not taken" >E</span>if (response !== null) {
 					response.old_price_offered = old_price_offered;
 					response.new_price_offered = new_price;
 					delete response.price_offered;
 				}
-				res.status(201).send({ status: 201, data: response });
+				res.status(200).send({ status: 200, data: response });
 			} else {
 				res.status(401).send({ status: 401, data: 'Unauthorized Access!' });
 			}
@@ -316,7 +325,7 @@ export default {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri May 31 2019 20:08:50 GMT+0100 (West Africa Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Jun 07 2019 13:15:52 GMT+0100 (West Africa Standard Time)
 </div>
 </div>
 <script src="..\..\..\prettify.js"></script>

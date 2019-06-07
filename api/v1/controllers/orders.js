@@ -2,7 +2,7 @@ import orders from '../models/orders';
 import users from '../models/users';
 import cars from '../models/cars';
 
-import util from '../util';
+import util from '../utils';
 
 export default {
 	/* returns 2 lists for a user.
