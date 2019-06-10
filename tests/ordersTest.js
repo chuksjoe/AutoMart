@@ -37,7 +37,7 @@ describe('Tests for the orders api endpoints', () => {
 		.post('/api/v1/order').send({ car_id: 5, buyer_id: 6, price_offered: 1400000 })
 		.end((err, res) => {
 			res.should.have.status(400);
-			expect(res.body.data).to.equal('Ensure you are logged in.');
+			expect(res.body.error).to.equal('Ensure you are logged in.');
 			done();
 		});
 	});
@@ -51,7 +51,7 @@ describe('Tests for the orders api endpoints', () => {
 			.send({ car_id: 2, buyer_id: 2, price_offered: 1400000 })
 			.end((err, res) => {
 				res.should.have.status(401);
-				expect(res.body.data).to.equal('Unauthorized Access!');
+				expect(res.body.error).to.equal('Unauthorized Access!');
 				done();
 			});
       response.status.should.eql(200);
@@ -67,7 +67,7 @@ describe('Tests for the orders api endpoints', () => {
 			.send({ car_id: 25, buyer_id: 2, price_offered: 1400000 })
 			.end((err, res) => {
 				res.should.have.status(404);
-				expect(res.body.data).to.equal('Car does not exist!');
+				expect(res.body.error).to.equal('Car does not exist!');
 				done();
 			});
       response.status.should.eql(200);
@@ -101,9 +101,8 @@ describe('Tests for the orders api endpoints', () => {
 			.patch('/api/v1/order/1/price').set('authorization', `Bearer ${response.body.data.token}`)
 			.send({ buyer_id: 1, new_price: 1600000 })
 			.end((err, res) => {
-				const { data } = res.body;
 				res.should.have.status(401);
-				expect(data).to.equal('Unauthorized Access!');
+				expect(res.body.error).to.equal('Unauthorized Access!');
 				done();
 			});
       response.status.should.eql(200);

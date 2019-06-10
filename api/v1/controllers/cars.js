@@ -16,7 +16,10 @@ export default {
 	createNewCarAd(req, res) {
 		const owner = users.getAUserById(parseInt(req.body.owner_id, 10));
 		if (owner === null) {
-			return res.status(401).send({ status: 401, data: 'Unauthorized Access!' });
+			return res.status(401).send({ status: 401, error: 'Unauthorized Access!' });
+		}
+		if (util.validateNewPostForm(req.body).length > 0) {
+			return res.status(206).send({ status: 206, error: 'Some required fields are not filled.' });
 		}
 		const { first_name, last_name, email } = owner;
 		const {
@@ -29,51 +32,55 @@ export default {
 		// for (let ke in req.files.img_url) {
 		// 	console.warn(`req.files.image properties: ${ke}: ${req.files.img_url[ke]}`);
 		// }
-		cloudinary.uploader.upload(req.files.img_url.path, {
-			tags: 'auto-mart',
-			folder: 'uploads/',
-			resource_type: 'auto',
-		})
-		.then((file) => {
-			const newCar = cars.createNewCar({
-				img_url: file.url,
-				name: `${state} ${year} ${manufacturer} ${model}`,
-				owner_id: parseInt(owner_id, 10),
-				owner_name: `${first_name} ${last_name.charAt(0)}.`,
-				email,
-				created_on: util.getDate(),
-				state,
-				status: 'Available',
-				price: parseFloat(price.replace(/\D/g, ''), 10),
-				manufacturer,
-				model,
-				body_type,
-				fuel_type,
-				fuel_cap: parseInt(fuel_cap, 10),
-				doors: parseInt(doors, 10),
-				mileage: parseInt(mileage.replace(/\D/g, ''), 10),
-				transmission_type,
-				color,
-				year: parseInt(year, 10),
-				description,
-				features: {
-					ac: ac === 'true',
-					arm_rest: arm_rest === 'true',
-					fm_radio: fm_radio === 'true',
-					dvd_player: dvd_player === 'true',
-					tinted_windows: tinted_windows === 'true',
-					air_bag: air_bag === 'true',
-				},
+		if (req.files.img_url !== undefined) {
+			cloudinary.uploader.upload(req.files.img_url.path, {
+				tags: 'auto-mart',
+				folder: 'uploads/',
+				resource_type: 'auto',
+			})
+			.then((file) => {
+				const newCar = cars.createNewCar({
+					img_url: file.url,
+					name: `${state} ${year} ${manufacturer} ${model}`,
+					owner_id: parseInt(owner_id, 10),
+					owner_name: `${first_name} ${last_name.charAt(0)}.`,
+					email,
+					created_on: util.getDate(),
+					state,
+					status: 'Available',
+					price: parseFloat(price.replace(/\D/g, ''), 10),
+					manufacturer,
+					model,
+					body_type,
+					fuel_type,
+					fuel_cap: parseInt(fuel_cap, 10),
+					doors: parseInt(doors, 10),
+					mileage: parseInt(mileage.replace(/\D/g, ''), 10),
+					transmission_type,
+					color,
+					year: parseInt(year, 10),
+					description,
+					features: {
+						ac: ac === 'true',
+						arm_rest: arm_rest === 'true',
+						fm_radio: fm_radio === 'true',
+						dvd_player: dvd_player === 'true',
+						tinted_windows: tinted_windows === 'true',
+						air_bag: air_bag === 'true',
+					},
+				});
+				return res.status(201).send({ status: 201, data: newCar });
+			})
+			.catch((err) => {
+				if (err) {
+					debug(err);
+					return res.status(510).send({ status: 510, error: 'Seems like your network connection is down.' });
+				}
+				return 0;
 			});
-			return res.status(201).send({ status: 201, data: newCar });
-		})
-		.catch((err) => {
-			if (err) {
-				debug(err);
-				return res.status(510).send({ status: 510, data: 'Seems like your network connection is down.' });
-			}
-			return 0;
-		});
+		} else {
+			return res.status(206).send({ status: 206, error: 'You have not selected any image for your post.' });
+		}
 		return 0;
 	},
 	// get a specific car give the car id
@@ -82,7 +89,7 @@ export default {
 		if (car !== null) {
 			res.status(200).send({ status: 200, data: car });
 		} else {
-			res.status(404).send({ status: 404, data: 'Car not found in database.' });
+			res.status(404).send({ status: 404, error: 'Car not found in database.' });
 		}
 	},
 	// get all cars whether sold or unsold if user is admin, else get all unsold cars
@@ -140,7 +147,7 @@ export default {
 				message: `You have successfully deleted Ad for<br><b>${car.name}</b>`,
 			});
 		} else {
-			res.status(404).send({ status: 404, data: 'Car not found in database.' });
+			res.status(404).send({ status: 404, error: 'Car not found in database.' });
 		}
 	},
 	// it's only the owner of a sale ad that can update the price of a posted ad
@@ -154,10 +161,10 @@ export default {
 				const response = cars.updateACar(car.id, car);
 				res.status(200).send({ status: 200, data: response });
 			} else {
-				res.status(401).send({ status: 401, data: 'Unauthorized Access!' });
+				res.status(401).send({ status: 401, error: 'Unauthorized Access!' });
 			}
 		} else {
-			res.status(404).send({ status: 404, data: 'Car not found in database.' });
+			res.status(404).send({ status: 404, error: 'Car not found in database.' });
 		}
 	},
 	// it's only the owner of a sale ad that can update the price of a posted ad
@@ -174,10 +181,10 @@ export default {
 					message: `You have successfully marked<br><b>${car.name}</b><br>as sold.`,
 				});
 			} else {
-				res.status(401).send({ status: 401, data: 'Unauthorized Access!' });
+				res.status(401).send({ status: 401, error: 'Unauthorized Access!' });
 			}
 		} else {
-			res.status(404).send({ status: 404, data: 'Car not found in database.' });
+			res.status(404).send({ status: 404, error: 'Car not found in database.' });
 		}
 	},
 };

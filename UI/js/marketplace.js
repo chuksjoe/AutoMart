@@ -50,8 +50,14 @@ const openPurchaseModal = (params) => {
 
   placeOrderBtn.onclick = (e) => {
     e.preventDefault();
+    const message = document.querySelector('#notification-overlay .message');
     let price_offered = document.querySelector('.purchase-order-form .price').value;
     price_offered = price_offered.replace(/\D/g, '');
+    if (price_offered === '') {
+      message.innerHTML = 'The price field cannot be empty!';
+      notificationModal.style.display = 'block';
+      return 0;
+    }
     
     const data = { car_id: id, buyer_id: user_id, price_offered };
     const init = {
@@ -62,14 +68,13 @@ const openPurchaseModal = (params) => {
     fetch('/api/v1/order', init)
     .then(res => res.json())
     .then((response) => {
-      const message = document.querySelector('#notification-overlay .message');
       const res = response;
       if (res.status === 201) {
         message.innerHTML = `You have successfully placed an order for <b>${res.data.car_name}</b>.<br/><br/>
         Actual Price: &#8358 ${res.data.price.toLocaleString('en-US')}<br/>
         Price Offered: &#8358 ${res.data.price_offered.toLocaleString('en-US')}`;
       } else {
-        message.innerHTML = `${res.data}!<br/>Please ensure you are logged-in before placing an order.<br/>
+        message.innerHTML = `${res.error}<br/>Please ensure you are logged-in before placing an order.<br/>
         If you don't have an account on AutoMart,<br/><a href='/api/v1/signup'>Click here to Sign-up.</a>`;
       }
       purchaseModal.style.display = 'none';
@@ -141,7 +146,7 @@ const getCarDetils = (carId) => {
       desc.appendChild(btnGrp);
     } else {
       const message = document.querySelector('#notification-overlay .message');
-      message.innerHTML = response.data;
+      message.innerHTML = response.error;
       notificationModal.style.display = 'block';
       toggleScroll();
     }

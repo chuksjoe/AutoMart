@@ -34,9 +34,7 @@ const token = sessionStorage.getItem('token');
 window.onload = () => {
   // redirect to sign in page if the user is not logged in
   if (!is_loggedin) {
-      setTimeout(() => {
-      window.location.href = '/api/v1/signin';
-    }, 0);
+		window.location.href = '/api/v1/signin';
   }
 };
 
@@ -156,7 +154,7 @@ postAdBtn.onclick = (e) => {
 		.then((response) => {
 			const res = response;
 			if (res.status !== 201) {
-				errorDiv.innerHTML = res.data;
+				errorDiv.innerHTML = res.error;
 			} else {
 				errorDiv.style.backgroundColor = '#4b5';
 				errorDiv.innerHTML = `You have successfully posted a new car ad.<br>Name: ${res.data.name}<br>

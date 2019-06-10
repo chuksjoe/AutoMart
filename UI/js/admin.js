@@ -20,7 +20,7 @@ const deleteAd = (car_id) => {
     if (response.status === 200) {
       message.innerHTML = response.message;
     } else {
-      message.innerHTML = response.data;
+      message.innerHTML = response.error;
     }
     notificationModal.style.display = 'block';
   });
@@ -73,7 +73,7 @@ const getCarDetils = (carId) => {
       desc.appendChild(btnGrp);
     } else {
       const message = document.querySelector('#notification-overlay .message');
-      message.innerHTML = response.data;
+      message.innerHTML = response.error;
       notificationModal.style.display = 'block';
       toggleScroll();
     }
@@ -151,9 +151,7 @@ const fetchCarAds = (url, msgIfEmpty) => {
 window.onload = () => {
   // redirect to sign in page if the user is not logged in
   if (!(is_loggedin || is_admin)) {
-    setTimeout(() => {
-      window.location.href = '/api/v1/signin';
-    }, 0);
+    window.location.href = '/api/v1/signin';
   }
 
   // fetch the cars from database and populate the marketplace

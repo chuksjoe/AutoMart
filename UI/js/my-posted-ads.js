@@ -10,6 +10,11 @@ const is_loggedin = sessionStorage.getItem('is_loggedin');
 const token = sessionStorage.getItem('token');
 
 /* ================ Helper funtions ================= */
+const autoRefresh = (time) => {
+  setTimeout(() => {
+    document.location.reload();
+  }, time);
+}
 const deleteAd = (car_id) => {
   const init = {
     method: 'DELETE',
@@ -22,10 +27,11 @@ const deleteAd = (car_id) => {
     if (response.status === 200) {
       message.innerHTML = response.message;
     } else {
-      message.innerHTML = response.data;
+      message.innerHTML = response.error;
     }
     notificationModal.style.display = 'block';
   });
+  autoRefresh(2500);
 };
 
 const openUpdateModal = (params) => {
@@ -44,9 +50,15 @@ const openUpdateModal = (params) => {
 
   updatePriceBtn.onclick = (e) => {
     e.preventDefault();
+    const message = document.querySelector('#notification-overlay .message');
     let new_price = document.querySelector('.update-price-form .price').value;
     new_price = new_price.replace(/\D/g, '');
-    
+    if (new_price === '') {
+      message.innerHTML = 'The price field cannot be empty!';
+      notificationModal.style.display = 'block';
+      return 0;
+    }
+
     const init = {
       method: 'PATCH',
       body: JSON.stringify({ user_id, new_price }),
@@ -55,19 +67,20 @@ const openUpdateModal = (params) => {
     fetch(`/api/v1/car/${id}/price`, init)
     .then(res => res.json())
     .then((response) => {
-      const message = document.querySelector('#notification-overlay .message');
       const res = response;
       if (res.status === 200) {
         message.innerHTML = `You have successfully updated the price for <b>${res.data.name}.</b><br/><br/>
         Old Price: &#8358 ${price.toLocaleString('en-US')}<br/>
         New Price: &#8358 ${res.data.price.toLocaleString('en-US')}`;
       } else {
-        message.innerHTML = `${res.data}!<br/>Please ensure you are logged-in before accessing this page.<br/>
+        message.innerHTML = `${res.error}<br/>Please ensure you are logged-in before accessing this page.<br/>
         If you don't have an account on AutoMart,<br/><a href='/api/v1/signup'>Click here to Sign-up.</a>`;
       }
       updatePriceModal.style.display = 'none';
       notificationModal.style.display = 'block';
     });
+    autoRefresh(2500);
+    return 0;
   };
 };
 
@@ -85,12 +98,13 @@ const updateAdStatus = (car_id) => {
     if (res.status === 200) {
       message.innerHTML = res.message;
     } else {
-      message.innerHTML = `${res.data}!<br/>Please ensure you are logged-in before accessing this page.<br/>
+      message.innerHTML = `${res.error}<br/>Please ensure you are logged-in before accessing this page.<br/>
       If you don't have an account on AutoMart,<br/><a href='/api/v1/signup'>Click here to Sign-up.</a>`;
     }
     updatePriceModal.style.display = 'none';
     notificationModal.style.display = 'block';
   });
+  autoRefresh(2500);
 };
 
 const getCarDetils = (carId) => {
@@ -147,7 +161,7 @@ const getCarDetils = (carId) => {
       desc.appendChild(btnGrp);
     } else {
       const message = document.querySelector('#notification-overlay .message');
-      message.innerHTML = response.data;
+      message.innerHTML = response.error;
       notificationModal.style.display = 'block';
       toggleScroll();
     }
@@ -241,9 +255,7 @@ const fetchCarAds = (url, msgIfEmpty) => {
 window.onload = () => {
   // redirect to sign in page if the user is not logged in
   if (!is_loggedin) {
-      setTimeout(() => {
-      window.location.href = '/api/v1/signin';
-    }, 0);
+    window.location.href = '/api/v1/signin';
   }
 
   // fetch the cars from database and populate the marketplace
@@ -258,7 +270,6 @@ closeCarPreview.onclick = () => {
 closeNotifation.onclick = (e) => {
   e.preventDefault();
   notificationModal.style.display = 'none';
-  document.location.reload();
 };
 
 closeUpdateModal.onclick = (e) => {

@@ -54,7 +54,7 @@ signinBtn.onclick = (e) => {
 		.then((response) => {
 			const res = response;
 			if (res.status !== 200) {
-				errorDiv.innerHTML = res.data;
+				errorDiv.innerHTML = res.error;
 
 				errorDiv.classList.remove('hide');
 				signinBtn.innerHTML = 'Sign In';

@@ -40,11 +40,14 @@ export default {
 		const car = cars.getACar(parseInt(req.body.car_id, 10));
 		if (car !== null) {
 			if (buyer === null || car.status === 'Sold') {
-				return res.status(401).send({ status: 401, data: 'Unauthorized Access!' });
+				return res.status(401).send({ status: 401, error: 'Unauthorized Access!' });
 			}
 		}
 		if (car === null) {
-			return res.status(404).send({ status: 404, data: 'Car does not exist!' });
+			return res.status(404).send({ status: 404, error: 'Car does not exist!' });
+		}
+		if (buyer.id === car.owner_id) {
+			return res.status(400).send({ status: 400, error: 'You can\'t place an order on your car ad.' });
 		}
 		const { first_name, last_name } = buyer;
 		const { car_id, buyer_id, price_offered } = req.body;
@@ -82,10 +85,10 @@ export default {
 				}
 				res.status(200).send({ status: 200, data: response });
 			} else {
-				res.status(401).send({ status: 401, data: 'Unauthorized Access!' });
+				res.status(401).send({ status: 401, error: 'Unauthorized Access!' });
 			}
 		} else {
-			res.status(404).send({ status: 404, data: 'Purchase order not found in database.' });
+			res.status(404).send({ status: 404, error: 'Purchase order not found in database.' });
 		}
 	},
 };

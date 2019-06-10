@@ -105,7 +105,7 @@ signupBtn.onclick = (e) => {
 		.then((response) => {
 			const res = response;
 			if (res.status !== 201) {
-				errorDiv.innerHTML = res.data;
+				errorDiv.innerHTML = res.error;
 			} else {
 				errorDiv.style.backgroundColor = '#4b5';
 				errorDiv.innerHTML = `Congratulations ${res.data.first_name} ${res.data.last_name}, you have successfully

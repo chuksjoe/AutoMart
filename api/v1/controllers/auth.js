@@ -16,25 +16,23 @@ export default {
 			first_name, last_name, email,	password, is_admin,
 			street,	city,	state, country,	phone, zip,
 		} = req.body;
-		if (first_name === undefined || last_name === undefined || password === undefined
-			|| email === undefined || is_admin === undefined) {
-			return res.status(206).send({ status: 206, data: 'some of the main entries is not defined.' });
+		if (util.validateUserRegForm(req.body).length > 0) {
+			return res.status(206).send({ status: 206, error: 'Some required fields are not filled.' });
 		}
 
 		const usersList = users.getAllUsers();
 		usersList.map((user) => {
 			if (user.email === email) {
-				return res.status(200).send({ status: 200, data: `a user with this e-mail (${email}) already exists.` });
+				return res.status(200).send({ status: 200, error: `A user with this e-mail (${email}) already exists.` });
 			}
 			return 0;
 		});
 
 		bcrypt.hash(password, saltRound, (err, hash) => {
 			if (err) {
-				return res.status(500).send({ status: 500, data: 'Something strange has happen, please refresh and then try again.' });
+				return res.status(500).send({ status: 500, error: 'Something strange has happen, please refresh and then try again.' });
 			}
 			response = users.createNewUser({
-				token: util.encodeToken(email),
 				first_name,
 				last_name,
 				email,
@@ -48,14 +46,15 @@ export default {
 				},
 				phone,
 				zip,
-				registered_on: Date(),
+				registered_on: util.getDate(),
 			});
 			if (response !== null) {
 				const data = Object.assign({}, response);
 				delete data.password;
+				data.token = util.encodeToken(email, data.id);
 				return res.status(201).send({ status: 201, data });
 			}
-			return res.status(500).send({ status: 500, data: 'Something strange has happen, please refresh and then try again.' });
+			return res.status(500).send({ status: 500, error: 'Something strange has happen, please refresh and then try again.' });
 		});
 		return 0;
 	},
@@ -67,16 +66,15 @@ export default {
 		if (user !== null) {
 			bcrypt.compare(password, user.password, (err, result) => {
 				if (result === true) {
-					user.token = util.encodeToken(user.email, user.id);
-
 					const data = Object.assign({}, user);
 					delete data.password;
+					data.token = util.encodeToken(email, data.id);
 					return res.status(200).send({ status: 200, data });
 				}
-				return res.status(401).send({ status: 401, data: 'Invalid Username or Password!' });
+				return res.status(401).send({ status: 401, error: 'Invalid Username or Password!' });
 			});
 		} else {
-			res.status(401).send({ status: 401, data: 'Invalid Username or Password!' });
+			res.status(401).send({ status: 401, error: 'Invalid Username or Password!' });
 		}
 	},
 };

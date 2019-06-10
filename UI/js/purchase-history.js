@@ -25,9 +25,14 @@ const openUpdateModal = (params) => {
 
   updatePriceBtn.onclick = (e) => {
     e.preventDefault();
+    const message = document.querySelector('#notification-overlay .message');
     let new_price = document.querySelector('.update-order-form .price').value;
     new_price = new_price.replace(/\D/g, '');
-    
+    if (new_price === '') {
+      message.innerHTML = 'The price field cannot be empty!';
+      notificationModal.style.display = 'block';
+      return 0;
+    }
     const data = { buyer_id: user_id, new_price };
     const init = {
       method: 'PATCH',
@@ -37,7 +42,6 @@ const openUpdateModal = (params) => {
     fetch(`/api/v1/order/${id}/price`, init)
     .then(res => res.json())
     .then((response) => {
-      const message = document.querySelector('#notification-overlay .message');
       const res = response;
       if (res.status === 200) {
         message.innerHTML = `You have successfully updated the price you offered for <b>${res.data.car_name}.</b><br/><br/>
@@ -45,22 +49,24 @@ const openUpdateModal = (params) => {
         Old Price Offered: &#8358 ${res.data.old_price_offered.toLocaleString('en-US')}<br/>
         New Price Offered: &#8358 ${res.data.new_price_offered.toLocaleString('en-US')}`;
       } else {
-        message.innerHTML = `${res.data}!<br/>Please ensure you are logged-in before placing an order.<br/>
+        message.innerHTML = `${res.error}<br/>Please ensure you are logged-in before placing an order.<br/>
         If you don't have an account on AutoMart,<br/><a href='/api/v1/signup'>Click here to Sign-up.</a>`;
       }
       updatePriceModal.style.display = 'none';
       notificationModal.style.display = 'block';
     });
+    setTimeout(() => {
+      document.location.reload();
+    }, 2500);
+    return 0;
   };
 };
 
 window.onload = () => {
 	// redirect to sign in page if the user is not logged in
   if (!is_loggedin) {
-			setTimeout(() => {
-			window.location.href = '/api/v1/signin';
-		}, 0);
-  }
+    window.location.href = '/api/v1/signin';
+	}
 
   // fetch the purchase orders from database and populate the purchase history page
   const init = {
@@ -139,5 +145,4 @@ closeUpdateModal.onclick = (e) => {
 closeNotifation.onclick = (e) => {
   e.preventDefault();
   notificationModal.style.display = 'none';
-  document.location.reload();
 };

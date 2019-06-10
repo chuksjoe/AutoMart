@@ -21,7 +21,7 @@ describe('Testing User endpoints', () => {
 		first_name: 'Douglas',
 		last_name: 'Ejiofor',
 		email: 'doug@live.com',
-		password: 'testing',
+		password: 'testing123',
 		is_admin: false,
 		address: {
 			street: '15 Aborishade road, Lawanson',
@@ -48,13 +48,13 @@ describe('Testing User endpoints', () => {
 	});
 	it('should not create new user account if any of the required entries are not supplied', (done) => {
 		// required entries: first_name, last_name, email, password, is_admin
-		user.first_name = undefined;
-		user.email = undefined;
+		user.first_name = '';
+		user.email = '';
 		chai.request(app)
 		.post('/api/v1/auth/signup').set('Accept', 'application/json').send(user)
 		.end((err, res) => {
       expect(res).to.have.status(206);
-      expect(res.body.data).to.equal('some of the main entries is not defined.');
+      expect(res.body.error).to.equal('Some required fields are not filled.');
       done();
     });
 	});
@@ -65,11 +65,11 @@ describe('Testing User endpoints', () => {
 			const { data } = res.body;
 			res.should.have.status(200);
 			expect(data).to.include({
-          id: data.id,
-          token: data.token,
-          email: 'chuksjoe@live.com',
-          first_name: 'ChuksJoe',
-        });
+        id: data.id,
+        token: data.token,
+        email: 'chuksjoe@live.com',
+        first_name: 'ChuksJoe',
+      });
 			done();
 		});
 	});
@@ -78,7 +78,7 @@ describe('Testing User endpoints', () => {
 		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'wrongpassword' })
 		.end((err, res) => {
 			res.should.have.status(401);
-			expect(res.body.data).to.equal('Invalid Username or Password!');
+			expect(res.body.error).to.equal('Invalid Username or Password!');
 			done();
 		});
 	});

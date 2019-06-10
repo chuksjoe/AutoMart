@@ -55,7 +55,7 @@ describe('Testing the car sale ads endpoints', () => {
 		.post('/api/v1/car').set('Accept', 'application/json').send(car)
 		.end((err, res) => {
 			res.should.have.status(400);
-			expect(res.body.data).to.equal('Ensure you are logged in.');
+			expect(res.body.error).to.equal('Ensure you are logged in.');
 			done();
 		});
 	});
@@ -234,9 +234,8 @@ describe('Testing the car sale ads endpoints', () => {
 			.patch('/api/v1/car/1/status').set('authorization', `Bearer ${response.body.data.token}`)
 			.send({ user_id: 1 })
 			.end((err, res) => {
-				const { data } = res.body;
 				res.should.have.status(401);
-				expect(data).to.equal('Unauthorized Access!');
+				expect(res.body.error).to.equal('Unauthorized Access!');
 			});
 			done();
 			response.status.should.eql(200);
