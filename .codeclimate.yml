@@ -1,6 +1,5 @@
 exclude_patterns:
 - "tests/"
 - "spec/"
-- "**/vendor/"
-- "coverage/"
+- "**/coverage/"
 - ".env*"
