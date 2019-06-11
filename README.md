@@ -13,11 +13,11 @@ This is an Andela Developer Challenge (ADC) project that is divided into 2 parts
 
 The frontend comprises of a number of pages for different functionalities as described below:
 
-- Index: this is the homepage of the app from where every users can access other pages like the sign in, sign up, doc and marketplace. It also contains descriptive information on what the app is all about.
+- [**Index**](https://auto-mart-adc.herokuapp.com/api/v1/index): this is the homepage of the app from where every users can access other pages like the sign in, sign up, doc and marketplace. It also contains descriptive information on what the app is all about.
 
   [Screenshot of Index Page](https://drive.google.com/open?id=1dzR8JeXaR6hlPUfeYbNHaAsm8gKQjPPQ)
 
-- Marketplace: on this page, all the available car ads are popullated from the database for users to view, preview specific car ads, place purchase orders and flag suspicious ads as frauduent. If the user is not signed in, he/she can only view the ads but can not place any order on them or flag them. It also has functionality for filtering the listed car ads such as price range, manufacturer, body type and state.
+- [**Marketplace**](https://auto-mart-adc.herokuapp.com/api/v1/marketplace): on this page, all the available car ads are popullated from the database for users to view, preview specific car ads, place purchase orders and flag suspicious ads as frauduent. If the user is not signed in, he/she can only view the ads but can not place any order on them or flag them. It also has functionality for filtering the listed car ads such as price range, manufacturer, body type and state.
   This page consumes the following API endpoints:
 
   - `/api/v1/car?status=Available` : which is a GET request that returns a list of all available car ads. If the list is filtered, the query params are appended to the endpoint.
@@ -32,28 +32,28 @@ The frontend comprises of a number of pages for different functionalities as des
 
   [Screenshot of the form for flaging an ad as fraudulent](https://drive.google.com/open?id=1oCkguWgwJGgnVELEK2LDuNcV9pa1mjOt)
 
-- Sign In: here, users can sign into their accounts. Once a user is signed in, he/she will then have access to post new ads, view all his/her posted ads, view list of his/her purchase or sales order, delete his posted ad, update price of his posted ad or purchase order, and also update the status of his/her posted ads.
+- [**Sign In**](https://auto-mart-adc.herokuapp.com/api/v1/signin): here, users can sign into their accounts. Once a user is signed in, he/she will then have access to post new ads, view all his/her posted ads, view list of his/her purchase or sales order, delete his posted ad, update price of his posted ad or purchase order, and also update the status of his/her posted ads.
   This page consumes the following API endpoint;
 
   - `/api/v1/auth/signin` : which is a POST request that returns status code 200 on success with the users data, and 401 on failure with an error message
 
   [Screenshot of the signin page](https://drive.google.com/open?id=1vKnvAn-gfTlcVPG5jUS2Ff-dg9zMDQi-)
 
-- Sign Up: on this page, a new user can create an account that gives him/her access to fully use the AutoMart platform for buying and selling of cars. In order to sign up successfully, all the required information such as first name, last name, email, password and confirm password must be supplied.
+- [**Sign Up**](https://auto-mart-adc.herokuapp.com/api/v1/signup): on this page, a new user can create an account that gives him/her access to fully use the AutoMart platform for buying and selling of cars. In order to sign up successfully, all the required information such as first name, last name, email, password and confirm password must be supplied.
   This page consumes the following API endpoint:
 
   - `/api/v1/auth/signup` : which a POST request that creates a new user account on success.
 
   [Screenshot of signup page](https://drive.google.com/open?id=1-6HTcw_U7G5qLVuuaQYFNTYeoc8oanhZ)
 
-- Post New Ad: this is used for posting new car ads by users who are registered and loged in. Every field on the form on this page except the features must be filled before it can be successfully processed and posted.
+- **Post New Ad**: this is used for posting new car ads by users who are registered and are logged in. Every field on the form on this page except the features must be filled before it can be successfully processed and posted.
   This page consumes the following API endpoint:
 
   - `/api/v1/car` : which is a POST request for creating a new car ad.
 
   [Screenshot for posting new ad](https://drive.google.com/open?id=1Zb9Ay3qxB6QZ4GNO_DlVGrq8busO2IBo)
 
-- My Ads: this page presents to the user a list of all the ads he/she has posted, both sold and unsold, with buttons to either update the price of the ad, mark the ad as sold, or delete the ad from the database. Just like the market place, he/she can also can preview a specific car or filter the list of car ads displayed. It consumes the following API endpoint:
+- **My Ads**: this page presents to the user a list of all the ads he/she has posted, both sold and unsold, with buttons to either update the price of the ad, mark the ad as sold, or delete the ad from the database. Just like the market place, he/she can also can preview a specific car or filter the list of car ads displayed. It can only be accessed when the user had loged in. It consumes the following API endpoint:
 
   - `/api/v1/car?owner_id=<owner_id>` : which is a GET request that returns a list all the car ad posted by the user
   - `/api/v1/car/:car_id/price` : which is a PATCH requet for updating the price of a car ad by the user
@@ -64,7 +64,7 @@ The frontend comprises of a number of pages for different functionalities as des
 
   [Screenshot of a form for updating the price of a car ad](https://drive.google.com/open?id=1_9XEx38kyB500V5cn7Ubjdx-LIHCNvf4)
 
-- Purchase History: this page presents to the user a list of all the purchase order he/she had placed on car ads posted by other users. On this page, he/she can update the price offered if the offer is still pending. This page consumes the following API endpoints:
+- **Purchase History**: this page presents to the user a list of all the purchase order he/she had placed on car ads posted by other users. On this page, he/she can update the price offered if the offer is still pending. It can only be accessed when the user had loged in. This page consumes the following API endpoints:
 
   - `/api/v1/order?user_id=<user_id>` : which is a GET request that returns the list of orders for the user with the specified id.
   - `/api/v1/order/:order_id/price` : which is a PATCH request for updating the price offered for a car ad.
@@ -73,7 +73,7 @@ The frontend comprises of a number of pages for different functionalities as des
 
   [Screenshot of a form for updating the price offered for an ad](https://drive.google.com/open?id=1FPhhdmwD9CV5W7m8EL1zcocImZKr6vNp)
 
-- Sales History: this page presents to the user a list of all the purchase orders placed by other users on any of his/her car ads. On this page, he/she can accept or decline offers made on his ads.
+- **Sales History**: this page presents to the user a list of all the purchase orders placed by other users on any of his/her car ads. On this page, he/she can accept or decline offers made on his ads.
   (image)
 - Admin: this is the admin page where an admin can view all the posted car ad whether sold or unsold, and can also delete any of the ads. It consumes the following API endpoints:
 
@@ -112,9 +112,9 @@ The API endpoints have been described alongside the pages that consumes them. Th
 
 The neccesary tools for running this appliction on your local machine are as follow:
 
-- [Node.js v10 >](https://nodejs.org/en/)
+- [Node.js v10.15.0 (recommended)](https://nodejs.org/en/) : shouldn't be below version 8
 - [npm v6.4.1](https://nodejs.org/en/) : usually comes with Node.js
-- [Git bash](https://git-scm.com/downloads)
+- [Git bash](https://git-scm.com/downloads) : for your command line interface (cli)
 
 ### Setup steps
 

@@ -1,4 +1,4 @@
-import util from '../utils';
+import util from '../helpers/utils';
 
 // sample user
 const usersList = [

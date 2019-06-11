@@ -1,4 +1,4 @@
-import util from '../utils';
+import util from '../helpers/utils';
 
 const url_prefix = 'https://res.cloudinary.com/chuks-automart/image/upload/v1559396268/uploads/car-';
 const cars = [

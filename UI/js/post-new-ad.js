@@ -73,6 +73,29 @@ const validateForm = () => {
 	return errorFields;
 };
 
+const handleErrors = (errors) => {
+	let errMsg = '';
+	errors.map((err) => {
+		if (err === 'manufacturer') errMsg += 'manufacturer name cannot be empty<br/>';
+		else if (err === 'model') errMsg += 'model name cannot be empty<br/>';
+		else if (err === 'body_type') errMsg += 'body type cannot be empty<br/>';
+		else if (err === 'year') errMsg += 'year cannot be empty<br/>';
+		else if (err === 'price') errMsg += 'price cannot be empty<br/>';
+		else if (err === 'state') errMsg += 'state cannot be empty<br/>';
+		else if (err === 'color') errMsg += 'color cannot be empty<br/>';
+		else if (err === 'mileage') errMsg += 'mileage cannot be empty<br/>';
+		else if (err === 'transmission') errMsg += 'transmission type cannot be empty<br/>';
+		else if (err === 'fuel_type') errMsg += 'fuel type cannot be empty<br/>';
+		else if (err === 'fuel_cap') errMsg += 'fuel capacity cannot be empty<br/>';
+		else if (err === 'doors') errMsg += 'number of doors cannot be empty<br/>';
+		else if (err === 'img_url') errMsg += 'the image cannot be empty<br/>';
+		else if (err === 'description') errMsg += 'description cannot be empty<br/>';
+		errorDiv.classList.remove('hide');
+		errorDiv.innerHTML = errMsg;
+		return 0;
+	});
+};
+
 postAdBtn.onclick = (e) => {
 	e.preventDefault();
 	errorDiv.classList.add('hide');
@@ -80,62 +103,11 @@ postAdBtn.onclick = (e) => {
 
 	const errors = validateForm();
 	if (errors.length > 0) {
-		let errMsg = '';
-		errors.map((err) => {
-			switch (err) {
-				case 'manufacturer':
-					errMsg += 'manufacturer name cannot be empty<br/>';
-					break;
-				case 'model':
-					errMsg += 'model name cannot be empty<br/>';
-					break;
-				case 'body_type':
-					errMsg += 'body type cannot be empty<br/>';
-					break;
-				case 'year':
-					errMsg += 'year cannot be empty<br/>';
-					break;
-				case 'price':
-					errMsg += 'price cannot be empty<br/>';
-					break;
-				case 'state':
-					errMsg += 'state cannot be empty<br/>';
-					break;
-				case 'color':
-					errMsg += 'color cannot be empty<br/>';
-					break;
-				case 'mileage':
-					errMsg += 'mileage cannot be empty<br/>';
-					break;
-				case 'transmission':
-					errMsg += 'transmission type cannot be empty<br/>';
-					break;
-				case 'fuel_type':
-					errMsg += 'fuel type cannot be empty<br/>';
-					break;
-				case 'fuel_cap':
-					errMsg += 'fuel capacity cannot be empty<br/>';
-					break;
-				case 'doors':
-					errMsg += 'number of doors cannot be empty<br/>';
-					break;
-				case 'img_url':
-					errMsg += 'the image cannot be empty<br/>';
-					break;
-				case 'description':
-					errMsg += 'description cannot be empty<br/>';
-					break;
-				default: errMsg += 'check if all your entries are correct<br/>';
-			}
-			errorDiv.classList.remove('hide');
-			errorDiv.innerHTML = errMsg;
-			return 0;
-		});
+		handleErrors(errors);
 	} else {
 		// process the form
 		postAdBtn.innerHTML = 'Processing data...';
 		postAdBtn.disabled = 'disabled';
-		
 		const formData = new FormData(form);
 		formData.append('owner_id', user_id);
 		formData.set('ac', ac.checked.toString());

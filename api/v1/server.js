@@ -4,7 +4,7 @@ import multipart from 'connect-multiparty';
 import auth from './controllers/auth';
 import cars from './controllers/cars';
 import orders from './controllers/orders';
-import util from './utils';
+import util from './helpers/utils';
 
 const multipartMiddleware = multipart();
 const router = Router();

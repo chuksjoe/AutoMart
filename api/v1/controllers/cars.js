@@ -1,6 +1,6 @@
 import cars from '../models/cars';
 import users from '../models/users';
-import util from '../utils';
+import util from '../helpers/utils';
 
 const cloudinary = require('cloudinary').v2;
 const debug = require('debug')('http');

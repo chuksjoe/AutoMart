@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 
 import users from '../models/users';
-import util from '../utils';
+import util from '../helpers/utils';
 
 export default {
 	// get list of all the users

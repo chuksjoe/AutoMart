@@ -13,6 +13,13 @@ const signupBtn = document.getElementById('signup-btn');
 const phone = document.getElementById('phone');
 const zip = document.getElementById('zip-code');
 
+phone.onkeyup = () => {
+	phone.value = phone.value.replace(/\D/g, '');
+};
+zip.onkeyup = () => {
+	zip.value = zip.value.replace(/\D/g, '');
+};
+
 // Validation function
 const validateForm = () => {
 	const errorFields = [];
@@ -31,11 +38,22 @@ const validateForm = () => {
 	return errorFields;
 };
 
-phone.onkeyup = () => {
-	phone.value = phone.value.replace(/\D/g, '');
-};
-zip.onkeyup = () => {
-	zip.value = zip.value.replace(/\D/g, '');
+const handleErrors = (errors) => {
+	let errMsg = '';
+	errors.map((err) => {
+		if (err === 'fname') errMsg += 'first name cannot be empty<br/>';
+		else if (err === 'lname') errMsg += 'last name cannot be empty<br/>';
+		else if (err === 'no-email') errMsg += 'email cannot be empty<br/>';
+		else if (err === 'bad-email') errMsg += 'your e-mail is badly formed<br/>';
+		else if (err === 'short-pass') errMsg += 'password should be 8 or more characters<br/>';
+		else if (err === 'no-digit-in-pass') errMsg += 'password should include at least on digit<br/>';
+		else if (err === 'pass-mismatch') errMsg += 'your passwords do not match<br/>';
+		else if (err === 'phone') errMsg += 'phone number should be 10 or more digits<br/>';
+		else errMsg += 'check if all your entry is correct<br/>';
+		errorDiv.classList.remove('hide');
+		errorDiv.innerHTML = errMsg;
+		return 0;
+	});
 };
 
 signupBtn.onclick = (e) => {
@@ -44,39 +62,7 @@ signupBtn.onclick = (e) => {
 	errorDiv.style.backgroundColor = '#a45';
 	const errors = validateForm();
 	if (errors.length > 0) {
-		let errMsg = '';
-		errors.map((err) => {
-			switch (err) {
-				case 'fname':
-					errMsg += 'first name cannot be empty<br/>';
-					break;
-				case 'lname':
-					errMsg += 'last name cannot be empty<br/>';
-					break;
-				case 'no-email':
-					errMsg += 'email cannot be empty<br/>';
-					break;
-				case 'bad-email':
-					errMsg += 'your e-mail is badly formed<br/>';
-					break;
-				case 'short-pass':
-					errMsg += 'password should be 8 or more characters<br/>';
-					break;
-				case 'no-digit-in-pass':
-					errMsg += 'password should include at least on digit<br/>';
-					break;
-				case 'pass-mismatch':
-					errMsg += 'your passwords do not match<br/>';
-					break;
-				case 'phone':
-					errMsg += 'phone number should be 10 or more digits<br/>';
-					break;
-				default: errMsg += 'check if all your entry is correct<br/>';
-			}
-			errorDiv.classList.remove('hide');
-			errorDiv.innerHTML = errMsg;
-			return 0;
-		});
+		handleErrors(errors);
 	} else {
 		// process the form
 		signupBtn.innerHTML = 'Processing data...';
@@ -99,7 +85,6 @@ signupBtn.onclick = (e) => {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 		};
-
 		fetch('/api/v1/auth/signup', init)
 		.then(res => res.json())
 		.then((response) => {
