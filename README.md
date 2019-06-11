@@ -75,14 +75,14 @@ The frontend comprises of a number of pages for different functionalities as des
 
 - **Sales History**: this page presents to the user a list of all the purchase orders placed by other users on any of his/her car ads. On this page, he/she can accept or decline offers made on his ads.
   (image)
-- Admin: this is the admin page where an admin can view all the posted car ad whether sold or unsold, and can also delete any of the ads. It consumes the following API endpoints:
+- **Admin**: this is the admin page where an admin can view all the posted car ad whether sold or unsold, and can also delete any of the ads. It consumes the following API endpoints:
 
   - `/api/v1/car` : which is a GET request that returns all the posted car ad in the database.
   - `/api/v1/car/:car_id` : which is a DELETE request that deletes a car ad with the specified Id in the path varible.
 
 ## Description of the API endpoints
 
-The API endpoints have been described alongside the pages that consumes them. The list is as follow:
+The API endpoints have been described alongside the pages that consume them. The list is as follow:
 
 ### Car Resource
 
@@ -127,3 +127,5 @@ To install and test this application locally on your computer, first you have to
 ## Example Usage
 
 For examples of how the endpoints work, you can check out the documentation for the API [here.](https://documenter.getpostman.com/view/7607196/S1TYWGgG)
+
+You can also visit the application [here for your review](https://auto-mart-adc.herokuapp.com). Your feedback will be so much appreciated.
