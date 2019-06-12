@@ -2,6 +2,7 @@ import orders from '../models/orders';
 import users from '../models/users';
 import cars from '../models/cars';
 import util from '../helpers/utils';
+import ApiError from '../helpers/ApiError';
 
 export default {
 	/* returns 2 lists for a user.
@@ -35,59 +36,65 @@ export default {
 	},
 	// create new purchase order by  valid user
 	createNewOrder(req, res) {
-		const buyer = users.getAUserById(parseInt(req.body.buyer_id, 10));
-		const car = cars.getACar(parseInt(req.body.car_id, 10));
-		if (car !== null) {
-			if (buyer === null || car.status === 'Sold') {
-				return res.status(401).send({ status: 401, error: 'Unauthorized Access!' });
+		try {
+			const buyer = users.getAUserById(parseInt(req.body.buyer_id, 10));
+			const car = cars.getACar(parseInt(req.body.car_id, 10));
+			if (car === null) {
+				throw new ApiError(404, 'Car does not exist!');
 			}
-		}
-		if (car === null) {
-			return res.status(404).send({ status: 404, error: 'Car does not exist!' });
-		}
-		if (buyer.id === car.owner_id) {
-			return res.status(400).send({ status: 400, error: 'You can\'t place an order on your car ad.' });
-		}
-		const { first_name, last_name } = buyer;
-		const { car_id, buyer_id, price_offered } = req.body;
+			if (buyer === null || car.status === 'Sold') {
+				throw new ApiError(401, 'Unauthorized Access!');
+			}
+			if (buyer.id === car.owner_id) {
+				throw new ApiError(400, 'You can\'t place an order on your car ad.');
+			}
+			const { first_name, last_name } = buyer;
+			const { car_id, buyer_id, price_offered } = req.body;
 
-		const newOrder = orders.createNewOrder({
-			car_id: parseInt(car_id, 10),
-			car_name: car.name,
-			car_body_type: car.body_type,
-			price: car.price,
-			owner_id: car.owner_id,
-			owner_name: car.owner_name,
-			buyer_id: parseInt(buyer_id, 10),
-			buyer_name: `${first_name} ${last_name.charAt(0)}.`,
-			price_offered: parseFloat(price_offered),
-			status: 'Pending',
-			created_on: util.getDate(),
-		});
-		return res.status(201).send({ status: 201, data: newOrder });
+			const newOrder = orders.createNewOrder({
+				car_id: parseInt(car_id, 10),
+				car_name: car.name,
+				car_body_type: car.body_type,
+				price: car.price,
+				owner_id: car.owner_id,
+				owner_name: car.owner_name,
+				buyer_id: parseInt(buyer_id, 10),
+				buyer_name: `${first_name} ${last_name.charAt(0)}.`,
+				price_offered: parseFloat(price_offered),
+				status: 'Pending',
+				created_on: util.getDate(),
+			});
+			res.status(201).send({ status: 201, data: newOrder });
+		} catch (err) {
+			res.status(err.statusCode)
+			.send({ status: err.statusCode, error: err.message });
+		}
 	},
 	// update the price of a purchase order by the buyer who initialized it
 	updateOrderPrice(req, res) {
-		const order = orders.getAnOrder(parseInt(req.params.order_id, 10));
-		const buyer = users.getAUserById(parseInt(req.body.buyer_id, 10));
-		const new_price = parseFloat(req.body.new_price);
-		if (order !== null) {
-			const old_price_offered = order.price_offered;
-			if (buyer !== null && buyer.id === order.buyer_id && order.status === 'Pending') {
-				order.price_offered = new_price;
-				// to avoid the changes to the response from affect the order object in the database
-				const response = Object.assign({}, orders.updateOrder(order.id, order));
-				if (response !== null) {
-					response.old_price_offered = old_price_offered;
-					response.new_price_offered = new_price;
-					delete response.price_offered;
-				}
-				res.status(200).send({ status: 200, data: response });
-			} else {
-				res.status(401).send({ status: 401, error: 'Unauthorized Access!' });
+		try {
+			const order = orders.getAnOrder(parseInt(req.params.order_id, 10));
+			const buyer = users.getAUserById(parseInt(req.body.buyer_id, 10));
+			const new_price = parseFloat(req.body.new_price);
+			if (order === null) {
+				throw new ApiError(404, 'Purchase order not found in database.');
 			}
-		} else {
-			res.status(404).send({ status: 404, error: 'Purchase order not found in database.' });
+			const old_price_offered = order.price_offered;
+			if (buyer === null || buyer.id !== order.buyer_id || order.status !== 'Pending') {
+				throw new ApiError(401, 'Unauthorized Access!');
+			}
+			order.price_offered = new_price;
+			// to avoid the changes to the response from affect the order object in the database
+			const response = Object.assign({}, orders.updateOrder(order.id, order));
+			if (response !== null) {
+				response.old_price_offered = old_price_offered;
+				response.new_price_offered = new_price;
+				delete response.price_offered;
+			}
+			res.status(200).send({ status: 200, data: response });
+		} catch (err) {
+			res.status(err.statusCode)
+			.send({ status: err.statusCode, error: err.message });
 		}
 	},
 };

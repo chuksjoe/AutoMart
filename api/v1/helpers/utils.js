@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
+import ApiError from './ApiError';
+
 require('dotenv').config();
 require('custom-env').env(true);
 
@@ -24,37 +26,26 @@ module.exports = {
 	},
 
 	validateToken: (req, res, next) => {
-		if (!(req.headers && req.headers.authorization)) {
-			return res.status(400).json({
-				status: 400,
-				error: 'Ensure you are logged in.',
-			});
-		}
-		const authorizationHeader = req.headers.authorization;
-		let result;
-		if (authorizationHeader) {
+		try {
+			if (!(req.headers && req.headers.authorization)) {
+				throw new ApiError(401, 'Ensure you are logged in.');
+			}
+			const authorizationHeader = req.headers.authorization;
+			if (!authorizationHeader) {
+				throw new ApiError(401, 'Your token has expired. Please, re-login.');
+			}
 			const token = req.headers.authorization.split(' ')[1];
-			const options = {
-				expiresIn: '1d',
-				issuer: 'automart',
-			};
+			const options = { expiresIn: '1d', issuer: 'automart'	};
 			try {
-				result = jwt.verify(token, process.env.JWT_SECRET, options);
-				req.decoded = result;
+				jwt.verify(token, process.env.JWT_SECRET, options);
 				next();
 			}	catch (err) {
-				return res.status(401).send({
-					status: 401,
-					error: 'Your token has expired. Please, re-login.',
-					message: err,
-				});
-				// throw new Error(err);
+				const msg = err.message.charAt(0).toUpperCase() + err.message.slice(1);
+				throw new ApiError(401, `${msg}. Please, re-login.`);
 			}
-		} else {
-			res.status(401).send({
-				status: 401,
-				error: 'Your token has expired. Please, re-login.',
-			});
+		} catch (error) {
+			res.status(error.statusCode)
+			.send({ status: error.statusCode, error: error.message });
 		}
 		return 0;
 	},

@@ -36,7 +36,7 @@ describe('Tests for the orders api endpoints', () => {
 		chai.request(app)
 		.post('/api/v1/order').send({ car_id: 5, buyer_id: 6, price_offered: 1400000 })
 		.end((err, res) => {
-			res.should.have.status(400);
+			res.should.have.status(401);
 			expect(res.body.error).to.equal('Ensure you are logged in.');
 			done();
 		});
@@ -52,6 +52,22 @@ describe('Tests for the orders api endpoints', () => {
 			.end((err, res) => {
 				res.should.have.status(401);
 				expect(res.body.error).to.equal('Unauthorized Access!');
+				done();
+			});
+      response.status.should.eql(200);
+    });
+	});
+	// car with id = 5 is owned by emmanuel
+	it('should not allow a registered user to place a purchase order for his/her own car ad', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing' })
+    .end((error, response) => {
+			chai.request(app)
+			.post('/api/v1/order').set('authorization', `Bearer ${response.body.data.token}`)
+			.send({ car_id: 5, buyer_id: 2, price_offered: 1400000 })
+			.end((err, res) => {
+				res.should.have.status(400);
+				expect(res.body.error).to.equal('You can\'t place an order on your car ad.');
 				done();
 			});
       response.status.should.eql(200);

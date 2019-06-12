@@ -1,6 +1,7 @@
 import cars from '../models/cars';
 import users from '../models/users';
 import util from '../helpers/utils';
+import ApiError from '../helpers/ApiError';
 
 const cloudinary = require('cloudinary').v2;
 const debug = require('debug')('http');
@@ -14,25 +15,25 @@ cloudinary.config({
 export default {
 	// create a new car Ad and add it to car ads list
 	createNewCarAd(req, res) {
-		const owner = users.getAUserById(parseInt(req.body.owner_id, 10));
-		if (owner === null) {
-			return res.status(401).send({ status: 401, error: 'Unauthorized Access!' });
-		}
-		if (util.validateNewPostForm(req.body).length > 0) {
-			return res.status(206).send({ status: 206, error: 'Some required fields are not filled.' });
-		}
-		const { first_name, last_name, email } = owner;
-		const {
-			state, price, manufacturer, transmission_type,
-			model, body_type, fuel_type, description, mileage,
-			color, year, ac, arm_rest, fm_radio, dvd_player,
-			tinted_windows, air_bag, owner_id, doors, fuel_cap,
-		} = req.body;
+		try {
+			const owner = users.getAUserById(parseInt(req.body.owner_id, 10));
+			if (owner === null) {
+				throw new ApiError(401, 'Unauthorized Access!');
+			}
+			if (util.validateNewPostForm(req.body).length > 0) {
+				throw new ApiError(206, 'Some required fields are not properly filled.');
+			}
+			if (req.files.img_url === undefined) {
+				throw new ApiError(206, 'You have not selected any image for your post.');
+			}
+			const { first_name, last_name, email } = owner;
+			const {
+				state, price, manufacturer, transmission_type,
+				model, body_type, fuel_type, description, mileage,
+				color, year, ac, arm_rest, fm_radio, dvd_player,
+				tinted_windows, air_bag, owner_id, doors, fuel_cap,
+			} = req.body;
 
-		// for (let ke in req.files.img_url) {
-		// 	console.warn(`req.files.image properties: ${ke}: ${req.files.img_url[ke]}`);
-		// }
-		if (req.files.img_url !== undefined) {
 			cloudinary.uploader.upload(req.files.img_url.path, {
 				tags: 'auto-mart',
 				folder: 'uploads/',
@@ -74,14 +75,14 @@ export default {
 			.catch((err) => {
 				if (err) {
 					debug(err);
-					return res.status(510).send({ status: 510, error: 'Seems like your network connection is down.' });
+					return res.status(599).send({ status: 599, error: 'Seems like your network connection is down.' });
 				}
 				return 0;
 			});
-		} else {
-			return res.status(206).send({ status: 206, error: 'You have not selected any image for your post.' });
+		} catch (err) {
+			res.status(err.statusCode)
+			.send({ status: err.statusCode, error: err.message });
 		}
-		return 0;
 	},
 	// get a specific car give the car id
 	getACar(req, res) {
@@ -152,39 +153,45 @@ export default {
 	},
 	// it's only the owner of a sale ad that can update the price of a posted ad
 	updateCarPrice(req, res) {
-		const car = cars.getACar(parseInt(req.params.car_id, 10));
-		const user = users.getAUserById(parseInt(req.body.user_id, 10));
-		const new_price = parseFloat(req.body.new_price);
-		if (car !== null) {
-			if (user !== null && user.id === car.owner_id) {
-				car.price = new_price;
-				const response = cars.updateACar(car.id, car);
-				res.status(200).send({ status: 200, data: response });
-			} else {
-				res.status(401).send({ status: 401, error: 'Unauthorized Access!' });
+		try {
+			const car = cars.getACar(parseInt(req.params.car_id, 10));
+			const user = users.getAUserById(parseInt(req.body.user_id, 10));
+			const new_price = parseFloat(req.body.new_price);
+			if (car === null) {
+				throw new ApiError(404, 'Car not found in database.');
 			}
-		} else {
-			res.status(404).send({ status: 404, error: 'Car not found in database.' });
+			if (user === null || user.id !== car.owner_id) {
+				throw new ApiError(401, 'Unauthorized Access!');
+			}
+			car.price = new_price;
+			const response = cars.updateACar(car.id, car);
+			res.status(200).send({ status: 200, data: response });
+		} catch (err) {
+			res.status(err.statusCode)
+			.send({ status: err.statusCode, error: err.message });
 		}
 	},
 	// it's only the owner of a sale ad that can update the price of a posted ad
 	updateCarStatus(req, res) {
-		const car = cars.getACar(parseInt(req.params.car_id, 10));
-		const user = users.getAUserById(parseInt(req.body.user_id, 10));
-		if (car !== null) {
-			if (user !== null && user.id === car.owner_id) {
-				car.status = 'Sold';
-				const response = cars.updateACar(car.id, car);
-				res.status(200).send({
-					status: 200,
-					data: response,
-					message: `You have successfully marked<br><b>${car.name}</b><br>as sold.`,
-				});
-			} else {
-				res.status(401).send({ status: 401, error: 'Unauthorized Access!' });
+		try {
+			const car = cars.getACar(parseInt(req.params.car_id, 10));
+			const user = users.getAUserById(parseInt(req.body.user_id, 10));
+			if (car === null) {
+				throw new ApiError(404, 'Car not found in database.');
 			}
-		} else {
-			res.status(404).send({ status: 404, error: 'Car not found in database.' });
+			if (user === null || user.id !== car.owner_id) {
+				throw new ApiError(401, 'Unauthorized Access!');
+			}
+			car.status = 'Sold';
+			const response = cars.updateACar(car.id, car);
+			res.status(200).send({
+				status: 200,
+				data: response,
+				message: `You have successfully marked<br><b>${car.name}</b><br>as sold.`,
+			});
+		}	catch (err) {
+			res.status(err.statusCode)
+			.send({ status: err.statusCode, error: err.message });
 		}
 	},
 };

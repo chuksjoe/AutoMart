@@ -49,6 +49,7 @@
     "uuidv4": "^4.0.0"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "bcrypt": "^3.0.6",
     "cloudinary": "^1.14.0",
     "compression": "^1.7.4",
@@ -66,9 +67,14 @@
     "path": "^0.12.7"
   },
   "babel": {
-    "presets": [
-      "env"
-    ]
+    "presets": [[
+      "env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
+    ]]
   },
   "env": {
     "node": true,

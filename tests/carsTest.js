@@ -33,13 +33,23 @@ describe('Testing the car sale ads endpoints', () => {
 	// test for creating new car sale ad if the user is registered
 	it('should allow a valid user to create a car sale ad', (done) => {
 		chai.request(app)
-		.post('/api/v1/car').set('Accept', 'application/json').send(car)
+		.post('/api/v1/car').set('Accept', 'application/json')
+		.type('form')
+		.field('owner_id', 2)
+		.field('state', 'Used')
+		.field('model', 'Camry R2')
+		.field('year', 2001)
+		.field('manufacturer', 'Toyota')
+		.field('body_type', 'Hatch')
+		.field('price', 5500000)
+		.field('fuel_type', 'Petrol')
+		.attach('img_url', `${__dirname}/car-sample-1.jpg`)
 		.end((err, res) => {
-			const { data } = res.body;
+			// const { data } = res;
 			res.should.have.status(201);
-			expect(data).to.include({
-				id: data.id,
-				name: data.name,
+			expect(res.data).to.include({
+				id: res.data.id,
+				name: res.data.name,
 				owner_id: 2,
 				mileage: 3400,
 				model: 'Camry R2',
@@ -54,7 +64,7 @@ describe('Testing the car sale ads endpoints', () => {
 		chai.request(app)
 		.post('/api/v1/car').set('Accept', 'application/json').send(car)
 		.end((err, res) => {
-			res.should.have.status(400);
+			res.should.have.status(401);
 			expect(res.body.error).to.equal('Ensure you are logged in.');
 			done();
 		});
@@ -172,12 +182,26 @@ describe('Testing the car sale ads endpoints', () => {
 		});
 		done();
 	});
-	it('should delete a car sale ad if the user is an admin or the owner', (done) => {
+	it('should delete a car sale ad if the user is the owner', (done) => {
 		chai.request(app)
     .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing' })
     .end((error, response) => {
 			chai.request(app)
 			.delete('/api/v1/car/3').set('authorization', `Bearer ${response.body.data.token}`)
+			.end((err, res) => {
+				res.should.have.status(200);
+				expect(res.body.data).to.equal('Car AD successfully deleted.');
+			});
+			done();
+      response.status.should.eql(200);
+    });
+	});
+	it('should delete a car sale ad if the user is an admin', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing' })
+    .end((error, response) => {
+			chai.request(app)
+			.delete('/api/v1/car/11').set('authorization', `Bearer ${response.body.data.token}`)
 			.end((err, res) => {
 				res.should.have.status(200);
 				expect(res.body.data).to.equal('Car AD successfully deleted.');

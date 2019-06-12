@@ -46,6 +46,16 @@ describe('Testing User endpoints', () => {
       done();
     });
 	});
+	it('should not create new user account if email supplied is already used by another user', (done) => {
+		user.email = 'chuksjoe@live.com';
+		chai.request(app)
+		.post('/api/v1/auth/signup').set('Accept', 'application/json').send(user)
+		.end((err, res) => {
+      expect(res).to.have.status(200);
+      expect(res.body.error).to.equal(`A user with this e-mail (${user.email}) already exists.`);
+      done();
+    });
+	});
 	it('should not create new user account if any of the required entries are not supplied', (done) => {
 		// required entries: first_name, last_name, email, password, is_admin
 		user.first_name = '';
