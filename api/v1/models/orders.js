@@ -57,6 +57,7 @@ const orders = {
 		this.orders_list.splice(orderIndex, 1, orderToUpdate);
 		return orderToUpdate;
 	},
+	/*
 	// delete a order from the orders list and return the courrent count value, else return null
 	deleteOrder(orderId) {
 		const id = orderId;
@@ -71,6 +72,7 @@ const orders = {
 		this.count -= 1;
 		return this.count;
 	},
+	*/
 };
 
 module.exports = orders;

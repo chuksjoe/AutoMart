@@ -53,10 +53,12 @@ li.current {
   border-bottom: 2px solid #fff;
   padding-top: 2px;
 }
-.menu-list li a {
+.menu-list li a,
+.user-info {
   text-decoration: none;
   font-size: 1.3rem;
   color: #fff;
+  cursor: pointer;
 }
 .menu-list li a:hover {
   text-decoration: underline;
@@ -93,16 +95,35 @@ ul.dropdown-list {
   padding: 10px 0 0;
   display: none;
   width: 180px;
-  top: 35px;
-  left: -10px;
-  background-color: rgba(41, 147, 226, 0.8);
+  top: 37px;
+  right: 0;
+  background-color: rgba(41, 147, 226, 1);
+  box-shadow: 0 0 3px #333;
   color: #fff;
   z-index: 11;
 }
 .dropdown-list li a:hover {
   color: #fff;
 }
-
+.dropdown li p {
+  margin: 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #fff;
+  color: gold;
+}
+.user-avater {
+  border-radius: 50%;
+  font-size: 2.2rem;
+}
+.user-info .fa {
+  position: relative;
+  top: -9px;
+}
+.user-name {
+  font-weight: bold;
+  margin-top: 5px;
+  display: block;
+}
 /*General containers styling*/
 header nav,
 footer .inner-div {
@@ -507,6 +528,9 @@ h3.c-details-mv {
   }
   .menu-list li:hover {
     background-color: #2993e2;
+  }
+  li.signin-as:hover {
+    background-color: #000;
   }
   .menu-btn {
     display: block;

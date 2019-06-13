@@ -12,20 +12,18 @@ export default {
 		any of is posted sales ad, it returns empty arrays.
 	*/
 	getAllOrders(req, res) {
-		const user = users.getAUserById(parseInt(req.query.user_id, 10));
+		const { id } = req.payload;
 		const ordersList = orders.getAllOrders();
 		const purchaseList = [];
 		const salesList = [];
-		if (user !== null) {
-			ordersList.map((order) => {
-				if (order.owner_id === user.id) {
-					salesList.push(order);
-				} else if (order.buyer_id === user.id) {
-					purchaseList.push(order);
-				}
-				return false;
-			});
-		}
+		ordersList.map((order) => {
+			if (order.owner_id === id) {
+				salesList.push(order);
+			} else if (order.buyer_id === id) {
+				purchaseList.push(order);
+			}
+			return 0;
+		});
 		res.status(200).send({
 			status: 200,
 			data: {
@@ -37,7 +35,7 @@ export default {
 	// create new purchase order by  valid user
 	createNewOrder(req, res) {
 		try {
-			const buyer = users.getAUserById(parseInt(req.body.buyer_id, 10));
+			const buyer = users.getAUserById(parseInt(req.payload.id, 10));
 			const car = cars.getACar(parseInt(req.body.car_id, 10));
 			if (car === null) {
 				throw new ApiError(404, 'Car does not exist!');
@@ -48,8 +46,8 @@ export default {
 			if (buyer.id === car.owner_id) {
 				throw new ApiError(400, 'You can\'t place an order on your car ad.');
 			}
-			const { first_name, last_name } = buyer;
-			const { car_id, buyer_id, price_offered } = req.body;
+			const { id, first_name, last_name } = buyer;
+			const { car_id, price_offered } = req.body;
 
 			const newOrder = orders.createNewOrder({
 				car_id: parseInt(car_id, 10),
@@ -58,7 +56,7 @@ export default {
 				price: car.price,
 				owner_id: car.owner_id,
 				owner_name: car.owner_name,
-				buyer_id: parseInt(buyer_id, 10),
+				buyer_id: parseInt(id, 10),
 				buyer_name: `${first_name} ${last_name.charAt(0)}.`,
 				price_offered: parseFloat(price_offered),
 				status: 'Pending',
@@ -74,13 +72,13 @@ export default {
 	updateOrderPrice(req, res) {
 		try {
 			const order = orders.getAnOrder(parseInt(req.params.order_id, 10));
-			const buyer = users.getAUserById(parseInt(req.body.buyer_id, 10));
 			const new_price = parseFloat(req.body.new_price);
+			const { id } = req.payload;
 			if (order === null) {
 				throw new ApiError(404, 'Purchase order not found in database.');
 			}
 			const old_price_offered = order.price_offered;
-			if (buyer === null || buyer.id !== order.buyer_id || order.status !== 'Pending') {
+			if (id !== order.buyer_id || order.status !== 'Pending') {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
 			order.price_offered = new_price;

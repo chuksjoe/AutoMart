@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width initial-scale=1.0">
 		<meta name="description" content="Auto Mart is an online marketplace for automobiles of diverse makes, model or body type. With Auto Mart, users can sell their cars or buy from trusted dealerships or private sellers.">
-		<title>Admin - Auto Mart</title>
+		<title>All Posted Ads - Auto Mart</title>
 
 		<link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
@@ -22,7 +22,17 @@
 					<div class="menu-bar">
 						<span class="menu-btn"><i class="fa fa-bars"></i><i class="fa fa-times hide"></i></span>
 						<ul class="menu-list">
-							<li><a href="javascript:void(0)" class="logout">Logout</a></li>
+							<li><a href="./users-list">Registered Users</a></li>
+							<li class="current"><a href="./admin">Posted Car Ads</a></li>
+							<li class="dropdown">
+								<span class="user-info">
+									<span class="user-avater fas fa-user-circle"></span> <i class="fa fa-caret-down"></i>
+								</span>
+								<ul class="dropdown-list"></a>
+									<li class="signin-as"><p>You are signed in as:<br><span class="user-name"></span></p></li><li><a href="javascript:void(0)">Your Profile</a></li>
+									<li><a href="javascript:void(0)" class="logout">Logout</a></li>
+								</ul>
+							</li>
 						</ul>
 					</div>
 				</nav>

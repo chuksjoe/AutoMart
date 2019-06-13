@@ -36,6 +36,11 @@ window.onload = () => {
   if (!is_loggedin) {
 		window.location.href = '/api/v1/signin';
   }
+
+  const userName = document.querySelector('.user-name');
+
+  userName.innerHTML = `${sessionStorage.getItem('first_name')}
+   ${sessionStorage.getItem('last_name').charAt(0)}.`;
 };
 
 // Helpers Functions
@@ -109,7 +114,6 @@ postAdBtn.onclick = (e) => {
 		postAdBtn.innerHTML = 'Processing data...';
 		postAdBtn.disabled = 'disabled';
 		const formData = new FormData(form);
-		formData.append('owner_id', user_id);
 		formData.set('ac', ac.checked.toString());
 		formData.set('fm_radio', fm_radio.checked.toString());
 		formData.set('arm_rest', arm_rest.checked.toString());

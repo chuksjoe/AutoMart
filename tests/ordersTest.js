@@ -3,14 +3,6 @@ import chai, { expect } from 'chai';
 import app from '../api/v1/index';
 
 describe('Tests for the orders api endpoints', () => {
-	it('should allow a user to sign into their account if they supply valid credentials', (done) => {
-		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing' })
-		.end((err, res) => {
-			res.should.have.status(200);
-			done();
-		});
-	});
 	it('should allow a registered user to place a purchase order for an unsold car ad', (done) => {
 		chai.request(app)
     .post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing' })
@@ -123,5 +115,30 @@ describe('Tests for the orders api endpoints', () => {
 			});
       response.status.should.eql(200);
     });
+	});
+	it('should return list of purchase and sales orders if the user is logged in', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing' })
+    .end((error, response) => {
+			chai.request(app)
+			.get('/api/v1/order').set('authorization', `Bearer ${response.body.data.token}`)
+			.end((err, res) => {
+				const { data } = res.body;
+				res.should.have.status(200);
+				expect(data.sales_list.length).to.equal(0);
+				expect(data.purchase_list.length).to.equal(1);
+				done();
+			});
+      response.status.should.eql(200);
+    });
+	});
+	it('should not return any list if the user is not logged in', (done) => {
+		chai.request(app)
+		.get('/api/v1/order')
+		.end((err, res) => {
+			res.should.have.status(401);
+			expect(res.body.error).to.equal('Ensure you are logged in.');
+			done();
+		});
 	});
 });

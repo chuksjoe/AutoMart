@@ -10,6 +10,7 @@ const closePurModal = document.getElementById('close-purchase-modal');
 const closeFraudModal = document.getElementById('close-fraud-modal');
 const closeNotifation = document.querySelector('.close-notification');
 
+const userName = document.querySelector('.user-name');
 const user_id = sessionStorage.getItem('user_id');
 const is_loggedin = sessionStorage.getItem('is_loggedin');
 const token = sessionStorage.getItem('token');
@@ -19,6 +20,8 @@ const toggleNavBar = (is_logged, display = 'flex') => {
   if (is_logged) {
     // display marketplace with nav bar for logged in users
     visitorNav.style.display = 'none';
+    userName.innerHTML = `${sessionStorage.getItem('first_name')}
+      ${sessionStorage.getItem('last_name').charAt(0)}.`;
     memberNav.style.display = display;
   } else {
     // display marketplace with nav bar for a users that is not logged in
@@ -59,7 +62,7 @@ const openPurchaseModal = (params) => {
       return 0;
     }
     
-    const data = { car_id: id, buyer_id: user_id, price_offered };
+    const data = { car_id: id, price_offered };
     const init = {
       method: 'POST',
       body: JSON.stringify(data),
@@ -74,7 +77,7 @@ const openPurchaseModal = (params) => {
         Actual Price: &#8358 ${res.data.price.toLocaleString('en-US')}<br/>
         Price Offered: &#8358 ${res.data.price_offered.toLocaleString('en-US')}`;
       } else {
-        message.innerHTML = `${res.error}<br/>Please ensure you are logged-in before placing an order.<br/>
+        message.innerHTML = `Please ensure you are logged-in before placing an order.<br/>
         If you don't have an account on AutoMart,<br/><a href='/api/v1/signup'>Click here to Sign-up.</a>`;
       }
       purchaseModal.style.display = 'none';

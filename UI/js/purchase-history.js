@@ -33,10 +33,9 @@ const openUpdateModal = (params) => {
       notificationModal.style.display = 'block';
       return 0;
     }
-    const data = { buyer_id: user_id, new_price };
     const init = {
       method: 'PATCH',
-      body: JSON.stringify(data),
+      body: JSON.stringify({ new_price }),
       headers: { 'Content-Type': 'application/json', authorization: `Bearer ${token}` },
     };
     fetch(`/api/v1/order/${id}/price`, init)
@@ -68,13 +67,17 @@ window.onload = () => {
     window.location.href = '/api/v1/signin';
 	}
 
+  const userName = document.querySelector('.user-name');
+
+  userName.innerHTML = `${sessionStorage.getItem('first_name')}
+   ${sessionStorage.getItem('last_name').charAt(0)}.`;
+
   // fetch the purchase orders from database and populate the purchase history page
   const init = {
     method: 'GET',
     headers: { authorization: `Bearer ${token}` },
-  };
-    
-  fetch(`/api/v1/order?user_id=${user_id}`, init)
+  };   
+  fetch('/api/v1/order', init)
   .then(res => res.json())
   .then((response) => {
     const res = response;

@@ -8,7 +8,12 @@ import ApiError from '../helpers/ApiError';
 export default {
 	// get list of all the users
 	getAllUsers(req, res) {
-		return res.status(200).send({ status: 200, data: users.getAllUsers() });
+		const { payload } = req;
+		if (payload.admin) {
+			res.status(200).send({ status: 200, data: users.getAllUsers() });
+		} else {
+			res.status(401).send({ status: 401, error: 'Unauthorized Access!' });
+		}
 	},
 	// create new user and add to database
 	async createNewUser(req, res) {
@@ -49,11 +54,14 @@ export default {
 					phone,
 					zip,
 					registered_on: util.getDate(),
+					last_online: null,
+					num_of_ads: 0,
+					num_of_orders: 0,
 				});
 				if (response !== null) {
 					const data = Object.assign({}, response);
 					delete data.password;
-					data.token = util.encodeToken(email, data.id);
+					data.token = util.encodeToken(data.email, data.id, data.is_admin);
 					res.status(201).send({ status: 201, data });
 				} else {
 					res.status(500)
@@ -78,7 +86,7 @@ export default {
 			if (match) {
 				const data = Object.assign({}, user);
 				delete data.password;
-				data.token = util.encodeToken(email, data.id);
+				data.token = util.encodeToken(data.email, data.id, data.is_admin);
 				res.status(200).send({ status: 200, data });
 			} else {
 				throw new ApiError(401, 'Invalid Username or Password!');

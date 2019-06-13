@@ -210,13 +210,27 @@ describe('Testing the car sale ads endpoints', () => {
       response.status.should.eql(200);
     });
 	});
+	it('should not delete a car sale ad if the user is neither an admin or the owner', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing' })
+    .end((error, response) => {
+			chai.request(app)
+			.delete('/api/v1/car/12').set('authorization', `Bearer ${response.body.data.token}`)
+			.end((err, res) => {
+				res.should.have.status(401);
+				expect(res.body.error).to.equal('Unauthorized Access!');
+			});
+			done();
+      response.status.should.eql(200);
+    });
+	});
 	it('should update the price of the car sale ad if the user is the owner', (done) => {
 		chai.request(app)
     .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing' })
     .end((error, response) => {
 			chai.request(app)
 			.patch('/api/v1/car/1/price').set('authorization', `Bearer ${response.body.data.token}`)
-			.send({ user_id: 3, new_price: 20000000 })
+			.send({ new_price: 20000000 })
 			.end((err, res) => {
 				const { data } = res.body;
 				res.should.have.status(200);
@@ -236,7 +250,6 @@ describe('Testing the car sale ads endpoints', () => {
     .end((error, response) => {
 			chai.request(app)
 			.patch('/api/v1/car/4/status').set('authorization', `Bearer ${response.body.data.token}`)
-			.send({ user_id: 3 })
 			.end((err, res) => {
 				const { data } = res.body;
 				res.should.have.status(200);
@@ -256,7 +269,6 @@ describe('Testing the car sale ads endpoints', () => {
     .end((error, response) => {
 			chai.request(app)
 			.patch('/api/v1/car/1/status').set('authorization', `Bearer ${response.body.data.token}`)
-			.send({ user_id: 1 })
 			.end((err, res) => {
 				res.should.have.status(401);
 				expect(res.body.error).to.equal('Unauthorized Access!');

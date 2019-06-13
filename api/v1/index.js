@@ -47,10 +47,6 @@ app.get(`${prefix}/signin`, (req, res) => {
   res.sendFile(path.join(__dirname, dirName, '/signin.html'));
 });
 
-app.get(`${prefix}/admin`, (req, res) => {
-  res.sendFile(path.join(__dirname, dirName, '/admin.html'));
-});
-
 app.get(`${prefix}/marketplace`, (req, res) => {
   res.sendFile(path.join(__dirname, dirName, '/marketplace.html'));
 });
@@ -69,6 +65,14 @@ app.get(`${prefix}/purchase-history`, (req, res) => {
 
 app.get(`${prefix}/sales-history`, (req, res) => {
   res.sendFile(path.join(__dirname, dirName, '/sales-history.html'));
+});
+
+app.get(`${prefix}/admin`, (req, res) => {
+  res.sendFile(path.join(__dirname, dirName, '/admin.html'));
+});
+
+app.get(`${prefix}/users-list`, (req, res) => {
+  res.sendFile(path.join(__dirname, dirName, '/users-list.html'));
 });
 
 // default page is set to the index page

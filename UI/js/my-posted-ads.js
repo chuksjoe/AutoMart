@@ -14,7 +14,7 @@ const autoRefresh = (time) => {
   setTimeout(() => {
     document.location.reload();
   }, time);
-}
+};
 const deleteAd = (car_id) => {
   const init = {
     method: 'DELETE',
@@ -61,7 +61,7 @@ const openUpdateModal = (params) => {
 
     const init = {
       method: 'PATCH',
-      body: JSON.stringify({ user_id, new_price }),
+      body: JSON.stringify({ new_price }),
       headers: { 'Content-Type': 'application/json', authorization: `Bearer ${token}` },
     };
     fetch(`/api/v1/car/${id}/price`, init)
@@ -87,7 +87,6 @@ const openUpdateModal = (params) => {
 const updateAdStatus = (car_id) => {
   const init = {
     method: 'PATCH',
-    body: JSON.stringify({ user_id }),
     headers: { 'Content-Type': 'application/json', authorization: `Bearer ${token}` },
   };
   fetch(`/api/v1/car/${car_id}/status`, init)
@@ -257,6 +256,11 @@ window.onload = () => {
   if (!is_loggedin) {
     window.location.href = '/api/v1/signin';
   }
+
+  const userName = document.querySelector('.user-name');
+
+  userName.innerHTML = `${sessionStorage.getItem('first_name')}
+   ${sessionStorage.getItem('last_name').charAt(0)}.`;
 
   // fetch the cars from database and populate the marketplace
   fetchCarAds(`/api/v1/car?owner_id=${user_id}`, 'You have not posted any car sale AD.');

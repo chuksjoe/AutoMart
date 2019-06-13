@@ -153,6 +153,10 @@ window.onload = () => {
   if (!(is_loggedin || is_admin)) {
     window.location.href = '/api/v1/signin';
   }
+  const userName = document.querySelector('.user-name');
+
+  userName.innerHTML = `${sessionStorage.getItem('first_name')}
+   ${sessionStorage.getItem('last_name').charAt(0)}.`;
 
   // fetch the cars from database and populate the marketplace
   fetchCarAds('/api/v1/car', 'No car sale ad has been posted.');

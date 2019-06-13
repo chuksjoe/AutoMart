@@ -83,7 +83,7 @@ describe('Testing User endpoints', () => {
 			done();
 		});
 	});
-	it('should not allow a user to sign in if they supply invalid credentials', (done) => {
+	it('should not allow a user to sign in if they supply invalid password', (done) => {
 		chai.request(app)
 		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'wrongpassword' })
 		.end((err, res) => {
@@ -91,5 +91,48 @@ describe('Testing User endpoints', () => {
 			expect(res.body.error).to.equal('Invalid Username or Password!');
 			done();
 		});
+	});
+	it('should not allow a user to sign in if they supply invalid email', (done) => {
+		chai.request(app)
+		.post('/api/v1/auth/signin').type('form').send({ email: 'chukswho@live.com', password: 'wrongpassword' })
+		.end((err, res) => {
+			res.should.have.status(401);
+			expect(res.body.error).to.equal('Invalid Username or Password!');
+			done();
+		});
+	});
+	it('should return list of all registered users if the user is an admin', (done) => {
+		chai.request(app)
+		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing' })
+    .end((error, response) => {
+			chai.request(app)
+			.get('/api/v1/user').set('authorization', `Bearer ${response.body.data.token}`)
+			.end((err, res) => {
+				const { data } = res.body;
+				res.should.have.status(200);
+				expect(data.length).to.equal(4);
+				expect(data[0]).to.include({
+					id: 1,
+					first_name: 'ChuksJoe',
+					last_name: 'Orjiakor',
+				});
+				done();
+			});
+      response.status.should.eql(200);
+    });
+	});
+	it('should not return list of all registered users if the user is not an admin', (done) => {
+		chai.request(app)
+		.post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing' })
+    .end((error, response) => {
+			chai.request(app)
+			.get('/api/v1/user').set('authorization', `Bearer ${response.body.data.token}`)
+			.end((err, res) => {
+				res.should.have.status(401);
+				expect(res.body.error).to.equal('Unauthorized Access!');
+				done();
+			});
+      response.status.should.eql(200);
+    });
 	});
 });

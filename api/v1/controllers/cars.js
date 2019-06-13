@@ -16,7 +16,7 @@ export default {
 	// create a new car Ad and add it to car ads list
 	createNewCarAd(req, res) {
 		try {
-			const owner = users.getAUserById(parseInt(req.body.owner_id, 10));
+			const owner = users.getAUserById(parseInt(req.payload.id, 10));
 			if (owner === null) {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
@@ -139,28 +139,36 @@ export default {
 	},
 	// it's only the owner of a sale ad or an admin that can delete a posted ad
 	deleteACar(req, res) {
-		const car = cars.getACar(parseInt(req.params.car_id, 10));
-		if (car !== null) {
+		try {
+			const car = cars.getACar(parseInt(req.params.car_id, 10));
+			const { email, admin } = req.payload;
+			if (car === null) {
+				throw new ApiError(404, 'Car not found in database.');
+			}
+			if (car.email !== email && !admin) {
+				throw new ApiError(401, 'Unauthorized Access!');
+			}
 			cars.deleteACar(car.id);
 			res.status(200).json({
 				status: 200,
 				data: 'Car AD successfully deleted.',
 				message: `You have successfully deleted Ad for<br><b>${car.name}</b>`,
 			});
-		} else {
-			res.status(404).send({ status: 404, error: 'Car not found in database.' });
+		} catch (err) {
+			res.status(err.statusCode)
+			.send({ status: err.statusCode, error: err.message });
 		}
 	},
 	// it's only the owner of a sale ad that can update the price of a posted ad
 	updateCarPrice(req, res) {
 		try {
 			const car = cars.getACar(parseInt(req.params.car_id, 10));
-			const user = users.getAUserById(parseInt(req.body.user_id, 10));
 			const new_price = parseFloat(req.body.new_price);
+			const { id } = req.payload;
 			if (car === null) {
 				throw new ApiError(404, 'Car not found in database.');
 			}
-			if (user === null || user.id !== car.owner_id) {
+			if (id !== car.owner_id) {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
 			car.price = new_price;
@@ -175,11 +183,11 @@ export default {
 	updateCarStatus(req, res) {
 		try {
 			const car = cars.getACar(parseInt(req.params.car_id, 10));
-			const user = users.getAUserById(parseInt(req.body.user_id, 10));
+			const { id } = req.payload;
 			if (car === null) {
 				throw new ApiError(404, 'Car not found in database.');
 			}
-			if (user === null || user.id !== car.owner_id) {
+			if (id !== car.owner_id) {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
 			car.status = 'Sold';

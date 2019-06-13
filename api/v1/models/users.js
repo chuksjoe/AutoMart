@@ -19,6 +19,9 @@ const usersList = [
 		phone: '08131172617',
 		zip: '234-001',
 		registered_on: util.getDate(),
+		last_online: null,
+		num_of_ads: 0,
+		num_of_orders: 0,
 	},
 	{
 		id: 2,
@@ -37,6 +40,9 @@ const usersList = [
 		phone: '09044950334',
 		zip: '234-001',
 		registered_on: util.getDate(),
+		last_online: null,
+		num_of_ads: 4,
+		num_of_orders: 0,
 	},
 	{
 		id: 3,
@@ -55,6 +61,9 @@ const usersList = [
 		phone: '09044950334',
 		zip: '234-001',
 		registered_on: util.getDate(),
+		last_online: null,
+		num_of_ads: 8,
+		num_of_orders: 0,
 	},
 ];
 
@@ -97,6 +106,7 @@ const users = {
 		});
 		return theUser;
 	},
+	/*
 	// update a specific user in the Users list and return the new user object, else return null
 	updateAUser(userId, userToUpdate) {
 		const id = userId;
@@ -124,6 +134,7 @@ const users = {
 		this.count -= 1;
 		return this.count;
 	},
+	*/
 };
 
 module.exports = users;

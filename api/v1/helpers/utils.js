@@ -11,15 +11,20 @@ const appendLeadZero = val => (Number(val) > 10 ? val : `0${val}`);
 
 module.exports = {
 	getDate: () => {
+		const days = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
+		const months = ['Jan', 'Feb', 'Mar', 'April', 'May',
+		'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 		const date = new Date();
-		return `${appendLeadZero(date.getDate())}-${appendLeadZero(date.getMonth() + 1)}-${date.getFullYear()}
-		 ${appendLeadZero(date.getHours())}:${appendLeadZero(date.getMinutes())}`;
+		const hr = date.getHours();
+		return `${days[date.getDay()]},
+		 ${appendLeadZero(date.getDate())} ${months[date.getMonth()]} ${date.getFullYear()}
+		 ${appendLeadZero(hr > 12 ? hr % 12 : hr)}:${appendLeadZero(date.getMinutes())}${hr > 12 ? 'pm' : 'am'}`;
 	},
 
 	hashPassword: (password, saltRound) => bcrypt.hashSync(password, saltRound),
 
-	encodeToken: (email, id = 0) => {
-		const payload = { email, id };
+	encodeToken: (email, id, admin) => {
+		const payload = { email, id, admin };
 		const option = { expiresIn: '1d', issuer: 'automart' };
 		const secret = process.env.JWT_SECRET;
 		return jwt.sign(payload, secret, option);
@@ -37,7 +42,7 @@ module.exports = {
 			const token = req.headers.authorization.split(' ')[1];
 			const options = { expiresIn: '1d', issuer: 'automart'	};
 			try {
-				jwt.verify(token, process.env.JWT_SECRET, options);
+				req.payload = jwt.verify(token, process.env.JWT_SECRET, options);
 				next();
 			}	catch (err) {
 				const msg = err.message.charAt(0).toUpperCase() + err.message.slice(1);

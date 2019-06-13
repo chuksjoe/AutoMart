@@ -10,6 +10,7 @@ const multipartMiddleware = multipart();
 const router = Router();
 
 // for the auth
+router.get('/user', util.validateToken, auth.getAllUsers); // for admin access only
 router.post('/auth/signup', auth.createNewUser);
 router.post('/auth/signin', auth.signinUser);
 
