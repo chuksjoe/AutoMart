@@ -4,13 +4,13 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width initial-scale=1.0">
 		<meta name="description" content="Auto Mart is an online marketplace for automobiles of diverse makes, model or body type. With Auto Mart, users can sell their cars or buy from trusted dealerships or private sellers.">
-		<title>Purchase History - Auto Mart</title>
+		<title>Registered Users - Auto Mart</title>
 
 		<link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
 		
 		<link href="/css/general.css" rel="stylesheet">
-		<link href="/css/history.css" rel="stylesheet">
+		<link href="/css/users-list.css" rel="stylesheet">
 		
 		<link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 	</head>
@@ -22,15 +22,8 @@
 					<div class="menu-bar">
 						<span class="menu-btn"><i class="fa fa-bars"></i><i class="fa fa-times hide"></i></span>
 						<ul class="menu-list">
-							<li><a href="./post-new-ad">Post New AD</a></li>
-							<li><a href="./marketplace">Marketplace</a></li>
-							<li><a href="./my-posted-ads">My ADs</a></li>
-							<li class="current dropdown"><a href="javascript:void(0)">History <i class="fa fa-caret-down"></i></a>
-								<ul class="dropdown-list">
-									<li><a href="./sales-history">Sales History</a></li>
-									<li class="here"><a href="./purchase-history">Purchase History</a></li>
-								</ul>
-							</li>
+							<li class="current"><a href="./users-list">Registered Users</a></li>
+							<li><a href="./admin">Posted Car Ads</a></li>
 							<li class="dropdown">
 								<span class="user-info">
 									<span class="user-avater fas fa-user-circle"></span> <i class="fa fa-caret-down"></i>
@@ -47,21 +40,24 @@
 
 			<div class="content">
 				<main class="main-100">
-					<h2>My Purchase History</h2>
-					<ul class="history-list">
-						<!-- <li class="history-list-item flex-container">
-							<div class="purchase-date p-15">
-								<p>24 Jan 2019<br>3:23pm</p>
-								<label class="status">Pending</label>
+					<h2>All Registered Users</h2>
+					<ul class="users-list">
+						<!-- <li class="user-list-item flex-container">
+							<div class="user-details p-15">
+								<h3 class="user-name"><b>User Id:</b> 3. <b>Name:</b> Chuksjoe Orjiakor</h3>
+								<p class="last-online"><b>Last online:</b> Tues, 13 June 2019 05:45pm</p>
+								<p>
+									<span class="email"><b>Email:</b> chuksjoe@live.com, </span>
+									<span class="created-on"><b>Registered on:</b> Tues, 13 June 2019 05:45pm, </span>
+								</p>
+								<p>
+									<span class="ad-count"><b>Number of posted Ads:</b> 5, </span>
+									<span class="order-count"><b>Number of purchase orders:</b> 2</span>
+								</p>
 							</div>
-							<div class="purchase-details p-15">
-								<h3 class="c-details-list">Purchase Order for Volvo Highlander Dx</h3>
-								<p class="purchase-info">Actual Price: &#8358 5,200,000. Owner: John Ebuka</p>
-								<p class="purchase-info">Price Offered: &#8358 5,200,000</p>
-							</div>
-							<div class="user-actions p-15">
-								<button class="update-p full-btn btn">Update Price</button>
-								<button class="delete full-btn btn">Cancel Purchase</button>
+							<div class="admin-actions p-15">
+								<button class="suspend full-btn btn">Suspend User</button>
+								<button class="delete full-btn btn">Delete Account</button>
 							</div>
 						</li> -->
 					</ul>
@@ -84,29 +80,6 @@
 			</footer>
 		</div>
 
-		<!-- Modal view to update price for Purchase order -->
-		<div id="update-price-overlay" class="overlay">
-			<div class="modal-view sm-m-v">
-				<h2 class="modal-header">Update Purchase Price</h2>
-				<div class="modal-body">
-					<h3 class="c-details-mv"></h3>
-					<p class="c-b-type"></p>
-					<p class="c-price"></p><hr>
-					<p class="c-c-o-price"></p>
-					<form class="update-order-form">
-						<div class = "input-field single">
-							<label>New Offering Price(&#8358):</label><br>
-							<input type="text" data-type="number" class="price" placeholder="Offering Price(&#8358):">
-						</div>
-						<div class="btn-group flex-container">
-							<button id="update-price" class="half-btn btn">Update Price</button>
-							<button id="close-update-modal" class="half-btn btn">Cancel</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-
 		<!-- Modal view for All Notifications -->
 		<div id="notification-overlay" class="overlay">
 			<div class="modal-view sm-m-v">
@@ -120,6 +93,6 @@
 
 		<!-- scripts -->
 		<script src="/js/general.js"></script>
-		<script src="/js/purchase-history.js"></script>
+		<script src="/js/users-list.js"></script>
 	</body>
 </html>
