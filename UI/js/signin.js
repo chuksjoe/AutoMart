@@ -8,7 +8,7 @@ const signinBtn = document.getElementById('signin-btn');
 const validateForm = () => {
 	const errorFields = [];
 	if (email.value === '') errorFields.push('no-email');
-	else if (email.value.indexOf('.') < 3 || email.value.indexOf('@') < 1) {
+	else if (!(/\S+@\S+\.\S+/.test(email.value))) {
 		errorFields.push('bad-email');
 	}
 	return errorFields;

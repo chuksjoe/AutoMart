@@ -25,7 +25,8 @@ app.use(compression());
 
 const dirName = '../../UI/template';
 const resoursePath = path.join(__dirname, '../../UI');
-debug(`Resource Path: ${resoursePath}`);
+// debug(`Resource Path: ${resoursePath}`);
+
 app.use(express.static(resoursePath));
 app.use('/css', express.static(path.join(__dirname, '../../UI/css')));
 app.use('/js', express.static(path.join(__dirname, '../../UI/js')));

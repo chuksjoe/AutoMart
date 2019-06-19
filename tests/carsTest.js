@@ -2,12 +2,11 @@ import chai, { expect } from 'chai';
 
 import app from '../api/v1/index';
 
+const debug = require('debug')('http');
+
 // testing the car ad endpoints
 describe('Testing the car sale ads endpoints', () => {
-	const url_prefix = 'https://res.cloudinary.com/chuks-automart/image/upload/v1559396268/uploads/car-';
 	const car = {
-		img_url: `${url_prefix}sample-1.jpg`,
-		owner_id: 2,
 		year: 2001,
 		state: 'Used',
 		status: 'Available',
@@ -29,38 +28,74 @@ describe('Testing the car sale ads endpoints', () => {
 		fm_radio: true,
 		tinted_windows: false,
 	};
-	/*
-	// test for creating new car sale ad if the user is registered
+
 	it('should allow a valid user to create a car sale ad', (done) => {
 		chai.request(app)
-		.post('/api/v1/car').set('Accept', 'application/json')
-		.type('form')
-		.field('owner_id', 2)
-		.field('state', 'Used')
-		.field('model', 'Camry R2')
-		.field('year', 2001)
-		.field('manufacturer', 'Toyota')
-		.field('body_type', 'Hatch')
-		.field('price', 5500000)
-		.field('fuel_type', 'Petrol')
-		.attach('img_url', `${__dirname}/car-sample-1.jpg`)
-		.end((err, res) => {
-			// const { data } = res;
-			res.should.have.status(201);
-			expect(res.data).to.include({
-				id: res.data.id,
-				name: res.data.name,
-				owner_id: 2,
-				mileage: 3400,
-				model: 'Camry R2',
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing' })
+    .end((error, response) => {
+			chai.request(app)
+			.post('/api/v1/car')
+			.set('Authorization', `Token ${response.body.data.token}`)
+      .field('Content-Type', 'multipart/form-data')
+      .field(car)
+			.attach('img_url', './tests/car-sample-1.jpg')
+			.end((err, res) => {
+				if (err) {
+					debug(err);
+					process.exit(1);
+				}
+				const { data } = res.body;
+				res.should.have.status(201);
+				expect(data).to.include({
+					id: data.id,
+					name: data.name,
+					owner_id: 1,
+					mileage: 3400,
+					model: 'Camry R2',
+				});
+				done();
 			});
-			done();
-		});
+      response.status.should.eql(200);
+    });
 	});
-	*/
+	it('should not create car ad if no image is selected', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing' })
+    .end((error, response) => {
+			chai.request(app)
+			.post('/api/v1/car')
+			.set('Authorization', `Token ${response.body.data.token}`)
+      .field('Content-Type', 'multipart/form-data')
+      .field(car)
+			.end((err, res) => {
+				res.should.have.status(206);
+				expect(res.body.error).to.equal('You have not selected any image for your post.');
+				done();
+			});
+      response.status.should.eql(200);
+    });
+	});
+	it('should not create car ad if some required fields are not filled', (done) => {
+		car.model = '';
+		car.price = '';
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing' })
+    .end((error, response) => {
+			chai.request(app)
+			.post('/api/v1/car')
+			.set('Authorization', `Token ${response.body.data.token}`)
+      .field('Content-Type', 'multipart/form-data')
+      .field(car)
+			.end((err, res) => {
+				res.should.have.status(206);
+				expect(res.body.error).to.equal('Some required fields are not properly filled.');
+				done();
+			});
+      response.status.should.eql(200);
+    });
+	});
 	// test for creating new car sale ad if the user is not registered
 	it('should not allow an unregistered user to post a car sale ad', (done) => {
-		car.owner_id = 6; // there is no user with id 3
 		chai.request(app)
 		.post('/api/v1/car').set('Accept', 'application/json').send(car)
 		.end((err, res) => {
@@ -85,6 +120,15 @@ describe('Testing the car sale ads endpoints', () => {
 			done();
 		});
 	});
+	it('should return an error message if a user tries to view a car ad that does not exist', (done) => {
+		chai.request(app)
+		.get('/api/v1/car/21')
+		.end((err, res) => {
+			res.should.have.status(404);
+			expect(res.body.error).to.equal('Car not found in database.');
+			done();
+		});
+	});
 	// this endpoint is usually for normal users
 	it('should return all unsold car ads', (done) => {
 		chai.request(app)
@@ -98,7 +142,7 @@ describe('Testing the car sale ads endpoints', () => {
 				});
 				return 0;
 			});
-			expect(data.length).to.equal(11);
+			expect(data.length).to.equal(12); // plus 11 in carData.js + 1 created here
 		});
 		done();
 	});
@@ -109,7 +153,7 @@ describe('Testing the car sale ads endpoints', () => {
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
-			expect(data.length).to.equal(12); // 12 in the car model + 1 created in this test script
+			expect(data.length).to.equal(13); // 12 in the car model + 1 created in this test script
 		});
 		done();
 	});
@@ -122,6 +166,18 @@ describe('Testing the car sale ads endpoints', () => {
 			expect(data[0]).to.include({ status: 'Available' });
 			expect(data[0].price).to.be.above(20000000);
 			expect(data[0].price).to.be.below(30000000);
+			expect(data.length).to.equal(5);
+		});
+		done();
+	});
+	it('should still filter the list of unsold car ads if only min_price is supplied', (done) => {
+		chai.request(app)
+		.get('/api/v1/car?status=Available&min_price=26000000')
+		.end((err, res) => {
+			const { data } = res.body;
+			res.should.have.status(200);
+			expect(data[0]).to.include({ status: 'Available' });
+			expect(data[0].price).to.be.above(26000000);
 			expect(data.length).to.equal(5);
 		});
 		done();
@@ -177,8 +233,18 @@ describe('Testing the car sale ads endpoints', () => {
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
-			expect(data.length).to.equal(6); // 6 defined in the car model and 1 defined in this script
+			expect(data.length).to.equal(7); // 6 defined in the car model and 1 defined in this script
 			expect(data[0].state).to.equal('Used');
+		});
+		done();
+	});
+	it('should return all car ads that belongs to a specific user', (done) => {
+		chai.request(app)
+		.get('/api/v1/car?owner_id=2')
+		.end((err, res) => {
+			const { data } = res.body;
+			res.should.have.status(200);
+			expect(data.length).to.equal(4);
 		});
 		done();
 	});

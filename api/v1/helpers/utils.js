@@ -15,10 +15,9 @@ module.exports = {
 		const months = ['Jan', 'Feb', 'Mar', 'April', 'May',
 		'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 		const date = new Date();
-		const hr = date.getHours();
+		const time = date.toLocaleString([], { hour: 'numeric', minute: '2-digit', second: '2-digit' });
 		return `${days[date.getDay()]},
-		 ${appendLeadZero(date.getDate())} ${months[date.getMonth()]} ${date.getFullYear()}
-		 ${appendLeadZero(hr > 12 ? hr % 12 : hr)}:${appendLeadZero(date.getMinutes())}${hr > 12 ? 'pm' : 'am'}`;
+		 ${appendLeadZero(date.getDate())} ${months[date.getMonth()]} ${date.getFullYear()}, ${time}`;
 	},
 
 	hashPassword: (password, saltRound) => bcrypt.hashSync(password, saltRound),
@@ -42,6 +41,8 @@ module.exports = {
 			const token = req.headers.authorization.split(' ')[1];
 			const options = { expiresIn: '1d', issuer: 'automart'	};
 			try {
+				// add new property to the req object to hold the payload that
+				// will be used in the controller functions to verify users.
 				req.payload = jwt.verify(token, process.env.JWT_SECRET, options);
 				next();
 			}	catch (err) {
@@ -56,16 +57,20 @@ module.exports = {
 	},
 	validateUserRegForm: (req_body) => {
 		const errorFields = [];
-		if (req_body.first_name === '') errorFields.push('fname');
-		if (req_body.last_name === '') errorFields.push('lname');
-		if (req_body.email === '') errorFields.push('no-email');
-		else if (req_body.email.indexOf('.') < 3 || req_body.email.indexOf('@') < 1) {
+		const {
+			first_name, last_name, email, password, phone,
+		} = req_body;
+		if (first_name === '') errorFields.push('fname');
+		if (last_name === '') errorFields.push('lname');
+		if (email === '') errorFields.push('no-email');
+		else if (!(/\S+@\S+\.\S+/.test(email))) {
 			errorFields.push('bad-email');
 		}
-		if (req_body.password.length < 8) errorFields.push('short-pass');
-		else if (req_body.password.search(/\d/) < 0) errorFields.push('no-digit-in-pass');
-		if (req_body.phone	!== '') {
-			if (req_body.phone.length < 10) errorFields.push('phone');
+		if (password.length < 8) errorFields.push('short-pass');
+		else if (password.search(/\d/) < 0) errorFields.push('no-digit-in-pass');
+		else if (password.search(/[!@#$%^&*(),.?":{}|<>]/) < 0) errorFields.push('no-special-in-pass');
+		if (phone	!== '') {
+			if (phone.length < 10) errorFields.push('phone');
 		}
 		return errorFields;
 	},
