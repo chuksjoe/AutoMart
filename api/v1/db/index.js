@@ -4,7 +4,7 @@ require('dotenv').config();
 require('custom-env').env(true);
 
 const pool = new Pool({
-	connetionString: process.env.DATABASE_URL,
+	connectionString: process.env.DATABASE_URL,
 });
 
 export default {

@@ -17,57 +17,77 @@ describe('Check Server', () => {
 
 // testing the user sign up and sign in endpoints
 describe('Testing User endpoints', () => {
-	const user = {
-		first_name: 'Douglas',
-		last_name: 'Ejiofor',
-		email: 'doug@live.com',
+	const user1 = {
+		first_name: 'ChuksJoe',
+		last_name: 'Orjiakor',
+		email: 'chuksjoe@live.com',
 		password: 'testing@123',
-		is_admin: false,
-		address: {
-			street: '15 Aborishade road, Lawanson',
-			city: 'Surulere',
-			state: 'Lagos',
-			country: 'Nigeria',
-		},
+		is_admin: true,
+		street: '15 Aborishade road, Lawanson',
+		city: 'Surulere',
+		state: 'Lagos',
+		country: 'Nigeria',
 		phone: '08131172617',
 		zip: '234-001',
 	};
-	it('should create new user account when valid entries are supplied', (done) => {
+	const user2 = {
+		first_name: 'Emmanuel',
+		last_name: 'Ejiofor',
+		email: 'emma@live.com',
+		password: 'testing@123',
+		is_admin: false,
+		street: '3 Cole street, Ikate',
+		city: 'Surulere',
+		state: 'Lagos',
+		country: 'Nigeria',
+		phone: '08131172617',
+		zip: '234-001',
+	};
+
+	it('should create new user-1 account when valid entries are supplied', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signup').set('Accept', 'application/json').send(user)
+		.post('/api/v1/auth/signup').set('Accept', 'application/json').send(user1)
 		.end((err, res) => {
       expect(res).to.have.status(201);
       expect(res.body.data).to.include({
         id: res.body.data.id,
         token: res.body.data.token,
-        email: user.email,
-        first_name: user.first_name,
+        email: 'chuksjoe@live.com',
+        first_name: 'ChuksJoe',
       });
       done();
     });
 	});
-	it('should not create new user account if email supplied is already used by another user', (done) => {
-		user.email = 'chuksjoe@live.com';
+	it('should create new user-2 account when valid entries are supplied', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signup').set('Accept', 'application/json').send(user)
+		.post('/api/v1/auth/signup').set('Accept', 'application/json').send(user2)
 		.end((err, res) => {
-      expect(res).to.have.status(200);
-      expect(res.body.error).to.equal(`A user with this e-mail (${user.email}) already exists.`);
+      expect(res).to.have.status(201);
+      done();
+    });
+	});
+	it('should not create new user account if email supplied is already used by another user', (done) => {
+		chai.request(app)
+		.post('/api/v1/auth/signup').set('Accept', 'application/json').send(user1)
+		.end((err, res) => {
+      expect(res).to.have.status(400);
+      expect(res.body.error).to.equal(`A user with this e-mail (${user1.email}) already exists.`);
       done();
     });
 	});
 	it('should not create new user account if any of the required entries are not supplied', (done) => {
 		// required entries: first_name, last_name, email, password, is_admin
-		user.first_name = '';
-		user.email = '';
+		user1.first_name = '';
+		user1.email = '';
 		chai.request(app)
-		.post('/api/v1/auth/signup').set('Accept', 'application/json').send(user)
+		.post('/api/v1/auth/signup').set('Accept', 'application/json').send(user1)
 		.end((err, res) => {
       expect(res).to.have.status(206);
-      expect(res.body.error).to.equal('Some required fields are not filled.');
+      expect(res.body.error).to.equal('Some required fields are not properly filled.');
       done();
     });
 	});
+	/*
 	it('should allow a user to sign into their account if they supply valid credentials', (done) => {
 		chai.request(app)
 		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing' })
@@ -110,7 +130,7 @@ describe('Testing User endpoints', () => {
 			.end((err, res) => {
 				const { data } = res.body;
 				res.should.have.status(200);
-				expect(data.length).to.equal(4);
+				expect(data.length).to.equal(3);
 				expect(data[0]).to.include({
 					id: 1,
 					first_name: 'ChuksJoe',
@@ -135,4 +155,5 @@ describe('Testing User endpoints', () => {
       response.status.should.eql(200);
     });
 	});
+	*/
 });
