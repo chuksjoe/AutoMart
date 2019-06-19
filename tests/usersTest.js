@@ -21,7 +21,7 @@ describe('Testing User endpoints', () => {
 		first_name: 'Douglas',
 		last_name: 'Ejiofor',
 		email: 'doug@live.com',
-		password: 'testing123',
+		password: 'testing@123',
 		is_admin: false,
 		address: {
 			street: '15 Aborishade road, Lawanson',

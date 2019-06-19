@@ -17,21 +17,20 @@ export default {
 	createNewCarAd(req, res) {
 		try {
 			const owner = users.getAUserById(parseInt(req.payload.id, 10));
-			if (owner === null) {
-				throw new ApiError(401, 'Unauthorized Access!');
-			}
 			if (util.validateNewPostForm(req.body).length > 0) {
 				throw new ApiError(206, 'Some required fields are not properly filled.');
 			}
 			if (req.files.img_url === undefined) {
 				throw new ApiError(206, 'You have not selected any image for your post.');
 			}
-			const { first_name, last_name, email } = owner;
+			const {
+				id, first_name, last_name, email,
+			} = owner;
 			const {
 				state, price, manufacturer, transmission_type,
 				model, body_type, fuel_type, description, mileage,
 				color, year, ac, arm_rest, fm_radio, dvd_player,
-				tinted_windows, air_bag, owner_id, doors, fuel_cap,
+				tinted_windows, air_bag, doors, fuel_cap,
 			} = req.body;
 
 			cloudinary.uploader.upload(req.files.img_url.path, {
@@ -43,7 +42,7 @@ export default {
 				const newCar = cars.createNewCar({
 					img_url: file.url,
 					name: `${state} ${year} ${manufacturer} ${model}`,
-					owner_id: parseInt(owner_id, 10),
+					owner_id: parseInt(id, 10),
 					owner_name: `${first_name} ${last_name.charAt(0)}.`,
 					email,
 					created_on: util.getDate(),

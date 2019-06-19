@@ -26,12 +26,13 @@ const validateForm = () => {
 	if (first_name.value === '') errorFields.push('fname');
 	if (last_name.value === '') errorFields.push('lname');
 	if (email.value === '') errorFields.push('no-email');
-	else if (email.value.indexOf('.') < 3 || email.value.indexOf('@') < 1) {
+	else if (!(/\S+@\S+\.\S+/.test(email.value))) {
 		errorFields.push('bad-email');
 	}
 	if (password1.value.length < 8) errorFields.push('short-pass');
 	else if (password1.value.search(/\d/) < 0) errorFields.push('no-digit-in-pass');
-	if (password1.value !== password2.value) errorFields.push('pass-mismatch');
+	else if (password1.value.search(/[!@#$%^&*(),.?":{}|<>]/) < 0) errorFields.push('no-special-in-pass');
+	else if (password1.value !== password2.value) errorFields.push('pass-mismatch');
 	if (phone.value	!== '') {
 		if (phone.value.length < 10) errorFields.push('phone');
 	}
@@ -46,7 +47,8 @@ const handleErrors = (errors) => {
 		else if (err === 'no-email') errMsg += 'email cannot be empty<br/>';
 		else if (err === 'bad-email') errMsg += 'your e-mail is badly formed<br/>';
 		else if (err === 'short-pass') errMsg += 'password should be 8 or more characters<br/>';
-		else if (err === 'no-digit-in-pass') errMsg += 'password should include at least on digit<br/>';
+		else if (err === 'no-digit-in-pass') errMsg += 'password should include at least a digit<br/>';
+		else if (err === 'no-special-in-pass') errMsg += 'password should include at least one special symbol<br/>';
 		else if (err === 'pass-mismatch') errMsg += 'your passwords do not match<br/>';
 		else if (err === 'phone') errMsg += 'phone number should be 10 or more digits<br/>';
 		else errMsg += 'check if all your entry is correct<br/>';
