@@ -46,7 +46,7 @@ describe('Testing User endpoints', () => {
 
 	it('should create new user-1 account when valid entries are supplied', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signup').set('Accept', 'application/json').send(user1)
+		.post('/api/v1/auth/signup').send(user1)
 		.end((err, res) => {
       expect(res).to.have.status(201);
       expect(res.body.data).to.include({
@@ -60,7 +60,7 @@ describe('Testing User endpoints', () => {
 	});
 	it('should create new user-2 account when valid entries are supplied', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signup').set('Accept', 'application/json').send(user2)
+		.post('/api/v1/auth/signup').send(user2)
 		.end((err, res) => {
       expect(res).to.have.status(201);
       done();
@@ -68,7 +68,7 @@ describe('Testing User endpoints', () => {
 	});
 	it('should not create new user account if email supplied is already used by another user', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signup').set('Accept', 'application/json').send(user1)
+		.post('/api/v1/auth/signup').send(user1)
 		.end((err, res) => {
       expect(res).to.have.status(400);
       expect(res.body.error).to.equal(`A user with this e-mail (${user1.email}) already exists.`);
@@ -80,17 +80,17 @@ describe('Testing User endpoints', () => {
 		user1.first_name = '';
 		user1.email = '';
 		chai.request(app)
-		.post('/api/v1/auth/signup').set('Accept', 'application/json').send(user1)
+		.post('/api/v1/auth/signup').send(user1)
 		.end((err, res) => {
       expect(res).to.have.status(206);
       expect(res.body.error).to.equal('Some required fields are not properly filled.');
       done();
     });
 	});
-	/*
+	
 	it('should allow a user to sign into their account if they supply valid credentials', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing' })
+		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
@@ -121,6 +121,7 @@ describe('Testing User endpoints', () => {
 			done();
 		});
 	});
+	/*
 	it('should return list of all registered users if the user is an admin', (done) => {
 		chai.request(app)
 		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing' })

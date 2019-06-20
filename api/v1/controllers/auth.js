@@ -40,12 +40,12 @@ export default {
 
 			const { rows } = await db.query(queryText, values);
 			const token = util.encodeToken(rows[0].email, rows[0].id, rows[0].is_admin);
-			const response = rows[0];
+			const data = rows[0];
 
-			delete response.pass;
-			response.token = token;
+			delete data.pass;
+			data.token = token;
 
-			res.status(201).send({ status: 201, data: response });
+			res.status(201).send({ status: 201, data });
 		} catch (err) {
 			if (err.routine === '_bt_check_unique') {
 				return res.status(400)
@@ -59,22 +59,22 @@ export default {
 	// sign in a user if valid credentials are provided
 	async signinUser(req, res) {
 		const { email, password } = req.body;
-		const user = users.getAUserByEmail(email);
+		const queryText = 'SELECT * FROM users WHERE email = $1';
 		try {
-			if (user === null) {
+			const { rows } = await db.query(queryText, [email]);
+			if (!rows[0]) {
 				throw new ApiError(401, 'Invalid Username or Password!');
 			}
-			const match = await bcrypt.compare(password, user.password);
-			if (match) {
-				const data = Object.assign({}, user);
-				delete data.password;
-				data.token = util.encodeToken(data.email, data.id, data.is_admin);
-				res.status(200).send({ status: 200, data });
-			} else {
+			const data = rows[0];
+			const match = await bcrypt.compare(password, data.password);
+			if (!match) {
 				throw new ApiError(401, 'Invalid Username or Password!');
 			}
+			delete data.password;
+			data.token = util.encodeToken(data.email, data.id, data.is_admin);
+			res.status(200).send({ status: 200, data });
 		} catch (err) {
-			res.status(err.statusCode)
+			res.status(err.statusCode || 500)
 			.send({ status: err.statusCode, error: err.message });
 		}
 	},
