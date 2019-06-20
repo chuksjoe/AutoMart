@@ -1,3 +1,7 @@
+import uuidv4 from 'uuidv4';
+import moment from 'moment';
+
+import db from '../db/index';
 import cars from '../models/cars';
 import users from '../models/users';
 import util from '../helpers/utils';
@@ -14,9 +18,20 @@ cloudinary.config({
 
 export default {
 	// create a new car Ad and add it to car ads list
-	createNewCarAd(req, res) {
+	async createNewCarAd(req, res) {
+		const queryText1 = 'SELECT first_name, last_name, email FROM users WHERE id = $1';
+		const queryText2 = `INSERT INTO
+		cars (id, name, img_url, owner_id, owner_name, email, created_on, year, state, status,
+		price, manufacturer, model, body_type, fuel_type, doors, fuel_cap, mileage, color,
+		transmission_type, description, ac, arm_rest, air_bag, dvd_player, fm_radio, tinted_windows)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15,
+		$16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27) RETURNING *`;
 		try {
-			const owner = users.getAUserById(parseInt(req.payload.id, 10));
+			const { rows } = await db.query(queryText1, [req.payload.id]);
+			const owner = rows[0];
+			if (!owner) {
+				throw new ApiError(401, 'Unauthorized Access!');
+			}
 			if (util.validateNewPostForm(req.body).length > 0) {
 				throw new ApiError(206, 'Some required fields are not properly filled.');
 			}
@@ -24,7 +39,7 @@ export default {
 				throw new ApiError(206, 'You have not selected any image for your post.');
 			}
 			const {
-				id, first_name, last_name, email,
+				first_name, last_name, email,
 			} = owner;
 			const {
 				state, price, manufacturer, transmission_type,
@@ -38,38 +53,15 @@ export default {
 				folder: 'uploads/',
 				resource_type: 'auto',
 			})
-			.then((file) => {
-				const newCar = cars.createNewCar({
-					img_url: file.url,
-					name: `${state} ${year} ${manufacturer} ${model}`,
-					owner_id: parseInt(id, 10),
-					owner_name: `${first_name} ${last_name.charAt(0)}.`,
-					email,
-					created_on: util.getDate(),
-					state,
-					status: 'Available',
-					price: parseFloat(price.replace(/\D/g, ''), 10),
-					manufacturer,
-					model,
-					body_type,
-					fuel_type,
-					fuel_cap: parseInt(fuel_cap, 10),
-					doors: parseInt(doors, 10),
-					mileage: parseInt(mileage.replace(/\D/g, ''), 10),
-					transmission_type,
-					color,
-					year: parseInt(year, 10),
-					description,
-					features: {
-						ac: ac === 'true',
-						arm_rest: arm_rest === 'true',
-						fm_radio: fm_radio === 'true',
-						dvd_player: dvd_player === 'true',
-						tinted_windows: tinted_windows === 'true',
-						air_bag: air_bag === 'true',
-					},
-				});
-				return res.status(201).send({ status: 201, data: newCar });
+			.then(async (file) => {
+				const values = [uuidv4(), `${state} ${year} ${manufacturer} ${model}`, file.url, req.payload.id,
+				`${first_name} ${last_name.charAt(0)}.`, email, moment(), parseInt(year, 10), state, 'Available',
+				parseFloat(price.replace(/\D/g, ''), 10), manufacturer, model, body_type, fuel_type, parseInt(doors, 10),
+				parseInt(fuel_cap, 10), parseInt(mileage.replace(/\D/g, ''), 10), color, transmission_type,
+				description, ac, arm_rest, air_bag, dvd_player, fm_radio, tinted_windows];
+
+				const data = await db.query(queryText2, values);
+				return res.status(201).send({ status: 201, data: data.rows[0] });
 			})
 			.catch((err) => {
 				if (err) {
@@ -79,7 +71,7 @@ export default {
 				return 0;
 			});
 		} catch (err) {
-			res.status(err.statusCode)
+			res.status(err.statusCode || 500)
 			.send({ status: err.statusCode, error: err.message });
 		}
 	},

@@ -113,7 +113,7 @@ const dropOrdersTable = () => {
 	runQuery('DROP TABLE IF EXISTS orders');
 };
 
-const truncUsersTable = () => {
+const resetTables = () => {
 	runQuery('DELETE FROM users');
 };
 
@@ -129,7 +129,7 @@ module.exports = {
 	dropUsersTable,
 	dropCarsTable,
 	dropOrdersTable,
-	truncUsersTable,
+	resetTables,
 };
 
 require('make-runnable');
