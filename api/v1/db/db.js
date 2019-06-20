@@ -113,6 +113,10 @@ const dropOrdersTable = () => {
 	runQuery('DROP TABLE IF EXISTS orders');
 };
 
+const truncUsersTable = () => {
+	runQuery('DELETE FROM users');
+};
+
 pool.on('remove', () => {
 	debug('client removed.');
 	process.exit(0);
@@ -125,6 +129,7 @@ module.exports = {
 	dropUsersTable,
 	dropCarsTable,
 	dropOrdersTable,
+	truncUsersTable,
 };
 
 require('make-runnable');
