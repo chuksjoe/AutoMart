@@ -3,19 +3,25 @@ import 'babel-polyfill';
 import uuidv4 from 'uuidv4';
 import moment from 'moment';
 
-import users from '../models/users';
+// import users from '../models/users';
 import util from '../helpers/utils';
 import ApiError from '../helpers/ApiError';
 import db from '../db/index';
 
 export default {
 	// get list of all the users
-	getAllUsers(req, res) {
+	async getAllUsers(req, res) {
 		const { payload } = req;
-		if (payload.admin) {
-			res.status(200).send({ status: 200, data: users.getAllUsers() });
-		} else {
-			res.status(401).send({ status: 401, error: 'Unauthorized Access!' });
+		const queryText = 'SELECT * FROM users';
+		try {
+			if (!payload.admin) {
+				throw new ApiError(401, 'Unauthorized Access!');
+			}
+			const { rows } = await db.query(queryText, []);
+			res.status(200).send({ status: 200, data: rows });
+		} catch (err) {
+			res.status(err.statusCode || 500)
+			.send({ status: err.statusCode, error: err.message });
 		}
 	},
 	// create new user and add to database

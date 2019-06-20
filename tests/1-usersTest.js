@@ -87,7 +87,7 @@ describe('Testing User endpoints', () => {
       done();
     });
 	});
-	
+
 	it('should allow a user to sign into their account if they supply valid credentials', (done) => {
 		chai.request(app)
 		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
@@ -121,19 +121,19 @@ describe('Testing User endpoints', () => {
 			done();
 		});
 	});
-	/*
+
 	it('should return list of all registered users if the user is an admin', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing' })
+		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
 			.get('/api/v1/user').set('authorization', `Bearer ${response.body.data.token}`)
 			.end((err, res) => {
 				const { data } = res.body;
 				res.should.have.status(200);
-				expect(data.length).to.equal(3);
+				expect(data.length).to.equal(2);
 				expect(data[0]).to.include({
-					id: 1,
+					is_admin: true,
 					first_name: 'ChuksJoe',
 					last_name: 'Orjiakor',
 				});
@@ -144,7 +144,7 @@ describe('Testing User endpoints', () => {
 	});
 	it('should not return list of all registered users if the user is not an admin', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing' })
+		.post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
 			.get('/api/v1/user').set('authorization', `Bearer ${response.body.data.token}`)
@@ -156,5 +156,4 @@ describe('Testing User endpoints', () => {
       response.status.should.eql(200);
     });
 	});
-	*/
 });
