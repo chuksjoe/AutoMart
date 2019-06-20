@@ -3,7 +3,7 @@ import moment from 'moment';
 
 import db from '../db/index';
 import cars from '../models/cars';
-import users from '../models/users';
+// import users from '../models/users';
 import util from '../helpers/utils';
 import ApiError from '../helpers/ApiError';
 
@@ -56,7 +56,7 @@ export default {
 			.then(async (file) => {
 				const values = [uuidv4(), `${state} ${year} ${manufacturer} ${model}`, file.url, req.payload.id,
 				`${first_name} ${last_name.charAt(0)}.`, email, moment(), parseInt(year, 10), state, 'Available',
-				parseFloat(price.replace(/\D/g, ''), 10), manufacturer, model, body_type, fuel_type, parseInt(doors, 10),
+				parseFloat(price.replace(/\D/g, '')), manufacturer, model, body_type, fuel_type, parseInt(doors, 10),
 				parseInt(fuel_cap, 10), parseInt(mileage.replace(/\D/g, ''), 10), color, transmission_type,
 				description, ac, arm_rest, air_bag, dvd_player, fm_radio, tinted_windows];
 
@@ -75,6 +75,82 @@ export default {
 			.send({ status: err.statusCode, error: err.message });
 		}
 	},
+	// get all cars whether sold or unsold if user is admin, else get all unsold cars
+	// if filter query is entered, get a filered list of cars depending on the queries.
+	async getAllCars(req, res) {
+		let queryText = 'SELECT * FROM cars';
+		if (req.originalUrl.includes('?')) queryText += ' WHERE price > 0 ';
+		// filter car ads based on price range
+		let { min_price, max_price } = req.query;
+		if (min_price !== undefined || max_price !== undefined) {
+			if (min_price === undefined) min_price = 1000;
+			if (max_price === undefined) max_price = Number.MAX_VALUE;
+			queryText += ` AND price >= ${parseFloat(min_price)} AND price <= ${parseFloat(max_price)}`;
+		}
+
+		// filter car ads based on car status
+		const { status } = req.query;
+		if (status !== undefined) {
+			queryText += ` AND status = '${status}'`;
+		}
+
+		// filter car ads based on car state
+		const { state } = req.query;
+		if (state !== undefined) {
+			queryText += ` AND state = '${state}'`;
+		}
+
+		// filter car ads based on car manufacturer
+		const { manufacturer } = req.query;
+		if (manufacturer !== undefined) {
+			queryText += ` AND manufacturer = '${manufacturer}'`;
+		}
+
+		// filter car ads based on car body type
+		const { body_type } = req.query;
+		if (body_type !== undefined) {
+			queryText += ` AND body_type = '${body_type}'`;
+		}
+
+		// filter cars for a specific owner
+		const { owner_id } = req.query;
+		if (owner_id !== undefined) {
+			queryText += ` AND owner_id = '${owner_id}'`;
+		}
+		// debug(queryText);
+		try {
+			const { rows } = await db.query(queryText, []);
+			res.status(200).send({ status: 200, data: rows });
+		} catch (err) {
+			res.status(err.statusCode || 500)
+			.send({ status: err.statusCode, error: err.message });
+		}
+	},
+	// it's only the owner of a sale ad that can update the price of a posted ad
+	async updateCarStatus(req, res) {
+		const queryText1 = 'SELECT status, owner_id FROM cars WHERE id = $1';
+		const queryText2 = 'UPDATE cars SET status = $1 WHERE id = $2 RETURNING *';
+		const { car_id } = req.params;
+		try {
+			const { rows } = await db.query(queryText1, [car_id]);
+			if (!rows[0]) {
+				throw new ApiError(404, 'Car not found in database.');
+			}
+			if (req.payload.id !== rows[0].owner_id) {
+				throw new ApiError(401, 'Unauthorized Access!');
+			}
+			const response = await db.query(queryText2, ['Sold', car_id]);
+			const [data] = response.rows;
+			res.status(200).send({
+				status: 200,
+				data,
+				message: `You have successfully marked<br><b>${data.name}</b><br>as sold.`,
+			});
+		}	catch (err) {
+			res.status(err.statusCode || 500)
+			.send({ status: err.statusCode, error: err.message });
+		}
+	},
 	// get a specific car give the car id
 	getACar(req, res) {
 		const car = cars.getACar(parseInt(req.params.car_id, 10));
@@ -84,50 +160,7 @@ export default {
 			res.status(404).send({ status: 404, error: 'Car not found in database.' });
 		}
 	},
-	// get all cars whether sold or unsold if user is admin, else get all unsold cars
-	// if filter query is entered, get a filered list of cars depending on the queries.
-	getAllCars(req, res) {
-		let carsList = cars.getAllCars();
-		// filter car ads based on price range
-		let { min_price, max_price } = req.query;
-		if (min_price !== undefined || max_price !== undefined) {
-			if (min_price === undefined) min_price = 1000;
-			if (max_price === undefined) max_price = Number.MAX_VALUE;
-			carsList = carsList.filter(car => car.price >= min_price && car.price <= max_price);
-		}
-
-		// filter car ads based on car status
-		const { status } = req.query;
-		if (status !== undefined) {
-			carsList = carsList.filter(car => car.status === status);
-		}
-
-		// filter car ads based on car state
-		const { state } = req.query;
-		if (state !== undefined) {
-			carsList = carsList.filter(car => car.state === state);
-		}
-
-		// filter car ads based on car manufacturer
-		const { manufacturer } = req.query;
-		if (manufacturer !== undefined) {
-			carsList = carsList.filter(car => car.manufacturer === manufacturer);
-		}
-
-		// filter car ads based on car body type
-		const { body_type } = req.query;
-		if (body_type !== undefined) {
-			carsList = carsList.filter(car => car.body_type === body_type);
-		}
-
-		// filter cars for a specific owner
-		let { owner_id } = req.query;
-		if (owner_id !== undefined) {
-			owner_id = parseInt(owner_id, 10);
-			carsList = carsList.filter(car => car.owner_id === owner_id);
-		}
-		return res.status(200).send({ status: 200, data: carsList });
-	},
+	
 	// it's only the owner of a sale ad or an admin that can delete a posted ad
 	deleteACar(req, res) {
 		try {
@@ -166,29 +199,6 @@ export default {
 			const response = cars.updateACar(car.id, car);
 			res.status(200).send({ status: 200, data: response });
 		} catch (err) {
-			res.status(err.statusCode)
-			.send({ status: err.statusCode, error: err.message });
-		}
-	},
-	// it's only the owner of a sale ad that can update the price of a posted ad
-	updateCarStatus(req, res) {
-		try {
-			const car = cars.getACar(parseInt(req.params.car_id, 10));
-			const { id } = req.payload;
-			if (car === null) {
-				throw new ApiError(404, 'Car not found in database.');
-			}
-			if (id !== car.owner_id) {
-				throw new ApiError(401, 'Unauthorized Access!');
-			}
-			car.status = 'Sold';
-			const response = cars.updateACar(car.id, car);
-			res.status(200).send({
-				status: 200,
-				data: response,
-				message: `You have successfully marked<br><b>${car.name}</b><br>as sold.`,
-			});
-		}	catch (err) {
 			res.status(err.statusCode)
 			.send({ status: err.statusCode, error: err.message });
 		}
