@@ -395,7 +395,7 @@ describe('Testing the car sale ads endpoints', () => {
 		});
 	});
 
-		// testing endpoint for updating the status of a car ad
+	// testing endpoint for updating the status of a car ad
 	it('should mark the car sale ad as SOLD if the user is the owner', (done) => {
 		chai.request(app)
     .post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
@@ -437,33 +437,36 @@ describe('Testing the car sale ads endpoints', () => {
 			response.status.should.eql(200);
     });
 	});
-	/*
-	// test for viewing a specific car sale ad that is still Available
-	// this endpoint is usually for normal users
+
+	// testing endpoint for viewing a specific car sale ad
 	it('should allow all users to view a car ad that is still Available', (done) => {
 		chai.request(app)
-		.get('/api/v1/car/1')
-		.end((err, res) => {
-			const { data } = res.body;
-			res.should.have.status(200);
-			expect(data).to.include({
-				id: data.id,
-				name: data.name,
-				price: data.price,
+		.get('/api/v1/car?status=Available')
+		.end((err1, res1) => {
+			const car_id = res1.body.data[2].id;
+			chai.request(app)
+			.get(`/api/v1/car/${car_id}`)
+			.end((err, res) => {
+				const { data } = res.body;
+				res.should.have.status(200);
+				data.should.have.property('name');
+				data.should.have.property('status');
+				data.should.have.property('owner_id');
+				data.should.have.property('id');
+				done();
 			});
-			done();
 		});
 	});
 	it('should return an error message if a user tries to view a car ad that does not exist', (done) => {
 		chai.request(app)
-		.get('/api/v1/car/21')
+		.get('/api/v1/car/09b26b5e-0e41-4d17-9b3f-33bffed0742a')
 		.end((err, res) => {
 			res.should.have.status(404);
 			expect(res.body.error).to.equal('Car not found in database.');
 			done();
 		});
 	});
-
+	/*
 	it('should delete a car sale ad if the user is the owner', (done) => {
 		chai.request(app)
     .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing' })

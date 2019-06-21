@@ -152,15 +152,21 @@ export default {
 		}
 	},
 	// get a specific car give the car id
-	getACar(req, res) {
-		const car = cars.getACar(parseInt(req.params.car_id, 10));
-		if (car !== null) {
-			res.status(200).send({ status: 200, data: car });
-		} else {
-			res.status(404).send({ status: 404, error: 'Car not found in database.' });
+	async getACar(req, res) {
+		const queryText = 'SELECT * FROM cars WHERE id = $1';
+		const { car_id } = req.params;
+		try {
+			const { rows } = await db.query(queryText, [car_id]);
+			if (!rows[0]) {
+				throw new ApiError(404, 'Car not found in database.');
+			}
+			res.status(200).send({ status: 200, data: rows[0] });
+		} catch (err) {
+			res.status(err.statusCode || 500)
+			.send({ status: err.statusCode, error: err.message });
 		}
 	},
-	
+
 	// it's only the owner of a sale ad or an admin that can delete a posted ad
 	deleteACar(req, res) {
 		try {
