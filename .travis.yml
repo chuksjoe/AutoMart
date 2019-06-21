@@ -8,7 +8,7 @@ cache:
 
 install:
   - npm install
-  
+
 env:
   global:
     - NODE_ENV=test
@@ -27,6 +27,7 @@ dist: trusty
 
 before_script:
   - psql -U postgres -c 'CREATE DATABASE automart_travis_test;'
+  - psql -U postgres -c "CREATE USER chuksjoe WITH PASSWORD null;"
   - psql -U postgres -f ./api/v1/db/create-tables.sql -d automart_travis_test
 
 after_success:
