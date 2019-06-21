@@ -2,8 +2,6 @@ import uuidv4 from 'uuidv4';
 import moment from 'moment';
 
 import db from '../db/index';
-import cars from '../models/cars';
-// import users from '../models/users';
 import util from '../helpers/utils';
 import ApiError from '../helpers/ApiError';
 
