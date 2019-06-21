@@ -122,7 +122,7 @@ export default {
 			const { rows } = await db.query(queryText, []);
 			res.status(200).send({ status: 200, data: rows });
 		} catch (err) {
-			res.status(err.statusCode || 500)
+			res.status(err.statusCode || 501)
 			.send({ status: err.statusCode, error: err.message });
 		}
 	},
