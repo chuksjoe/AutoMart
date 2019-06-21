@@ -20,6 +20,8 @@ branches:
 services:
   - postgresql
 
+dist: trusty
+
 addons:
   postgresql: "11.3"
 
