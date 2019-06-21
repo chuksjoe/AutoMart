@@ -23,7 +23,7 @@ services:
 dist: trusty
 
 addons:
-  postgresql: "11.3"
+  postgresql: "9.4"
 
 before_script:
   - psql -U postgres -c 'CREATE DATABASE automart_travis_test;'
