@@ -7,3 +7,4 @@ cloudinary.yml
 package-lock.json
 .env*
 config/
+coverage/
