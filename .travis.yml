@@ -17,5 +17,8 @@ branches:
     - api-v1
     - gh-pages
 
+services:
+  - postgresql
+  
 after_success:
 - npm run coverage
