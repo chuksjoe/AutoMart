@@ -166,7 +166,28 @@ export default {
 			.send({ status: err.statusCode, error: err.message });
 		}
 	},
-
+		// it's only the owner of a sale ad that can update the price of a posted ad
+	async updateCarPrice(req, res) {
+		const queryText1 = 'SELECT status, owner_id FROM cars WHERE id = $1';
+		const queryText2 = 'UPDATE cars SET price = $1 WHERE id = $2 RETURNING *';
+		const { car_id } = req.params;
+		const new_price = parseFloat(req.body.new_price);
+		try {
+			const { rows } = await db.query(queryText1, [car_id]);
+			if (!rows[0]) {
+				throw new ApiError(404, 'Car not found in database.');
+			}
+			if (req.payload.id !== rows[0].owner_id) {
+				throw new ApiError(401, 'Unauthorized Access!');
+			}
+			const response = await db.query(queryText2, [new_price, car_id]);
+			const [data] = response.rows;
+			res.status(200).send({ status: 200,	data });
+		}	catch (err) {
+			res.status(err.statusCode || 500)
+			.send({ status: err.statusCode, error: err.message });
+		}
+	},
 	// it's only the owner of a sale ad or an admin that can delete a posted ad
 	deleteACar(req, res) {
 		try {
@@ -184,26 +205,6 @@ export default {
 				data: 'Car AD successfully deleted.',
 				message: `You have successfully deleted Ad for<br><b>${car.name}</b>`,
 			});
-		} catch (err) {
-			res.status(err.statusCode)
-			.send({ status: err.statusCode, error: err.message });
-		}
-	},
-	// it's only the owner of a sale ad that can update the price of a posted ad
-	updateCarPrice(req, res) {
-		try {
-			const car = cars.getACar(parseInt(req.params.car_id, 10));
-			const new_price = parseFloat(req.body.new_price);
-			const { id } = req.payload;
-			if (car === null) {
-				throw new ApiError(404, 'Car not found in database.');
-			}
-			if (id !== car.owner_id) {
-				throw new ApiError(401, 'Unauthorized Access!');
-			}
-			car.price = new_price;
-			const response = cars.updateACar(car.id, car);
-			res.status(200).send({ status: 200, data: response });
 		} catch (err) {
 			res.status(err.statusCode)
 			.send({ status: err.statusCode, error: err.message });
