@@ -189,24 +189,27 @@ export default {
 		}
 	},
 	// it's only the owner of a sale ad or an admin that can delete a posted ad
-	deleteACar(req, res) {
+	async deleteACar(req, res) {
+		const queryText1 = 'SELECT name, owner_id FROM cars WHERE id = $1';
+		const queryText2 = 'DELETE FROM cars WHERE id = $1';
+		const { car_id } = req.params;
+		const { id, admin } = req.payload;
 		try {
-			const car = cars.getACar(parseInt(req.params.car_id, 10));
-			const { email, admin } = req.payload;
-			if (car === null) {
+			const { rows } = await db.query(queryText1, [car_id]);
+			if (!rows[0]) {
 				throw new ApiError(404, 'Car not found in database.');
 			}
-			if (car.email !== email && !admin) {
+			if (id !== rows[0].owner_id && !admin) {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
-			cars.deleteACar(car.id);
+			await db.query(queryText2, [car_id]);
 			res.status(200).json({
 				status: 200,
 				data: 'Car AD successfully deleted.',
-				message: `You have successfully deleted Ad for<br><b>${car.name}</b>`,
+				message: `You have successfully deleted Ad for<br><b>${rows[0].name}</b>`,
 			});
 		} catch (err) {
-			res.status(err.statusCode)
+			res.status(err.statusCode || 500)
 			.send({ status: err.statusCode, error: err.message });
 		}
 	},

@@ -43,6 +43,19 @@ describe('Testing User endpoints', () => {
 		phone: '08131172617',
 		zip: '234-001',
 	};
+	const user3 = {
+		first_name: 'Tolulope',
+		last_name: 'Bakare',
+		email: 'tolu@live.com',
+		password: 'testing@123',
+		is_admin: false,
+		street: '3 Cole street, Ikate',
+		city: 'Surulere',
+		state: 'Lagos',
+		country: 'Nigeria',
+		phone: '08131172617',
+		zip: '234-001',
+	};
 
 	it('should create new user-1 account when valid entries are supplied', (done) => {
 		chai.request(app)
@@ -61,6 +74,14 @@ describe('Testing User endpoints', () => {
 	it('should create new user-2 account when valid entries are supplied', (done) => {
 		chai.request(app)
 		.post('/api/v1/auth/signup').send(user2)
+		.end((err, res) => {
+      expect(res).to.have.status(201);
+      done();
+    });
+	});
+	it('should create new user-3 account when valid entries are supplied', (done) => {
+		chai.request(app)
+		.post('/api/v1/auth/signup').send(user3)
 		.end((err, res) => {
       expect(res).to.have.status(201);
       done();
@@ -131,7 +152,7 @@ describe('Testing User endpoints', () => {
 			.end((err, res) => {
 				const { data } = res.body;
 				res.should.have.status(200);
-				expect(data.length).to.equal(2);
+				expect(data.length).to.equal(3);
 				expect(data[0]).to.include({
 					is_admin: true,
 					first_name: 'ChuksJoe',

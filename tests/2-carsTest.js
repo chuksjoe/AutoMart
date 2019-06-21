@@ -512,48 +512,63 @@ describe('Testing the car sale ads endpoints', () => {
 			response.status.should.eql(200);
     });
 	});
-	/*
+
+	// testing the endpoint for deleting car ad
 	it('should delete a car sale ad if the user is the owner', (done) => {
 		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing' })
+    .post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
-			.delete('/api/v1/car/3').set('authorization', `Bearer ${response.body.data.token}`)
-			.end((err, res) => {
-				res.should.have.status(200);
-				expect(res.body.data).to.equal('Car AD successfully deleted.');
+			.get(`/api/v1/car?owner_id=${response.body.data.id}`)
+			.end((err1, res1) => {
+				const car_id = res1.body.data[1].id;
+				chai.request(app)
+				.delete(`/api/v1/car/${car_id}`).set('authorization', `Bearer ${response.body.data.token}`)
+				.end((err, res) => {
+					res.should.have.status(200);
+					expect(res.body.data).to.equal('Car AD successfully deleted.');
+					done();
+				});
 			});
-			done();
-      response.status.should.eql(200);
+			response.status.should.eql(200);
     });
 	});
 	it('should delete a car sale ad if the user is an admin', (done) => {
 		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing' })
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
-			.delete('/api/v1/car/11').set('authorization', `Bearer ${response.body.data.token}`)
-			.end((err, res) => {
-				res.should.have.status(200);
-				expect(res.body.data).to.equal('Car AD successfully deleted.');
+			.get('/api/v1/car')
+			.end((err1, res1) => {
+				const car_id = res1.body.data[1].id;
+				chai.request(app)
+				.delete(`/api/v1/car/${car_id}`).set('authorization', `Bearer ${response.body.data.token}`)
+				.end((err, res) => {
+					res.should.have.status(200);
+					expect(res.body.data).to.equal('Car AD successfully deleted.');
+					done();
+				});
 			});
-			done();
-      response.status.should.eql(200);
+			response.status.should.eql(200);
     });
 	});
 	it('should not delete a car sale ad if the user is neither an admin or the owner', (done) => {
 		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing' })
+    .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
-			.delete('/api/v1/car/12').set('authorization', `Bearer ${response.body.data.token}`)
-			.end((err, res) => {
-				res.should.have.status(401);
-				expect(res.body.error).to.equal('Unauthorized Access!');
+			.get('/api/v1/car')
+			.end((err1, res1) => {
+				const car_id = res1.body.data[1].id;
+				chai.request(app)
+				.delete(`/api/v1/car/${car_id}`).set('authorization', `Bearer ${response.body.data.token}`)
+				.end((err, res) => {
+					res.should.have.status(401);
+					expect(res.body.error).to.equal('Unauthorized Access!');
+					done();
+				});
 			});
-			done();
-      response.status.should.eql(200);
+			response.status.should.eql(200);
     });
 	});
-	*/
 });
