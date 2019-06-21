@@ -30,5 +30,8 @@ before_script:
   - psql -U postgres -c "CREATE USER chuksjoe WITH PASSWORD null;"
   - psql -U postgres -f ./api/v1/db/create-tables.sql -d automart_travis_test
 
+script:
+  - npm test
+  
 after_success:
 - npm run coverage
