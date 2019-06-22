@@ -16,9 +16,9 @@ const openUpdateModal = (params) => {
   document.querySelector('#update-price-overlay .c-details-mv').innerHTML = car_name;
   document.querySelector('#update-price-overlay .c-b-type').innerHTML = `(${car_body_type})`;
   document.querySelector('#update-price-overlay .c-price')
-  .innerHTML = `Price: &#8358 ${price.toLocaleString('en-US')}`;
+  .innerHTML = `Price: &#8358 ${parseInt(price, 10).toLocaleString('en-US')}`;
   document.querySelector('#update-price-overlay .c-c-o-price')
-  .innerHTML = `Current Price Offered:<br>&#8358 ${price_offered.toLocaleString('en-US')}`;
+  .innerHTML = `Current Price Offered:<br>&#8358 ${parseInt(price_offered, 10).toLocaleString('en-US')}`;
 
   updatePriceModal.style.display = 'block';
   toggleScroll();
@@ -43,10 +43,11 @@ const openUpdateModal = (params) => {
     .then((response) => {
       const res = response;
       if (res.status === 200) {
+        const { old_price_offered, new_price_offered } = res.data;
         message.innerHTML = `You have successfully updated the price you offered for <b>${res.data.car_name}.</b><br/><br/>
-        Actual Price: &#8358 ${res.data.price.toLocaleString('en-US')}<br/>
-        Old Price Offered: &#8358 ${res.data.old_price_offered.toLocaleString('en-US')}<br/>
-        New Price Offered: &#8358 ${res.data.new_price_offered.toLocaleString('en-US')}`;
+        Actual Price: &#8358 ${parseInt(res.data.price, 10).toLocaleString('en-US')}<br/>
+        Old Price Offered: &#8358 ${parseInt(old_price_offered, 10).toLocaleString('en-US')}<br/>
+        New Price Offered: &#8358 ${parseInt(new_price_offered, 10).toLocaleString('en-US')}`;
       } else {
         message.innerHTML = `${res.error}<br/>Please ensure you are logged-in before placing an order.<br/>
         If you don't have an account on AutoMart,<br/><a href='/api/v1/signup'>Click here to Sign-up.</a>`;
@@ -82,8 +83,8 @@ window.onload = () => {
   .then((response) => {
     const res = response;
     const historyList = document.querySelector('.history-list');
-    if (res.data.purchase_list.length > 0) {
-      res.data.purchase_list.map((order) => {
+    if (res.data.length > 0) {
+      res.data.map((order) => {
         const {
           id, car_name, car_body_type, price, owner_name,
           price_offered, created_on, status,
@@ -100,9 +101,9 @@ window.onload = () => {
 															</div>
 															<div class="purchase-details p-15">
 																<h3 class="c-details-list">Purchase Order for ${car_name}</h3>
-																<p class="purchase-info">Actual Price: &#8358 ${price.toLocaleString('en-US')}.
+																<p class="purchase-info">Actual Price: &#8358 ${parseInt(price, 10).toLocaleString('en-US')}.
 																Owner: ${owner_name}</p>
-																<p class="purchase-info">Price Offered: &#8358 ${price_offered.toLocaleString('en-US')}</p>
+																<p class="purchase-info">Price Offered: &#8358 ${parseInt(price_offered, 10).toLocaleString('en-US')}</p>
 															</div>`;
 				btnGrp.setAttribute('class', 'user-actions p-15');
 				updateOrderBtn.setAttribute('class', 'update-p full-btn btn');

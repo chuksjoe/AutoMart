@@ -43,8 +43,8 @@ const openUpdateModal = (params) => {
   document.querySelector('#update-price-overlay .c-details-mv').innerHTML = name;
   document.querySelector('#update-price-overlay .c-b-type').innerHTML = `(${body_type})`;
   document.querySelector('#update-price-overlay .c-price')
-  .innerHTML = `Current Price: &#8358 ${price.toLocaleString('en-US')}`;
-  
+  .innerHTML = `Current Price: &#8358 ${parseInt(price, 10).toLocaleString('en-US')}`;
+
   updatePriceModal.style.display = 'block';
   toggleScroll();
 
@@ -70,8 +70,8 @@ const openUpdateModal = (params) => {
       const res = response;
       if (res.status === 200) {
         message.innerHTML = `You have successfully updated the price for <b>${res.data.name}.</b><br/><br/>
-        Old Price: &#8358 ${price.toLocaleString('en-US')}<br/>
-        New Price: &#8358 ${res.data.price.toLocaleString('en-US')}`;
+        Old Price: &#8358 ${parseInt(price, 10).toLocaleString('en-US')}<br/>
+        New Price: &#8358 ${parseInt(res.data.price, 10).toLocaleString('en-US')}`;
       } else {
         message.innerHTML = `${res.error}<br/>Please ensure you are logged-in before accessing this page.<br/>
         If you don't have an account on AutoMart,<br/><a href='/api/v1/signup'>Click here to Sign-up.</a>`;
@@ -121,7 +121,7 @@ const getCarDetils = (carId) => {
       document.querySelector('#car-preview-overlay .modal-header').innerHTML = name;
       document.querySelector('#car-preview-overlay .added-date').innerHTML = `Added on: ${created_on}`;
       document.querySelector('#car-preview-overlay img').setAttribute('src', img_url);
-      desc.innerHTML = `<p class="c-price">Price: &#8358 ${price.toLocaleString('en-US')}</p>
+      desc.innerHTML = `<p class="c-price">Price: &#8358 ${parseInt(price, 10).toLocaleString('en-US')}</p>
               <div class="prop-list flex-container">
                 <p class="prop"><b>Make:</b><br>${manufacturer}</p>
                 <p class="prop"><b>Model:</b><br>${model}</p>
@@ -196,14 +196,14 @@ const fetchCarAds = (url, msgIfEmpty) => {
           carPreview.style.display = 'block';
           toggleScroll();
         };
-        
+
         carInfo.classList.add('car-info');
         carInfo.innerHTML = `<h3 class="c-details-list">${name}</h3>
                             <label class="car-status-tag">${status}</label>
-                            <p class="car-price">&#8358 ${price.toLocaleString('en-US')}</p>
+                            <p class="car-price">&#8358 ${parseInt(price, 10).toLocaleString('en-US')}</p>
                             <p><b>Body type:</b> ${body_type}</p>
                             <p>Posted on: ${created_on}</p>`;
-        
+
         updatePriceBtn.setAttribute('class', 'update-p full-btn btn');
         updatePriceBtn.innerHTML = 'Update Price';
         updatePriceBtn.onclick = () => {

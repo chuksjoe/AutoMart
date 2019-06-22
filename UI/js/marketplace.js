@@ -46,7 +46,8 @@ const openPurchaseModal = (params) => {
 
   document.querySelector('#purchase-order-overlay .c-details-mv').innerHTML = name;
   document.querySelector('#purchase-order-overlay .c-b-type').innerHTML = `(${body_type})`;
-  document.querySelector('#purchase-order-overlay .c-price').innerHTML = `&#8358 ${price.toLocaleString('en-US')}`;
+  document.querySelector('#purchase-order-overlay .c-price')
+  .innerHTML = `&#8358 ${parseInt(price, 10).toLocaleString('en-US')}`;
 
   purchaseModal.style.display = 'block';
   toggleScroll();
@@ -61,7 +62,7 @@ const openPurchaseModal = (params) => {
       notificationModal.style.display = 'block';
       return 0;
     }
-    
+   
     const data = { car_id: id, price_offered };
     const init = {
       method: 'POST',
@@ -74,8 +75,8 @@ const openPurchaseModal = (params) => {
       const res = response;
       if (res.status === 201) {
         message.innerHTML = `You have successfully placed an order for <b>${res.data.car_name}</b>.<br/><br/>
-        Actual Price: &#8358 ${res.data.price.toLocaleString('en-US')}<br/>
-        Price Offered: &#8358 ${res.data.price_offered.toLocaleString('en-US')}`;
+        Actual Price: &#8358 ${parseInt(res.data.price, 10).toLocaleString('en-US')}<br/>
+        Price Offered: &#8358 ${parseInt(res.data.price_offered, 10).toLocaleString('en-US')}`;
       } else {
         message.innerHTML = `Please ensure you are logged-in before placing an order.<br/>
         If you don't have an account on AutoMart,<br/><a href='/api/v1/signup'>Click here to Sign-up.</a>`;
@@ -83,6 +84,7 @@ const openPurchaseModal = (params) => {
       purchaseModal.style.display = 'none';
       notificationModal.style.display = 'block';
     });
+    return 0;
   };
 };
 
@@ -106,7 +108,7 @@ const getCarDetils = (carId) => {
       document.querySelector('#car-preview-overlay .modal-header').innerHTML = name;
       document.querySelector('#car-preview-overlay .added-date').innerHTML = `Added on: ${created_on}`;
       document.querySelector('#car-preview-overlay img').setAttribute('src', img_url);
-      desc.innerHTML = `<p class="c-price">Price: &#8358 ${price.toLocaleString('en-US')}</p>
+      desc.innerHTML = `<p class="c-price">Price: &#8358 ${parseInt(price, 10).toLocaleString('en-US')}</p>
               <div class="prop-list flex-container">
                 <p class="prop"><b>Make:</b><br>${manufacturer}</p>
                 <p class="prop"><b>Model:</b><br>${model}</p>
@@ -192,7 +194,7 @@ const fetchCarAds = (url, msgIfEmpty) => {
         carImg.innerHTML = `<img src="${img_url}" title="Preview AD">
             <label class="car-state-tag">${state}</label>`;
         carInfo.innerHTML = `<h3 class="c-details-mv">${year} ${manufacturer}<br>${model}</h3>
-            <p class="car-price">&#8358 ${price.toLocaleString('en-US')}</p>`;
+            <p class="car-price">&#8358 ${parseInt(price, 10).toLocaleString('en-US')}</p>`;
         carInfo.appendChild(orderBtn);
         carCard.appendChild(carImg);
         carCard.appendChild(carInfo);

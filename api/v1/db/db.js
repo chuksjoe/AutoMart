@@ -26,7 +26,7 @@ async function runQuery(text) {
 
 const createUsersTable = () => {
 	const queryText = `CREATE TABLE IF NOT EXISTS users(
-		id UUID PRIMARY KEY,
+		id SERIAL PRIMARY KEY,
 		email TEXT UNIQUE NOT NULL,
 		password TEXT NOT NULL,
 		first_name TEXT NOT NULL,
@@ -49,10 +49,10 @@ const createUsersTable = () => {
 
 const createCarsTable = () => {
 	const queryText = `CREATE TABLE IF NOT EXISTS cars(
-		id UUID PRIMARY KEY,
+		id SERIAL PRIMARY KEY,
 		name TEXT NOT NULL,
 		img_url TEXT NOT NULL,
-		owner_id UUID NOT NULL,
+		owner_id INTEGER NOT NULL,
 		owner_name TEXT NOT NULL,
 		email TEXT NOT NULL,
 		created_on TIMESTAMPTZ NOT NULL,
@@ -84,14 +84,14 @@ const createCarsTable = () => {
 
 const createOrdersTable = () => {
 	const queryText = `CREATE TABLE IF NOT EXISTS orders(
-		id UUID PRIMARY KEY,
-		car_id UUID NOT NULL,
+		id SERIAL PRIMARY KEY,
+		car_id INTEGER NOT NULL,
 		car_name TEXT NOT NULL,
 		car_body_type TEXT NOT NULL,
 		price NUMERIC(15,2),
-		owner_id UUID NOT NULL,
+		owner_id INTEGER NOT NULL,
 		owner_name TEXT,
-		buyer_id UUID NOT NULL,
+		buyer_id INTEGER NOT NULL,
 		buyer_name TEXT,
 		price_offered NUMERIC(15,2),
 		status TEXT,

@@ -1,4 +1,3 @@
-import uuidv4 from 'uuidv4';
 import moment from 'moment';
 
 import db from '../db/index';
@@ -19,11 +18,11 @@ export default {
 	async createNewCarAd(req, res) {
 		const queryText1 = 'SELECT first_name, last_name, email FROM users WHERE id = $1';
 		const queryText2 = `INSERT INTO
-		cars (id, name, img_url, owner_id, owner_name, email, created_on, year, state, status,
+		cars (name, img_url, owner_id, owner_name, email, created_on, year, state, status,
 		price, manufacturer, model, body_type, fuel_type, doors, fuel_cap, mileage, color,
 		transmission_type, description, ac, arm_rest, air_bag, dvd_player, fm_radio, tinted_windows)
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15,
-		$16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27) RETURNING *`;
+		$16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26) RETURNING *`;
 		try {
 			const { rows } = await db.query(queryText1, [req.payload.id]);
 			const owner = rows[0];
@@ -52,7 +51,7 @@ export default {
 				resource_type: 'auto',
 			})
 			.then(async (file) => {
-				const values = [uuidv4(), `${state} ${year} ${manufacturer} ${model}`, file.url, req.payload.id,
+				const values = [`${state} ${year} ${manufacturer} ${model}`, file.url, req.payload.id,
 				`${first_name} ${last_name.charAt(0)}.`, email, moment(), parseInt(year, 10), state, 'Available',
 				parseFloat(price.replace(/\D/g, '')), manufacturer, model, body_type, fuel_type, parseInt(doors, 10),
 				parseInt(fuel_cap, 10), parseInt(mileage.replace(/\D/g, ''), 10), color, transmission_type,

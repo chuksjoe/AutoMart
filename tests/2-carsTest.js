@@ -459,7 +459,7 @@ describe('Testing the car sale ads endpoints', () => {
 	});
 	it('should return an error message if a user tries to view a car ad that does not exist', (done) => {
 		chai.request(app)
-		.get('/api/v1/car/09b26b5e-0e41-4d17-9b3f-33bffed0742a')
+		.get('/api/v1/car/34')
 		.end((err, res) => {
 			res.should.have.status(404);
 			expect(res.body.error).to.equal('Car not found in database.');

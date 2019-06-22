@@ -8,3 +8,4 @@ package-lock.json
 .env*
 config/
 coverage/
+api/v1/models
