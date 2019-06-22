@@ -76,6 +76,10 @@ app.get(`${prefix}/users-list`, (req, res) => {
   res.sendFile(path.join(__dirname, dirName, '/users-list.html'));
 });
 
+app.get(`${prefix}/api-doc`, (req, res) => {
+  res.redirect('https://documenter.getpostman.com/view/7607196/S1TYWGgG');
+});
+
 // default page is set to the index page
 app.get('*', (req, res) => {
 	res.redirect(`${prefix}/index`);

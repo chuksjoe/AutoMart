@@ -1,6 +1,5 @@
 import bcrypt from 'bcrypt';
 import 'babel-polyfill';
-import uuidv4 from 'uuidv4';
 import moment from 'moment';
 
 // import users from '../models/users';
@@ -27,9 +26,9 @@ export default {
 	// create new user and add to database
 	async createNewUser(req, res) {
 		const queryText = `INSERT INTO
-		users (id, email, password, first_name, last_name, is_admin, street, city, state,
+		users (email, password, first_name, last_name, is_admin, street, city, state,
 		country, phone, zip, registered_on, num_of_ads, num_of_orders)
-		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING *`;
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *`;
 		const saltRound = Math.floor(Math.random() * Math.floor(5) + 2);
 
 		try {
@@ -41,7 +40,7 @@ export default {
 				throw new ApiError(206, 'Some required fields are not properly filled.');
 			}
 			const pass = util.hashPassword(password, saltRound);
-			const values = [uuidv4(), email, pass, first_name, last_name, is_admin, street, city,
+			const values = [email, pass, first_name, last_name, is_admin, street, city,
 			state, country, phone, zip, moment(), 0, 0];
 
 			const { rows } = await db.query(queryText, values);

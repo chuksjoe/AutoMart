@@ -41,7 +41,7 @@ const getCarDetils = (carId) => {
       document.querySelector('#car-preview-overlay .modal-header').innerHTML = name;
       document.querySelector('#car-preview-overlay .added-date').innerHTML = `Added on: ${created_on}`;
       document.querySelector('#car-preview-overlay img').setAttribute('src', img_url);
-      desc.innerHTML = `<p class="c-price">Price: &#8358 ${price.toLocaleString('en-US')}</p>
+      desc.innerHTML = `<p class="c-price">Price: &#8358 ${parseInt(price, 10).toLocaleString('en-US')}</p>
               <div class="prop-list flex-container">
                 <p class="prop"><b>Make:</b><br>${manufacturer}</p>
                 <p class="prop"><b>Model:</b><br>${model}</p>
@@ -112,7 +112,7 @@ const fetchCarAds = (url, msgIfEmpty) => {
         carInfo.classList.add('car-info');
         carInfo.innerHTML = `<h3 class="c-details-list">${name}</h3>
                             <label class="car-status-tag">${status}</label>
-                            <p class="car-price">&#8358 ${price.toLocaleString('en-US')}</p>
+                            <p class="car-price">&#8358 ${parseInt(price, 10).toLocaleString('en-US')}</p>
                             <p><b>Body type:</b> ${body_type}</p>
                             <p>Posted by ${owner_name}, on: ${created_on}</p>`;
         

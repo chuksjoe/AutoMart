@@ -1,4 +1,3 @@
-import uuidv4 from 'uuidv4';
 import moment from 'moment';
 
 import db from '../db/index';
@@ -10,9 +9,9 @@ export default {
 		const queryText1 = 'SELECT * FROM cars WHERE id = $1';
 		const queryText2 = 'SELECT id, first_name, last_name FROM users WHERE id = $1';
 		const queryText3 = `INSERT INTO
-		orders (id, car_id, car_name, car_body_type, price, owner_id, owner_name, buyer_id,
+		orders (car_id, car_name, car_body_type, price, owner_id, owner_name, buyer_id,
 		buyer_name, price_offered, status, created_on)
-		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *`;
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`;
 		try {
 			let response = await db.query(queryText1, [req.body.car_id]);
 			const car = response.rows[0];
@@ -30,7 +29,7 @@ export default {
 			const { id, first_name, last_name } = buyer;
 			const { price_offered } = req.body;
 
-			const values = [uuidv4(), car.id, car.name, car.body_type, car.price,
+			const values = [car.id, car.name, car.body_type, car.price,
 			car.owner_id, car.owner_name, id, `${first_name} ${last_name.charAt(0)}.`,
 			parseFloat(price_offered), 'Pending', moment()];
 
