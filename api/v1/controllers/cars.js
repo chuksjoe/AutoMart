@@ -164,7 +164,7 @@ export default {
 			.send({ status: err.statusCode, error: err.message });
 		}
 	},
-		// it's only the owner of a sale ad that can update the price of a posted ad
+	// it's only the owner of a sale ad that can update the price of a posted ad
 	async updateCarPrice(req, res) {
 		const queryText1 = 'SELECT status, owner_id FROM cars WHERE id = $1';
 		const queryText2 = 'UPDATE cars SET price = $1 WHERE id = $2 RETURNING *';
