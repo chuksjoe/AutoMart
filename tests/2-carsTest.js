@@ -9,7 +9,7 @@ describe('Testing the car sale ads endpoints', () => {
 	const car = {
 		year: 2001,
 		state: 'Used',
-		price: 5500000.20,
+		price: 5500000,
 		manufacturer: 'Toyota',
 		model: 'Camry R2',
 		body_type: 'Hatch',
@@ -30,7 +30,7 @@ describe('Testing the car sale ads endpoints', () => {
 	const car1 = {
 		year: 2011,
 		state: 'New',
-		price: 2500000.20,
+		price: 2500000,
 		manufacturer: 'Porche',
 		model: '911',
 		body_type: 'Coupe',
@@ -51,7 +51,7 @@ describe('Testing the car sale ads endpoints', () => {
 	const car2 = {
 		year: 2021,
 		state: 'New',
-		price: 1500000.00,
+		price: 1500000,
 		manufacturer: 'Mercedes-Benz',
 		model: 'Escape 4W',
 		body_type: 'Coupe',
@@ -72,7 +72,7 @@ describe('Testing the car sale ads endpoints', () => {
 	const car3 = {
 		year: 1989,
 		state: 'Used',
-		price: 15000000.00,
+		price: 15000000,
 		manufacturer: 'Toyota',
 		model: 'Camry R2',
 		body_type: 'Coupe',
@@ -306,9 +306,9 @@ describe('Testing the car sale ads endpoints', () => {
 			const { data } = res.body;
 			res.should.have.status(200);
 			expect(data[0]).to.include({ status: 'Available' });
-			expect(parseFloat(data[0].price)).to.be.above(2000000);
-			expect(parseFloat(data[0].price)).to.be.below(18000000);
-			expect(data.length).to.equal(2); // ?
+			expect(parseFloat(data[0].price)).to.be.above(parseFloat(2000000));
+			expect(parseFloat(data[0].price)).to.be.below(parseFloat(18000000));
+			expect(data.length).to.equal(4);
 		});
 		done();
 	});
@@ -319,8 +319,8 @@ describe('Testing the car sale ads endpoints', () => {
 			const { data } = res.body;
 			res.should.have.status(200);
 			expect(data[0]).to.include({ status: 'Available' });
-			expect(parseFloat(data[0].price)).to.be.above(3000000);
-			expect(data.length).to.equal(4); // ?
+			expect(parseFloat(data[0].price)).to.be.above(parseFloat(3000000));
+			expect(data.length).to.equal(3);
 		});
 		done();
 	});

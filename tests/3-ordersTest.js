@@ -64,7 +64,7 @@ describe('Tests for the orders api endpoints', () => {
 		chai.request(app)
     .post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
     .end((error, response) => {
-    	const { id, token } = response.body.data;
+	  	const { id, token } = response.body.data;
 			chai.request(app)
 			.get(`/api/v1/car?owner_id=${id}`)
 			.end((err1, res1) => {
@@ -74,7 +74,7 @@ describe('Tests for the orders api endpoints', () => {
 				.send({ car_id, buyer_id: id, price_offered: 1400000 })
 				.end((err, res) => {
 					res.should.have.status(401);
-					expect(res.body.error).to.equal('You can\'t place an order on your car ad.');
+					res.body.should.have.property('error');
 					done();
 				});
 			});
@@ -123,30 +123,45 @@ describe('Tests for the orders api endpoints', () => {
 			done();
 		});
 	});
-	/*
+
+	// testing the endpoint for updating the price offered for a car ad
 	it('should allow a buyer to update the price he/she offered for a posted ad if its still pending', (done) => {
 		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing' })
+    .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing@123' })
     .end((error, response) => {
+	  	const { id, token } = response.body.data;
 			chai.request(app)
-			.patch('/api/v1/order/1/price').set('authorization', `Bearer ${response.body.data.token}`)
-			.send({ buyer_id: 2, new_price: 1500000 })
-			.end((err, res) => {
-				const { data } = res.body;
-				res.should.have.status(200);
-				expect(data).to.include({
-					old_price_offered: data.old_price_offered,
-					new_price_offered: 1500000,
-					buyer_id: 2,
+			.get('/api/v1/order').set('authorization', `Bearer ${token}`)
+			.end((err1, res1) => {
+				const order_id = res1.body.data[0].id;
+				chai.request(app)
+				.patch(`/api/v1/order/${order_id}/price`).set('authorization', `Bearer ${token}`)
+				.send({ buyer_id: id, new_price: 1500000 })
+				.end((err, res) => {
+					const { data } = res.body;
+					res.should.have.status(200);
+					data.should.have.property('old_price_offered');
+					data.should.have.property('new_price_offered');
+					done();
 				});
-				done();
 			});
-      response.status.should.eql(200);
+			response.status.should.eql(200);
     });
 	});
+	it('should not allow a user who is not logged in to have access to the update endpoint', (done) => {
+		chai.request(app)
+		.patch('/api/v1/order/09b26b5e-0e41-4d17-9b3f-33bffed0742a/price')
+		.send({ buyer_id: 4, new_price: 1500000 })
+		.end((err, res) => {
+			res.should.have.status(401);
+			expect(res.body.error).to.equal('Ensure you are logged in.');
+			done();
+		});
+	});
+	/*
 	it('should not allow a user who is not the buyer to update the price offered', (done) => {
 		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing' })
+		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing' })
     .end((error, response) => {
 			chai.request(app)
 			.patch('/api/v1/order/1/price').set('authorization', `Bearer ${response.body.data.token}`)
@@ -159,6 +174,5 @@ describe('Tests for the orders api endpoints', () => {
       response.status.should.eql(200);
     });
 	});
-	
 	*/
 });
