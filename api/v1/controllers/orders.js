@@ -2,7 +2,7 @@ import uuidv4 from 'uuidv4';
 import moment from 'moment';
 
 import db from '../db/index';
-import orders from '../models/orders';
+// import orders from '../models/orders';
 // import users from '../models/users';
 // import cars from '../models/cars';
 // import util from '../helpers/utils';
@@ -29,7 +29,7 @@ export default {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
 			if (buyer.id === car.owner_id) {
-				throw new ApiError(400, 'You can\'t place an order on your car ad.');
+				throw new ApiError(401, 'You can\'t place an order on your car ad.');
 			}
 			const { id, first_name, last_name } = buyer;
 			const { price_offered } = req.body;
@@ -45,58 +45,15 @@ export default {
 			.send({ status: err.statusCode, error: err.message });
 		}
 	},
-	/* returns 2 lists for a user.
-		purchase list, which contains the user's purchase
-		sales list, which contains list of purchase orders placed on the users car ad posts
-		if a user does not have not placed any order or has not recieved any order for
-		any of is posted sales ad, it returns empty arrays.
-	*/
-	getAllOrders(req, res) {
+	// return the list of all purchase orders placed by the user.
+	async getAllOrders(req, res) {
+		const queryText = 'SELECT * FROM orders WHERE buyer_id = $1';
 		const { id } = req.payload;
-		const ordersList = orders.getAllOrders();
-		const purchaseList = [];
-		const salesList = [];
-		ordersList.map((order) => {
-			if (order.owner_id === id) {
-				salesList.push(order);
-			} else if (order.buyer_id === id) {
-				purchaseList.push(order);
-			}
-			return 0;
-		});
-		res.status(200).send({
-			status: 200,
-			data: {
-				sales_list: salesList,
-				purchase_list: purchaseList,
-			},
-		});
-	},
-
-	// update the price of a purchase order by the buyer who initialized it
-	updateOrderPrice(req, res) {
 		try {
-			const order = orders.getAnOrder(parseInt(req.params.order_id, 10));
-			const new_price = parseFloat(req.body.new_price);
-			const { id } = req.payload;
-			if (order === null) {
-				throw new ApiError(404, 'Purchase order not found in database.');
-			}
-			const old_price_offered = order.price_offered;
-			if (id !== order.buyer_id || order.status !== 'Pending') {
-				throw new ApiError(401, 'Unauthorized Access!');
-			}
-			order.price_offered = new_price;
-			// to avoid the changes to the response from affect the order object in the database
-			const response = Object.assign({}, orders.updateOrder(order.id, order));
-			if (response !== null) {
-				response.old_price_offered = old_price_offered;
-				response.new_price_offered = new_price;
-				delete response.price_offered;
-			}
-			res.status(200).send({ status: 200, data: response });
+			const { rows } = await db.query(queryText, [id]);
+			res.status(200).send({ status: 200, data: rows });
 		} catch (err) {
-			res.status(err.statusCode)
+			res.status(err.statusCode || 500)
 			.send({ status: err.statusCode, error: err.message });
 		}
 	},

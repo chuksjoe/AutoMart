@@ -73,7 +73,7 @@ describe('Tests for the orders api endpoints', () => {
 				.post('/api/v1/order').set('authorization', `Bearer ${token}`)
 				.send({ car_id, buyer_id: id, price_offered: 1400000 })
 				.end((err, res) => {
-					res.should.have.status(400);
+					res.should.have.status(401);
 					expect(res.body.error).to.equal('You can\'t place an order on your car ad.');
 					done();
 				});
@@ -96,6 +96,32 @@ describe('Tests for the orders api endpoints', () => {
 			});
       response.status.should.eql(200);
     });
+	});
+
+	// testing the endpoint for getting the list of purchase orders
+	it('should return list of purchase and sales orders if the user is logged in', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.get('/api/v1/order').set('authorization', `Bearer ${response.body.data.token}`)
+			.end((err, res) => {
+				const { data } = res.body;
+				res.should.have.status(200);
+				expect(data.length).to.equal(1);
+				done();
+			});
+      response.status.should.eql(200);
+    });
+	});
+	it('should not return any list if the user is not logged in', (done) => {
+		chai.request(app)
+		.get('/api/v1/order')
+		.end((err, res) => {
+			res.should.have.status(401);
+			expect(res.body.error).to.equal('Ensure you are logged in.');
+			done();
+		});
 	});
 	/*
 	it('should allow a buyer to update the price he/she offered for a posted ad if its still pending', (done) => {
@@ -133,30 +159,6 @@ describe('Tests for the orders api endpoints', () => {
       response.status.should.eql(200);
     });
 	});
-	it('should return list of purchase and sales orders if the user is logged in', (done) => {
-		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing' })
-    .end((error, response) => {
-			chai.request(app)
-			.get('/api/v1/order').set('authorization', `Bearer ${response.body.data.token}`)
-			.end((err, res) => {
-				const { data } = res.body;
-				res.should.have.status(200);
-				expect(data.sales_list.length).to.equal(0);
-				expect(data.purchase_list.length).to.equal(1);
-				done();
-			});
-      response.status.should.eql(200);
-    });
-	});
-	it('should not return any list if the user is not logged in', (done) => {
-		chai.request(app)
-		.get('/api/v1/order')
-		.end((err, res) => {
-			res.should.have.status(401);
-			expect(res.body.error).to.equal('Ensure you are logged in.');
-			done();
-		});
-	});
+	
 	*/
 });
