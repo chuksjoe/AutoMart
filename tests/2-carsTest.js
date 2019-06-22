@@ -124,10 +124,6 @@ describe('Testing the car sale ads endpoints', () => {
       .field(car)
 			.attach('img_url', './tests/car-sample-1.jpg')
 			.end((err, res) => {
-				if (err) {
-					debug(err);
-					process.exit(1);
-				}
 				const { data } = res.body;
 				res.should.have.status(201);
 				expect(data).to.include({
@@ -180,7 +176,7 @@ describe('Testing the car sale ads endpoints', () => {
 	});
 
 	// create test cars
-		it('create car sale ad 1', (done) => {
+	it('create car sale ad 1', (done) => {
 		chai.request(app)
     .post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
     .end((error, response) => {
@@ -191,10 +187,6 @@ describe('Testing the car sale ads endpoints', () => {
       .field(car1)
 			.attach('img_url', './tests/car-sample-1.jpg')
 			.end((err, res) => {
-				if (err) {
-					debug(err);
-					process.exit(1);
-				}
 				res.should.have.status(201);
 				done();
 			});
@@ -211,10 +203,6 @@ describe('Testing the car sale ads endpoints', () => {
       .field(car2)
 			.attach('img_url', './tests/car-sample-1.jpg')
 			.end((err, res) => {
-				if (err) {
-					debug(err);
-					process.exit(1);
-				}
 				res.should.have.status(201);
 				done();
 			});
@@ -231,10 +219,6 @@ describe('Testing the car sale ads endpoints', () => {
       .field(car3)
 			.attach('img_url', './tests/car-sample-1.jpg')
 			.end((err, res) => {
-				if (err) {
-					debug(err);
-					process.exit(1);
-				}
 				res.should.have.status(201);
 				done();
 			});
@@ -251,10 +235,6 @@ describe('Testing the car sale ads endpoints', () => {
       .field(car4)
 			.attach('img_url', './tests/car-sample-1.jpg')
 			.end((err, res) => {
-				if (err) {
-					debug(err);
-					process.exit(1);
-				}
 				res.should.have.status(201);
 				done();
 			});
@@ -418,7 +398,7 @@ describe('Testing the car sale ads endpoints', () => {
 			response.status.should.eql(200);
     });
 	});
-	it('should not update the car ad if the user is not the owner', (done) => {
+	it('should not update the status of the car ad if the user is not the owner', (done) => {
 		chai.request(app)
     .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
     .end((error, response) => {
@@ -459,7 +439,7 @@ describe('Testing the car sale ads endpoints', () => {
 	});
 	it('should return an error message if a user tries to view a car ad that does not exist', (done) => {
 		chai.request(app)
-		.get('/api/v1/car/34')
+		.get('/api/v1/car/34448444')
 		.end((err, res) => {
 			res.should.have.status(404);
 			expect(res.body.error).to.equal('Car not found in database.');

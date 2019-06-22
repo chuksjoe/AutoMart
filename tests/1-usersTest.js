@@ -9,9 +9,113 @@ require('custom-env').env(true);
 chai.use(chaiHttp);
 chai.should();
 // testing to ensure the server is running
-describe('Check Server', () => {
+describe('Check Server and Frontend page endpoints', () => {
 	it(`should test that server is running on port ${process.env.PORT}`, () => {
 		app.port.should.be.eql(parseInt(process.env.PORT, 10));
+	});
+	it('should connect to the root endpoint', (done) => {
+		chai.request(app)
+		.get('/api/v1')
+		.end((err, res) => {
+      expect(res).to.have.status(200);
+      done();
+    });
+	});
+	it('should connect to the index page endpoint', (done) => {
+		chai.request(app)
+		.get('/api/v1/index')
+		.end((err, res) => {
+      expect(res).to.have.status(200);
+      done();
+    });
+	});
+	it('should connect to the sign up page endpoint', (done) => {
+		chai.request(app)
+		.get('/api/v1/signup')
+		.end((err, res) => {
+      expect(res).to.have.status(200);
+      done();
+    });
+	});
+	it('should connect to the sign in page endpoint', (done) => {
+		chai.request(app)
+		.get('/api/v1/signin')
+		.end((err, res) => {
+      expect(res).to.have.status(200);
+      done();
+    });
+	});
+	it('should connect to the admin page endpoint', (done) => {
+		chai.request(app)
+		.get('/api/v1/admin')
+		.end((err, res) => {
+      expect(res).to.have.status(200);
+      done();
+    });
+	});
+	it('should connect to the marketplace page endpoint', (done) => {
+		chai.request(app)
+		.get('/api/v1/marketplace')
+		.end((err, res) => {
+      expect(res).to.have.status(200);
+      done();
+    });
+	});
+	it('should connect to the post new ad page endpoint', (done) => {
+		chai.request(app)
+		.get('/api/v1/post-new-ad')
+		.end((err, res) => {
+      expect(res).to.have.status(200);
+      done();
+    });
+	});
+	it('should connect to the my posted ads page endpoint', (done) => {
+		chai.request(app)
+		.get('/api/v1/my-posted-ads')
+		.end((err, res) => {
+      expect(res).to.have.status(200);
+      done();
+    });
+	});
+	it('should connect to the purchase history page endpoint', (done) => {
+		chai.request(app)
+		.get('/api/v1/purchase-history')
+		.end((err, res) => {
+      expect(res).to.have.status(200);
+      done();
+    });
+	});
+	it('should connect to the sales history page endpoint', (done) => {
+		chai.request(app)
+		.get('/api/v1/sales-history')
+		.end((err, res) => {
+      expect(res).to.have.status(200);
+      done();
+    });
+	});
+	it('should connect to the users list page endpoint', (done) => {
+		chai.request(app)
+		.get('/api/v1/users-list')
+		.end((err, res) => {
+      expect(res).to.have.status(200);
+      done();
+    });
+	});
+	it('should connect to the api doc page endpoint', (done) => {
+		chai.request(app)
+		.get('/api/v1/api-doc')
+		.end((err, res) => {
+      expect(res).to.have.status(200);
+      done();
+    });
+	});
+	it('should redirect to index page if a wrong endpoint is entered', (done) => {
+		chai.request(app)
+		.get('/random-endpoint')
+		.end((err, res) => {
+      expect(res).to.have.status(200);
+      done();
+    });
 	});
 });
 

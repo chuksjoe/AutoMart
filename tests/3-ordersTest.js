@@ -88,7 +88,7 @@ describe('Tests for the orders api endpoints', () => {
     .end((error, response) => {
 			chai.request(app)
 			.post('/api/v1/order').set('authorization', `Bearer ${response.body.data.token}`)
-			.send({ car_id: 34, buyer_id: 2, price_offered: 1400000 })
+			.send({ car_id: 335453554, buyer_id: 2, price_offered: 1400000 })
 			.end((err, res) => {
 				res.should.have.status(404);
 				expect(res.body.error).to.equal('Car does not exist!');
