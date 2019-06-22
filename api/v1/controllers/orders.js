@@ -2,10 +2,6 @@ import uuidv4 from 'uuidv4';
 import moment from 'moment';
 
 import db from '../db/index';
-// import orders from '../models/orders';
-// import users from '../models/users';
-// import cars from '../models/cars';
-// import util from '../helpers/utils';
 import ApiError from '../helpers/ApiError';
 
 export default {
@@ -52,6 +48,36 @@ export default {
 		try {
 			const { rows } = await db.query(queryText, [id]);
 			res.status(200).send({ status: 200, data: rows });
+		} catch (err) {
+			res.status(err.statusCode || 500)
+			.send({ status: err.statusCode, error: err.message });
+		}
+	},
+
+	// update the price of a purchase order by the buyer who initialized it
+	async updateOrderPrice(req, res) {
+		const queryText1 = 'SELECT status, buyer_id, price_offered FROM orders WHERE id = $1';
+		const queryText2 = 'UPDATE orders SET price_offered = $1, last_modified = $2 WHERE id = $3 RETURNING *';
+		const { order_id } = req.params;
+		const new_price = parseFloat(req.body.new_price);
+		try {
+			let response = await db.query(queryText1, [order_id]);
+			const order = response.rows[0];
+			if (!order) {
+				throw new ApiError(404, 'Purchase order not found in database.');
+			}
+			if (req.payload.id !== order.buyer_id || order.status !== 'Pending') {
+				throw new ApiError(401, 'Unauthorized Access!');
+			}
+			const old_price_offered = order.price_offered;
+			response = await db.query(queryText2, [new_price, moment(), order_id]);
+			const updatedOrder = response.rows[0];
+			if (updatedOrder !== null) {
+				updatedOrder.old_price_offered = old_price_offered;
+				updatedOrder.new_price_offered = new_price;
+				delete updatedOrder.price_offered;
+			}
+			res.status(200).send({ status: 200, data: updatedOrder });
 		} catch (err) {
 			res.status(err.statusCode || 500)
 			.send({ status: err.statusCode, error: err.message });

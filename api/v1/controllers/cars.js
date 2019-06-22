@@ -83,7 +83,7 @@ export default {
 		if (min_price !== undefined || max_price !== undefined) {
 			if (min_price === undefined) min_price = 1000;
 			if (max_price === undefined) max_price = Number.MAX_VALUE;
-			queryText += ` AND price >= ${parseFloat(min_price)} AND price <= ${parseFloat(max_price)}`;
+			queryText += ` AND price BETWEEN ${parseFloat(min_price)} AND ${parseFloat(max_price)}`;
 		}
 
 		// filter car ads based on car status
@@ -127,7 +127,7 @@ export default {
 	// it's only the owner of a sale ad that can update the price of a posted ad
 	async updateCarStatus(req, res) {
 		const queryText1 = 'SELECT status, owner_id FROM cars WHERE id = $1';
-		const queryText2 = 'UPDATE cars SET status = $1 WHERE id = $2 RETURNING *';
+		const queryText2 = 'UPDATE cars SET status = $1, last_modified = $2 WHERE id = $3 RETURNING *';
 		const { car_id } = req.params;
 		try {
 			const { rows } = await db.query(queryText1, [car_id]);
@@ -137,7 +137,7 @@ export default {
 			if (req.payload.id !== rows[0].owner_id) {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
-			const response = await db.query(queryText2, ['Sold', car_id]);
+			const response = await db.query(queryText2, ['Sold', moment(), car_id]);
 			const [data] = response.rows;
 			res.status(200).send({
 				status: 200,
@@ -167,7 +167,7 @@ export default {
 	// it's only the owner of a sale ad that can update the price of a posted ad
 	async updateCarPrice(req, res) {
 		const queryText1 = 'SELECT status, owner_id FROM cars WHERE id = $1';
-		const queryText2 = 'UPDATE cars SET price = $1 WHERE id = $2 RETURNING *';
+		const queryText2 = 'UPDATE cars SET price = $1, last_modified = $2 WHERE id = $3 RETURNING *';
 		const { car_id } = req.params;
 		const new_price = parseFloat(req.body.new_price);
 		try {
@@ -178,7 +178,7 @@ export default {
 			if (req.payload.id !== rows[0].owner_id) {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
-			const response = await db.query(queryText2, [new_price, car_id]);
+			const response = await db.query(queryText2, [new_price, moment(), car_id]);
 			const [data] = response.rows;
 			res.status(200).send({ status: 200,	data });
 		}	catch (err) {
