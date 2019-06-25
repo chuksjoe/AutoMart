@@ -51,7 +51,11 @@ export default {
 				resource_type: 'auto',
 			})
 			.then(async (file) => {
-				const values = [`${state} ${year} ${manufacturer} ${model}`, file.url, req.payload.id,
+				let file_url = file.url;
+				file_url = file_url.split('');
+				file_url.splice(54, 0, 'w_600,h_400,c_fill/');
+				file_url = file_url.join('');
+				const values = [`${state} ${year} ${manufacturer} ${model}`, file_url, req.payload.id,
 				`${first_name} ${last_name.charAt(0)}.`, email, moment(), parseInt(year, 10), state, 'Available',
 				parseFloat(price.replace(/\D/g, '')), manufacturer, model, body_type, fuel_type, parseInt(doors, 10),
 				parseInt(fuel_cap, 10), parseInt(mileage.replace(/\D/g, ''), 10), color, transmission_type,
