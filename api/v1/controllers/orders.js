@@ -3,15 +3,19 @@ import moment from 'moment';
 import db from '../db/index';
 import ApiError from '../helpers/ApiError';
 
+const debug = require('debug')('http');
+
 export default {
 	// create new purchase order by  valid user
 	async createNewOrder(req, res) {
+		const queryText0 = 'SELECT * FROM orders WHERE car_id = $1 AND buyer_id = $2';
 		const queryText1 = 'SELECT * FROM cars WHERE id = $1';
-		const queryText2 = 'SELECT id, first_name, last_name FROM users WHERE id = $1';
+		const queryText2 = 'SELECT id, first_name, last_name, num_of_orders FROM users WHERE id = $1';
 		const queryText3 = `INSERT INTO
 		orders (car_id, car_name, car_body_type, price, owner_id, owner_name, buyer_id,
 		buyer_name, price_offered, status, created_on)
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`;
+		const queryText4 = 'UPDATE users SET num_of_orders = $1 WHERE id = $2';
 		try {
 			let response = await db.query(queryText1, [req.body.car_id]);
 			const car = response.rows[0];
@@ -23,26 +27,32 @@ export default {
 			if (!buyer || car.status === 'Sold') {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
-			if (buyer.id === car.owner_id) {
-				throw new ApiError(401, 'You can\'t place an order on your car ad.');
+			const { rows } = await db.query(queryText0, [car.id, buyer.id]);
+			if (rows[0]) {
+				throw new ApiError(400, 'You have already placed an order for this car Ad.');
 			}
-			const { id, first_name, last_name } = buyer;
+			if (buyer.id === car.owner_id) {
+				throw new ApiError(400, 'You can\'t place an order on your car ad.');
+			}
+			const { first_name, last_name, num_of_orders } = buyer;
 			const { price_offered } = req.body;
 
 			const values = [car.id, car.name, car.body_type, car.price,
-			car.owner_id, car.owner_name, id, `${first_name} ${last_name.charAt(0)}.`,
+			car.owner_id, car.owner_name, buyer.id, `${first_name} ${last_name.charAt(0)}.`,
 			parseFloat(price_offered), 'Pending', moment()];
 
 			const data = await db.query(queryText3, values);
+			await db.query(queryText4, [num_of_orders + 1, req.payload.id]);
 			res.status(201).send({ status: 201, data: data.rows[0] });
 		} catch (err) {
+			debug(err.message);
 			res.status(err.statusCode || 500)
 			.send({ status: err.statusCode, error: err.message });
 		}
 	},
 	// return the list of all purchase orders placed by the user.
 	async getAllOrders(req, res) {
-		const queryText = 'SELECT * FROM orders WHERE buyer_id = $1';
+		const queryText = 'SELECT * FROM orders WHERE buyer_id = $1 ORDER BY created_on ASC';
 		const { id } = req.payload;
 		try {
 			const { rows } = await db.query(queryText, [id]);

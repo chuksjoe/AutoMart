@@ -14,7 +14,7 @@ export default {
 	// get list of all the users
 	async getAllUsers(req, res) {
 		const { payload } = req;
-		const queryText = 'SELECT * FROM users';
+		const queryText = 'SELECT * FROM users ORDER BY registered_on ASC';
 		try {
 			if (!payload.admin) {
 				throw new ApiError(401, 'Unauthorized Access!');
@@ -100,19 +100,18 @@ export default {
 		try {
 			const { rows } = await db.query(queryText1, [email]);
 			if (!rows[0]) {
-				throw new ApiError(401, `User with the email ${email} does not exist.`);
+				throw new ApiError(404, `User with the email ${email} does not exist.`);
 			}
 			if (password === undefined && new_password === undefined) {
 				new_pass = Math.random().toString(36).slice(-10);
 			} else {
 				const match = await bcrypt.compare(password, rows[0].password);
 				if (!match) {
-					throw new ApiError(401, 'Invalid password!');
+					throw new ApiError(401, 'Incorrect password!');
 				}
 				new_pass = new_password;
 			}
 			const hashed_pass = util.hashPassword(new_pass, saltRound);
-			debug(`New password = ${new_pass}`);
 			const response = await db.query(queryText2, [hashed_pass, moment(), email]);
 			const { first_name, last_name } = response.rows[0];
 			res.status(204)
@@ -131,8 +130,8 @@ export default {
 				from: '"AutoMart Help" <automart.help@gmail.com>',
 				to: `${email}`,
 				subject: 'AutoMart Password Reset',
-				html: `<h3>AutoMart Password Reset Successfully!</h3>
-				<p>Hi ${first_name} ${last_name},</p>
+				html: `<h3>AutoMart Password Reset Successful!</h3>
+				<p>Hi ${first_name} ${last_name}, you have successfully reset your password.</p>
 				<p>Your new password is: ${new_pass}</p>
 				<p>Note: if the password is auto-generated, you can reset it to your desired password by changing the password in your profile.</p>`,
 			};

@@ -160,6 +160,19 @@ describe('Testing User endpoints', () => {
 		phone: '08131172617',
 		zip: '234-001',
 	};
+	const user4 = {
+		first_name: 'Edet',
+		last_name: 'Akpan',
+		email: 'edet@live.com',
+		password: 'testing@123',
+		is_admin: false,
+		street: '3 Cole street, Ikate',
+		city: 'Surulere',
+		state: 'Lagos',
+		country: 'Nigeria',
+		phone: '08131172617',
+		zip: '234-001',
+	};
 
 	it('should create new user-1 account when valid entries are supplied', (done) => {
 		chai.request(app)
@@ -191,6 +204,14 @@ describe('Testing User endpoints', () => {
       done();
     });
 	});
+	it('should create new user-4 account when valid entries are supplied', (done) => {
+		chai.request(app)
+		.post('/api/v1/auth/signup').send(user4)
+		.end((err, res) => {
+      expect(res).to.have.status(201);
+      done();
+    });
+	});
 	it('should not create new user account if email supplied is already used by another user', (done) => {
 		chai.request(app)
 		.post('/api/v1/auth/signup').send(user1)
@@ -213,6 +234,7 @@ describe('Testing User endpoints', () => {
     });
 	});
 
+	// testing the api endpoint for user sign in
 	it('should allow a user to sign into their account if they supply valid credentials', (done) => {
 		chai.request(app)
 		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
@@ -247,6 +269,7 @@ describe('Testing User endpoints', () => {
 		});
 	});
 
+	// testing the endpoint that returns list of all registered users
 	it('should return list of all registered users if the user is an admin', (done) => {
 		chai.request(app)
 		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
@@ -256,12 +279,10 @@ describe('Testing User endpoints', () => {
 			.end((err, res) => {
 				const { data } = res.body;
 				res.should.have.status(200);
-				expect(data.length).to.equal(3);
-				expect(data[0]).to.include({
-					is_admin: true,
-					first_name: 'ChuksJoe',
-					last_name: 'Orjiakor',
-				});
+				expect(data.length).to.equal(4);
+				data[0].should.have.property('is_admin');
+				data[0].should.have.property('first_name');
+				data[0].should.have.property('last_name');
 				done();
 			});
       response.status.should.eql(200);
@@ -280,5 +301,41 @@ describe('Testing User endpoints', () => {
 			});
       response.status.should.eql(200);
     });
+	});
+
+	// testing the endpoint that aids password reset
+	it('should not reset password if the user does not exists', (done) => {
+		chai.request(app)
+		.post('/api/v1/user/fake@yahoo.com/reset_password')
+		.end((err, res) => {
+			res.should.have.status(404);
+			expect(res.body.error).to.equal('User with the email fake@yahoo.com does not exist.');
+			done();
+		});
+	});
+	it('should not reset password if the supplied password is incorrect', (done) => {
+		chai.request(app)
+		.post('/api/v1/user/edet@live.com/reset_password').send({ password: 'wrongPass', new_password: 'this1wontenter' })
+		.end((err, res) => {
+			res.should.have.status(401);
+			expect(res.body.error).to.equal('Incorrect password!');
+			done();
+		});
+	});
+	it('should reset password if the supplied password is correct', (done) => {
+		chai.request(app)
+		.post('/api/v1/user/edet@live.com/reset_password').send({ password: 'testing@123', new_password: 'newPass4edet' })
+		.end((err, res) => {
+			res.should.have.status(204);
+			done();
+		});
+	});
+	it('should still reset password if no body is passed', (done) => {
+		chai.request(app)
+		.post('/api/v1/user/edet@live.com/reset_password')
+		.end((err, res) => {
+			res.should.have.status(204);
+			done();
+		});
 	});
 });
