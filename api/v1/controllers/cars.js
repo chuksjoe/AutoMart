@@ -49,7 +49,7 @@ export default {
 			cloudinary.uploader.upload(req.files.img_url.path, {
 				tags: 'auto-mart',
 				folder: 'uploads/',
-				resource_type: 'auto',
+				resource_type: 'image',
 			})
 			.then(async (file) => {
 				let file_url = file.url;
@@ -194,7 +194,7 @@ export default {
 	},
 	// it's only the owner of a sale ad or an admin that can delete a posted ad
 	async deleteACar(req, res) {
-		const queryText1 = 'SELECT name, owner_id FROM cars WHERE id = $1';
+		const queryText1 = 'SELECT name, owner_id, img_url FROM cars WHERE id = $1';
 		const queryText2 = 'DELETE FROM cars WHERE id = $1';
 		const queryText3 = 'SELECT num_of_ads FROM users WHERE id = $1';
 		const queryText4 = 'UPDATE users SET num_of_ads = $1 WHERE id = $2';
@@ -205,7 +205,7 @@ export default {
 			if (!rows[0]) {
 				throw new ApiError(404, 'Car not found in database.');
 			}
-			const { owner_id, name } = rows[0];
+			const { owner_id, name, img_url } = rows[0];
 			if (id !== owner_id && !admin) {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
@@ -213,6 +213,15 @@ export default {
 			const response = await db.query(queryText3, [owner_id]);
 			const [user] = response.rows;
 			await db.query(queryText4, [user.num_of_ads - 1, owner_id]);
+			let file_name = img_url.slice(img_url.indexOf('uploads/'));
+			file_name = file_name.slice(0, file_name.indexOf('.'));
+			await cloudinary.uploader.destroy(file_name, (err, result) => {
+				if (err) {
+					debug(`CAR DELETION: ERROR: ${err}`);
+					throw new ApiError(500, `CAR DELETION: ERROR: ${err}`);
+				}
+				debug(`CAR DELETION: RESULT: ${result}`);
+			});
 			res.status(200).json({
 				status: 200,
 				data: 'Car AD successfully deleted.',
