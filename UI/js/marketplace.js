@@ -62,7 +62,7 @@ const openPurchaseModal = (params) => {
       notificationModal.style.display = 'block';
       return 0;
     }
-   
+
     const data = { car_id: id, price_offered };
     const init = {
       method: 'POST',
@@ -77,6 +77,8 @@ const openPurchaseModal = (params) => {
         message.innerHTML = `You have successfully placed an order for <b>${res.data.car_name}</b>.<br/><br/>
         Actual Price: &#8358 ${parseInt(res.data.price, 10).toLocaleString('en-US')}<br/>
         Price Offered: &#8358 ${parseInt(res.data.price_offered, 10).toLocaleString('en-US')}`;
+      } if (res.status === 400) {
+        message.innerHTML = res.error;
       } else {
         message.innerHTML = `Please ensure you are logged-in before placing an order.<br/>
         If you don't have an account on AutoMart,<br/><a href='/api/v1/signup'>Click here to Sign-up.</a>`;

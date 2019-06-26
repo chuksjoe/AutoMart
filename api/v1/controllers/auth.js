@@ -1,17 +1,20 @@
 import bcrypt from 'bcrypt';
 import 'babel-polyfill';
 import moment from 'moment';
+import nodemailer from 'nodemailer';
 
 // import users from '../models/users';
 import util from '../helpers/utils';
 import ApiError from '../helpers/ApiError';
 import db from '../db/index';
 
+const debug = require('debug')('http');
+
 export default {
 	// get list of all the users
 	async getAllUsers(req, res) {
 		const { payload } = req;
-		const queryText = 'SELECT * FROM users';
+		const queryText = 'SELECT * FROM users ORDER BY registered_on ASC';
 		try {
 			if (!payload.admin) {
 				throw new ApiError(401, 'Unauthorized Access!');
@@ -64,9 +67,10 @@ export default {
 	// sign in a user if valid credentials are provided
 	async signinUser(req, res) {
 		const { email, password } = req.body;
-		const queryText = 'SELECT * FROM users WHERE email = $1';
+		const queryText1 = 'SELECT * FROM users WHERE email = $1';
+		const queryText2 = 'UPDATE users SET last_online = $1 WHERE email = $2';
 		try {
-			const { rows } = await db.query(queryText, [email]);
+			const { rows } = await db.query(queryText1, [email]);
 			if (!rows[0]) {
 				throw new ApiError(401, 'Invalid Username or Password!');
 			}
@@ -75,9 +79,66 @@ export default {
 			if (!match) {
 				throw new ApiError(401, 'Invalid Username or Password!');
 			}
+			await db.query(queryText2, [moment(), email]);
 			delete data.password;
 			data.token = util.encodeToken(data.email, data.id, data.is_admin);
 			res.status(200).send({ status: 200, data });
+		} catch (err) {
+			res.status(err.statusCode || 500)
+			.send({ status: err.statusCode, error: err.message });
+		}
+	},
+	// password reset fuctionality
+	async resetPassword(req, res) {
+		const { email } = req.params;
+		const { password, new_password } = req.body;
+		const queryText1 = 'SELECT password FROM users WHERE email = $1';
+		const queryText2 = 'UPDATE users SET password = $1, last_modified = $2 WHERE email = $3 RETURNING first_name, last_name';
+		const saltRound = Math.floor(Math.random() * Math.floor(5) + 2);
+		let new_pass = null;
+
+		try {
+			const { rows } = await db.query(queryText1, [email]);
+			if (!rows[0]) {
+				throw new ApiError(404, `User with the email ${email} does not exist.`);
+			}
+			if (password === undefined && new_password === undefined) {
+				new_pass = Math.random().toString(36).slice(-10);
+			} else {
+				const match = await bcrypt.compare(password, rows[0].password);
+				if (!match) {
+					throw new ApiError(401, 'Incorrect password!');
+				}
+				new_pass = new_password;
+			}
+			const hashed_pass = util.hashPassword(new_pass, saltRound);
+			const response = await db.query(queryText2, [hashed_pass, moment(), email]);
+			const { first_name, last_name } = response.rows[0];
+			res.status(204)
+			.send({
+				status: 204,
+				data: 'You have successfully reset your password, and the new password has been sent to your email.',
+			});
+			const transport = nodemailer.createTransport({
+				service: process.env.MAILER_SERVICE,
+				auth: {
+					user: process.env.MAILER_EMAIL,
+					pass: process.env.MAILER_PASS,
+				},
+			});
+			const mailOption = {
+				from: '"AutoMart Help" <automart.help@gmail.com>',
+				to: `${email}`,
+				subject: 'AutoMart Password Reset',
+				html: `<h3>AutoMart Password Reset Successful!</h3>
+				<p>Hi ${first_name} ${last_name}, you have successfully reset your password.</p>
+				<p>Your new password is: ${new_pass}</p>
+				<p>Note: if the password is auto-generated, you can reset it to your desired password by changing the password in your profile.</p>`,
+			};
+			transport.sendMail(mailOption, (err, info) => {
+				if (err) debug(err);
+				else debug(info);
+			});
 		} catch (err) {
 			res.status(err.statusCode || 500)
 			.send({ status: err.statusCode, error: err.message });
