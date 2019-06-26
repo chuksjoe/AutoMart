@@ -3,8 +3,6 @@ import moment from 'moment';
 import db from '../db/index';
 import ApiError from '../helpers/ApiError';
 
-const debug = require('debug')('http');
-
 export default {
 	// create new purchase order by  valid user
 	async createNewOrder(req, res) {
@@ -45,7 +43,6 @@ export default {
 			await db.query(queryText4, [num_of_orders + 1, req.payload.id]);
 			res.status(201).send({ status: 201, data: data.rows[0] });
 		} catch (err) {
-			debug(err.message);
 			res.status(err.statusCode || 500)
 			.send({ status: err.statusCode, error: err.message });
 		}
@@ -62,7 +59,18 @@ export default {
 			.send({ status: err.statusCode, error: err.message });
 		}
 	},
-
+	// return the list of all purchase orders placed on the user car ads.
+	async getAllSales(req, res) {
+		const queryText = 'SELECT * FROM orders WHERE owner_id = $1 ORDER BY created_on ASC';
+		const { id } = req.payload;
+		try {
+			const { rows } = await db.query(queryText, [id]);
+			res.status(200).send({ status: 200, data: rows });
+		} catch (err) {
+			res.status(err.statusCode || 500)
+			.send({ status: err.statusCode, error: err.message });
+		}
+	},
 	// update the price of a purchase order by the buyer who initialized it
 	async updateOrderPrice(req, res) {
 		const queryText1 = 'SELECT status, buyer_id, price_offered FROM orders WHERE id = $1';

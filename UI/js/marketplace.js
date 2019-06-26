@@ -77,7 +77,7 @@ const openPurchaseModal = (params) => {
         message.innerHTML = `You have successfully placed an order for <b>${res.data.car_name}</b>.<br/><br/>
         Actual Price: &#8358 ${parseInt(res.data.price, 10).toLocaleString('en-US')}<br/>
         Price Offered: &#8358 ${parseInt(res.data.price_offered, 10).toLocaleString('en-US')}`;
-      } if (res.status === 400) {
+      } else if (res.status === 400) {
         message.innerHTML = res.error;
       } else {
         message.innerHTML = `Please ensure you are logged-in before placing an order.<br/>

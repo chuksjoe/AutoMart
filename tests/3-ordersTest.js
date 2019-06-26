@@ -7,7 +7,7 @@ describe('Tests for the orders api endpoints', () => {
 		chai.request(app)
     .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing@123' })
     .end((error, response) => {
-    	chai.request(app)
+			chai.request(app)
 			.get('/api/v1/car?status=Available')
 			.end((err1, res1) => {
 				const car_id = res1.body.data[0].id;
@@ -27,6 +27,26 @@ describe('Tests for the orders api endpoints', () => {
 			response.status.should.eql(200);
     });
 	});
+	it('should not allow a registered user to place multiple orders for an unsold car ad', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.get('/api/v1/car?status=Available')
+			.end((err1, res1) => {
+				const car_id = res1.body.data[0].id;
+				chai.request(app)
+				.post('/api/v1/order').set('authorization', `Bearer ${response.body.data.token}`)
+				.send({ car_id, buyer_id: response.body.data.id, price_offered: 1400000 })
+				.end((err, res) => {
+					res.should.have.status(400);
+					expect(res.body.error).to.equal('You have already placed an order for this car Ad.');
+					done();
+				});
+			});
+			response.status.should.eql(200);
+    });
+	});
 	// user with id = 6 does not exist
 	it('should not allow an unregistered user to place a purchase order', (done) => {
 		chai.request(app)
@@ -37,12 +57,11 @@ describe('Tests for the orders api endpoints', () => {
 			done();
 		});
 	});
-	// car with id = 2 is sold
 	it('should not allow a registered user to place a purchase order for a sold car ad', (done) => {
 		chai.request(app)
     .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing@123' })
     .end((error, response) => {
-    	const { id, token } = response.body.data;
+			const { id, token } = response.body.data;
 			chai.request(app)
 			.get('/api/v1/car?status=Sold')
 			.end((err1, res1) => {
@@ -59,12 +78,11 @@ describe('Tests for the orders api endpoints', () => {
 			response.status.should.eql(200);
     });
 	});
-	// car with id = 5 is owned by emmanuel
 	it('should not allow a registered user to place a purchase order for his/her own car ad', (done) => {
 		chai.request(app)
     .post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
     .end((error, response) => {
-	  	const { id, token } = response.body.data;
+			const { id, token } = response.body.data;
 			chai.request(app)
 			.get(`/api/v1/car?owner_id=${id}`)
 			.end((err1, res1) => {
@@ -81,7 +99,7 @@ describe('Tests for the orders api endpoints', () => {
 			response.status.should.eql(200);
     });
 	});
-	// car with id = 09b26b5e-0e41-4d17-9b3f-33bffed0742a does not exist
+	// car with id = 335453554 does not exist
 	it('should not allow a registered user to place a purchase order for a car ad that does not exist', (done) => {
 		chai.request(app)
     .post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
@@ -124,12 +142,38 @@ describe('Tests for the orders api endpoints', () => {
 		});
 	});
 
+	// testing the endpoint for getting the sales list
+	it('should return list of purchase and sales orders if the user is logged in', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.get('/api/v1/sale').set('authorization', `Bearer ${response.body.data.token}`)
+			.end((err, res) => {
+				const { data } = res.body;
+				res.should.have.status(200);
+				expect(data.length).to.equal(1);
+				done();
+			});
+      response.status.should.eql(200);
+    });
+	});
+	it('should not return any list if the user is not logged in', (done) => {
+		chai.request(app)
+		.get('/api/v1/sale')
+		.end((err, res) => {
+			res.should.have.status(401);
+			expect(res.body.error).to.equal('Ensure you are logged in.');
+			done();
+		});
+	});
+
 	// testing the endpoint for updating the price offered for a car ad
 	it('should allow a buyer to update the price he/she offered for a posted ad if its still pending', (done) => {
 		chai.request(app)
     .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing@123' })
     .end((error, response) => {
-	  	const { id, token } = response.body.data;
+			const { id, token } = response.body.data;
 			chai.request(app)
 			.get('/api/v1/order').set('authorization', `Bearer ${token}`)
 			.end((err1, res1) => {
@@ -150,7 +194,7 @@ describe('Tests for the orders api endpoints', () => {
 	});
 	it('should not allow a user who is not logged in to have access to the update endpoint', (done) => {
 		chai.request(app)
-		.patch('/api/v1/order/09b26b5e-0e41-4d17-9b3f-33bffed0742a/price')
+		.patch('/api/v1/order/45/price')
 		.send({ buyer_id: 4, new_price: 1500000 })
 		.end((err, res) => {
 			res.should.have.status(401);
@@ -158,21 +202,4 @@ describe('Tests for the orders api endpoints', () => {
 			done();
 		});
 	});
-	/*
-	it('should not allow a user who is not the buyer to update the price offered', (done) => {
-		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing' })
-    .end((error, response) => {
-			chai.request(app)
-			.patch('/api/v1/order/1/price').set('authorization', `Bearer ${response.body.data.token}`)
-			.send({ buyer_id: 1, new_price: 1600000 })
-			.end((err, res) => {
-				res.should.have.status(401);
-				expect(res.body.error).to.equal('Unauthorized Access!');
-				done();
-			});
-      response.status.should.eql(200);
-    });
-	});
-	*/
 });
