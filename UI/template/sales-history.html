@@ -49,7 +49,7 @@
 				<main class="main-100">
 					<h2>My Sales Order History</h2>
 					<ul class="history-list">
-						<li class="history-list-item flex-container">
+						<!-- <li class="history-list-item flex-container">
 							<div class="purchase-date p-15">
 								<p>24 Jan 2019<br>3:23pm</p>
 								<label class="status">Pending</label>
@@ -60,55 +60,10 @@
 								<p class="purchase-info">Price Offered: &#8358 3,500,000</p>
 							</div>
 							<div class="user-actions p-15">
-								<button class="order full-btn btn">Accept Offer</button>
-								<button class="delete full-btn btn">Decline Offer</button>
+								<button class="accept full-btn btn">Accept Offer</button>
+								<button class="decline full-btn btn">Decline Offer</button>
 							</div>
-						</li>
-						<li class="history-list-item flex-container">
-							<div class="purchase-date p-15">
-								<p>24 Jan 2019<br>3:23pm</p>
-								<label class="status">Accpeted</label>
-							</div>
-							<div class="purchase-details p-15">
-								<h3 class="c-details-list">Purchase Order from John Ebuka</h3>
-								<p class="purchase-info">For Volvo Highlander Dx @ &#8358 5,200,000</p>
-								<p class="purchase-info">Price Offered: &#8358 3,500,000</p>
-							</div>
-							<div class="user-actions p-15">
-								<button class="order full-btn btn" disabled>Accept Offer</button>
-								<button class="delete full-btn btn" disabled>Decline Offer</button>
-							</div>
-						</li>
-						<li class="history-list-item flex-container">
-							<div class="purchase-date p-15">
-								<p>24 Jan 2019<br>3:23pm</p>
-								<label class="status">Pending</label>
-							</div>
-							<div class="purchase-details p-15">
-								<h3 class="c-details-list">Purchase Order from John Ebuka</h3>
-								<p class="purchase-info">For Volvo Highlander Dx @ &#8358 5,200,000</p>
-								<p class="purchase-info">Price Offered: &#8358 3,500,000</p>
-							</div>
-							<div class="user-actions p-15">
-								<button class="order full-btn btn">Accept Offer</button>
-								<button class="delete full-btn btn">Decline Offer</button>
-							</div>
-						</li>
-						<li class="history-list-item flex-container">
-							<div class="purchase-date p-15">
-								<p>24 Jan 2019<br>3:23pm</p>
-								<label class="status">Rejected</label>
-							</div>
-							<div class="purchase-details p-15">
-								<h3 class="c-details-list">Purchase Order from John Ebuka</h3>
-								<p class="purchase-info">For Volvo Highlander Dx @ &#8358 5,200,000</p>
-								<p class="purchase-info">Price Offered: &#8358 3,500,000</p>
-							</div>
-							<div class="user-actions p-15">
-								<button class="order full-btn btn" disabled>Accept Offer</button>
-								<button class="delete full-btn btn" disabled>Decline Offer</button>
-							</div>
-						</li>
+						</li> -->
 					</ul>
 				</main>
 			</div>
@@ -129,7 +84,19 @@
 			</footer>
 		</div>
 
+		<!-- Modal view for All Notifications -->
+		<div id="notification-overlay" class="overlay">
+			<div class="modal-view sm-m-v">
+				<h2 class="modal-header">Notification</h2>
+				<div class="modal-body">
+					<div class="message"></div>
+					<button class="full-btn btn close-notification">Close</button>
+				</div>
+			</div>
+		</div>
+
 		<!-- scripts -->
 		<script src="/js/general.js"></script>
+		<script src="/js/sales-history.js"></script>
 	</body>
 </html>
