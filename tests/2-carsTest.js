@@ -2,7 +2,7 @@ import chai, { expect } from 'chai';
 
 import app from '../api/v1/index';
 
-const debug = require('debug')('http');
+// const debug = require('debug')('http');
 
 // testing the car ad endpoints
 describe('Testing the car sale ads endpoints', () => {
