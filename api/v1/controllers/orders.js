@@ -100,4 +100,35 @@ export default {
 			.send({ status: err.statusCode, error: err.message });
 		}
 	},
+	// cancel/delete a purchase order
+	async deleteOrder(req, res) {
+		const queryText1 = 'SELECT car_name, owner_name, buyer_id FROM orders WHERE id = $1';
+		const queryText2 = 'DELETE FROM orders WHERE id = $1';
+		const queryText3 = 'SELECT num_of_orders FROM users WHERE id = $1';
+		const queryText4 = 'UPDATE users SET num_of_orders = $1 WHERE id = $2';
+		const { order_id } = req.params;
+		const { id } = req.payload;
+		try {
+			const { rows } = await db.query(queryText1, [order_id]);
+			if (!rows[0]) {
+				throw new ApiError(404, 'Order not found in database.');
+			}
+			const { car_name, owner_name, buyer_id } = rows[0];
+			if (id !== buyer_id) {
+				throw new ApiError(401, 'Unauthorized Access!');
+			}
+			await db.query(queryText2, [order_id]); // delete the purchase order from database
+			const response = await db.query(queryText3, [id]);
+			const [user] = response.rows;
+			await db.query(queryText4, [user.num_of_orders - 1, id]);
+			res.status(200).json({
+				status: 200,
+				data: 'Purchase order successfully deleted.',
+				message: `You have successfully deleted your purchase order for<br><b>${car_name} that was posted by ${owner_name}.</b>`,
+			});
+		} catch (err) {
+			res.status(err.statusCode || 500)
+			.send({ status: err.statusCode, error: err.message });
+		}
+	},
 };
