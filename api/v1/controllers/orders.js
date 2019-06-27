@@ -111,7 +111,7 @@ export default {
 		try {
 			const { rows } = await db.query(queryText1, [order_id]);
 			if (!rows[0]) {
-				throw new ApiError(404, 'Order not found in database.');
+				throw new ApiError(404, 'Purchase order not found in database.');
 			}
 			const { car_name, owner_name, buyer_id } = rows[0];
 			if (id !== buyer_id) {
@@ -125,6 +125,36 @@ export default {
 				status: 200,
 				data: 'Purchase order successfully deleted.',
 				message: `You have successfully deleted your purchase order for<br><b>${car_name} that was posted by ${owner_name}.</b>`,
+			});
+		} catch (err) {
+			res.status(err.statusCode || 500)
+			.send({ status: err.statusCode, error: err.message });
+		}
+	},
+	// accept a purchase order as a seller
+	async acceptOffer(req, res) {
+		const queryText1 = 'SELECT status, owner_id, price_offered, buyer_name, car_name FROM orders WHERE id = $1';
+		const queryText2 = 'UPDATE orders SET status = $1, last_modified = $2 WHERE id = $3 RETURNING *';
+		const queryText3 = 'UPDATE cars SET status = $1, last_modified = $2 WHERE id = $3';
+		const { order_id } = req.params;
+		try {
+			const response = await db.query(queryText1, [order_id]);
+			const order = response.rows[0];
+			if (!order) {
+				throw new ApiError(404, 'Purchase order not found in database.');
+			}
+			if (req.payload.id !== order.owner_id || order.status !== 'Pending') {
+				throw new ApiError(401, 'Unauthorized Access!');
+			}
+			const {
+				price_offered, buyer_name, car_name, car_id,
+			} = order;
+			const { rows } = await db.query(queryText2, ['Accepted', moment(), order_id]);
+			await db.query(queryText3, ['Sold', moment(), car_id]);
+			res.status(200).send({
+				status: 200,
+				data: rows[0],
+				message: `You have accepted ${buyer_name}'s offer of ${price_offered} for ${car_name}.`,
 			});
 		} catch (err) {
 			res.status(err.statusCode || 500)
