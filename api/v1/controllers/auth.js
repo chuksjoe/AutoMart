@@ -144,4 +144,39 @@ export default {
 			.send({ status: err.statusCode, error: err.message });
 		}
 	},
+	async updateUserDetails(req, res) {
+		const queryText1 = 'SELECT * FROM users WHERE email = $1';
+		const queryText2 = `UPDATE users SET street = $1, city = $2, state = $3, country = $4,
+						phone = $5, zip = $6, is_admin = $7, last_modified = $8 WHERE email = $9 RETURNING *`;
+		const { email } = req.params;
+		try {
+			if (req.body.is_admin && !req.payload.admin) {
+				throw new ApiError(401, 'Unauthorized Access! Reserved for admins only');
+			}
+			let response = await db.query(queryText1, [email]);
+			if (!response.rows[0]) {
+				throw new ApiError(404, `User with the email ${email} does not exist.`);
+			}
+			const {
+				id, street, city, state, country, phone, zip, is_admin,
+			} = response.rows[0];
+			if (!req.payload.admin && req.payload.id !== id) {
+				throw new ApiError(401, 'Unauthorized Access!');
+			}
+			if (req.body.phone && (/\D/.test(req.body.phone) || req.body.phone.length < 10)) {
+				throw new ApiError(400, 'Your phone number is badly formed.');
+			}
+			const values = [req.body.street || street, req.body.city || city, req.body.state || state,
+			req.body.country || country, req.body.phone || phone, req.body.zip || zip,
+			req.body.is_admin || is_admin, moment(), email];
+
+			response = await db.query(queryText2, values);
+			const data = response.rows[0];
+			delete data.password;
+			res.status(200).send({ status: 200, data });
+		} catch (err) {
+			res.status(err.statusCode || 500)
+			.send({ status: err.statusCode, error: err.message });
+		}
+	},
 };
