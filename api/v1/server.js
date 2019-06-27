@@ -30,5 +30,6 @@ router.get('/sale', util.validateToken, orders.getAllSales);
 router.post('/order', util.validateToken, orders.createNewOrder);
 router.patch('/order/:order_id/price', util.validateToken, orders.updateOrderPrice);
 router.delete('/order/:order_id', util.validateToken, orders.deleteOrder);
+router.patch('/order/:order_id/accept', util.validateToken, orders.acceptOffer);
 
 module.exports = router;

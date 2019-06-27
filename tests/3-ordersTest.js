@@ -203,6 +203,43 @@ describe('Tests for the orders api endpoints', () => {
 		});
 	});
 
+	// testing api endpoint for accepting a purchase offer
+	it('should not update the status of an order that does not exit', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			const { token } = response.body.data;
+			chai.request(app)
+			.patch('/api/v1/order/566554/accept').set('authorization', `Bearer ${token}`)
+			.end((err, res) => {
+				res.should.have.status(404);
+				expect(res.body.error).to.equal('Purchase order not found in database.');
+				done();
+			});
+			response.status.should.eql(200);
+    });
+	});
+	it('should allow the owner of the car ad to accept the offer', (done) => {
+		chai.request(app)
+		.post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
+		.end((error, response) => {
+			const { token } = response.body.data;
+			chai.request(app)
+			.get('/api/v1/sale').set('authorization', `Bearer ${token}`)
+			.end((err1, res1) => {
+				const order_id = res1.body.data[0].id;
+				chai.request(app)
+				.patch(`/api/v1/order/${order_id}/accept`).set('authorization', `Bearer ${token}`)
+				.end((err, res) => {
+					res.should.have.status(200);
+					expect(res.body.data.status).to.equal('Accepted');
+					done();
+				});
+			});
+			response.status.should.eql(200);
+		});
+	});
+
 	// testing api endpoint for deleting/cancelling a purchase order
 	it('should not delete an order that does not exit', (done) => {
 		chai.request(app)
@@ -213,7 +250,7 @@ describe('Tests for the orders api endpoints', () => {
 			.delete('/api/v1/order/566554').set('authorization', `Bearer ${token}`)
 			.end((err, res) => {
 				res.should.have.status(404);
-				expect(res.body.error).to.equal('Order not found in database.');
+				expect(res.body.error).to.equal('Purchase order not found in database.');
 				done();
 			});
 			response.status.should.eql(200);
@@ -241,6 +278,7 @@ describe('Tests for the orders api endpoints', () => {
 	});
 });
 
+// delete all the images used for during this test session
 describe('Delete All the test Images from cloudinary', () => {
 	it('should delete all sample images uploaded in this test execise', (done) => {
 		chai.request(app)
