@@ -6,7 +6,7 @@ import ApiError from '../helpers/ApiError';
 export default {
 	// create new purchase order by  valid user
 	async createNewOrder(req, res) {
-		const queryText0 = 'SELECT * FROM orders WHERE car_id = $1 AND buyer_id = $2';
+		const queryText0 = 'SELECT * FROM orders WHERE car_id = $1 AND buyer_id = $2 AND status = $3';
 		const queryText1 = 'SELECT * FROM cars WHERE id = $1';
 		const queryText2 = 'SELECT id, first_name, last_name, num_of_orders FROM users WHERE id = $1';
 		const queryText3 = `INSERT INTO
@@ -25,9 +25,9 @@ export default {
 			if (!buyer || car.status === 'Sold') {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
-			const { rows } = await db.query(queryText0, [car.id, buyer.id]);
+			const { rows } = await db.query(queryText0, [car.id, buyer.id, 'Pending']);
 			if (rows[0]) {
-				throw new ApiError(400, 'You have already placed an order for this car Ad.');
+				throw new ApiError(400, 'You have a Pending offer on this car Ad.');
 			}
 			if (buyer.id === car.owner_id) {
 				throw new ApiError(400, 'You can\'t place an order on your car ad.');
@@ -155,6 +155,32 @@ export default {
 				status: 200,
 				data: rows[0],
 				message: `You have accepted ${buyer_name}'s offer of ${price_offered} for ${car_name}.`,
+			});
+		} catch (err) {
+			res.status(err.statusCode || 500)
+			.send({ status: err.statusCode, error: err.message });
+		}
+	},
+		// reject a purchase order as a seller
+	async rejectOffer(req, res) {
+		const queryText1 = 'SELECT status, owner_id, price_offered, buyer_name, car_name FROM orders WHERE id = $1';
+		const queryText2 = 'UPDATE orders SET status = $1, last_modified = $2 WHERE id = $3 RETURNING *';
+		const { order_id } = req.params;
+		try {
+			const response = await db.query(queryText1, [order_id]);
+			const order = response.rows[0];
+			if (!order) {
+				throw new ApiError(404, 'Purchase order not found in database.');
+			}
+			if (req.payload.id !== order.owner_id || order.status !== 'Pending') {
+				throw new ApiError(401, 'Unauthorized Access!');
+			}
+			const {	price_offered, buyer_name, car_name	} = order;
+			const { rows } = await db.query(queryText2, ['Rejected', moment(), order_id]);
+			res.status(200).send({
+				status: 200,
+				data: rows[0],
+				message: `You have rejected ${buyer_name}'s offer of ${price_offered} for ${car_name}.`,
 			});
 		} catch (err) {
 			res.status(err.statusCode || 500)
