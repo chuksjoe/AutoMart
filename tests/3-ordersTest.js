@@ -202,6 +202,43 @@ describe('Tests for the orders api endpoints', () => {
 			done();
 		});
 	});
+
+	// testing api endpoint for deleting/cancelling a purchase order
+	it('should not delete an order that does not exit', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			const { token } = response.body.data;
+			chai.request(app)
+			.delete('/api/v1/order/566554').set('authorization', `Bearer ${token}`)
+			.end((err, res) => {
+				res.should.have.status(404);
+				expect(res.body.error).to.equal('Order not found in database.');
+				done();
+			});
+			response.status.should.eql(200);
+    });
+	});
+	it('should allow a buyer to delete purchase order he/she had placed', (done) => {
+		chai.request(app)
+		.post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing@123' })
+		.end((error, response) => {
+			const { token } = response.body.data;
+			chai.request(app)
+			.get('/api/v1/order').set('authorization', `Bearer ${token}`)
+			.end((err1, res1) => {
+				const order_id = res1.body.data[0].id;
+				chai.request(app)
+				.delete(`/api/v1/order/${order_id}`).set('authorization', `Bearer ${token}`)
+				.end((err, res) => {
+					res.should.have.status(200);
+					expect(res.body.data).to.equal('Purchase order successfully deleted.');
+					done();
+				});
+			});
+			response.status.should.eql(200);
+		});
+	});
 });
 
 describe('Delete All the test Images from cloudinary', () => {
