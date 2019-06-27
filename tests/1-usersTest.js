@@ -153,12 +153,12 @@ describe('Testing User endpoints', () => {
 		email: 'tolu@live.com',
 		password: 'testing@123',
 		is_admin: false,
-		street: '3 Cole street, Ikate',
-		city: 'Surulere',
-		state: 'Lagos',
-		country: 'Nigeria',
-		phone: '08131172617',
-		zip: '234-001',
+		street: '',
+		city: '',
+		state: '',
+		country: '',
+		phone: '',
+		zip: '',
 	};
 	const user4 = {
 		first_name: 'Edet',
@@ -337,5 +337,85 @@ describe('Testing User endpoints', () => {
 			res.should.have.status(204);
 			done();
 		});
+	});
+
+	// testing api endpoint for updating user's details
+	it('should not allow a user to update another user\'s details', (done) => {
+		chai.request(app)
+		.post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.patch('/api/v1/user/emma@live.com/update_details')
+			.set('Authorization', `Token ${response.body.data.token}`)
+			.end((err, res) => {
+				res.should.have.status(401);
+				expect(res.body.error).to.equal('Unauthorized Access!');
+				done();
+			});
+      response.status.should.eql(200);
+    });
+	});
+	it('should return an error message if the email is not registered', (done) => {
+		chai.request(app)
+		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.patch('/api/v1/user/toluf@live.com/update_details')
+			.set('Authorization', `Token ${response.body.data.token}`)
+			.end((err, res) => {
+				res.should.have.status(404);
+				expect(res.body.error).to.equal('User with the email toluf@live.com does not exist.');
+				done();
+			});
+      response.status.should.eql(200);
+    });
+	});
+	it('should return an error message if a user tries to upgrade him/herslef to an admin', (done) => {
+		chai.request(app)
+		.post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.patch('/api/v1/user/emma@live.com/update_details')
+			.set('Authorization', `Token ${response.body.data.token}`)
+			.send({ is_admin: true })
+			.end((err, res) => {
+				res.should.have.status(401);
+				expect(res.body.error).to.equal('Unauthorized Access! Reserved for admins only');
+				done();
+			});
+      response.status.should.eql(200);
+    });
+	});
+	it('should return an error message if the new phone number is invalid', (done) => {
+		chai.request(app)
+		.post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.patch('/api/v1/user/emma@live.com/update_details')
+			.set('Authorization', `Token ${response.body.data.token}`)
+			.send({ phone: '089free0000000' })
+			.end((err, res) => {
+				res.should.have.status(400);
+				expect(res.body.error).to.equal('Your phone number is badly formed.');
+				done();
+			});
+      response.status.should.eql(200);
+    });
+	});
+	it('should successfully update a user\'s details if no rule is bridged', (done) => {
+		chai.request(app)
+		.post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.patch('/api/v1/user/emma@live.com/update_details')
+			.set('Authorization', `Token ${response.body.data.token}`)
+			.send({ phone: '08089000000', street: '4 Zamba street', city: 'Surulere' })
+			.end((err, res) => {
+				res.should.have.status(200);
+				expect(res.body.data.phone).to.equal('08089000000');
+				done();
+			});
+      response.status.should.eql(200);
+    });
 	});
 });
