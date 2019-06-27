@@ -27,6 +27,27 @@ describe('Tests for the orders api endpoints', () => {
 			response.status.should.eql(200);
     });
 	});
+	it('should place a second order for test purpose', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.get('/api/v1/car?status=Available')
+			.end((err1, res1) => {
+				const car_id = res1.body.data[1].id;
+				chai.request(app)
+				.post('/api/v1/order').set('authorization', `Bearer ${response.body.data.token}`)
+				.send({ car_id, buyer_id: response.body.data.id, price_offered: 1400000 })
+				.end((err, res) => {
+					const { data } = res.body;
+					res.should.have.status(201);
+					data.should.have.property('status');
+					done();
+				});
+			});
+			response.status.should.eql(200);
+    });
+	});
 	it('should not allow a registered user to place multiple orders for an unsold car ad', (done) => {
 		chai.request(app)
     .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing@123' })
@@ -40,7 +61,7 @@ describe('Tests for the orders api endpoints', () => {
 				.send({ car_id, buyer_id: response.body.data.id, price_offered: 1400000 })
 				.end((err, res) => {
 					res.should.have.status(400);
-					expect(res.body.error).to.equal('You have already placed an order for this car Ad.');
+					expect(res.body.error).to.equal('You have a Pending offer on this car Ad.');
 					done();
 				});
 			});
@@ -126,7 +147,7 @@ describe('Tests for the orders api endpoints', () => {
 			.end((err, res) => {
 				const { data } = res.body;
 				res.should.have.status(200);
-				expect(data.length).to.equal(1);
+				expect(data.length).to.equal(2);
 				done();
 			});
       response.status.should.eql(200);
@@ -233,6 +254,43 @@ describe('Tests for the orders api endpoints', () => {
 				.end((err, res) => {
 					res.should.have.status(200);
 					expect(res.body.data.status).to.equal('Accepted');
+					done();
+				});
+			});
+			response.status.should.eql(200);
+		});
+	});
+
+// testing api endpoint for rejecting a purchase offer
+	it('should not update the status of an order that does not exit', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			const { token } = response.body.data;
+			chai.request(app)
+			.patch('/api/v1/order/566554/reject').set('authorization', `Bearer ${token}`)
+			.end((err, res) => {
+				res.should.have.status(404);
+				expect(res.body.error).to.equal('Purchase order not found in database.');
+				done();
+			});
+			response.status.should.eql(200);
+    });
+	});
+	it('should allow the owner of the car ad to reject the offer', (done) => {
+		chai.request(app)
+		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+		.end((error, response) => {
+			const { token } = response.body.data;
+			chai.request(app)
+			.get('/api/v1/sale').set('authorization', `Bearer ${token}`)
+			.end((err1, res1) => {
+				const order_id = res1.body.data[0].id;
+				chai.request(app)
+				.patch(`/api/v1/order/${order_id}/reject`).set('authorization', `Bearer ${token}`)
+				.end((err, res) => {
+					res.should.have.status(200);
+					expect(res.body.data.status).to.equal('Rejected');
 					done();
 				});
 			});
