@@ -335,26 +335,3 @@ describe('Tests for the orders api endpoints', () => {
 		});
 	});
 });
-
-// delete all the images used for during this test session
-describe('Delete All the test Images from cloudinary', () => {
-	it('should delete all sample images uploaded in this test execise', (done) => {
-		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
-    .end((error, response) => {
-			chai.request(app)
-			.get('/api/v1/car')
-			.end((err1, res1) => {
-				res1.body.data.forEach((car) => {
-					chai.request(app)
-					.delete(`/api/v1/car/${car.id}`).set('authorization', `Bearer ${response.body.data.token}`)
-					.end((err, res) => {
-						res.should.have.status(200);
-					});
-				});
-				done();
-			});
-			response.status.should.eql(200);
-    });
-	});
-});
