@@ -350,9 +350,9 @@ describe('Delete All the test Images from cloudinary', () => {
 					.delete(`/api/v1/car/${car.id}`).set('authorization', `Bearer ${response.body.data.token}`)
 					.end((err, res) => {
 						res.should.have.status(200);
-						done();
 					});
 				});
+				done();
 			});
 			response.status.should.eql(200);
     });

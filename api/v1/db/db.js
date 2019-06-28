@@ -55,7 +55,7 @@ const createCarsTable = () => {
 		owner_id INTEGER NOT NULL,
 		owner_name TEXT NOT NULL,
 		email TEXT NOT NULL,
-		created_on TIMESTAMPTZ NOT NULL,
+		created_on TIMESTAMPTZ,
 		last_modified TIMESTAMPTZ,
 		year SMALLINT NOT NULL,
 		state VARCHAR(5) NOT NULL,
@@ -102,6 +102,22 @@ const createOrdersTable = () => {
 	runQuery(queryText);
 };
 
+const createFlagsTable = () => {
+	const queryText = `CREATE TABLE IF NOT EXISTS flags(
+		id SERIAL PRIMARY KEY,
+		car_id INTEGER NOT NULL,
+		car_name TEXT NOT NULL,
+		owner_id INTEGER NOT NULL,
+		reason TEXT NOT NULL,
+		description TEXT NOT NULL,
+		status TEXT,
+		created_on TIMESTAMPTZ,
+		last_modified TIMESTAMPTZ,
+		FOREIGN KEY (car_id) REFERENCES cars (id) ON DELETE CASCADE
+	)`;
+	runQuery(queryText);
+};
+
 const dropUsersTable = () => {
 	runQuery('DROP TABLE IF EXISTS users');
 };
@@ -112,6 +128,10 @@ const dropCarsTable = () => {
 
 const dropOrdersTable = () => {
 	runQuery('DROP TABLE IF EXISTS orders');
+};
+
+const dropFlagsTable = () => {
+	runQuery('DROP TABLE IF EXISTS flags');
 };
 
 const resetTables = () => {
@@ -127,9 +147,11 @@ module.exports = {
 	createUsersTable,
 	createCarsTable,
 	createOrdersTable,
+	createFlagsTable,
 	dropUsersTable,
 	dropCarsTable,
 	dropOrdersTable,
+	dropFlagsTable,
 	resetTables,
 };
 
