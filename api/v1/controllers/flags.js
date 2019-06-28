@@ -46,4 +46,26 @@ export default {
 			.send({ status: err.statusCode, error: err.message });
 		}
 	},
+	// return the list of flags by a by or an admin.
+	async getAllFlags(req, res) {
+		const queryText1 = 'SELECT name, owner_id FROM cars WHERE id = $1';
+		const queryText2 = 'SELECT * FROM flags WHERE car_id = $1 ORDER BY created_on ASC';
+		try {
+			const { id, admin } = req.payload;
+			const { car_id } = req.params;
+			const response = await db.query(queryText1, [car_id]);
+			const car = response.rows[0];
+			if (!car) {
+				throw new ApiError(404, 'Car does not exist!');
+			}
+			if (car.owner_id !== id && !admin) {
+				throw new ApiError(401, 'Unauthorized Access!');
+			}
+			const { rows } = await db.query(queryText2, [car_id]);
+			res.status(200).send({ status: 200, data: rows });
+		} catch (err) {
+			res.status(err.statusCode || 500)
+			.send({ status: err.statusCode, error: err.message });
+		}
+	},
 };
