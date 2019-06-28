@@ -72,7 +72,7 @@ describe('Tests for the flags api endpoints', () => {
 		chai.request(app)
     .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing@123' })
     .end((error, response) => {
-			const { id, token } = response.body.data;
+			const { token } = response.body.data;
 			chai.request(app)
 			.get('/api/v1/car?status=Sold')
 			.end((err1, res1) => {
@@ -126,7 +126,62 @@ describe('Tests for the flags api endpoints', () => {
       response.status.should.eql(200);
     });
 	});
+
+	// testing api endpoint for getting the list of flags on a car ad
+	it('should return list of flags if the user is the ad owner or an admin', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.get('/api/v1/car?status=Available')
+			.end((err1, res1) => {
+				const car_id = res1.body.data[0].id;
+				chai.request(app)
+				.get(`/api/v1/flag/${car_id}`).set('authorization', `Bearer ${response.body.data.token}`)
+				.end((err, res) => {
+					res.should.have.status(200);
+					expect(res.body.data.length).to.equal(1);
+					done();
+				});
+			});
+			response.status.should.eql(200);
+    });
+	});
+	it('should not return list of flags if the user is not the ad owner', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.get('/api/v1/car?status=Available')
+			.end((err1, res1) => {
+				const car_id = res1.body.data[0].id;
+				chai.request(app)
+				.get(`/api/v1/flag/${car_id}`).set('authorization', `Bearer ${response.body.data.token}`)
+				.end((err, res) => {
+					res.should.have.status(401);
+					expect(res.body.error).to.equal('Unauthorized Access!');
+					done();
+				});
+			});
+			response.status.should.eql(200);
+    });
+	});
+	it('should return an error if the car ad does not exist', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.get('/api/v1/flag/58544449').set('authorization', `Bearer ${response.body.data.token}`)
+			.end((err, res) => {
+				res.should.have.status(404);
+				expect(res.body.error).to.equal('Car does not exist!');
+				done();
+			});
+			response.status.should.eql(200);
+    });
+	});
 });
+
 
 // delete all the images used for during this test session
 describe('Delete All the test Images from cloudinary', () => {
