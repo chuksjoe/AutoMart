@@ -4,16 +4,17 @@ import multipart from 'connect-multiparty';
 import auth from './controllers/auth';
 import cars from './controllers/cars';
 import orders from './controllers/orders';
+import flags from './controllers/flags';
 import util from './helpers/utils';
 
 const multipartMiddleware = multipart();
 const router = Router();
 
 // for the auth
-router.get('/user', util.validateToken, auth.getAllUsers); // for admin access only
 router.post('/auth/signup', auth.createNewUser);
 router.post('/auth/signin', auth.signinUser);
 router.post('/user/:email/reset_password', auth.resetPassword);
+router.get('/user', util.validateToken, auth.getAllUsers); // for admin access only
 router.patch('/user/:email/update_details', util.validateToken, auth.updateUserDetails);
 
 // for car Ads
@@ -25,12 +26,15 @@ router.patch('/car/:car_id/price', util.validateToken, cars.updateCarPrice);
 router.patch('/car/:car_id/status', util.validateToken, cars.updateCarStatus);
 
 // for purchase orders
+router.post('/order', util.validateToken, orders.createNewOrder);
 router.get('/order', util.validateToken, orders.getAllOrders);
 router.get('/sale', util.validateToken, orders.getAllSales);
-router.post('/order', util.validateToken, orders.createNewOrder);
 router.patch('/order/:order_id/price', util.validateToken, orders.updateOrderPrice);
 router.delete('/order/:order_id', util.validateToken, orders.deleteOrder);
 router.patch('/order/:order_id/accept', util.validateToken, orders.acceptOffer);
 router.patch('/order/:order_id/reject', util.validateToken, orders.rejectOffer);
+
+// for flagging a car ad
+router.post('/flag', util.validateToken, flags.createNewFlag);
 
 module.exports = router;
