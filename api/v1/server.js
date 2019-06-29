@@ -37,7 +37,7 @@ router.patch('/order/:order_id/reject', util.validateToken, orders.rejectOffer);
 // for flagging a car ad
 router.post('/flag', util.validateToken, flags.createNewFlag);
 router.get('/flag/:car_id', util.validateToken, flags.getAllFlags);
-router.patch('/flag/:flag_id', util.validateToken, flags.addressFlag);
+router.patch('/flag/:flag_id/status', util.validateToken, flags.addressFlag);
 router.delete('/flag/:flag_id', util.validateToken, flags.deleteOrder);
 
 module.exports = router;

@@ -195,7 +195,7 @@ describe('Tests for the flags api endpoints', () => {
 				.end((err, res) => {
 					const flag_id = res.body.data[0].id;
 					chai.request(app)
-					.patch(`/api/v1/flag/${flag_id}`).set('authorization', `Bearer ${response.body.data.token}`)
+					.patch(`/api/v1/flag/${flag_id}/status`).set('authorization', `Bearer ${response.body.data.token}`)
 					.end((er, re) => {
 						re.should.have.status(200);
 						expect(re.body.data.status).to.equal('Addressed');
@@ -219,7 +219,7 @@ describe('Tests for the flags api endpoints', () => {
 				.end((err, res) => {
 					const flag_id = res.body.data[0].id;
 					chai.request(app)
-					.patch(`/api/v1/flag/${flag_id}`).set('authorization', `Bearer ${response.body.data.token}`)
+					.patch(`/api/v1/flag/${flag_id}/status`).set('authorization', `Bearer ${response.body.data.token}`)
 					.end((er, re) => {
 						re.should.have.status(400);
 						expect(re.body.error).to.equal('This Flag has been Addressed before.');
@@ -235,7 +235,7 @@ describe('Tests for the flags api endpoints', () => {
     .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
-			.patch('/api/v1/flag/34454543').set('authorization', `Bearer ${response.body.data.token}`)
+			.patch('/api/v1/flag/34454543/status').set('authorization', `Bearer ${response.body.data.token}`)
 			.end((er, re) => {
 				re.should.have.status(401);
 				expect(re.body.error).to.equal('Unauthorized Access!');
@@ -249,7 +249,7 @@ describe('Tests for the flags api endpoints', () => {
     .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
-			.patch('/api/v1/flag/34454543').set('authorization', `Bearer ${response.body.data.token}`)
+			.patch('/api/v1/flag/34454543/status').set('authorization', `Bearer ${response.body.data.token}`)
 			.end((er, re) => {
 				re.should.have.status(404);
 				expect(re.body.error).to.equal('Flag not found in database.');

@@ -30,9 +30,9 @@ The frontend comprises of a number of pages for different functionalities as des
 
   [Screenshot of a form for placing a purchase order](https://drive.google.com/open?id=1sREN70HbWJIWjwKe2zygscdW8jYQrOBp)
 
-  [Screenshot of the form for flaging an ad as fraudulent](https://drive.google.com/open?id=1oCkguWgwJGgnVELEK2LDuNcV9pa1mjOt)
+  [Screenshot of the form for flaging an Ad as fraudulent](https://drive.google.com/open?id=1oCkguWgwJGgnVELEK2LDuNcV9pa1mjOt)
 
-- [**Sign In**](https://auto-mart-adc.herokuapp.com/api/v1/signin): here, users can sign into their accounts. Once a user is signed in, he/she will then have access to post new ads, view all his/her posted ads, view list of his/her purchase or sales order, delete his posted ad, update price of his posted ad or purchase order, and also update the status of his/her posted ads.
+- [**Sign In**](https://auto-mart-adc.herokuapp.com/api/v1/signin): here, users can sign into their accounts. Once a user is signed in, he/she will then have access to post new ads, view all his/her posted ads, view list of his/her purchase or sales order, delete his posted ad, update price of his posted Ad or purchase order, and also update the status of his/her posted ads.
   This page consumes the following API endpoint;
 
   - `/api/v1/auth/signin` : which is a POST request that returns status code 200 on success with the users data, and 401 on failure with an error message
@@ -53,12 +53,12 @@ The frontend comprises of a number of pages for different functionalities as des
 
   [Screenshot for posting new ad](https://drive.google.com/open?id=1Zb9Ay3qxB6QZ4GNO_DlVGrq8busO2IBo)
 
-- **My Ads**: this page presents to the user a list of all the ads he/she has posted, both sold and unsold, with buttons to either update the price of the ad, mark the ad as sold, or delete the ad from the database. Just like the market place, he/she can also can preview a specific car or filter the list of car ads displayed. It can only be accessed when the user had loged in. It consumes the following API endpoint:
+- **My Ads**: this page presents to the user a list of all the ads he/she has posted, both sold and unsold, with buttons to either update the price of the ad, mark the Ad as sold, or delete the Ad from the database. Just like the market place, he/she can also can preview a specific car or filter the list of car ads displayed. It can only be accessed when the user had loged in. It consumes the following API endpoint:
 
-  - `/api/v1/car?owner_id=<owner_id>` : which is a GET request that returns a list all the car ad posted by the user
-  - `/api/v1/car/:car_id/price` : which is a PATCH requet for updating the price of a car ad by the user
-  - `/api/v1/car/:car_id/status` : which is a PATCH request for marking a car ad a sold.
-  - `/api/v1/car/:car_id` : which is a DELETE request for deleting a posted car ad with the specified Id by the owner
+  - `/api/v1/car?owner_id=<owner_id>` : which is a GET request that returns a list all the car Ad posted by the user
+  - `/api/v1/car/:car_id/price` : which is a PATCH requet for updating the price of a car Ad by the user
+  - `/api/v1/car/:car_id/status` : which is a PATCH request for marking a car Ad a sold.
+  - `/api/v1/car/:car_id` : which is a DELETE request for deleting a posted car Ad with the specified Id by the owner
 
   [Screenshot of My Ads page](https://drive.google.com/open?id=1SF5zBMk6HrXGVvS3a7_1cNd37B4uyO0Q)
 
@@ -75,36 +75,48 @@ The frontend comprises of a number of pages for different functionalities as des
 
 - **Sales History**: this page presents to the user a list of all the purchase orders placed by other users on any of his/her car ads. On this page, he/she can accept or decline offers made on his ads.
   (image)
-- **Admin**: this is the admin page where an admin can view all the posted car ad whether sold or unsold, and can also delete any of the ads. It consumes the following API endpoints:
+- **Admin**: this is the admin page where an admin can view all the posted car Ad whether sold or unsold, and can also delete any of the ads. It consumes the following API endpoints:
 
-  - `/api/v1/car` : which is a GET request that returns all the posted car ad in the database.
-  - `/api/v1/car/:car_id` : which is a DELETE request that deletes a car ad with the specified Id in the path varible.
+  - `/api/v1/car` : which is a GET request that returns all the posted car Ad in the database.
+  - `/api/v1/car/:car_id` : which is a DELETE request that deletes a car Ad with the specified Id in the path varible.
 
 ## Description of the API endpoints
 
-The API endpoints have been described alongside the pages that consume them. The list is as follow:
+The API endpoints have been described alongside the pages that consume them, except for some that are not used in the frontend section of this project, but will be consumed in the final ADC project. The list is as follow:
 
 ### Car Resource
 
 - `POST /api/v1/car` : for creating a new car ad.
-- `GET /api/v1/car` : returns all the posted car ad in the database.
-- `GET /api/v1/car?status=Available` : returns a list of all available car ads. If the list is filtered, the query params are appended to the endpoint.
+- `GET /api/v1/car` : returns all the posted car Ad in the database.
+- `GET /api/v1/car?status=Available` : returns a list of all available car ads. When query parameters are added to this endpoint, the list iis filtered based on the params' values.
 - `GET /api/v1/car/:car_id` : returns data for a specific car ad
-- `GET /api/v1/car?owner_id=<owner_id>` : returns a list all the car ad posted by the user
-- `PATCH /api/v1/car/:car_id/price` : for updating the price of a car ad by the user
-- `PATCH /api/v1/car/:car_id/status` : for marking a car ad a sold.
-- `DELETE /api/v1/car/:car_id` : for deleting a posted car ad by the owner
+- `GET /api/v1/car?owner_id=<owner_id>` : returns a list of all the car Ad posted by the user
+- `PATCH /api/v1/car/:car_id/price` : for updating the price of a car Ad by the user
+- `PATCH /api/v1/car/:car_id/status` : for marking a car Ad a sold.
+- `DELETE /api/v1/car/:car_id` : for deleting a posted car Ad by the owner
 
 ### Order Resource
 
 - `POST /api/v1/order` : creates a new purchase order.
-- `GET /api/v1/order?user_id=<user_id>` : returns the list of orders for the user with the specified id.
+- `GET /api/v1/order` : returns the list of orders that a logged in user had placed on Ads owned by other users (i.e, his/her purchase list).
+- `GET /api/v1/sale` : this endpoint returns the logged in user's sales list, that is, the list of purchase orders other users had placed on his/her posted car ads.
 - `PATCH /api/v1/order/:order_id/price` : updating the price offered for a car ad.
+- `PATCH /api/v1/order/:order_id/accept` : for a user (seller) to accept a purchase order placed on his/her posted car Ad. This automattically marks the car ad as sold, and takes it off the marketplace.
+- `PATCH /api/v1/order/:order_id/reject` : for a user (seller) to reject a purchase order placed on his/her car ad.
 
 ### Auth Resource
 
-- `POST /api/v1/auth/signin` : signs in a user with valid email and password
+- `POST /api/v1/auth/signin` : signs in a user with valid email and password.
 - `POST /api/v1/auth/signup` : creates a new user account on success.
+- `POST /api/v1/user/:email/reset_password` : this is used for resetting a user's password. It's used in 2 scenario. If the user cannot remember his/her password (in this case, it does not require a request body. It will reset the password and sent the new password to the user's email address). And when the user wants to change his/her password (in the case, the user goes to his/her profile page after a successful login, then supplies the current password, and the new password using a form. The new password is still sent to the users email).
+- `PATCH /api/v1/user/:email/update_details` : this endpoint is used for updating the users details such as his/her contact details, and could also be used by an admin to raise the status of a user to an admin.
+
+### Flag Resource
+
+- `POST /api/v1/flag` : this endpoint is used for flagging a car Ad by other users on the AutoMart Platform.
+- `GET /api/v1/flag/:car_id` : this one is used by an admin to monitor the flags placed on a car Ad to mark them as addressed after the owner of the Ad must have attended to the flagged issue, and to delete them when necessary. It is also used by the car Ad owner to view the issued raised on his/her Ad, so that they can address them and report to the admin who marks them as addressed.
+- `PATCH /api/v1/flag/:flag_id/status` : this is used by an admin to mark a flag on a car Ad as addressed.
+- `DELETE /api/vi/flag/:flag_id ` : this endpoint is used by an admin to delete a flag placed on a car Ad.
 
 ## How to install and Test
 
