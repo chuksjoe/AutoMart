@@ -258,8 +258,49 @@ describe('Tests for the flags api endpoints', () => {
 			response.status.should.eql(200);
     });
 	});
-});
 
+	// testing api endpoint for deleting a flag by an admin
+	it('should allow an admin to delete a flag on a car ad', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.get('/api/v1/car?status=Available')
+			.end((err1, res1) => {
+				const car_id = res1.body.data[0].id;
+				chai.request(app)
+				.get(`/api/v1/flag/${car_id}`).set('authorization', `Bearer ${response.body.data.token}`)
+				.end((err, res) => {
+					const flag_id = res.body.data[0].id;
+					chai.request(app)
+					.delete(`/api/v1/flag/${flag_id}`).set('authorization', `Bearer ${response.body.data.token}`)
+					.end((er, re) => {
+						re.should.have.status(200);
+						re.body.should.have.property('data');
+						re.body.should.have.property('message');
+						done();
+					});
+				});
+			});
+			response.status.should.eql(200);
+    });
+	});
+	it('should return a 401 error if the user is not an admin', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.delete('/api/v1/flag/34454543').set('authorization', `Bearer ${response.body.data.token}`)
+			.end((er, re) => {
+				re.should.have.status(401);
+				expect(re.body.error).to.equal('Unauthorized Access!');
+				done();
+			});
+			response.status.should.eql(200);
+    });
+	});
+});
+/* ================ END OF MAIN TEST ======================== */
 
 // delete all the images used for during this test session
 describe('Delete All the test Images from cloudinary', () => {

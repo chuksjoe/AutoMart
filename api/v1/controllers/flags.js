@@ -134,4 +134,30 @@ export default {
 			.send({ status: err.statusCode, error: err.message });
 		}
 	},
+	// cancel/delete a flag
+	async deleteOrder(req, res) {
+		const queryText1 = 'SELECT car_name, owner_name FROM flags WHERE id = $1';
+		const queryText2 = 'DELETE FROM flags WHERE id = $1';
+		const { flag_id } = req.params;
+		const { admin } = req.payload;
+		try {
+			if (!admin) {
+				throw new ApiError(401, 'Unauthorized Access!');
+			}
+			const { rows } = await db.query(queryText1, [flag_id]);
+			if (!rows[0]) {
+				throw new ApiError(404, 'Flag not found in database.');
+			}
+			const { car_name, owner_name } = rows[0];
+			await db.query(queryText2, [flag_id]);
+			res.status(200).json({
+				status: 200,
+				data: `Flag on ${car_name} successfully deleted.`,
+				message: `You have successfully deleted a flag on<br><b>${car_name} that was posted by ${owner_name}.</b>`,
+			});
+		} catch (err) {
+			res.status(err.statusCode || 500)
+			.send({ status: err.statusCode, error: err.message });
+		}
+	},
 };
