@@ -1,10 +1,12 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
 
 import ApiError from './ApiError';
 
 require('dotenv').config();
 require('custom-env').env(true);
+const debug = require('debug')('http');
 
 // utility functions
 const appendLeadZero = val => (Number(val) > 10 ? val : `0${val}`);
@@ -92,5 +94,22 @@ module.exports = {
 		if (req_body.description === '') errorFields.push('description');
 
 		return errorFields;
+	},
+	sendMail: (mailOption) => {
+		try {
+			const transport = nodemailer.createTransport({
+				service: process.env.MAILER_SERVICE,
+				auth: {
+					user: process.env.MAILER_EMAIL,
+					pass: process.env.MAILER_PASS,
+				},
+			});
+			transport.sendMail(mailOption, (err, info) => {
+				if (err) debug(err);
+				else debug(info);
+			});
+		} catch (err) {
+			throw new ApiError(500, err.message);
+		}
 	},
 };
