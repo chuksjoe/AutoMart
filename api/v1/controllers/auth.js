@@ -1,14 +1,11 @@
 import bcrypt from 'bcrypt';
 import 'babel-polyfill';
 import moment from 'moment';
-import nodemailer from 'nodemailer';
 
 // import users from '../models/users';
-import util from '../helpers/utils';
+import utils from '../helpers/utils';
 import ApiError from '../helpers/ApiError';
 import db from '../db/index';
-
-const debug = require('debug')('http');
 
 export default {
 	// get list of all the users
@@ -39,15 +36,15 @@ export default {
 				first_name, last_name, email,	password, is_admin,
 				street,	city,	state, country,	phone, zip,
 			} = req.body;
-			if (util.validateUserRegForm(req.body).length > 0) {
+			if (utils.validateUserRegForm(req.body).length > 0) {
 				throw new ApiError(206, 'Some required fields are not properly filled.');
 			}
-			const pass = util.hashPassword(password, saltRound);
+			const pass = utils.hashPassword(password, saltRound);
 			const values = [email, pass, first_name, last_name, is_admin, street, city,
 			state, country, phone, zip, moment(), 0, 0];
 
 			const { rows } = await db.query(queryText, values);
-			const token = util.encodeToken(rows[0].email, rows[0].id, rows[0].is_admin);
+			const token = utils.encodeToken(rows[0].email, rows[0].id, rows[0].is_admin);
 			const data = rows[0];
 
 			delete data.pass;
@@ -81,7 +78,7 @@ export default {
 			}
 			await db.query(queryText2, [moment(), email]);
 			delete data.password;
-			data.token = util.encodeToken(data.email, data.id, data.is_admin);
+			data.token = utils.encodeToken(data.email, data.id, data.is_admin);
 			res.status(200).send({ status: 200, data });
 		} catch (err) {
 			res.status(err.statusCode || 500)
@@ -107,11 +104,11 @@ export default {
 			} else {
 				const match = await bcrypt.compare(password, rows[0].password);
 				if (!match) {
-					throw new ApiError(401, 'Incorrect password!');
+					throw new ApiError(206, 'Incorrect password!');
 				}
 				new_pass = new_password;
 			}
-			const hashed_pass = util.hashPassword(new_pass, saltRound);
+			const hashed_pass = utils.hashPassword(new_pass, saltRound);
 			const response = await db.query(queryText2, [hashed_pass, moment(), email]);
 			const { first_name, last_name } = response.rows[0];
 			res.status(204)
@@ -119,26 +116,17 @@ export default {
 				status: 204,
 				data: 'You have successfully reset your password, and the new password has been sent to your email.',
 			});
-			const transport = nodemailer.createTransport({
-				service: process.env.MAILER_SERVICE,
-				auth: {
-					user: process.env.MAILER_EMAIL,
-					pass: process.env.MAILER_PASS,
-				},
-			});
+
 			const mailOption = {
 				from: '"AutoMart Help" <automart.help@gmail.com>',
-				to: `${email}`,
+				to: email,
 				subject: 'AutoMart Password Reset',
 				html: `<h3>AutoMart Password Reset Successful!</h3>
 				<p>Hi ${first_name} ${last_name}, you have successfully reset your password.</p>
 				<p>Your new password is: ${new_pass}</p>
 				<p>Note: if the password is auto-generated, you can reset it to your desired password by changing the password in your profile.</p>`,
 			};
-			transport.sendMail(mailOption, (err, info) => {
-				if (err) debug(err);
-				else debug(info);
-			});
+			utils.sendMail(mailOption);
 		} catch (err) {
 			res.status(err.statusCode || 500)
 			.send({ status: err.statusCode, error: err.message });

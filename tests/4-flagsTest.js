@@ -180,12 +180,90 @@ describe('Tests for the flags api endpoints', () => {
 			response.status.should.eql(200);
     });
 	});
+
+	// testing the endpoint for marking a flag as addressed by an admin
+	it('should allow an admin to mark a flag as addressed', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.get('/api/v1/car?status=Available')
+			.end((err1, res1) => {
+				const car_id = res1.body.data[0].id;
+				chai.request(app)
+				.get(`/api/v1/flag/${car_id}`).set('authorization', `Bearer ${response.body.data.token}`)
+				.end((err, res) => {
+					const flag_id = res.body.data[0].id;
+					chai.request(app)
+					.patch(`/api/v1/flag/${flag_id}`).set('authorization', `Bearer ${response.body.data.token}`)
+					.end((er, re) => {
+						re.should.have.status(200);
+						expect(re.body.data.status).to.equal('Addressed');
+						done();
+					});
+				});
+			});
+			response.status.should.eql(200);
+    });
+	});
+	it('should return an error if an admin tries to addressed a flag more than once', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.get('/api/v1/car?status=Available')
+			.end((err1, res1) => {
+				const car_id = res1.body.data[0].id;
+				chai.request(app)
+				.get(`/api/v1/flag/${car_id}`).set('authorization', `Bearer ${response.body.data.token}`)
+				.end((err, res) => {
+					const flag_id = res.body.data[0].id;
+					chai.request(app)
+					.patch(`/api/v1/flag/${flag_id}`).set('authorization', `Bearer ${response.body.data.token}`)
+					.end((er, re) => {
+						re.should.have.status(400);
+						expect(re.body.error).to.equal('This Flag has been Addressed before.');
+						done();
+					});
+				});
+			});
+			response.status.should.eql(200);
+    });
+	});
+	it('should return a 401 error if the user is not an admin', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.patch('/api/v1/flag/34454543').set('authorization', `Bearer ${response.body.data.token}`)
+			.end((er, re) => {
+				re.should.have.status(401);
+				expect(re.body.error).to.equal('Unauthorized Access!');
+				done();
+			});
+			response.status.should.eql(200);
+    });
+	});
+	it('should return a 404 error if the flag does not exist', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.patch('/api/v1/flag/34454543').set('authorization', `Bearer ${response.body.data.token}`)
+			.end((er, re) => {
+				re.should.have.status(404);
+				expect(re.body.error).to.equal('Flag not found in database.');
+				done();
+			});
+			response.status.should.eql(200);
+    });
+	});
 });
 
 
 // delete all the images used for during this test session
 describe('Delete All the test Images from cloudinary', () => {
-	it('should delete a car sale ad if the user is an admin', (done) => {
+	it('should delete the remaining test images from cloudinary', (done) => {
 		chai.request(app)
     .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
     .end((error, response) => {
@@ -201,6 +279,13 @@ describe('Delete All the test Images from cloudinary', () => {
 					done();
 				});
 			});
+		});
+	});
+	it('should delete the remaining test images from cloudinary', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			const { token } = response.body.data;
 			chai.request(app)
 			.get('/api/v1/car')
 			.end((err1, res1) => {
@@ -212,6 +297,13 @@ describe('Delete All the test Images from cloudinary', () => {
 					done();
 				});
 			});
+		});
+	});
+	it('should delete the remaining test images from cloudinary', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			const { token } = response.body.data;
 			chai.request(app)
 			.get('/api/v1/car')
 			.end((err1, res1) => {

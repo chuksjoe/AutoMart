@@ -317,7 +317,7 @@ describe('Testing User endpoints', () => {
 		chai.request(app)
 		.post('/api/v1/user/edet@live.com/reset_password').send({ password: 'wrongPass', new_password: 'this1wontenter' })
 		.end((err, res) => {
-			res.should.have.status(401);
+			res.should.have.status(206);
 			expect(res.body.error).to.equal('Incorrect password!');
 			done();
 		});
