@@ -17,6 +17,13 @@ app.use(logger('combined'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Enable Cross-Origin Resource Sharing (CORS)
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+
 // serve the api endpoints built in server.js
 app.use(prefix, router);
 
