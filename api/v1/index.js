@@ -2,6 +2,7 @@ import express from 'express';
 import logger from 'morgan';
 import path from 'path';
 import compression from 'compression';
+import cors from 'cors';
 
 import router from './server';
 
@@ -18,12 +19,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Enable Cross-Origin Resource Sharing (CORS)
+app.use(cors());
+app.options('*', cors());
+/*
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, PATCH, OPTIONS');
   next();
 });
-
+*/
 // serve the api endpoints built in server.js
 app.use(prefix, router);
 
