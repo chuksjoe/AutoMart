@@ -121,7 +121,7 @@ export default {
 		if (owner_id !== undefined) {
 			queryText += ` AND owner_id = '${owner_id}'`;
 		}
-		queryText += ' ORDER BY created_on ASC';
+		queryText += ' ORDER BY created_on DESC';
 		try {
 			const { rows } = await db.query(queryText, []);
 			res.status(200).send({ status: 200, data: rows });

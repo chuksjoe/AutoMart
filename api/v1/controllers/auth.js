@@ -11,7 +11,7 @@ export default {
 	// get list of all the users
 	async getAllUsers(req, res) {
 		const { payload } = req;
-		const queryText = 'SELECT * FROM users ORDER BY registered_on ASC';
+		const queryText = 'SELECT * FROM users ORDER BY registered_on DESC';
 		try {
 			if (!payload.admin) {
 				throw new ApiError(401, 'Unauthorized Access!');

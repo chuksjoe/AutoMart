@@ -49,7 +49,7 @@ export default {
 	},
 	// return the list of all purchase orders placed by the user.
 	async getAllOrders(req, res) {
-		const queryText = 'SELECT * FROM orders WHERE buyer_id = $1 ORDER BY created_on ASC';
+		const queryText = 'SELECT * FROM orders WHERE buyer_id = $1 ORDER BY created_on DESC';
 		const { id } = req.payload;
 		try {
 			const { rows } = await db.query(queryText, [id]);
@@ -61,7 +61,7 @@ export default {
 	},
 	// return the list of all purchase orders placed on the user car ads.
 	async getAllSales(req, res) {
-		const queryText = 'SELECT * FROM orders WHERE owner_id = $1 ORDER BY created_on ASC';
+		const queryText = 'SELECT * FROM orders WHERE owner_id = $1 ORDER BY created_on DESC';
 		const { id } = req.payload;
 		try {
 			const { rows } = await db.query(queryText, [id]);

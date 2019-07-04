@@ -70,7 +70,7 @@ export default {
 	// return the list of flags if the user is the car owner or an admin.
 	async getAllFlags(req, res) {
 		const queryText1 = 'SELECT name, owner_id FROM cars WHERE id = $1';
-		const queryText2 = 'SELECT * FROM flags WHERE car_id = $1 ORDER BY created_on ASC';
+		const queryText2 = 'SELECT * FROM flags WHERE car_id = $1 ORDER BY created_on DESC';
 		try {
 			const { id, admin } = req.payload;
 			const { car_id } = req.params;
