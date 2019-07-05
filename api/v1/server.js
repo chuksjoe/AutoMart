@@ -15,6 +15,7 @@ router.post('/auth/signup', auth.createNewUser);
 router.post('/auth/signin', auth.signinUser);
 router.post('/user/:email/reset_password', auth.resetPassword);
 router.get('/user', util.validateToken, auth.getAllUsers); // for admin access only
+router.get('/user/:user_id', auth.getAUser);
 router.patch('/user/:email/update_details', util.validateToken, auth.updateUserDetails);
 
 // for car Ads
