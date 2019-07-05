@@ -303,6 +303,39 @@ describe('Testing User endpoints', () => {
     });
 	});
 
+	// testing the endpoint for getting a user's details
+	it('should return details of a registered user', (done) => {
+		chai.request(app)
+		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.get('/api/v1/user').set('authorization', `Bearer ${response.body.data.token}`)
+			.end((err, res) => {
+				const user_id = res.body.data[0].id;
+				chai.request(app)
+				.get(`/api/v1/user/${user_id}`)
+				.end((e, r) => {
+					r.should.have.status(200);
+					const { data } = r.body;
+					data.should.have.property('is_admin');
+					data.should.have.property('first_name');
+					data.should.have.property('last_name');
+				});
+				done();
+			});
+      response.status.should.eql(200);
+    });
+	});
+	it('should an error if the user does not exist', (done) => {
+		chai.request(app)
+		.post('/api/v1/user/fake@yahoo.com/reset_password')
+		.end((err, res) => {
+			res.should.have.status(404);
+			expect(res.body.error).to.equal('User with the email fake@yahoo.com does not exist.');
+			done();
+		});
+	});
+
 	// testing the endpoint that aids password reset
 	it('should not reset password if the user does not exists', (done) => {
 		chai.request(app)

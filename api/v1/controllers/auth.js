@@ -23,6 +23,23 @@ export default {
 			.send({ status: err.statusCode, error: err.message });
 		}
 	},
+	// get a specific user info
+	async getAUser(req, res) {
+		const queryText = 'SELECT * FROM users WHERE id = $1';
+		const { user_id } = req.params;
+		try {
+			const { rows } = await db.query(queryText, [user_id]);
+			if (!rows[0]) {
+				throw new ApiError(404, 'User does not exist');
+			}
+			const data = rows[0];
+			delete data.password;
+			res.status(200).send({ status: 200, data });
+		} catch (err) {
+			res.status(err.statusCode || 500)
+			.send({ status: err.statusCode, error: err.message });
+		}
+	},
 	// create new user and add to database
 	async createNewUser(req, res) {
 		const queryText = `INSERT INTO
