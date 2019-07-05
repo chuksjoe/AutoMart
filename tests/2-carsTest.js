@@ -520,7 +520,7 @@ describe('Testing the car sale ads endpoints', () => {
 			chai.request(app)
 			.get('/api/v1/car')
 			.end((err1, res1) => {
-				const car_id = res1.body.data[1].id;
+				const car_id = res1.body.data[3].id;
 				chai.request(app)
 				.delete(`/api/v1/car/${car_id}`).set('authorization', `Bearer ${response.body.data.token}`)
 				.end((err, res) => {

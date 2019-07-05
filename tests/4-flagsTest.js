@@ -78,7 +78,7 @@ describe('Tests for the flags api endpoints', () => {
 			.end((err1, res1) => {
 				const car_id = res1.body.data[0].id;
 				chai.request(app)
-				.post('/api/v1/order').set('authorization', `Bearer ${token}`)
+				.post('/api/v1/flag').set('authorization', `Bearer ${token}`)
 				.send({ car_id, reason: 'Pricing', description: 'the price is too high' })
 				.end((err, res) => {
 					res.should.have.status(401);
@@ -95,15 +95,16 @@ describe('Tests for the flags api endpoints', () => {
     .end((error, response) => {
 			const { id, token } = response.body.data;
 			chai.request(app)
-			.get(`/api/v1/car?owner_id=${id}`)
+			.get(`/api/v1/car?owner_id=${id}&status=Available`)
 			.end((err1, res1) => {
 				const car_id = res1.body.data[0].id;
 				chai.request(app)
-				.post('/api/v1/order').set('authorization', `Bearer ${token}`)
+				.post('/api/v1/flag').set('authorization', `Bearer ${token}`)
 				.send({ car_id, reason: 'Pricing', description: 'the price is too high' })
 				.end((err, res) => {
-					res.should.have.status(401);
+					res.should.have.status(400);
 					res.body.should.have.property('error');
+					expect(res.body.error).to.equal('You can\'t place a flag on your car ad.');
 					done();
 				});
 			});
@@ -116,7 +117,7 @@ describe('Tests for the flags api endpoints', () => {
     .post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
-			.post('/api/v1/order').set('authorization', `Bearer ${response.body.data.token}`)
+			.post('/api/v1/flag').set('authorization', `Bearer ${response.body.data.token}`)
 			.send({ car_id: 335453554, reason: 'Pricing', description: 'the price is too high' })
 			.end((err, res) => {
 				res.should.have.status(404);
@@ -135,7 +136,7 @@ describe('Tests for the flags api endpoints', () => {
 			chai.request(app)
 			.get('/api/v1/car?status=Available')
 			.end((err1, res1) => {
-				const car_id = res1.body.data[0].id;
+				const car_id = res1.body.data[1].id;
 				chai.request(app)
 				.get(`/api/v1/flag/${car_id}`).set('authorization', `Bearer ${response.body.data.token}`)
 				.end((err, res) => {

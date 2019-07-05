@@ -105,15 +105,16 @@ describe('Tests for the orders api endpoints', () => {
     .end((error, response) => {
 			const { id, token } = response.body.data;
 			chai.request(app)
-			.get(`/api/v1/car?owner_id=${id}`)
+			.get(`/api/v1/car?owner_id=${id}&status=Available`)
 			.end((err1, res1) => {
 				const car_id = res1.body.data[0].id;
 				chai.request(app)
 				.post('/api/v1/order').set('authorization', `Bearer ${token}`)
 				.send({ car_id, buyer_id: id, price_offered: 1400000 })
 				.end((err, res) => {
-					res.should.have.status(401);
+					res.should.have.status(400);
 					res.body.should.have.property('error');
+					expect(res.body.error).to.equal('You can\'t place an order on your car ad.');
 					done();
 				});
 			});
