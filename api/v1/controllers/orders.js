@@ -15,6 +15,11 @@ export default {
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`;
 		const queryText4 = 'UPDATE users SET num_of_orders = $1 WHERE id = $2';
 		try {
+			const { price_offered } = req.body;
+			if (price_offered === undefined || price_offered === '') {
+				throw new ApiError(206, 'The price offered cannot be null.');
+			}
+
 			let response = await db.query(queryText1, [req.body.car_id]);
 			const car = response.rows[0];
 			if (!car) {
@@ -33,8 +38,6 @@ export default {
 				throw new ApiError(400, 'You can\'t place an order on your car ad.');
 			}
 			const { first_name, last_name, num_of_orders } = buyer;
-			const { price_offered } = req.body;
-
 			const values = [car.id, car.name, car.body_type, car.price,
 			car.owner_id, car.owner_name, buyer.id, `${first_name} ${last_name.charAt(0)}.`,
 			parseFloat(price_offered), 'Pending', moment()];
@@ -75,9 +78,12 @@ export default {
 	async updateOrderPrice(req, res) {
 		const queryText1 = 'SELECT status, buyer_id, price_offered FROM orders WHERE id = $1';
 		const queryText2 = 'UPDATE orders SET price_offered = $1, last_modified = $2 WHERE id = $3 RETURNING *';
-		const { order_id } = req.params;
-		const new_price = parseFloat(req.body.new_price);
 		try {
+			const { order_id } = req.params;
+			const { new_price } = req.body;
+			if (new_price === undefined || new_price === '') {
+				throw new ApiError(206, 'The price offered cannot be null.');
+			}
 			let response = await db.query(queryText1, [order_id]);
 			const order = response.rows[0];
 			if (!order) {
@@ -87,7 +93,7 @@ export default {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
 			const old_price_offered = order.price_offered;
-			response = await db.query(queryText2, [new_price, moment(), order_id]);
+			response = await db.query(queryText2, [parseFloat(new_price), moment(), order_id]);
 			const updatedOrder = response.rows[0];
 			if (updatedOrder !== null) {
 				updatedOrder.old_price_offered = old_price_offered;
