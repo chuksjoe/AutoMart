@@ -48,6 +48,26 @@ describe('Tests for the orders api endpoints', () => {
 			response.status.should.eql(200);
     });
 	});
+	it('should not place order if the price_offered is undefined', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.get('/api/v1/car?status=Available')
+			.end((err1, res1) => {
+				const car_id = res1.body.data[1].id;
+				chai.request(app)
+				.post('/api/v1/order').set('authorization', `Bearer ${response.body.data.token}`)
+				.send({ car_id, buyer_id: response.body.data.id, price_offered: undefined })
+				.end((err, res) => {
+					res.should.have.status(206);
+					expect(res.body.error).to.equal('The price offered cannot be null.');
+					done();
+				});
+			});
+			response.status.should.eql(200);
+    });
+	});
 	it('should not allow a registered user to place multiple orders for an unsold car ad', (done) => {
 		chai.request(app)
     .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing@123' })
@@ -208,6 +228,27 @@ describe('Tests for the orders api endpoints', () => {
 					res.should.have.status(200);
 					data.should.have.property('old_price_offered');
 					data.should.have.property('new_price_offered');
+					done();
+				});
+			});
+			response.status.should.eql(200);
+    });
+	});
+	it('should fail if the price is undefined', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			const { id, token } = response.body.data;
+			chai.request(app)
+			.get('/api/v1/order').set('authorization', `Bearer ${token}`)
+			.end((err1, res1) => {
+				const order_id = res1.body.data[0].id;
+				chai.request(app)
+				.patch(`/api/v1/order/${order_id}/price`).set('authorization', `Bearer ${token}`)
+				.send({ buyer_id: id, new_price: undefined })
+				.end((err, res) => {
+					res.should.have.status(206);
+					expect(res.body.error).to.equal('The price offered cannot be null.');
 					done();
 				});
 			});

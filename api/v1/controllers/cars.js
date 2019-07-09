@@ -174,9 +174,12 @@ export default {
 	async updateCarPrice(req, res) {
 		const queryText1 = 'SELECT status, owner_id FROM cars WHERE id = $1';
 		const queryText2 = 'UPDATE cars SET price = $1, last_modified = $2 WHERE id = $3 RETURNING *';
-		const { car_id } = req.params;
-		const new_price = parseFloat(req.body.new_price);
 		try {
+			const { car_id } = req.params;
+			const { new_price } = req.body;
+			if (new_price === undefined || new_price === '') {
+				throw new ApiError(206, 'The price offered cannot be null.');
+			}
 			const { rows } = await db.query(queryText1, [car_id]);
 			if (!rows[0]) {
 				throw new ApiError(404, 'Car not found in database.');
@@ -184,7 +187,7 @@ export default {
 			if (req.payload.id !== rows[0].owner_id) {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
-			const response = await db.query(queryText2, [new_price, moment(), car_id]);
+			const response = await db.query(queryText2, [parseFloat(new_price), moment(), car_id]);
 			const [data] = response.rows;
 			res.status(200).send({ status: 200,	data });
 		}	catch (err) {

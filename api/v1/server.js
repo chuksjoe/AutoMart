@@ -17,23 +17,24 @@ router.post('/user/:email/reset_password', auth.resetPassword);
 router.get('/user', util.validateToken, auth.getAllUsers); // for admin access only
 router.get('/user/:user_id', auth.getAUser);
 router.patch('/user/:email/update_details', util.validateToken, auth.updateUserDetails);
+router.delete('/user/:email', util.validateToken, auth.deleteUser);
 
 // for car Ads
 router.post('/car', util.validateToken, multipartMiddleware, cars.createNewCarAd);
 router.get('/car/:car_id', cars.getACar);
 router.get('/car', cars.getAllCars);
-router.delete('/car/:car_id', util.validateToken, cars.deleteACar);
 router.patch('/car/:car_id/price', util.validateToken, cars.updateCarPrice);
 router.patch('/car/:car_id/status', util.validateToken, cars.updateCarStatus);
+router.delete('/car/:car_id', util.validateToken, cars.deleteACar);
 
 // for purchase orders
 router.post('/order', util.validateToken, orders.createNewOrder);
 router.get('/order', util.validateToken, orders.getAllOrders);
 router.get('/sale', util.validateToken, orders.getAllSales);
 router.patch('/order/:order_id/price', util.validateToken, orders.updateOrderPrice);
-router.delete('/order/:order_id', util.validateToken, orders.deleteOrder);
 router.patch('/order/:order_id/accept', util.validateToken, orders.acceptOffer);
 router.patch('/order/:order_id/reject', util.validateToken, orders.rejectOffer);
+router.delete('/order/:order_id', util.validateToken, orders.deleteOrder);
 
 // for flagging a car ad
 router.post('/flag', util.validateToken, flags.createNewFlag);

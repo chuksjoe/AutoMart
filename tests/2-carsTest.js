@@ -7,6 +7,7 @@ import app from '../api/v1/index';
 // testing the car ad endpoints
 describe('Testing the car sale ads endpoints', () => {
 	const car = {
+		img_url: 'image-path',
 		year: 2001,
 		state: 'Used',
 		price: 5500000,
@@ -28,6 +29,7 @@ describe('Testing the car sale ads endpoints', () => {
 		tinted_windows: false,
 	};
 	const car1 = {
+		img_url: 'image-path',
 		year: 2011,
 		state: 'New',
 		price: 2500000,
@@ -49,6 +51,7 @@ describe('Testing the car sale ads endpoints', () => {
 		tinted_windows: false,
 	};
 	const car2 = {
+		img_url: 'image-path',
 		year: 2021,
 		state: 'New',
 		price: 1500000,
@@ -70,6 +73,7 @@ describe('Testing the car sale ads endpoints', () => {
 		tinted_windows: false,
 	};
 	const car3 = {
+		img_url: 'image-path',
 		year: 1989,
 		state: 'Used',
 		price: 15000000,
@@ -91,6 +95,7 @@ describe('Testing the car sale ads endpoints', () => {
 		tinted_windows: false,
 	};
 	const car4 = {
+		img_url: 'image-path',
 		year: 1989,
 		state: 'Used',
 		price: 7400000,
@@ -364,7 +369,7 @@ describe('Testing the car sale ads endpoints', () => {
 		chai.request(app)
     .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
     .end((error, response) => {
-	  	chai.request(app)
+			chai.request(app)
 			.get(`/api/v1/car?owner_id=${response.body.data.id}`)
 			.end((err, res) => {
 				const { data } = res.body;
@@ -486,6 +491,41 @@ describe('Testing the car sale ads endpoints', () => {
 				.end((err, res) => {
 					res.should.have.status(401);
 					expect(res.body.error).to.equal('Unauthorized Access!');
+					done();
+				});
+			});
+			response.status.should.eql(200);
+    });
+	});
+	it('should not update the price of the car sale ad if the car does not exist', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.patch('/api/v1/car/48437844/price').set('authorization', `Bearer ${response.body.data.token}`)
+			.send({ new_price: 20000000 })
+			.end((err, res) => {
+				res.should.have.status(404);
+				expect(res.body.error).to.equal('Car not found in database.');
+				done();
+			});
+			response.status.should.eql(200);
+    });
+	});
+	it('should not update the price of the car sale ad if the price is undefined', (done) => {
+		chai.request(app)
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.get('/api/v1/car')
+			.end((err1, res1) => {
+				const car_id = res1.body.data[1].id;
+				chai.request(app)
+				.patch(`/api/v1/car/${car_id}/price`).set('authorization', `Bearer ${response.body.data.token}`)
+				.send({ new_price: undefined })
+				.end((err, res) => {
+					res.should.have.status(206);
+					expect(res.body.error).to.equal('The price offered cannot be null.');
 					done();
 				});
 			});

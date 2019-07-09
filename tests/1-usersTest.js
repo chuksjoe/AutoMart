@@ -451,4 +451,51 @@ describe('Testing User endpoints', () => {
       response.status.should.eql(200);
     });
 	});
+
+	// testing api endpoint for deleting a user's account
+	it('should return an error message if the user is not an admin or account owner', (done) => {
+		chai.request(app)
+		.post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.delete('/api/v1/user/tolu@live.com')
+			.set('Authorization', `Token ${response.body.data.token}`)
+			.end((err, res) => {
+				res.should.have.status(401);
+				expect(res.body.error).to.equal('Unauthorized Access!');
+				done();
+			});
+      response.status.should.eql(200);
+    });
+	});
+	it('should return an error message if the user does not exist', (done) => {
+		chai.request(app)
+		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.delete('/api/v1/user/tolufass@live.com')
+			.set('Authorization', `Token ${response.body.data.token}`)
+			.end((err, res) => {
+				res.should.have.status(404);
+				expect(res.body.error).to.equal('User with the email (tolufass@live.com) not found in database.');
+				done();
+			});
+      response.status.should.eql(200);
+    });
+	});
+	it('should successfully delete a user\'s account as an admin', (done) => {
+		chai.request(app)
+		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .end((error, response) => {
+			chai.request(app)
+			.delete('/api/v1/user/edet@live.com')
+			.set('Authorization', `Token ${response.body.data.token}`)
+			.end((err, res) => {
+				res.should.have.status(200);
+				expect(res.body.data).to.equal('User (Edet Akpan) successfully deleted.');
+				done();
+			});
+      response.status.should.eql(200);
+    });
+	});
 });

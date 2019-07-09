@@ -64,9 +64,25 @@ export default {
 			const token = utils.encodeToken(rows[0].email, rows[0].id, rows[0].is_admin);
 			const data = rows[0];
 
-			delete data.pass;
+			delete data.password;
 			data.token = token;
-
+			const mailOption = {
+				from: '"AutoMart Help" <automart.help@gmail.com>',
+				to: email,
+				subject: `Welcome to AutoMart ${first_name}`,
+				html: `<h3>Welcome to AutoMart, ${first_name} ${last_name}</h3>
+				<p>Hi ${first_name},</p>
+				<p>You are warmly welcome to AutoMart platform.</p>
+				<p>A swift, secure and reliable online marketplace where you can buy your dream<br/>
+				car and sell both brand new and fairly used cars.</p>
+				<p>You can post your cars and lookout for other users place orders on them which<br/>
+				you can either accept or reject depending on whether it meets your demand.</p>
+				<p>You can also place orders on other users posted car Ads and wait for them to<br/>
+				respond to it.</p>
+				<p>Feel free to contact via this email (automart.help@gmail.com) for any form of help.</p><br/>
+				<p>Wish you happy buying and selling.</p>`,
+			};
+			utils.sendMail(mailOption);
 			res.status(201).send({ status: 201, data });
 		} catch (err) {
 			if (err.routine === '_bt_check_unique') {
@@ -179,6 +195,31 @@ export default {
 			const data = response.rows[0];
 			delete data.password;
 			res.status(200).send({ status: 200, data });
+		} catch (err) {
+			res.status(err.statusCode || 500)
+			.send({ status: err.statusCode, error: err.message });
+		}
+	},
+	async deleteUser(req, res) {
+		const queryText1 = 'SELECT first_name, last_name FROM users WHERE email = $1';
+		const queryText2 = 'DELETE FROM users WHERE email = $1';
+		const { email } = req.params;
+		const { admin } = req.payload;
+		try {
+			if (!admin && email !== req.payload.email) {
+				throw new ApiError(401, 'Unauthorized Access!');
+			}
+			const { rows } = await db.query(queryText1, [email]);
+			if (!rows[0]) {
+				throw new ApiError(404, `User with the email (${email}) not found in database.`);
+			}
+			const { first_name, last_name } = rows[0];
+			await db.query(queryText2, [email]);
+			res.status(200).json({
+				status: 200,
+				data: `User (${first_name} ${last_name}) successfully deleted.`,
+				message: `You have successfully deleted ${first_name} ${last_name} and all data related to him/her from AutoMart database.`,
+			});
 		} catch (err) {
 			res.status(err.statusCode || 500)
 			.send({ status: err.statusCode, error: err.message });
