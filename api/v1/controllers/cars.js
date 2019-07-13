@@ -25,7 +25,7 @@ export default {
 		$16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26) RETURNING *`;
 		const queryText3 = 'UPDATE users SET num_of_ads = $1 WHERE id = $2';
 		try {
-			const { rows } = await db.query(queryText1, [req.payload.id]);
+			const { rows } = await db.query(queryText1, [req.token.id]);
 			const owner = rows[0];
 			if (!owner) {
 				throw new ApiError(401, 'Unauthorized Access!');
@@ -49,7 +49,7 @@ export default {
 
 			if (req.files.image_url === undefined || req.files.image_url === ''
 				|| req.body.image_url === undefined || req.body.image_url === '') {
-				const values = [`${state} ${year} ${manufacturer} ${model}`, null, req.payload.id,
+				const values = [`${state} ${year} ${manufacturer} ${model}`, null, req.token.id,
 				`${first_name} ${last_name.charAt(0)}.`, email, moment(), parseInt(year, 10), state, 'Available',
 				parseFloat(price.replace(/\D/g, '')), manufacturer, model, body_type, fuel_type, parseInt(doors, 10),
 				parseInt(fuel_cap, 10), parseInt(mileage.replace(/\D/g, ''), 10), color, transmission_type,
@@ -58,7 +58,7 @@ export default {
 				const data = await db.query(queryText2, values);
 				res.status(201).send({ status: 201, data: data.rows[0] });
 
-				await db.query(queryText3, [num_of_ads + 1, req.payload.id]);
+				await db.query(queryText3, [num_of_ads + 1, req.token.id]);
 			} else {
 				cloudinary.uploader.upload(req.files.image_url.path, {
 					tags: 'auto-mart',
@@ -70,7 +70,7 @@ export default {
 					file_url = file_url.split('');
 					file_url.splice(54, 0, 'w_600,h_400,c_fill/');
 					file_url = file_url.join('');
-					const values = [`${state} ${year} ${manufacturer} ${model}`, file_url, req.payload.id,
+					const values = [`${state} ${year} ${manufacturer} ${model}`, file_url, req.token.id,
 					`${first_name} ${last_name.charAt(0)}.`, email, moment(), parseInt(year, 10), state, 'Available',
 					parseFloat(price.replace(/\D/g, '')), manufacturer, model, body_type, fuel_type, parseInt(doors, 10),
 					parseInt(fuel_cap, 10), parseInt(mileage.replace(/\D/g, ''), 10), color, transmission_type,
@@ -79,7 +79,7 @@ export default {
 					const data = await db.query(queryText2, values);
 					res.status(201).send({ status: 201, data: data.rows[0] });
 
-					await db.query(queryText3, [num_of_ads + 1, req.payload.id]);
+					await db.query(queryText3, [num_of_ads + 1, req.token.id]);
 				})
 				.catch((err) => {
 					if (err) {
@@ -156,7 +156,7 @@ export default {
 			if (!rows[0]) {
 				throw new ApiError(404, 'Car not found in database.');
 			}
-			if (req.payload.id !== rows[0].owner_id) {
+			if (req.token.id !== rows[0].owner_id) {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
 			const response = await db.query(queryText2, ['Sold', moment(), car_id]);
@@ -200,7 +200,7 @@ export default {
 			if (!rows[0]) {
 				throw new ApiError(404, 'Car not found in database.');
 			}
-			if (req.payload.id !== rows[0].owner_id) {
+			if (req.token.id !== rows[0].owner_id) {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
 			const response = await db.query(queryText2, [parseFloat(new_price), moment(), car_id]);
@@ -218,7 +218,7 @@ export default {
 		const queryText3 = 'SELECT num_of_ads FROM users WHERE id = $1';
 		const queryText4 = 'UPDATE users SET num_of_ads = $1 WHERE id = $2';
 		const { car_id } = req.params;
-		const { id, admin } = req.payload;
+		const { id, admin } = req.token;
 		try {
 			const { rows } = await db.query(queryText1, [car_id]);
 			if (!rows[0]) {

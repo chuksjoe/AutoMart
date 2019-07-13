@@ -10,10 +10,10 @@ import db from '../db/index';
 export default {
 	// get list of all the users
 	async getAllUsers(req, res) {
-		const { payload } = req;
+		const { token } = req;
 		const queryText = 'SELECT * FROM users ORDER BY registered_on DESC';
 		try {
-			if (!payload.admin) {
+			if (!token.admin) {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
 			const { rows } = await db.query(queryText, []);
@@ -171,7 +171,7 @@ export default {
 						phone = $5, zip = $6, is_admin = $7, last_modified = $8 WHERE email = $9 RETURNING *`;
 		const { email } = req.params;
 		try {
-			if (req.body.is_admin && !req.payload.admin) {
+			if (req.body.is_admin && !req.token.admin) {
 				throw new ApiError(401, 'Unauthorized Access! Reserved for admins only');
 			}
 			let response = await db.query(queryText1, [email]);
@@ -181,7 +181,7 @@ export default {
 			const {
 				id, street, city, state, country, phone, zip, is_admin,
 			} = response.rows[0];
-			if (!req.payload.admin && req.payload.id !== id) {
+			if (!req.token.admin && req.token.id !== id) {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
 			if (req.body.phone && (/\D/.test(req.body.phone) || req.body.phone.length < 10)) {
@@ -204,9 +204,9 @@ export default {
 		const queryText1 = 'SELECT first_name, last_name FROM users WHERE email = $1';
 		const queryText2 = 'DELETE FROM users WHERE email = $1';
 		const { email } = req.params;
-		const { admin } = req.payload;
+		const { admin } = req.token;
 		try {
-			if (!admin && email !== req.payload.email) {
+			if (!admin && email !== req.token.email) {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
 			const { rows } = await db.query(queryText1, [email]);

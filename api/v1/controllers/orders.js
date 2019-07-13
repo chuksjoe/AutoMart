@@ -25,7 +25,7 @@ export default {
 			if (!car) {
 				throw new ApiError(404, 'Car does not exist!');
 			}
-			response = await db.query(queryText2, [req.payload.id]);
+			response = await db.query(queryText2, [req.token.id]);
 			const buyer = response.rows[0];
 			if (!buyer || car.status === 'Sold') {
 				throw new ApiError(401, 'Unauthorized Access!');
@@ -43,7 +43,7 @@ export default {
 			parseFloat(price_offered), 'Pending', moment()];
 
 			const data = await db.query(queryText3, values);
-			await db.query(queryText4, [num_of_orders + 1, req.payload.id]);
+			await db.query(queryText4, [num_of_orders + 1, req.token.id]);
 			res.status(201).send({ status: 201, data: data.rows[0] });
 		} catch (err) {
 			res.status(err.statusCode || 500)
@@ -53,7 +53,7 @@ export default {
 	// return the list of all purchase orders placed by the user.
 	async getAllOrders(req, res) {
 		const queryText = 'SELECT * FROM orders WHERE buyer_id = $1 ORDER BY created_on DESC';
-		const { id } = req.payload;
+		const { id } = req.token;
 		try {
 			const { rows } = await db.query(queryText, [id]);
 			res.status(200).send({ status: 200, data: rows });
@@ -65,7 +65,7 @@ export default {
 	// return the list of all purchase orders placed on the user car ads.
 	async getAllSales(req, res) {
 		const queryText = 'SELECT * FROM orders WHERE owner_id = $1 ORDER BY created_on DESC';
-		const { id } = req.payload;
+		const { id } = req.token;
 		try {
 			const { rows } = await db.query(queryText, [id]);
 			res.status(200).send({ status: 200, data: rows });
@@ -89,7 +89,7 @@ export default {
 			if (!order) {
 				throw new ApiError(404, 'Purchase order not found in database.');
 			}
-			if (req.payload.id !== order.buyer_id || order.status !== 'Pending') {
+			if (req.token.id !== order.buyer_id || order.status !== 'Pending') {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
 			const old_price_offered = order.price_offered;
@@ -113,7 +113,7 @@ export default {
 		const queryText3 = 'SELECT num_of_orders FROM users WHERE id = $1';
 		const queryText4 = 'UPDATE users SET num_of_orders = $1 WHERE id = $2';
 		const { order_id } = req.params;
-		const { id } = req.payload;
+		const { id } = req.token;
 		try {
 			const { rows } = await db.query(queryText1, [order_id]);
 			if (!rows[0]) {
@@ -149,7 +149,7 @@ export default {
 			if (!order) {
 				throw new ApiError(404, 'Purchase order not found in database.');
 			}
-			if (req.payload.id !== order.owner_id || order.status !== 'Pending') {
+			if (req.token.id !== order.owner_id || order.status !== 'Pending') {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
 			const {
@@ -178,7 +178,7 @@ export default {
 			if (!order) {
 				throw new ApiError(404, 'Purchase order not found in database.');
 			}
-			if (req.payload.id !== order.owner_id || order.status !== 'Pending') {
+			if (req.token.id !== order.owner_id || order.status !== 'Pending') {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
 			const {	price_offered, buyer_name, car_name	} = order;

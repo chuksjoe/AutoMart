@@ -25,10 +25,10 @@ module.exports = {
 	hashPassword: (password, saltRound) => bcrypt.hashSync(password, saltRound),
 
 	encodeToken: (email, id, admin) => {
-		const payload = { email, id, admin };
+		const token = { email, id, admin };
 		const option = { expiresIn: '1d', issuer: 'automart' };
 		const secret = process.env.JWT_SECRET;
-		return jwt.sign(payload, secret, option);
+		return jwt.sign(token, secret, option);
 	},
 
 	validateToken: (req, res, next) => {
@@ -43,9 +43,9 @@ module.exports = {
 			const token = req.headers.authorization.split(' ')[1];
 			const options = { expiresIn: '1d', issuer: 'automart'	};
 			try {
-				// add new property to the req object to hold the payload that
+				// add new property to the req object to hold the token that
 				// will be used in the controller functions to verify users.
-				req.payload = jwt.verify(token, process.env.JWT_SECRET, options);
+				req.token = jwt.verify(token, process.env.JWT_SECRET, options);
 				next();
 			}	catch (err) {
 				const msg = err.message.charAt(0).toUpperCase() + err.message.slice(1);
