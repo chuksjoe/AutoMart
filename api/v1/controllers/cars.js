@@ -18,7 +18,7 @@ export default {
 	async createNewCarAd(req, res) {
 		const queryText1 = 'SELECT first_name, last_name, email, num_of_ads FROM users WHERE id = $1';
 		const queryText2 = `INSERT INTO
-		cars (name, image_url, owner_id, owner_name, email, created_on, year, state, status,
+		cars (name, image_url, owner_id, owner, email, created_on, year, state, status,
 		price, manufacturer, model, body_type, fuel_type, doors, fuel_cap, mileage, color,
 		transmission_type, description, ac, arm_rest, air_bag, dvd_player, fm_radio, tinted_windows)
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15,
@@ -91,8 +91,6 @@ export default {
 				});
 			}
 		} catch (err) {
-			debug(err.message);
-			console.log(err.message);
 			res.status(err.statusCode || 500)
 			.send({ status: err.statusCode, error: err.message });
 		}
@@ -194,8 +192,8 @@ export default {
 		const queryText2 = 'UPDATE cars SET price = $1, last_modified = $2 WHERE id = $3 RETURNING *';
 		try {
 			const { car_id } = req.params;
-			const { new_price } = req.body;
-			if (new_price === undefined || new_price === '') {
+			const { price } = req.body;
+			if (price === undefined || price === '') {
 				throw new ApiError(206, 'The price offered cannot be null.');
 			}
 			const { rows } = await db.query(queryText1, [car_id]);
@@ -205,7 +203,7 @@ export default {
 			if (req.token.id !== rows[0].owner_id) {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
-			const response = await db.query(queryText2, [parseFloat(new_price), moment(), car_id]);
+			const response = await db.query(queryText2, [parseFloat(price), moment(), car_id]);
 			const [data] = response.rows;
 			res.status(200).send({ status: 200,	data });
 		}	catch (err) {

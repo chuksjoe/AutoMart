@@ -13,14 +13,14 @@ describe('Tests for the orders api endpoints', () => {
 				const car_id = res1.body.data[0].id;
 				chai.request(app)
 				.post('/api/v1/order').set('authorization', `Bearer ${response.body.data.token}`)
-				.send({ car_id, buyer_id: response.body.data.id, price_offered: 1400000 })
+				.send({ car_id, buyer_id: response.body.data.id, amount: 1400000 })
 				.end((err, res) => {
 					const { data } = res.body;
 					res.should.have.status(201);
 					data.should.have.property('status');
 					data.should.have.property('car_id');
 					data.should.have.property('buyer_id');
-					data.should.have.property('price_offered');
+					data.should.have.property('amount');
 					done();
 				});
 			});
@@ -37,7 +37,7 @@ describe('Tests for the orders api endpoints', () => {
 				const car_id = res1.body.data[1].id;
 				chai.request(app)
 				.post('/api/v1/order').set('authorization', `Bearer ${response.body.data.token}`)
-				.send({ car_id, buyer_id: response.body.data.id, price_offered: 1400000 })
+				.send({ car_id, buyer_id: response.body.data.id, amount: 1400000 })
 				.end((err, res) => {
 					const { data } = res.body;
 					res.should.have.status(201);
@@ -48,7 +48,7 @@ describe('Tests for the orders api endpoints', () => {
 			response.status.should.eql(200);
     });
 	});
-	it('should not place order if the price_offered is undefined', (done) => {
+	it('should not place order if the amount is undefined', (done) => {
 		chai.request(app)
     .post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing@123' })
     .end((error, response) => {
@@ -58,7 +58,7 @@ describe('Tests for the orders api endpoints', () => {
 				const car_id = res1.body.data[1].id;
 				chai.request(app)
 				.post('/api/v1/order').set('authorization', `Bearer ${response.body.data.token}`)
-				.send({ car_id, buyer_id: response.body.data.id, price_offered: undefined })
+				.send({ car_id, buyer_id: response.body.data.id, amount: undefined })
 				.end((err, res) => {
 					res.should.have.status(206);
 					expect(res.body.error).to.equal('The price offered cannot be null.');
@@ -78,7 +78,7 @@ describe('Tests for the orders api endpoints', () => {
 				const car_id = res1.body.data[0].id;
 				chai.request(app)
 				.post('/api/v1/order').set('authorization', `Bearer ${response.body.data.token}`)
-				.send({ car_id, buyer_id: response.body.data.id, price_offered: 1400000 })
+				.send({ car_id, buyer_id: response.body.data.id, amount: 1400000 })
 				.end((err, res) => {
 					res.should.have.status(400);
 					expect(res.body.error).to.equal('You have a Pending offer on this car Ad.');
@@ -91,7 +91,7 @@ describe('Tests for the orders api endpoints', () => {
 	// user with id = 6 does not exist
 	it('should not allow an unregistered user to place a purchase order', (done) => {
 		chai.request(app)
-		.post('/api/v1/order').send({ car_id: 5, buyer_id: 6, price_offered: 1400000 })
+		.post('/api/v1/order').send({ car_id: 5, buyer_id: 6, amount: 1400000 })
 		.end((err, res) => {
 			res.should.have.status(401);
 			expect(res.body.error).to.equal('Ensure you are logged in.');
@@ -109,7 +109,7 @@ describe('Tests for the orders api endpoints', () => {
 				const car_id = res1.body.data[0].id;
 				chai.request(app)
 				.post('/api/v1/order').set('authorization', `Bearer ${token}`)
-				.send({ car_id, buyer_id: id, price_offered: 1400000 })
+				.send({ car_id, buyer_id: id, amount: 1400000 })
 				.end((err, res) => {
 					res.should.have.status(401);
 					expect(res.body.error).to.equal('Unauthorized Access!');
@@ -130,7 +130,7 @@ describe('Tests for the orders api endpoints', () => {
 				const car_id = res1.body.data[0].id;
 				chai.request(app)
 				.post('/api/v1/order').set('authorization', `Bearer ${token}`)
-				.send({ car_id, buyer_id: id, price_offered: 1400000 })
+				.send({ car_id, buyer_id: id, amount: 1400000 })
 				.end((err, res) => {
 					res.should.have.status(400);
 					res.body.should.have.property('error');
@@ -148,7 +148,7 @@ describe('Tests for the orders api endpoints', () => {
     .end((error, response) => {
 			chai.request(app)
 			.post('/api/v1/order').set('authorization', `Bearer ${response.body.data.token}`)
-			.send({ car_id: 335453554, buyer_id: 2, price_offered: 1400000 })
+			.send({ car_id: 335453554, buyer_id: 2, amount: 1400000 })
 			.end((err, res) => {
 				res.should.have.status(404);
 				expect(res.body.error).to.equal('Car does not exist!');
@@ -222,12 +222,12 @@ describe('Tests for the orders api endpoints', () => {
 				const order_id = res1.body.data[0].id;
 				chai.request(app)
 				.patch(`/api/v1/order/${order_id}/price`).set('authorization', `Bearer ${token}`)
-				.send({ buyer_id: id, new_price: 1500000 })
+				.send({ buyer_id: id, price: 1500000 })
 				.end((err, res) => {
 					const { data } = res.body;
 					res.should.have.status(200);
-					data.should.have.property('old_price_offered');
-					data.should.have.property('new_price_offered');
+					data.should.have.property('old_price');
+					data.should.have.property('new_price');
 					done();
 				});
 			});
@@ -245,7 +245,7 @@ describe('Tests for the orders api endpoints', () => {
 				const order_id = res1.body.data[0].id;
 				chai.request(app)
 				.patch(`/api/v1/order/${order_id}/price`).set('authorization', `Bearer ${token}`)
-				.send({ buyer_id: id, new_price: undefined })
+				.send({ buyer_id: id, price: undefined })
 				.end((err, res) => {
 					res.should.have.status(206);
 					expect(res.body.error).to.equal('The price offered cannot be null.');
@@ -258,7 +258,7 @@ describe('Tests for the orders api endpoints', () => {
 	it('should not allow a user who is not logged in to have access to the update endpoint', (done) => {
 		chai.request(app)
 		.patch('/api/v1/order/45/price')
-		.send({ buyer_id: 4, new_price: 1500000 })
+		.send({ buyer_id: 4, price: 1500000 })
 		.end((err, res) => {
 			res.should.have.status(401);
 			expect(res.body.error).to.equal('Ensure you are logged in.');

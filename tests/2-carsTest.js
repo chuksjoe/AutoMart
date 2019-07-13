@@ -463,7 +463,7 @@ describe('Testing the car sale ads endpoints', () => {
 				const car_id = res1.body.data[0].id;
 				chai.request(app)
 				.patch(`/api/v1/car/${car_id}/price`).set('authorization', `Bearer ${response.body.data.token}`)
-				.send({ new_price: 20000000 })
+				.send({ price: 20000000 })
 				.end((err, res) => {
 					const { data } = res.body;
 					res.should.have.status(200);
@@ -487,7 +487,7 @@ describe('Testing the car sale ads endpoints', () => {
 				const car_id = res1.body.data[1].id;
 				chai.request(app)
 				.patch(`/api/v1/car/${car_id}/price`).set('authorization', `Bearer ${response.body.data.token}`)
-				.send({ new_price: 20000000 })
+				.send({ price: 20000000 })
 				.end((err, res) => {
 					res.should.have.status(401);
 					expect(res.body.error).to.equal('Unauthorized Access!');
@@ -503,7 +503,7 @@ describe('Testing the car sale ads endpoints', () => {
     .end((error, response) => {
 			chai.request(app)
 			.patch('/api/v1/car/48437844/price').set('authorization', `Bearer ${response.body.data.token}`)
-			.send({ new_price: 20000000 })
+			.send({ price: 20000000 })
 			.end((err, res) => {
 				res.should.have.status(404);
 				expect(res.body.error).to.equal('Car not found in database.');
@@ -522,7 +522,7 @@ describe('Testing the car sale ads endpoints', () => {
 				const car_id = res1.body.data[1].id;
 				chai.request(app)
 				.patch(`/api/v1/car/${car_id}/price`).set('authorization', `Bearer ${response.body.data.token}`)
-				.send({ new_price: undefined })
+				.send({ price: undefined })
 				.end((err, res) => {
 					res.should.have.status(206);
 					expect(res.body.error).to.equal('The price offered cannot be null.');

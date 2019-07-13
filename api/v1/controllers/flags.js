@@ -11,7 +11,7 @@ export default {
 		const queryText2 = 'SELECT id, first_name, last_name FROM users WHERE id = $1';
 		const queryText3 = 'SELECT * FROM flags WHERE car_id = $1 AND reporter_id = $2 AND status = $3';
 		const queryText4 = `INSERT INTO
-		flags (car_id, car_name, owner_id, owner_name, owner_email,
+		flags (car_id, car_name, owner_id, owner, owner_email,
 		reporter_id, reason, description, status, created_on)
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`;
 		try {
@@ -39,7 +39,7 @@ export default {
 			if (reporter.id === car.owner_id) {
 				throw new ApiError(400, 'You can\'t place a flag on your car ad.');
 			}
-			const values = [car.id, car.name, car.owner_id, car.owner_name, car.email, reporter.id,
+			const values = [car.id, car.name, car.owner_id, car.owner, car.email, reporter.id,
 			reason, description, 'Pending', moment()];
 
 			const data = await db.query(queryText4, values);
@@ -48,7 +48,7 @@ export default {
 				to: car.email,
 				subject: `AutoMart - Your AD (${car.name}) has been flagged`,
 				html: `<h3>Your AD (${car.name}) has been flagged</h3>
-				<p>Hi ${car.owner_name},</p>
+				<p>Hi ${car.owner},</p>
 				<p>your car ad posted on ${car.created_on} has been flagged for reason bothering on ${reason}.</p>
 				<p>Details of the flag is as follow:</p><hr>
 				<h4>Reason: ${reason}</h4>
@@ -91,7 +91,7 @@ export default {
 	},
 	// accept a purchase order as a seller
 	async addressFlag(req, res) {
-		const queryText1 = 'SELECT status, owner_name, car_name, reason, description owner_email FROM flags WHERE id = $1';
+		const queryText1 = 'SELECT status, owner, car_name, reason, description owner_email FROM flags WHERE id = $1';
 		const queryText2 = 'UPDATE flags SET status = $1, last_modified = $2 WHERE id = $3 RETURNING *';
 		try {
 			const { flag_id } = req.params;
@@ -109,14 +109,14 @@ export default {
 			const { rows } = await db.query(queryText2, ['Addressed', moment(), flag_id]);
 			[flag] = rows;
 			const {
-				car_name, owner_email, owner_name, reason, description,
+				car_name, owner_email, owner, reason, description,
 			} = flag;
 			const mailOption = {
 				from: '"AutoMart Help" <automart.help@gmail.com>',
 				to: owner_email,
 				subject: `AutoMart - Flag on ${car_name} has been Addressed`,
 				html: `<h3>Flag on ${car_name} has been Addressed</h3>
-				<p>Hi ${owner_name},</p>
+				<p>Hi ${owner},</p>
 				<p>be notified that the flag placed on your above named car ad on AutoMart has been addressed.</p>
 				<p>Details of the flag is as follow:</p><hr>
 				<h4>Reason: ${reason}</h4>
@@ -127,7 +127,7 @@ export default {
 			res.status(200).send({
 				status: 200,
 				data: rows[0],
-				message: `You have marked the flag on ${reason} placed on ${car_name} that is owned by ${owner_name} as Addressed.`,
+				message: `You have marked the flag on ${reason} placed on ${car_name} that is owned by ${owner} as Addressed.`,
 			});
 		} catch (err) {
 			res.status(err.statusCode || 500)
@@ -136,7 +136,7 @@ export default {
 	},
 	// cancel/delete a flag
 	async deleteOrder(req, res) {
-		const queryText1 = 'SELECT car_name, owner_name FROM flags WHERE id = $1';
+		const queryText1 = 'SELECT car_name, owner FROM flags WHERE id = $1';
 		const queryText2 = 'DELETE FROM flags WHERE id = $1';
 		const { flag_id } = req.params;
 		const { admin } = req.token;
@@ -148,12 +148,12 @@ export default {
 			if (!rows[0]) {
 				throw new ApiError(404, 'Flag not found in database.');
 			}
-			const { car_name, owner_name } = rows[0];
+			const { car_name, owner } = rows[0];
 			await db.query(queryText2, [flag_id]);
 			res.status(200).json({
 				status: 200,
 				data: `Flag on ${car_name} successfully deleted.`,
-				message: `You have successfully deleted a flag on<br><b>${car_name} that was posted by ${owner_name}.</b>`,
+				message: `You have successfully deleted a flag on<br><b>${car_name} that was posted by ${owner}.</b>`,
 			});
 		} catch (err) {
 			res.status(err.statusCode || 500)

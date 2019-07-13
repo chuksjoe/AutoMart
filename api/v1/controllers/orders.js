@@ -10,13 +10,13 @@ export default {
 		const queryText1 = 'SELECT * FROM cars WHERE id = $1';
 		const queryText2 = 'SELECT id, first_name, last_name, num_of_orders FROM users WHERE id = $1';
 		const queryText3 = `INSERT INTO
-		orders (car_id, car_name, car_body_type, price, owner_id, owner_name, buyer_id,
-		buyer_name, price_offered, status, created_on)
+		orders (car_id, car_name, car_body_type, car_price, owner_id, owner, buyer_id,
+		buyer_name, amount, status, created_on)
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`;
 		const queryText4 = 'UPDATE users SET num_of_orders = $1 WHERE id = $2';
 		try {
-			const { price_offered } = req.body;
-			if (price_offered === undefined || price_offered === '') {
+			const { amount } = req.body;
+			if (amount === undefined || amount === '') {
 				throw new ApiError(206, 'The price offered cannot be null.');
 			}
 
@@ -39,8 +39,8 @@ export default {
 			}
 			const { first_name, last_name, num_of_orders } = buyer;
 			const values = [car.id, car.name, car.body_type, car.price,
-			car.owner_id, car.owner_name, buyer.id, `${first_name} ${last_name.charAt(0)}.`,
-			parseFloat(price_offered), 'Pending', moment()];
+			car.owner_id, car.owner, buyer.id, `${first_name} ${last_name.charAt(0)}.`,
+			parseFloat(amount), 'Pending', moment()];
 
 			const data = await db.query(queryText3, values);
 			await db.query(queryText4, [num_of_orders + 1, req.token.id]);
@@ -76,12 +76,12 @@ export default {
 	},
 	// update the price of a purchase order by the buyer who initialized it
 	async updateOrderPrice(req, res) {
-		const queryText1 = 'SELECT status, buyer_id, price_offered FROM orders WHERE id = $1';
-		const queryText2 = 'UPDATE orders SET price_offered = $1, last_modified = $2 WHERE id = $3 RETURNING *';
+		const queryText1 = 'SELECT status, buyer_id, amount FROM orders WHERE id = $1';
+		const queryText2 = 'UPDATE orders SET amount = $1, last_modified = $2 WHERE id = $3 RETURNING *';
 		try {
 			const { order_id } = req.params;
-			const { new_price } = req.body;
-			if (new_price === undefined || new_price === '') {
+			const { price } = req.body;
+			if (price === undefined || price === '') {
 				throw new ApiError(206, 'The price offered cannot be null.');
 			}
 			let response = await db.query(queryText1, [order_id]);
@@ -92,13 +92,13 @@ export default {
 			if (req.token.id !== order.buyer_id || order.status !== 'Pending') {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
-			const old_price_offered = order.price_offered;
-			response = await db.query(queryText2, [parseFloat(new_price), moment(), order_id]);
+			const old_price = order.amount;
+			response = await db.query(queryText2, [parseFloat(price), moment(), order_id]);
 			const updatedOrder = response.rows[0];
 			if (updatedOrder !== null) {
-				updatedOrder.old_price_offered = old_price_offered;
-				updatedOrder.new_price_offered = new_price;
-				delete updatedOrder.price_offered;
+				updatedOrder.old_price = old_price;
+				updatedOrder.new_price = price;
+				delete updatedOrder.amount;
 			}
 			res.status(200).send({ status: 200, data: updatedOrder });
 		} catch (err) {
@@ -108,7 +108,7 @@ export default {
 	},
 	// cancel/delete a purchase order
 	async deleteOrder(req, res) {
-		const queryText1 = 'SELECT car_name, owner_name, buyer_id FROM orders WHERE id = $1';
+		const queryText1 = 'SELECT car_name, owner, buyer_id FROM orders WHERE id = $1';
 		const queryText2 = 'DELETE FROM orders WHERE id = $1';
 		const queryText3 = 'SELECT num_of_orders FROM users WHERE id = $1';
 		const queryText4 = 'UPDATE users SET num_of_orders = $1 WHERE id = $2';
@@ -119,7 +119,7 @@ export default {
 			if (!rows[0]) {
 				throw new ApiError(404, 'Purchase order not found in database.');
 			}
-			const { car_name, owner_name, buyer_id } = rows[0];
+			const { car_name, owner, buyer_id } = rows[0];
 			if (id !== buyer_id) {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
@@ -130,7 +130,7 @@ export default {
 			res.status(200).json({
 				status: 200,
 				data: 'Purchase order successfully deleted.',
-				message: `You have successfully deleted your purchase order for<br><b>${car_name} that was posted by ${owner_name}.</b>`,
+				message: `You have successfully deleted your purchase order for<br><b>${car_name} that was posted by ${owner}.</b>`,
 			});
 		} catch (err) {
 			res.status(err.statusCode || 500)
@@ -139,7 +139,7 @@ export default {
 	},
 	// accept a purchase order as a seller
 	async acceptOffer(req, res) {
-		const queryText1 = 'SELECT status, owner_id, price_offered, buyer_name, car_name FROM orders WHERE id = $1';
+		const queryText1 = 'SELECT status, owner_id, amount, buyer_name, car_name FROM orders WHERE id = $1';
 		const queryText2 = 'UPDATE orders SET status = $1, last_modified = $2 WHERE id = $3 RETURNING *';
 		const queryText3 = 'UPDATE cars SET status = $1, last_modified = $2 WHERE id = $3';
 		const { order_id } = req.params;
@@ -153,14 +153,14 @@ export default {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
 			const {
-				price_offered, buyer_name, car_name, car_id,
+				amount, buyer_name, car_name, car_id,
 			} = order;
 			const { rows } = await db.query(queryText2, ['Accepted', moment(), order_id]);
 			await db.query(queryText3, ['Sold', moment(), car_id]);
 			res.status(200).send({
 				status: 200,
 				data: rows[0],
-				message: `You have accepted ${buyer_name}'s offer of ${price_offered} for ${car_name}.`,
+				message: `You have accepted ${buyer_name}'s offer of ${amount} for ${car_name}.`,
 			});
 		} catch (err) {
 			res.status(err.statusCode || 500)
@@ -169,7 +169,7 @@ export default {
 	},
 		// reject a purchase order as a seller
 	async rejectOffer(req, res) {
-		const queryText1 = 'SELECT status, owner_id, price_offered, buyer_name, car_name FROM orders WHERE id = $1';
+		const queryText1 = 'SELECT status, owner_id, amount, buyer_name, car_name FROM orders WHERE id = $1';
 		const queryText2 = 'UPDATE orders SET status = $1, last_modified = $2 WHERE id = $3 RETURNING *';
 		const { order_id } = req.params;
 		try {
@@ -181,12 +181,12 @@ export default {
 			if (req.token.id !== order.owner_id || order.status !== 'Pending') {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
-			const {	price_offered, buyer_name, car_name	} = order;
+			const {	amount, buyer_name, car_name	} = order;
 			const { rows } = await db.query(queryText2, ['Rejected', moment(), order_id]);
 			res.status(200).send({
 				status: 200,
 				data: rows[0],
-				message: `You have rejected ${buyer_name}'s offer of ${price_offered} for ${car_name}.`,
+				message: `You have rejected ${buyer_name}'s offer of ${amount} for ${car_name}.`,
 			});
 		} catch (err) {
 			res.status(err.statusCode || 500)
