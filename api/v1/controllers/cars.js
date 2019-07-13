@@ -33,9 +33,6 @@ export default {
 			if (util.validateNewPostForm(req.body).length > 0) {
 				throw new ApiError(206, 'Some required fields are not properly filled.');
 			}
-			if (req.files.image_url === undefined) {
-				throw new ApiError(206, 'You have not selected any image for your post.');
-			}
 			const {
 				first_name, last_name, email, num_of_ads,
 			} = owner;
@@ -46,17 +43,8 @@ export default {
 				tinted_windows, air_bag, doors, fuel_cap,
 			} = req.body;
 
-			cloudinary.uploader.upload(req.files.image_url.path, {
-				tags: 'auto-mart',
-				folder: 'uploads/',
-				resource_type: 'image',
-			})
-			.then(async (file) => {
-				let file_url = file.url;
-				file_url = file_url.split('');
-				file_url.splice(54, 0, 'w_600,h_400,c_fill/');
-				file_url = file_url.join('');
-				const values = [`${state} ${year} ${manufacturer} ${model}`, file_url, req.payload.id,
+			if (req.files.image_url === undefined || req.body.image_url === '') {
+				const values = [`${state} ${year} ${manufacturer} ${model}`, null, req.payload.id,
 				`${first_name} ${last_name.charAt(0)}.`, email, moment(), parseInt(year, 10), state, 'Available',
 				parseFloat(price.replace(/\D/g, '')), manufacturer, model, body_type, fuel_type, parseInt(doors, 10),
 				parseInt(fuel_cap, 10), parseInt(mileage.replace(/\D/g, ''), 10), color, transmission_type,
@@ -66,14 +54,36 @@ export default {
 				res.status(201).send({ status: 201, data: data.rows[0] });
 
 				await db.query(queryText3, [num_of_ads + 1, req.payload.id]);
-			})
-			.catch((err) => {
-				if (err) {
-					debug(err);
-					return res.status(599).send({ status: 599, error: 'Seems like your network connection is down.' });
-				}
-				return 0;
-			});
+			} else {
+				cloudinary.uploader.upload(req.files.image_url.path, {
+					tags: 'auto-mart',
+					folder: 'uploads/',
+					resource_type: 'image',
+				})
+				.then(async (file) => {
+					let file_url = file.url;
+					file_url = file_url.split('');
+					file_url.splice(54, 0, 'w_600,h_400,c_fill/');
+					file_url = file_url.join('');
+					const values = [`${state} ${year} ${manufacturer} ${model}`, file_url, req.payload.id,
+					`${first_name} ${last_name.charAt(0)}.`, email, moment(), parseInt(year, 10), state, 'Available',
+					parseFloat(price.replace(/\D/g, '')), manufacturer, model, body_type, fuel_type, parseInt(doors, 10),
+					parseInt(fuel_cap, 10), parseInt(mileage.replace(/\D/g, ''), 10), color, transmission_type,
+					description, ac, arm_rest, air_bag, dvd_player, fm_radio, tinted_windows];
+
+					const data = await db.query(queryText2, values);
+					res.status(201).send({ status: 201, data: data.rows[0] });
+
+					await db.query(queryText3, [num_of_ads + 1, req.payload.id]);
+				})
+				.catch((err) => {
+					if (err) {
+						debug(err);
+						return res.status(599).send({ status: 599, error: 'Seems like your network connection is down.' });
+					}
+					return 0;
+				});
+			}
 		} catch (err) {
 			res.status(err.statusCode || 500)
 			.send({ status: err.statusCode, error: err.message });

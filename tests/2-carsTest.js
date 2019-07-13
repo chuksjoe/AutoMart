@@ -143,7 +143,7 @@ describe('Testing the car sale ads endpoints', () => {
       response.status.should.eql(200);
     });
 	});
-	it('should not create car ad if no image is selected', (done) => {
+	/* it('should not create car ad if no image is selected', (done) => {
 		chai.request(app)
     .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
     .end((error, response) => {
@@ -159,7 +159,7 @@ describe('Testing the car sale ads endpoints', () => {
 			});
       response.status.should.eql(200);
     });
-	});
+	}); */
 	it('should not create car ad if some required fields are not filled', (done) => {
 		car.model = '';
 		car.price = '';

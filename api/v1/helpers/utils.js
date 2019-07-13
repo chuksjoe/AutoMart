@@ -80,9 +80,6 @@ module.exports = {
 
 	validateNewPostForm: (req_body) => {
 		const errorFields = [];
-		if (req_body.image_url === undefined || req_body.image_url === '') {
-			errorFields.push('image_url');
-		}
 		if (req_body.manufacturer === undefined || req_body.manufacturer === '') {
 			errorFields.push('manufacturer');
 		}
