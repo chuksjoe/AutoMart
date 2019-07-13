@@ -321,7 +321,7 @@ describe('Tests for the orders api endpoints', () => {
 	});
 	it('should allow the owner of the car ad to reject the offer', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
 		.end((error, response) => {
 			const { token } = response.body.data;
 			chai.request(app)

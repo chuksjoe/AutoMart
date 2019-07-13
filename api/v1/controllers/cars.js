@@ -38,12 +38,17 @@ export default {
 			} = owner;
 			const {
 				state, price, manufacturer, transmission_type,
-				model, body_type, fuel_type, description, mileage,
-				color, year, ac, arm_rest, fm_radio, dvd_player,
-				tinted_windows, air_bag, doors, fuel_cap,
+				model, body_type, fuel_type, description,
+				color, ac, arm_rest, fm_radio, dvd_player,
+				tinted_windows, air_bag,
 			} = req.body;
+			const mileage = req.body.mileage || '0';
+			const year = req.body.year || '0';
+			const doors = req.body.doors || '0';
+			const fuel_cap = req.body.fuel_cap || '0';
 
-			if (req.files.image_url === undefined || req.body.image_url === '') {
+			if (req.files.image_url === undefined || req.files.image_url === ''
+				|| req.body.image_url === undefined || req.body.image_url === '') {
 				const values = [`${state} ${year} ${manufacturer} ${model}`, null, req.payload.id,
 				`${first_name} ${last_name.charAt(0)}.`, email, moment(), parseInt(year, 10), state, 'Available',
 				parseFloat(price.replace(/\D/g, '')), manufacturer, model, body_type, fuel_type, parseInt(doors, 10),
@@ -85,6 +90,7 @@ export default {
 				});
 			}
 		} catch (err) {
+			debug(err.message);
 			res.status(err.statusCode || 500)
 			.send({ status: err.statusCode, error: err.message });
 		}
@@ -226,15 +232,17 @@ export default {
 			const response = await db.query(queryText3, [owner_id]);
 			const [user] = response.rows;
 			await db.query(queryText4, [user.num_of_ads - 1, owner_id]);
-			let file_name = image_url.slice(image_url.indexOf('uploads/'));
-			file_name = file_name.slice(0, file_name.indexOf('.'));
-			await cloudinary.uploader.destroy(file_name, (err, result) => {
-				if (err) {
-					debug(`CAR DELETION: ERROR: ${err}`);
-					throw new ApiError(500, `CAR DELETION: ERROR: ${err}`);
-				}
-				debug(`CAR DELETION: RESULT: ${result}`);
-			});
+			if (image_url !== null) {
+				let file_name = image_url.slice(image_url.indexOf('uploads/'));
+				file_name = file_name.slice(0, file_name.indexOf('.'));
+				await cloudinary.uploader.destroy(file_name, (err, result) => {
+					if (err) {
+						debug(`CAR DELETION: ERROR: ${err}`);
+						throw new ApiError(500, `CAR DELETION: ERROR: ${err}`);
+					}
+					debug(`CAR DELETION: RESULT: ${result}`);
+				});
+			}
 			res.status(200).json({
 				status: 200,
 				data: 'Car AD successfully deleted.',

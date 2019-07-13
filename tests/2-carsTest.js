@@ -7,26 +7,26 @@ import app from '../api/v1/index';
 // testing the car ad endpoints
 describe('Testing the car sale ads endpoints', () => {
 	const car = {
-		image_url: 'image-path',
-		year: 2001,
+		// image_url: 'image-path',
+		// year: 2001,
 		state: 'Used',
 		price: 5500000,
 		manufacturer: 'Toyota',
 		model: 'Camry R2',
 		body_type: 'Hatch',
-		fuel_type: 'Petrol',
-		mileage: 3400,
-		color: 'yellow',
-		transmission_type: 'Automatic',
-		description: 'other info about the car will go here.',
-		doors: 4,
-		fuel_cap: 58,
-		ac: true,
-		arm_rest: true,
-		air_bag: true,
-		dvd_player: false,
-		fm_radio: true,
-		tinted_windows: false,
+		// fuel_type: 'Petrol',
+		// mileage: 3400,
+		// color: 'yellow',
+		// transmission_type: 'Automatic',
+		// description: 'other info about the car will go here.',
+		// doors: 4,
+		// fuel_cap: 58,
+		// ac: true,
+		// arm_rest: true,
+		// air_bag: true,
+		// dvd_player: false,
+		// fm_radio: true,
+		// tinted_windows: false,
 	};
 	const car1 = {
 		image_url: 'image-path',
@@ -51,7 +51,7 @@ describe('Testing the car sale ads endpoints', () => {
 		tinted_windows: false,
 	};
 	const car2 = {
-		image_url: 'image-path',
+		// image_url: 'image-path',
 		year: 2021,
 		state: 'New',
 		price: 1500000,
@@ -135,7 +135,7 @@ describe('Testing the car sale ads endpoints', () => {
 					id: data.id,
 					name: data.name,
 					owner_id: response.body.data.id,
-					mileage: 3400,
+					mileage: 0,
 					model: 'Camry R2',
 				});
 				done();
@@ -145,7 +145,7 @@ describe('Testing the car sale ads endpoints', () => {
 	});
 	/* it('should not create car ad if no image is selected', (done) => {
 		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
 			.post('/api/v1/car')
@@ -164,7 +164,7 @@ describe('Testing the car sale ads endpoints', () => {
 		car.model = '';
 		car.price = '';
 		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
 			.post('/api/v1/car')
@@ -206,7 +206,7 @@ describe('Testing the car sale ads endpoints', () => {
 			.set('Authorization', `Token ${response.body.data.token}`)
       .field('Content-Type', 'multipart/form-data')
       .field(car2)
-			.attach('image_url', './tests/car-sample-1.jpg')
+			// .attach('image_url', './tests/car-sample-1.jpg')
 			.end((err, res) => {
 				res.should.have.status(201);
 				done();
@@ -231,7 +231,7 @@ describe('Testing the car sale ads endpoints', () => {
 	});
 	it('create car sale ad 4', (done) => {
 		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
 			.post('/api/v1/car')
@@ -367,7 +367,7 @@ describe('Testing the car sale ads endpoints', () => {
 	});
 	it('should return all car ads that belongs to a specific user', (done) => {
 		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
 			.get(`/api/v1/car?owner_id=${response.body.data.id}`)
@@ -405,7 +405,7 @@ describe('Testing the car sale ads endpoints', () => {
 	});
 	it('should not update the status of the car ad if the user is not the owner', (done) => {
 		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
 			.get('/api/v1/car')
@@ -479,7 +479,7 @@ describe('Testing the car sale ads endpoints', () => {
 	});
 	it('should not update the price of the car sale ad if the user is not the owner', (done) => {
 		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
 			.get('/api/v1/car')
@@ -499,7 +499,7 @@ describe('Testing the car sale ads endpoints', () => {
 	});
 	it('should not update the price of the car sale ad if the car does not exist', (done) => {
 		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
 			.patch('/api/v1/car/48437844/price').set('authorization', `Bearer ${response.body.data.token}`)
@@ -514,7 +514,7 @@ describe('Testing the car sale ads endpoints', () => {
 	});
 	it('should not update the price of the car sale ad if the price is undefined', (done) => {
 		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
 			.get('/api/v1/car')
@@ -555,7 +555,7 @@ describe('Testing the car sale ads endpoints', () => {
 	});
 	it('should delete a car sale ad if the user is an admin', (done) => {
 		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
 			.get('/api/v1/car')
