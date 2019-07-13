@@ -91,6 +91,7 @@ export default {
 			}
 		} catch (err) {
 			debug(err.message);
+			console.log(err.message);
 			res.status(err.statusCode || 500)
 			.send({ status: err.statusCode, error: err.message });
 		}
