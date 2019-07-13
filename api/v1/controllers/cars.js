@@ -53,7 +53,7 @@ export default {
 				const values = [`${state} ${year} ${manufacturer} ${model}`, null, req.token.id,
 				`${first_name} ${last_name.charAt(0)}.`, email, moment(), parseInt(year, 10), state, 'Available',
 				parseFloat(price.toString().replace(/\D/g, '')), manufacturer, model, body_type, fuel_type, parseInt(doors, 10),
-				parseInt(fuel_cap, 10), parseInt(mileage.replace(/\D/g, ''), 10), color, transmission_type,
+				parseInt(fuel_cap, 10), parseInt(mileage.toString().replace(/\D/g, ''), 10), color, transmission_type,
 				description, ac, arm_rest, air_bag, dvd_player, fm_radio, tinted_windows];
 
 				const data = await db.query(queryText2, values);
@@ -74,7 +74,7 @@ export default {
 					const values = [`${state} ${year} ${manufacturer} ${model}`, file_url, req.token.id,
 					`${first_name} ${last_name.charAt(0)}.`, email, moment(), parseInt(year, 10), state, 'Available',
 					parseFloat(price.toString().replace(/\D/g, '')), manufacturer, model, body_type, fuel_type, parseInt(doors, 10),
-					parseInt(fuel_cap, 10), parseInt(mileage.replace(/\D/g, ''), 10), color, transmission_type,
+					parseInt(fuel_cap, 10), parseInt(mileage.toString().replace(/\D/g, ''), 10), color, transmission_type,
 					description, ac, arm_rest, air_bag, dvd_player, fm_radio, tinted_windows];
 
 					const data = await db.query(queryText2, values);
