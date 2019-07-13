@@ -194,7 +194,7 @@ export default {
 			const { car_id } = req.params;
 			const { price } = req.body;
 			if (price === undefined || price === '') {
-				throw new ApiError(206, 'The price offered cannot be null.');
+				throw new ApiError(400, 'The price offered cannot be null.');
 			}
 			const { rows } = await db.query(queryText1, [car_id]);
 			if (!rows[0]) {

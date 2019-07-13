@@ -34,9 +34,9 @@ export default {
 			if (rows[0]) {
 				throw new ApiError(400, 'You have a Pending offer on this car Ad.');
 			}
-			if (buyer.id === car.owner_id) {
-				throw new ApiError(400, 'You can\'t place an order on your car ad.');
-			}
+			// if (buyer.id === car.owner_id) {
+			// 	throw new ApiError(400, 'You can\'t place an order on your car ad.');
+			// }
 			const { first_name, last_name, num_of_orders } = buyer;
 			const values = [car.id, car.name, car.body_type, car.price,
 			car.owner_id, car.owner, buyer.id, `${first_name} ${last_name.charAt(0)}.`,
