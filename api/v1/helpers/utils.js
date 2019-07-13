@@ -104,8 +104,8 @@ module.exports = {
 			errorFields.push('fuel_cap');
 		}
 		if (req_body.doors === undefined || req_body.doors === '') errorFields.push('doors');
-		if (req_body.img_url === undefined || req_body.img_url === '') {
-			errorFields.push('img_url');
+		if (req_body.image_url === undefined || req_body.image_url === '') {
+			errorFields.push('image_url');
 		}
 		if (req_body.description === undefined || req_body.description === '') {
 			errorFields.push('description');

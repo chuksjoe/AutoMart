@@ -51,7 +51,7 @@ const createCarsTable = () => {
 	const queryText = `CREATE TABLE IF NOT EXISTS cars(
 		id SERIAL PRIMARY KEY,
 		name TEXT NOT NULL,
-		img_url TEXT NOT NULL,
+		image_url TEXT NOT NULL,
 		owner_id INTEGER NOT NULL,
 		owner_name TEXT NOT NULL,
 		email TEXT NOT NULL,

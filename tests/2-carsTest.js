@@ -7,7 +7,7 @@ import app from '../api/v1/index';
 // testing the car ad endpoints
 describe('Testing the car sale ads endpoints', () => {
 	const car = {
-		img_url: 'image-path',
+		image_url: 'image-path',
 		year: 2001,
 		state: 'Used',
 		price: 5500000,
@@ -29,7 +29,7 @@ describe('Testing the car sale ads endpoints', () => {
 		tinted_windows: false,
 	};
 	const car1 = {
-		img_url: 'image-path',
+		image_url: 'image-path',
 		year: 2011,
 		state: 'New',
 		price: 2500000,
@@ -51,7 +51,7 @@ describe('Testing the car sale ads endpoints', () => {
 		tinted_windows: false,
 	};
 	const car2 = {
-		img_url: 'image-path',
+		image_url: 'image-path',
 		year: 2021,
 		state: 'New',
 		price: 1500000,
@@ -73,7 +73,7 @@ describe('Testing the car sale ads endpoints', () => {
 		tinted_windows: false,
 	};
 	const car3 = {
-		img_url: 'image-path',
+		image_url: 'image-path',
 		year: 1989,
 		state: 'Used',
 		price: 15000000,
@@ -95,7 +95,7 @@ describe('Testing the car sale ads endpoints', () => {
 		tinted_windows: false,
 	};
 	const car4 = {
-		img_url: 'image-path',
+		image_url: 'image-path',
 		year: 1989,
 		state: 'Used',
 		price: 7400000,
@@ -127,7 +127,7 @@ describe('Testing the car sale ads endpoints', () => {
 			.set('Authorization', `Token ${response.body.data.token}`)
       .field('Content-Type', 'multipart/form-data')
       .field(car)
-			.attach('img_url', './tests/car-sample-1.jpg')
+			.attach('image_url', './tests/car-sample-1.jpg')
 			.end((err, res) => {
 				const { data } = res.body;
 				res.should.have.status(201);
@@ -190,7 +190,7 @@ describe('Testing the car sale ads endpoints', () => {
 			.set('Authorization', `Token ${response.body.data.token}`)
       .field('Content-Type', 'multipart/form-data')
       .field(car1)
-			.attach('img_url', './tests/car-sample-1.jpg')
+			.attach('image_url', './tests/car-sample-1.jpg')
 			.end((err, res) => {
 				res.should.have.status(201);
 				done();
@@ -206,7 +206,7 @@ describe('Testing the car sale ads endpoints', () => {
 			.set('Authorization', `Token ${response.body.data.token}`)
       .field('Content-Type', 'multipart/form-data')
       .field(car2)
-			.attach('img_url', './tests/car-sample-1.jpg')
+			.attach('image_url', './tests/car-sample-1.jpg')
 			.end((err, res) => {
 				res.should.have.status(201);
 				done();
@@ -222,7 +222,7 @@ describe('Testing the car sale ads endpoints', () => {
 			.set('Authorization', `Token ${response.body.data.token}`)
       .field('Content-Type', 'multipart/form-data')
       .field(car3)
-			.attach('img_url', './tests/car-sample-1.jpg')
+			.attach('image_url', './tests/car-sample-1.jpg')
 			.end((err, res) => {
 				res.should.have.status(201);
 				done();
@@ -238,7 +238,7 @@ describe('Testing the car sale ads endpoints', () => {
 			.set('Authorization', `Token ${response.body.data.token}`)
       .field('Content-Type', 'multipart/form-data')
       .field(car4)
-			.attach('img_url', './tests/car-sample-1.jpg')
+			.attach('image_url', './tests/car-sample-1.jpg')
 			.end((err, res) => {
 				res.should.have.status(201);
 				done();
