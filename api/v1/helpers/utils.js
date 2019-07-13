@@ -87,29 +87,8 @@ module.exports = {
 		if (req_body.body_type === undefined || req_body.body_type === '') {
 			errorFields.push('body_type');
 		}
-		if (req_body.year === undefined || req_body.year === '') errorFields.push('year');
 		if (req_body.price === undefined || req_body.price === '') errorFields.push('price');
 		if (req_body.state === undefined || req_body.state === '') errorFields.push('state');
-		if (req_body.color === undefined || req_body.color === '') errorFields.push('color');
-		if (req_body.mileage === undefined || req_body.mileage === '') {
-			errorFields.push('mileage');
-		}
-		if (req_body.transmission_type === undefined || req_body.transmission_type === '') {
-			errorFields.push('transmission');
-		}
-		if (req_body.fuel_type === undefined || req_body.fuel_type === '') {
-			errorFields.push('fuel_type');
-		}
-		if (req_body.fuel_cap === undefined || req_body.fuel_cap === '') {
-			errorFields.push('fuel_cap');
-		}
-		if (req_body.doors === undefined || req_body.doors === '') errorFields.push('doors');
-		if (req_body.img_url === undefined || req_body.img_url === '') {
-			errorFields.push('img_url');
-		}
-		if (req_body.description === undefined || req_body.description === '') {
-			errorFields.push('description');
-		}
 
 		return errorFields;
 	},

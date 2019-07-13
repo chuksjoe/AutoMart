@@ -124,7 +124,7 @@ describe('Testing User endpoints', () => {
 	const user1 = {
 		first_name: 'ChuksJoe',
 		last_name: 'Orjiakor',
-		email: 'chuksjoe@live.com',
+		email: 'chuksjos@live.com',
 		password: 'testing@123',
 		is_admin: true,
 		street: '15 Aborishade road, Lawanson',
@@ -182,7 +182,7 @@ describe('Testing User endpoints', () => {
       expect(res.body.data).to.include({
         id: res.body.data.id,
         token: res.body.data.token,
-        email: 'chuksjoe@live.com',
+        email: 'chuksjos@live.com',
         first_name: 'ChuksJoe',
       });
       done();
@@ -237,14 +237,14 @@ describe('Testing User endpoints', () => {
 	// testing the api endpoint for user sign in
 	it('should allow a user to sign into their account if they supply valid credentials', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
 			expect(data).to.include({
         id: data.id,
         token: data.token,
-        email: 'chuksjoe@live.com',
+        email: 'chuksjos@live.com',
         first_name: 'ChuksJoe',
       });
 			done();
@@ -252,7 +252,7 @@ describe('Testing User endpoints', () => {
 	});
 	it('should not allow a user to sign in if they supply invalid password', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'wrongpassword' })
+		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'wrongpassword' })
 		.end((err, res) => {
 			res.should.have.status(401);
 			expect(res.body.error).to.equal('Invalid Username or Password!');
@@ -272,7 +272,7 @@ describe('Testing User endpoints', () => {
 	// testing the endpoint that returns list of all registered users
 	it('should return list of all registered users if the user is an admin', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
 			.get('/api/v1/user').set('authorization', `Bearer ${response.body.data.token}`)
@@ -306,7 +306,7 @@ describe('Testing User endpoints', () => {
 	// testing the endpoint for getting a user's details
 	it('should return details of a registered user', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
 			.get('/api/v1/user').set('authorization', `Bearer ${response.body.data.token}`)
@@ -390,7 +390,7 @@ describe('Testing User endpoints', () => {
 	});
 	it('should return an error message if the email is not registered', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
 			.patch('/api/v1/user/toluf@live.com/update_details')
@@ -470,7 +470,7 @@ describe('Testing User endpoints', () => {
 	});
 	it('should return an error message if the user does not exist', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
 			.delete('/api/v1/user/tolufass@live.com')
@@ -485,7 +485,7 @@ describe('Testing User endpoints', () => {
 	});
 	it('should successfully delete a user\'s account as an admin', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
 			.delete('/api/v1/user/edet@live.com')

@@ -18,7 +18,7 @@ export default {
 	async createNewCarAd(req, res) {
 		const queryText1 = 'SELECT first_name, last_name, email, num_of_ads FROM users WHERE id = $1';
 		const queryText2 = `INSERT INTO
-		cars (name, img_url, owner_id, owner_name, email, created_on, year, state, status,
+		cars (name, image_url, owner_id, owner_name, email, created_on, year, state, status,
 		price, manufacturer, model, body_type, fuel_type, doors, fuel_cap, mileage, color,
 		transmission_type, description, ac, arm_rest, air_bag, dvd_player, fm_radio, tinted_windows)
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15,
@@ -33,30 +33,23 @@ export default {
 			if (util.validateNewPostForm(req.body).length > 0) {
 				throw new ApiError(206, 'Some required fields are not properly filled.');
 			}
-			if (req.files.img_url === undefined) {
-				throw new ApiError(206, 'You have not selected any image for your post.');
-			}
 			const {
 				first_name, last_name, email, num_of_ads,
 			} = owner;
 			const {
 				state, price, manufacturer, transmission_type,
-				model, body_type, fuel_type, description, mileage,
-				color, year, ac, arm_rest, fm_radio, dvd_player,
-				tinted_windows, air_bag, doors, fuel_cap,
+				model, body_type, fuel_type, description,
+				color, ac, arm_rest, fm_radio, dvd_player,
+				tinted_windows, air_bag,
 			} = req.body;
+			const mileage = req.body.mileage || '0';
+			const year = req.body.year || '0';
+			const doors = req.body.doors || '0';
+			const fuel_cap = req.body.fuel_cap || '0';
 
-			cloudinary.uploader.upload(req.files.img_url.path, {
-				tags: 'auto-mart',
-				folder: 'uploads/',
-				resource_type: 'image',
-			})
-			.then(async (file) => {
-				let file_url = file.url;
-				file_url = file_url.split('');
-				file_url.splice(54, 0, 'w_600,h_400,c_fill/');
-				file_url = file_url.join('');
-				const values = [`${state} ${year} ${manufacturer} ${model}`, file_url, req.payload.id,
+			if (req.files.image_url === undefined || req.files.image_url === ''
+				|| req.body.image_url === undefined || req.body.image_url === '') {
+				const values = [`${state} ${year} ${manufacturer} ${model}`, null, req.payload.id,
 				`${first_name} ${last_name.charAt(0)}.`, email, moment(), parseInt(year, 10), state, 'Available',
 				parseFloat(price.replace(/\D/g, '')), manufacturer, model, body_type, fuel_type, parseInt(doors, 10),
 				parseInt(fuel_cap, 10), parseInt(mileage.replace(/\D/g, ''), 10), color, transmission_type,
@@ -66,15 +59,38 @@ export default {
 				res.status(201).send({ status: 201, data: data.rows[0] });
 
 				await db.query(queryText3, [num_of_ads + 1, req.payload.id]);
-			})
-			.catch((err) => {
-				if (err) {
-					debug(err);
-					return res.status(599).send({ status: 599, error: 'Seems like your network connection is down.' });
-				}
-				return 0;
-			});
+			} else {
+				cloudinary.uploader.upload(req.files.image_url.path, {
+					tags: 'auto-mart',
+					folder: 'uploads/',
+					resource_type: 'image',
+				})
+				.then(async (file) => {
+					let file_url = file.url;
+					file_url = file_url.split('');
+					file_url.splice(54, 0, 'w_600,h_400,c_fill/');
+					file_url = file_url.join('');
+					const values = [`${state} ${year} ${manufacturer} ${model}`, file_url, req.payload.id,
+					`${first_name} ${last_name.charAt(0)}.`, email, moment(), parseInt(year, 10), state, 'Available',
+					parseFloat(price.replace(/\D/g, '')), manufacturer, model, body_type, fuel_type, parseInt(doors, 10),
+					parseInt(fuel_cap, 10), parseInt(mileage.replace(/\D/g, ''), 10), color, transmission_type,
+					description, ac, arm_rest, air_bag, dvd_player, fm_radio, tinted_windows];
+
+					const data = await db.query(queryText2, values);
+					res.status(201).send({ status: 201, data: data.rows[0] });
+
+					await db.query(queryText3, [num_of_ads + 1, req.payload.id]);
+				})
+				.catch((err) => {
+					if (err) {
+						debug(err);
+						return res.status(599).send({ status: 599, error: 'Seems like your network connection is down.' });
+					}
+					return 0;
+				});
+			}
 		} catch (err) {
+			debug(err.message);
 			res.status(err.statusCode || 500)
 			.send({ status: err.statusCode, error: err.message });
 		}
@@ -197,7 +213,7 @@ export default {
 	},
 	// it's only the owner of a sale ad or an admin that can delete a posted ad
 	async deleteACar(req, res) {
-		const queryText1 = 'SELECT name, owner_id, img_url FROM cars WHERE id = $1';
+		const queryText1 = 'SELECT name, owner_id, image_url FROM cars WHERE id = $1';
 		const queryText2 = 'DELETE FROM cars WHERE id = $1';
 		const queryText3 = 'SELECT num_of_ads FROM users WHERE id = $1';
 		const queryText4 = 'UPDATE users SET num_of_ads = $1 WHERE id = $2';
@@ -208,7 +224,7 @@ export default {
 			if (!rows[0]) {
 				throw new ApiError(404, 'Car not found in database.');
 			}
-			const { owner_id, name, img_url } = rows[0];
+			const { owner_id, name, image_url } = rows[0];
 			if (id !== owner_id && !admin) {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
@@ -216,15 +232,17 @@ export default {
 			const response = await db.query(queryText3, [owner_id]);
 			const [user] = response.rows;
 			await db.query(queryText4, [user.num_of_ads - 1, owner_id]);
-			let file_name = img_url.slice(img_url.indexOf('uploads/'));
-			file_name = file_name.slice(0, file_name.indexOf('.'));
-			await cloudinary.uploader.destroy(file_name, (err, result) => {
-				if (err) {
-					debug(`CAR DELETION: ERROR: ${err}`);
-					throw new ApiError(500, `CAR DELETION: ERROR: ${err}`);
-				}
-				debug(`CAR DELETION: RESULT: ${result}`);
-			});
+			if (image_url !== null) {
+				let file_name = image_url.slice(image_url.indexOf('uploads/'));
+				file_name = file_name.slice(0, file_name.indexOf('.'));
+				await cloudinary.uploader.destroy(file_name, (err, result) => {
+					if (err) {
+						debug(`CAR DELETION: ERROR: ${err}`);
+						throw new ApiError(500, `CAR DELETION: ERROR: ${err}`);
+					}
+					debug(`CAR DELETION: RESULT: ${result}`);
+				});
+			}
 			res.status(200).json({
 				status: 200,
 				data: 'Car AD successfully deleted.',

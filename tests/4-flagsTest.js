@@ -185,7 +185,7 @@ describe('Tests for the flags api endpoints', () => {
 	// testing the endpoint for marking a flag as addressed by an admin
 	it('should allow an admin to mark a flag as addressed', (done) => {
 		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
 			.get('/api/v1/car?status=Available')
@@ -209,7 +209,7 @@ describe('Tests for the flags api endpoints', () => {
 	});
 	it('should return an error if an admin tries to addressed a flag more than once', (done) => {
 		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
 			.get('/api/v1/car?status=Available')
@@ -247,7 +247,7 @@ describe('Tests for the flags api endpoints', () => {
 	});
 	it('should return a 404 error if the flag does not exist', (done) => {
 		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
 			.patch('/api/v1/flag/34454543/status').set('authorization', `Bearer ${response.body.data.token}`)
@@ -263,7 +263,7 @@ describe('Tests for the flags api endpoints', () => {
 	// testing api endpoint for deleting a flag by an admin
 	it('should allow an admin to delete a flag on a car ad', (done) => {
 		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
 			.get('/api/v1/car?status=Available')
@@ -307,7 +307,7 @@ describe('Tests for the flags api endpoints', () => {
 describe('Delete All the test Images from cloudinary', () => {
 	it('should delete the remaining test images from cloudinary', (done) => {
 		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
     .end((error, response) => {
 			const { token } = response.body.data;
 			chai.request(app)
@@ -325,7 +325,7 @@ describe('Delete All the test Images from cloudinary', () => {
 	});
 	it('should delete the remaining test images from cloudinary', (done) => {
 		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
     .end((error, response) => {
 			const { token } = response.body.data;
 			chai.request(app)
@@ -343,7 +343,7 @@ describe('Delete All the test Images from cloudinary', () => {
 	});
 	it('should delete the remaining test images from cloudinary', (done) => {
 		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjoe@live.com', password: 'testing@123' })
+    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
     .end((error, response) => {
 			const { token } = response.body.data;
 			chai.request(app)
