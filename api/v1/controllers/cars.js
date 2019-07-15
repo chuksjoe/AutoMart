@@ -100,9 +100,9 @@ export default {
 	async getAllCars(req, res) {
 		let queryText = 'SELECT * FROM cars';
 		try {
-			if (!req.originalUrl.includes('?') && (!req.token || (req.token && !req.token.admin))) {
-				throw new ApiError(401, 'Unauthorized Access!');
-			}
+			// if (!req.originalUrl.includes('?') && (!req.token || (req.token && !req.token.admin))) {
+			// 	throw new ApiError(401, 'Unauthorized Access!');
+			// }
 			if (req.originalUrl.includes('?')) queryText += ' WHERE price > 0 ';
 			// filter car ads based on price range
 			let { min_price, max_price } = req.query;
@@ -201,9 +201,9 @@ export default {
 		try {
 			const { car_id } = req.params;
 			const { price } = req.body;
-			// if (price === undefined || price === '') {
-			// 	throw new ApiError(400, 'The price offered cannot be null.');
-			// }
+			if (price === undefined || price === '') {
+				throw new ApiError(400, 'The price offered cannot be null.');
+			}
 			const { rows } = await db.query(queryText1, [car_id]);
 			if (!rows[0]) {
 				throw new ApiError(404, 'Car not found in database.');
