@@ -200,6 +200,9 @@ export default {
 		const queryText2 = 'UPDATE cars SET price = $1, last_modified = $2 WHERE id = $3 RETURNING *';
 		try {
 			const { car_id } = req.params;
+			Object.keys(req.body).forEach((key, index) => {
+				console.log(`${key} : ${req.body[index]}`);
+			});
 			const { price } = req.body;
 			if (price === undefined || price === '') {
 				throw new ApiError(400, 'The price offered cannot be null.');
