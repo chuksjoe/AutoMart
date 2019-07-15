@@ -17,7 +17,7 @@ export default {
 		try {
 			const { amount } = req.body;
 			if (amount === undefined || amount === '') {
-				throw new ApiError(206, 'The price offered cannot be null.');
+				throw new ApiError(400, 'The price offered cannot be null.');
 			}
 
 			let response = await db.query(queryText1, [req.body.car_id]);
@@ -82,7 +82,7 @@ export default {
 			const { order_id } = req.params;
 			const { price } = req.body;
 			if (price === undefined || price === '') {
-				throw new ApiError(206, 'The price offered cannot be null.');
+				throw new ApiError(400, 'The price offered cannot be null.');
 			}
 			let response = await db.query(queryText1, [order_id]);
 			const order = response.rows[0];
@@ -96,8 +96,8 @@ export default {
 			response = await db.query(queryText2, [parseFloat(price), moment(), order_id]);
 			const updatedOrder = response.rows[0];
 			if (updatedOrder !== null) {
-				updatedOrder.old_price = old_price;
-				updatedOrder.new_price = price;
+				updatedOrder.old_price_offered = old_price;
+				updatedOrder.new_price_offered = price;
 				delete updatedOrder.amount;
 			}
 			res.status(200).send({ status: 200, data: updatedOrder });

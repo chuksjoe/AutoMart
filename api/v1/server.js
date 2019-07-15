@@ -21,8 +21,8 @@ router.delete('/user/:email', util.validateToken, auth.deleteUser);
 
 // for car Ads
 router.post('/car', util.validateToken, multipartMiddleware, cars.createNewCarAd);
-router.get('/car/:car_id', cars.getACar);
-router.get('/car', cars.getAllCars);
+router.get('/car/:car_id', util.validateToken, cars.getACar);
+router.get('/car', util.validateToken, cars.getAllCars);
 router.patch('/car/:car_id/price', util.validateToken, cars.updateCarPrice);
 router.patch('/car/:car_id/status', util.validateToken, cars.updateCarStatus);
 router.delete('/car/:car_id', util.validateToken, cars.deleteACar);

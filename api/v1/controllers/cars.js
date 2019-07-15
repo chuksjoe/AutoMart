@@ -99,46 +99,50 @@ export default {
 	// if filter query is entered, get a filered list of cars depending on the queries.
 	async getAllCars(req, res) {
 		let queryText = 'SELECT * FROM cars';
-		if (req.originalUrl.includes('?')) queryText += ' WHERE price > 0 ';
-		// filter car ads based on price range
-		let { min_price, max_price } = req.query;
-		if (min_price !== undefined || max_price !== undefined) {
-			if (min_price === undefined) min_price = 1000;
-			if (max_price === undefined) max_price = Number.MAX_VALUE;
-			queryText += ` AND price BETWEEN ${parseFloat(min_price)} AND ${parseFloat(max_price)}`;
-		}
-
-		// filter car ads based on car status
-		const { status } = req.query;
-		if (status !== undefined) {
-			queryText += ` AND status = '${status}'`;
-		}
-
-		// filter car ads based on car state
-		const { state } = req.query;
-		if (state !== undefined) {
-			queryText += ` AND state = '${state}'`;
-		}
-
-		// filter car ads based on car manufacturer
-		const { manufacturer } = req.query;
-		if (manufacturer !== undefined) {
-			queryText += ` AND manufacturer = '${manufacturer}'`;
-		}
-
-		// filter car ads based on car body type
-		const { body_type } = req.query;
-		if (body_type !== undefined) {
-			queryText += ` AND body_type = '${body_type}'`;
-		}
-
-		// filter cars for a specific owner
-		const { owner_id } = req.query;
-		if (owner_id !== undefined) {
-			queryText += ` AND owner_id = '${owner_id}'`;
-		}
-		queryText += ' ORDER BY created_on DESC';
 		try {
+			if (!req.originalUrl.includes('?') && (!req.token || (req.token && !req.token.admin))) {
+				throw new ApiError(401, 'Unauthorized Access!');
+			}
+			if (req.originalUrl.includes('?')) queryText += ' WHERE price > 0 ';
+			// filter car ads based on price range
+			let { min_price, max_price } = req.query;
+			if (min_price !== undefined || max_price !== undefined) {
+				if (min_price === undefined) min_price = 1000;
+				if (max_price === undefined) max_price = Number.MAX_VALUE;
+				queryText += ` AND price BETWEEN ${parseFloat(min_price)} AND ${parseFloat(max_price)}`;
+			}
+
+			// filter car ads based on car status
+			const { status } = req.query;
+			if (status !== undefined) {
+				queryText += ` AND status = '${status}'`;
+			}
+
+			// filter car ads based on car state
+			const { state } = req.query;
+			if (state !== undefined) {
+				queryText += ` AND state = '${state}'`;
+			}
+
+			// filter car ads based on car manufacturer
+			const { manufacturer } = req.query;
+			if (manufacturer !== undefined) {
+				queryText += ` AND manufacturer = '${manufacturer}'`;
+			}
+
+			// filter car ads based on car body type
+			const { body_type } = req.query;
+			if (body_type !== undefined) {
+				queryText += ` AND body_type = '${body_type}'`;
+			}
+
+			// filter cars for a specific owner
+			const { owner_id } = req.query;
+			if (owner_id !== undefined) {
+				queryText += ` AND owner_id = '${owner_id}'`;
+			}
+			queryText += ' ORDER BY created_on DESC';
+
 			const { rows } = await db.query(queryText, []);
 			res.status(200).send({ status: 200, data: rows });
 		} catch (err) {
@@ -153,11 +157,15 @@ export default {
 		const { car_id } = req.params;
 		try {
 			const { rows } = await db.query(queryText1, [car_id]);
-			if (!rows[0]) {
+			const [car] = rows;
+			if (!car) {
 				throw new ApiError(404, 'Car not found in database.');
 			}
-			if (req.token.id !== rows[0].owner_id) {
+			if (req.token.id !== car.owner_id) {
 				throw new ApiError(401, 'Unauthorized Access!');
+			}
+			if (car.status === 'Sold') {
+				throw new ApiError(400, 'Car already sold.');
 			}
 			const response = await db.query(queryText2, ['Sold', moment(), car_id]);
 			const [data] = response.rows;
@@ -193,9 +201,9 @@ export default {
 		try {
 			const { car_id } = req.params;
 			const { price } = req.body;
-			if (price === undefined || price === '') {
-				throw new ApiError(400, 'The price offered cannot be null.');
-			}
+			// if (price === undefined || price === '') {
+			// 	throw new ApiError(400, 'The price offered cannot be null.');
+			// }
 			const { rows } = await db.query(queryText1, [car_id]);
 			if (!rows[0]) {
 				throw new ApiError(404, 'Car not found in database.');
