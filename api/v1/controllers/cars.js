@@ -48,8 +48,7 @@ export default {
 			const fuel_cap = req.body.fuel_cap || '0';
 
 			if (req.files === undefined
-				|| req.files.image_url === undefined || req.files.image_url === ''
-				|| req.body.image_url === undefined || req.body.image_url === '') {
+				|| req.files.image_url === undefined || req.files.image_url === '') {
 				const values = [`${state} ${year} ${manufacturer} ${model}`, null, req.token.id,
 				`${first_name} ${last_name.charAt(0)}.`, email, moment(), parseInt(year, 10), state, 'Available',
 				parseFloat(price.toString().replace(/\D/g, '')), manufacturer, model, body_type, fuel_type, parseInt(doors, 10),

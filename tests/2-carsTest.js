@@ -7,7 +7,6 @@ import app from '../api/v1/index';
 // testing the car ad endpoints
 describe('Testing the car sale ads endpoints', () => {
 	const car = {
-		// image_url: 'image-path',
 		// year: 2001,
 		state: 'Used',
 		price: 5500000,
@@ -29,7 +28,6 @@ describe('Testing the car sale ads endpoints', () => {
 		// tinted_windows: false,
 	};
 	const car1 = {
-		image_url: 'image-path',
 		year: 2011,
 		state: 'New',
 		price: 2500000,
@@ -51,7 +49,6 @@ describe('Testing the car sale ads endpoints', () => {
 		tinted_windows: false,
 	};
 	const car2 = {
-		// image_url: 'image-path',
 		year: 2021,
 		state: 'New',
 		price: 1500000,
@@ -73,7 +70,6 @@ describe('Testing the car sale ads endpoints', () => {
 		tinted_windows: false,
 	};
 	const car3 = {
-		image_url: 'image-path',
 		year: 1989,
 		state: 'Used',
 		price: 15000000,
@@ -95,7 +91,6 @@ describe('Testing the car sale ads endpoints', () => {
 		tinted_windows: false,
 	};
 	const car4 = {
-		image_url: 'image-path',
 		year: 1989,
 		state: 'Used',
 		price: 7400000,
@@ -223,7 +218,6 @@ describe('Testing the car sale ads endpoints', () => {
 		.set('Authorization', `Token ${user1Token}`)
     .field('Content-Type', 'multipart/form-data')
     .field(car2)
-		// .attach('image_url', './tests/car-sample-1.jpg')
 		.end((err, res) => {
 			res.should.have.status(201);
 			done();
@@ -235,7 +229,6 @@ describe('Testing the car sale ads endpoints', () => {
 		.set('Authorization', `Token ${user1Token}`)
     .field('Content-Type', 'multipart/form-data')
     .field(car3)
-		.attach('image_url', './tests/car-sample-1.jpg')
 		.end((err, res) => {
 			res.should.have.status(201);
 			done();
