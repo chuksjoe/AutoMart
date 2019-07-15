@@ -118,7 +118,6 @@ describe('Testing the car sale ads endpoints', () => {
 	};
 
 	let adminToken = null;
-	let adminId = null;
 	let user1Token = null;
 	let user1Id = null;
 	let user2Token = null;
@@ -128,8 +127,7 @@ describe('Testing the car sale ads endpoints', () => {
     .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
     .end((err, res) => {
 			adminToken = res.body.data.token;
-			adminId = res.body.data.id;
-      res.status.should.eql(200);
+			res.status.should.eql(200);
       done();
     });
 	});
@@ -294,15 +292,6 @@ describe('Testing the car sale ads endpoints', () => {
 		});
 		done();
 	});
-	it('should return an error if a user tries to view all car ads whether sold or not', (done) => {
-		chai.request(app)
-		.get('/api/v1/car').set('authorization', `Bearer ${user1Token}`)
-		.end((err, res) => {
-			res.should.have.status(401);
-			expect(res.body.error).to.equal('Unauthorized Access!');
-		});
-		done();
-	});
 	it('should filter the list of unsold car ads based on a price range', (done) => {
 		chai.request(app)
 		.get('/api/v1/car?status=Available&min_price=2000000&max_price=18000000')
@@ -390,11 +379,11 @@ describe('Testing the car sale ads endpoints', () => {
 	});
 	it('should return all car ads that belongs to a specific user', (done) => {
 		chai.request(app)
-		.get(`/api/v1/car?owner_id=${adminId}`).set('authorization', `Bearer ${user1Token}`)
+		.get(`/api/v1/car?owner_id=${user1Id}`).set('authorization', `Bearer ${user1Token}`)
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
-			expect(data.length).to.equal(1);
+			expect(data.length).to.equal(4);
 		});
 		done();
 	});
