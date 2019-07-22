@@ -22,75 +22,11 @@ module.exports = {
 		 ${appendLeadZero(date.getDate())} ${months[date.getMonth()]} ${date.getFullYear()}, ${time}`;
 	},
 
-	hashPassword: (password, saltRound) => bcrypt.hashSync(password, saltRound),
-
-	encodeToken: (email, id, admin) => {
-		const token = { email, id, admin };
+	encodeToken: (email, id, isAdmin) => {
+		const token = { email, id, isAdmin };
 		const option = { expiresIn: '1d', issuer: 'automart' };
 		const secret = process.env.JWT_SECRET;
 		return jwt.sign(token, secret, option);
-	},
-
-	validateToken: (req, res, next) => {
-		try {
-			if (!(req.headers && req.headers.authorization)) {
-				throw new ApiError(401, 'Ensure you are logged in.');
-			}
-			const authorizationHeader = req.headers.authorization;
-			if (!authorizationHeader) {
-				throw new ApiError(401, 'Your token has expired. Please, re-login.');
-			}
-			const token = req.headers.authorization.split(' ')[1];
-			const options = { expiresIn: '1d', issuer: 'automart'	};
-			try {
-				// add new property to the req object to hold the token that
-				// will be used in the controller functions to verify users.
-				req.token = jwt.verify(token, process.env.JWT_SECRET, options);
-				next();
-			}	catch (err) {
-				const msg = err.message.charAt(0).toUpperCase() + err.message.slice(1);
-				throw new ApiError(401, `${msg}. Please, re-login.`);
-			}
-		} catch (error) {
-			res.status(error.statusCode)
-			.send({ status: error.statusCode, error: error.message });
-		}
-		return 0;
-	},
-
-	validateUserRegForm: (req_body) => {
-		const errorFields = [];
-		const {
-			first_name, last_name, email, password, phone,
-		} = req_body;
-		if (first_name === undefined || first_name === '') errorFields.push('fname');
-		if (last_name === undefined || last_name === '') errorFields.push('lname');
-		if (email === undefined || email === '') errorFields.push('no-email');
-		else if (!(/\S+@\S+\.\S+/.test(email))) {
-			errorFields.push('bad-email');
-		}
-		if (password.length === undefined || password.length < 8) errorFields.push('short-pass');
-		else if (password.search(/\d/) < 0) errorFields.push('no-digit-in-pass');
-		else if (password.search(/[!@#$%^&*(),.?":{}|<>]/) < 0) errorFields.push('no-special-in-pass');
-		if (phone	!== '') {
-			if (phone.length < 10) errorFields.push('phone');
-		}
-		return errorFields;
-	},
-
-	validateNewPostForm: (req_body) => {
-		const errorFields = [];
-		if (req_body.manufacturer === undefined || req_body.manufacturer === '') {
-			errorFields.push('manufacturer');
-		}
-		if (req_body.model === undefined || req_body.model === '') errorFields.push('model');
-		if (req_body.body_type === undefined || req_body.body_type === '') {
-			errorFields.push('body_type');
-		}
-		if (req_body.price === undefined || req_body.price === '') errorFields.push('price');
-		if (req_body.state === undefined || req_body.state === '') errorFields.push('state');
-
-		return errorFields;
 	},
 
 	sendMail: (mailOption) => {
@@ -109,5 +45,24 @@ module.exports = {
 		} catch (err) {
 			throw new ApiError(500, err.message);
 		}
+	},
+	validateNewPostForm: (reqBody) => {
+		const errorFields = [];
+		const {
+			manufacturer, model, body_type, price, state,
+		} = reqBody;
+		if (manufacturer === undefined || manufacturer === '') {
+			errorFields.push('manufacturer');
+		}
+		if (model === undefined || model === '') errorFields.push('model');
+		if (body_type === undefined || body_type === '') {
+			errorFields.push('body_type');
+		}
+		if (price === undefined || price === '') errorFields.push('price');
+		if (state === undefined || state === '') errorFields.push('state');
+		if (errorFields.length > 0) {
+			throw new ApiError(206, 'Some required fields are not properly filled.');
+		}
+		return errorFields;
 	},
 };

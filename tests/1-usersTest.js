@@ -174,14 +174,23 @@ describe('Testing User endpoints', () => {
 		zip: '234-001',
 	};
 
+	let adminToken = null;
+	let adminId = null;
+	let user1Token = null;
+	let user2Token = null;
+	let user2Id = null;
+
 	it('should create new user-1 account when valid entries are supplied', (done) => {
 		chai.request(app)
 		.post('/api/v1/auth/signup').send(user1)
 		.end((err, res) => {
+			const { data } = res.body;
+			adminToken = data.token;
+			adminId = data.id;
       expect(res).to.have.status(201);
-      expect(res.body.data).to.include({
-        id: res.body.data.id,
-        token: res.body.data.token,
+      expect(data).to.include({
+        id: adminId,
+        token: adminToken,
         email: 'chuksjos@live.com',
         first_name: 'ChuksJoe',
       });
@@ -192,7 +201,8 @@ describe('Testing User endpoints', () => {
 		chai.request(app)
 		.post('/api/v1/auth/signup').send(user2)
 		.end((err, res) => {
-      expect(res).to.have.status(201);
+			user1Token = res.body.data.token;
+			expect(res).to.have.status(201);
       done();
     });
 	});
@@ -200,6 +210,8 @@ describe('Testing User endpoints', () => {
 		chai.request(app)
 		.post('/api/v1/auth/signup').send(user3)
 		.end((err, res) => {
+			user2Token = res.body.data.token;
+			user2Id = res.body.data.id;
       expect(res).to.have.status(201);
       done();
     });
@@ -237,15 +249,15 @@ describe('Testing User endpoints', () => {
 	// testing the api endpoint for user sign in
 	it('should allow a user to sign into their account if they supply valid credentials', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
+		.post('/api/v1/auth/signin').type('form').send({ email: 'edet@live.com', password: 'testing@123' })
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
 			expect(data).to.include({
         id: data.id,
         token: data.token,
-        email: 'chuksjos@live.com',
-        first_name: 'ChuksJoe',
+        email: 'edet@live.com',
+        first_name: 'Edet',
       });
 			done();
 		});
@@ -268,70 +280,79 @@ describe('Testing User endpoints', () => {
 			done();
 		});
 	});
+	it('should not allow a user to sign in if no email is supplied', (done) => {
+		chai.request(app)
+		.post('/api/v1/auth/signin').type('form').send({ email: '', password: 'fffvffss' })
+		.end((err, res) => {
+			res.should.have.status(206);
+			expect(res.body.error).to.equal('email field cannot be empty.');
+			done();
+		});
+	});
+	it('should not allow a user to sign in if no password is supplied', (done) => {
+		chai.request(app)
+		.post('/api/v1/auth/signin').type('form').send({ email: 'chukswho@live.com', password: '' })
+		.end((err, res) => {
+			res.should.have.status(206);
+			expect(res.body.error).to.equal('password field cannot be empty.');
+			done();
+		});
+	});
 
 	// testing the endpoint that returns list of all registered users
 	it('should return list of all registered users if the user is an admin', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
-    .end((error, response) => {
-			chai.request(app)
-			.get('/api/v1/user').set('authorization', `Bearer ${response.body.data.token}`)
-			.end((err, res) => {
-				const { data } = res.body;
-				res.should.have.status(200);
-				expect(data.length).to.equal(4);
-				data[0].should.have.property('is_admin');
-				data[0].should.have.property('first_name');
-				data[0].should.have.property('last_name');
-				done();
-			});
-      response.status.should.eql(200);
-    });
+		.get('/api/v1/user').set('authorization', `Bearer ${adminToken}`)
+		.end((err, res) => {
+			const { data } = res.body;
+			res.should.have.status(200);
+			expect(data.length).to.equal(4);
+			data[0].should.have.property('is_admin');
+			data[0].should.have.property('first_name');
+			data[0].should.have.property('last_name');
+			done();
+		});
 	});
 	it('should not return list of all registered users if the user is not an admin', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
-    .end((error, response) => {
-			chai.request(app)
-			.get('/api/v1/user').set('authorization', `Bearer ${response.body.data.token}`)
-			.end((err, res) => {
-				res.should.have.status(401);
-				expect(res.body.error).to.equal('Unauthorized Access!');
-				done();
-			});
-      response.status.should.eql(200);
-    });
+		.get('/api/v1/user').set('authorization', `Bearer ${user1Token}`)
+		.end((err, res) => {
+			res.should.have.status(401);
+			expect(res.body.error).to.equal('Unauthorized Access. Reserved only for admins.');
+			done();
+		});
 	});
 
 	// testing the endpoint for getting a user's details
 	it('should return details of a registered user', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
-    .end((error, response) => {
-			chai.request(app)
-			.get('/api/v1/user').set('authorization', `Bearer ${response.body.data.token}`)
-			.end((err, res) => {
-				const user_id = res.body.data[0].id;
-				chai.request(app)
-				.get(`/api/v1/user/${user_id}`)
-				.end((e, r) => {
-					r.should.have.status(200);
-					const { data } = r.body;
-					data.should.have.property('is_admin');
-					data.should.have.property('first_name');
-					data.should.have.property('last_name');
-				});
-				done();
-			});
-      response.status.should.eql(200);
-    });
+		.get(`/api/v1/user/${user2Id}`).set('authorization', `Bearer ${user1Token}`)
+		.end((err, res) => {
+			res.should.have.status(200);
+			const { data } = res.body;
+			data.should.have.property('is_admin');
+			data.should.have.property('first_name');
+			data.should.have.property('last_name');
+		});
+		done();
 	});
-	it('should an error if the user does not exist', (done) => {
+	it('should return an error if the user does not exist', (done) => {
 		chai.request(app)
-		.post('/api/v1/user/fake@yahoo.com/reset_password')
+		.get('/api/v1/user/544544')
+		.set('authorization', `Bearer ${adminToken}`)
 		.end((err, res) => {
 			res.should.have.status(404);
-			expect(res.body.error).to.equal('User with the email fake@yahoo.com does not exist.');
+			expect(res.body.error).to.equal('User not found in database.');
+			done();
+		});
+	});
+	it('should return an error if the user id is not an integer', (done) => {
+		chai.request(app)
+		.get('/api/v1/user/544544dddc')
+		.set('authorization', `Bearer ${adminToken}`)
+		.end((err, res) => {
+			res.should.have.status(400);
+			expect(res.body.error).to.equal('Invalid User ID.');
 			done();
 		});
 	});
@@ -350,7 +371,7 @@ describe('Testing User endpoints', () => {
 		chai.request(app)
 		.post('/api/v1/user/edet@live.com/reset_password').send({ password: 'wrongPass', new_password: 'this1wontenter' })
 		.end((err, res) => {
-			res.should.have.status(206);
+			res.should.have.status(400);
 			expect(res.body.error).to.equal('Incorrect password!');
 			done();
 		});
@@ -375,127 +396,87 @@ describe('Testing User endpoints', () => {
 	// testing api endpoint for updating user's details
 	it('should not allow a user to update another user\'s details', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'tolu@live.com', password: 'testing@123' })
-    .end((error, response) => {
-			chai.request(app)
-			.patch('/api/v1/user/emma@live.com/update_details')
-			.set('Authorization', `Token ${response.body.data.token}`)
-			.end((err, res) => {
-				res.should.have.status(401);
-				expect(res.body.error).to.equal('Unauthorized Access!');
-				done();
-			});
-      response.status.should.eql(200);
-    });
+		.patch('/api/v1/user/emma@live.com/update_details')
+		.set('Authorization', `Token ${user2Token}`)
+		.end((err, res) => {
+			res.should.have.status(401);
+			expect(res.body.error).to.equal('Unauthorized Access. Reserved only for resource owner or an admin.');
+			done();
+		});
 	});
 	it('should return an error message if the email is not registered', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
-    .end((error, response) => {
-			chai.request(app)
-			.patch('/api/v1/user/toluf@live.com/update_details')
-			.set('Authorization', `Token ${response.body.data.token}`)
-			.end((err, res) => {
-				res.should.have.status(404);
-				expect(res.body.error).to.equal('User with the email toluf@live.com does not exist.');
-				done();
-			});
-      response.status.should.eql(200);
-    });
+		.patch('/api/v1/user/toluf@live.com/update_details')
+		.set('Authorization', `Token ${adminToken}`)
+		.end((err, res) => {
+			res.should.have.status(404);
+			expect(res.body.error).to.equal('User not found in database.');
+			done();
+		});
 	});
 	it('should return an error message if a user tries to upgrade him/herslef to an admin', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
-    .end((error, response) => {
-			chai.request(app)
-			.patch('/api/v1/user/emma@live.com/update_details')
-			.set('Authorization', `Token ${response.body.data.token}`)
-			.send({ is_admin: true })
-			.end((err, res) => {
-				res.should.have.status(401);
-				expect(res.body.error).to.equal('Unauthorized Access! Reserved for admins only');
-				done();
-			});
-      response.status.should.eql(200);
-    });
+		.patch('/api/v1/user/emma@live.com/update_details')
+		.set('Authorization', `Token ${user1Token}`)
+		.send({ is_admin: true })
+		.end((err, res) => {
+			res.should.have.status(401);
+			expect(res.body.error).to.equal('Unauthorized Access. Reserved only for admins.');
+			done();
+		});
 	});
 	it('should return an error message if the new phone number is invalid', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
-    .end((error, response) => {
-			chai.request(app)
-			.patch('/api/v1/user/emma@live.com/update_details')
-			.set('Authorization', `Token ${response.body.data.token}`)
-			.send({ phone: '089free0000000' })
-			.end((err, res) => {
-				res.should.have.status(400);
-				expect(res.body.error).to.equal('Your phone number is badly formed.');
-				done();
-			});
-      response.status.should.eql(200);
-    });
+		.patch('/api/v1/user/emma@live.com/update_details')
+		.set('Authorization', `Token ${user1Token}`)
+		.send({ phone: '089free0000000' })
+		.end((err, res) => {
+			res.should.have.status(400);
+			expect(res.body.error).to.equal('Your phone number is badly formed.');
+			done();
+		});
 	});
 	it('should successfully update a user\'s details if no rule is bridged', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
-    .end((error, response) => {
-			chai.request(app)
-			.patch('/api/v1/user/emma@live.com/update_details')
-			.set('Authorization', `Token ${response.body.data.token}`)
-			.send({ phone: '08089000000', street: '4 Zamba street', city: 'Surulere' })
-			.end((err, res) => {
-				res.should.have.status(200);
-				expect(res.body.data.phone).to.equal('08089000000');
-				done();
-			});
-      response.status.should.eql(200);
-    });
+		.patch('/api/v1/user/emma@live.com/update_details')
+		.set('Authorization', `Token ${user1Token}`)
+		.send({ phone: '08089000000', street: '4 Zamba street', city: 'Surulere' })
+		.end((err, res) => {
+			res.should.have.status(200);
+			expect(res.body.data.phone).to.equal('08089000000');
+			done();
+		});
 	});
 
 	// testing api endpoint for deleting a user's account
 	it('should return an error message if the user is not an admin or account owner', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'emma@live.com', password: 'testing@123' })
-    .end((error, response) => {
-			chai.request(app)
-			.delete('/api/v1/user/tolu@live.com')
-			.set('Authorization', `Token ${response.body.data.token}`)
-			.end((err, res) => {
-				res.should.have.status(401);
-				expect(res.body.error).to.equal('Unauthorized Access!');
-				done();
-			});
-      response.status.should.eql(200);
-    });
+		.delete('/api/v1/user/tolu@live.com')
+		.set('Authorization', `Token ${user1Token}`)
+		.end((err, res) => {
+			res.should.have.status(401);
+			expect(res.body.error).to.equal('Unauthorized Access. Reserved only for resource owner or an admin.');
+			done();
+		});
 	});
 	it('should return an error message if the user does not exist', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
-    .end((error, response) => {
-			chai.request(app)
-			.delete('/api/v1/user/tolufass@live.com')
-			.set('Authorization', `Token ${response.body.data.token}`)
-			.end((err, res) => {
-				res.should.have.status(404);
-				expect(res.body.error).to.equal('User with the email (tolufass@live.com) not found in database.');
-				done();
-			});
-      response.status.should.eql(200);
-    });
+		.delete('/api/v1/user/tolufass@live.com')
+		.set('Authorization', `Token ${adminToken}`)
+		.end((err, res) => {
+			res.should.have.status(404);
+			expect(res.body.error).to.equal('User not found in database.');
+			done();
+		});
 	});
 	it('should successfully delete a user\'s account as an admin', (done) => {
 		chai.request(app)
-		.post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
-    .end((error, response) => {
-			chai.request(app)
-			.delete('/api/v1/user/edet@live.com')
-			.set('Authorization', `Token ${response.body.data.token}`)
-			.end((err, res) => {
-				res.should.have.status(200);
-				expect(res.body.data).to.equal('User (Edet Akpan) successfully deleted.');
-				done();
-			});
-      response.status.should.eql(200);
-    });
+		.delete('/api/v1/user/edet@live.com')
+		.set('Authorization', `Token ${adminToken}`)
+		.end((err, res) => {
+			res.should.have.status(200);
+			expect(res.body.data).to.equal('User (Edet Akpan) successfully deleted.');
+			done();
+		});
 	});
 });
