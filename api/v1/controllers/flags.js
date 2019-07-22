@@ -72,14 +72,14 @@ export default {
 		const queryText1 = 'SELECT name, owner_id FROM cars WHERE id = $1';
 		const queryText2 = 'SELECT * FROM flags WHERE car_id = $1 ORDER BY created_on DESC';
 		try {
-			const { id, admin } = req.token;
+			const { id, isAdmin } = req.token;
 			const { car_id } = req.params;
 			const response = await db.query(queryText1, [car_id]);
 			const car = response.rows[0];
 			if (!car) {
 				throw new ApiError(404, 'Car does not exist!');
 			}
-			if (car.owner_id !== id && !admin) {
+			if (car.owner_id !== id && !isAdmin) {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
 			const { rows } = await db.query(queryText2, [car_id]);
@@ -97,7 +97,7 @@ export default {
 			const { flag_id } = req.params;
 			const response = await db.query(queryText1, [flag_id]);
 			let flag = response.rows[0];
-			if (!req.token.admin) {
+			if (!req.token.isAdmin) {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
 			if (!flag) {
@@ -139,9 +139,9 @@ export default {
 		const queryText1 = 'SELECT car_name, owner FROM flags WHERE id = $1';
 		const queryText2 = 'DELETE FROM flags WHERE id = $1';
 		const { flag_id } = req.params;
-		const { admin } = req.token;
+		const { isAdmin } = req.token;
 		try {
-			if (!admin) {
+			if (!isAdmin) {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
 			const { rows } = await db.query(queryText1, [flag_id]);

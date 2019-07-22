@@ -222,14 +222,14 @@ export default {
 		const queryText3 = 'SELECT num_of_ads FROM users WHERE id = $1';
 		const queryText4 = 'UPDATE users SET num_of_ads = $1 WHERE id = $2';
 		const { car_id } = req.params;
-		const { id, admin } = req.token;
+		const { id, isAdmin } = req.token;
 		try {
 			const { rows } = await db.query(queryText1, [car_id]);
 			if (!rows[0]) {
 				throw new ApiError(404, 'Car not found in database.');
 			}
 			const { owner_id, name, image_url } = rows[0];
-			if (id !== owner_id && !admin) {
+			if (id !== owner_id && !isAdmin) {
 				throw new ApiError(401, 'Unauthorized Access!');
 			}
 			await db.query(queryText2, [car_id]); // delete the car ad from database
