@@ -1,8 +1,9 @@
 import moment from 'moment';
 
-import db from '../db/index';
-import util from '../helpers/utils';
 import ApiError from '../helpers/ApiError';
+import validator from '../helpers/validators';
+import queryText from '../db/queryText';
+import db from '../db/index';
 
 const cloudinary = require('cloudinary').v2;
 const debug = require('debug')('http');
@@ -16,26 +17,11 @@ cloudinary.config({
 export default {
 	// create a new car Ad and add it to car ads list
 	async createNewCarAd(req, res) {
-		const queryText1 = 'SELECT first_name, last_name, email, num_of_ads FROM users WHERE id = $1';
-		const queryText2 = `INSERT INTO
-		cars (name, image_url, owner_id, owner, email, created_on, year, state, status,
-		price, manufacturer, model, body_type, fuel_type, doors, fuel_cap, mileage, color,
-		transmission_type, description, ac, arm_rest, air_bag, dvd_player, fm_radio, tinted_windows)
-		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15,
-		$16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26) RETURNING *`;
-		const queryText3 = 'UPDATE users SET num_of_ads = $1 WHERE id = $2';
 		try {
-			const { rows } = await db.query(queryText1, [req.token.id]);
-			const owner = rows[0];
-			if (!owner) {
-				throw new ApiError(401, 'Unauthorized Access!');
-			}
-			if (util.validateNewPostForm(req.body).length > 0) {
-				throw new ApiError(206, 'Some required fields are not properly filled.');
-			}
+			const { rows } = await db.query(queryText.getUserById, [req.token.id]);
 			const {
 				first_name, last_name, email, num_of_ads,
-			} = owner;
+			} = rows[0];
 			const {
 				state, price, manufacturer, transmission_type,
 				model, body_type, fuel_type, description,
@@ -55,10 +41,10 @@ export default {
 				parseInt(fuel_cap, 10), parseInt(mileage.toString().replace(/\D/g, ''), 10), color, transmission_type,
 				description, ac, arm_rest, air_bag, dvd_player, fm_radio, tinted_windows];
 
-				const data = await db.query(queryText2, values);
+				const data = await db.query(queryText.createCar, values);
 				res.status(201).send({ status: 201, data: data.rows[0] });
 
-				await db.query(queryText3, [num_of_ads + 1, req.token.id]);
+				await db.query(queryText.updateUserOnAdPost, [num_of_ads + 1, req.token.id]);
 			} else {
 				cloudinary.uploader.upload(req.files.image_url.path, {
 					tags: 'auto-mart',
@@ -76,10 +62,10 @@ export default {
 					parseInt(fuel_cap, 10), parseInt(mileage.toString().replace(/\D/g, ''), 10), color, transmission_type,
 					description, ac, arm_rest, air_bag, dvd_player, fm_radio, tinted_windows];
 
-					const data = await db.query(queryText2, values);
+					const data = await db.query(queryText.createCar, values);
 					res.status(201).send({ status: 201, data: data.rows[0] });
 
-					await db.query(queryText3, [num_of_ads + 1, req.token.id]);
+					await db.query(queryText.updateUserOnAdPost, [num_of_ads + 1, req.token.id]);
 				})
 				.catch((err) => {
 					if (err) {
@@ -97,73 +83,79 @@ export default {
 	// get all cars whether sold or unsold if user is admin, else get all unsold cars
 	// if filter query is entered, get a filered list of cars depending on the queries.
 	async getAllCars(req, res) {
-		let queryText = 'SELECT * FROM cars';
+		let query = queryText.getAllCars;
 		try {
-			if (req.originalUrl.includes('?')) queryText += ' WHERE price > 0 ';
+			if (req.originalUrl.includes('?')) query += ' WHERE price > 0 ';
 			// filter car ads based on price range
 			let { min_price, max_price } = req.query;
 			if (min_price !== undefined || max_price !== undefined) {
 				if (min_price === undefined) min_price = 1000;
 				if (max_price === undefined) max_price = Number.MAX_VALUE;
-				queryText += ` AND price BETWEEN ${parseFloat(min_price)} AND ${parseFloat(max_price)}`;
+				query += ` AND price BETWEEN ${parseFloat(min_price)} AND ${parseFloat(max_price)}`;
 			}
 
 			// filter car ads based on car status
 			const { status } = req.query;
 			if (status !== undefined) {
-				queryText += ` AND status = '${status}'`;
+				query += ` AND status = '${status}'`;
 			}
 
 			// filter car ads based on car state
 			const { state } = req.query;
 			if (state !== undefined) {
-				queryText += ` AND state = '${state}'`;
+				query += ` AND state = '${state}'`;
 			}
 
 			// filter car ads based on car manufacturer
 			const { manufacturer } = req.query;
 			if (manufacturer !== undefined) {
-				queryText += ` AND manufacturer = '${manufacturer}'`;
+				query += ` AND manufacturer = '${manufacturer}'`;
 			}
 
 			// filter car ads based on car body type
 			const { body_type } = req.query;
 			if (body_type !== undefined) {
-				queryText += ` AND body_type = '${body_type}'`;
+				query += ` AND body_type = '${body_type}'`;
 			}
 
 			// filter cars for a specific owner
 			const { owner_id } = req.query;
 			if (owner_id !== undefined) {
-				queryText += ` AND owner_id = '${owner_id}'`;
+				query += ` AND owner_id = '${owner_id}'`;
 			}
-			queryText += ' ORDER BY created_on DESC';
+			query += ' ORDER BY created_on DESC';
 
-			const { rows } = await db.query(queryText, []);
+			const { rows } = await db.query(query, []);
 			res.status(200).send({ status: 200, data: rows });
 		} catch (err) {
 			res.status(err.statusCode || 501)
 			.send({ status: err.statusCode, error: err.message });
 		}
 	},
+	// get a specific car give the car id
+	async getACar(req, res) {
+		try {
+			const { car_id } = req.params;
+			validator.validateResourceId(car_id, 'Car');
+			const { rows } = await db.query(queryText.getCar, [car_id]);
+			validator.validateResource(rows[0], 'Car');
+			res.status(200).send({ status: 200, data: rows[0] });
+		} catch (err) {
+			res.status(err.statusCode || 500)
+			.send({ status: err.statusCode, error: err.message });
+		}
+	},
 	// it's only the owner of a sale ad that can update the price of a posted ad
 	async updateCarStatus(req, res) {
-		const queryText1 = 'SELECT status, owner_id FROM cars WHERE id = $1';
-		const queryText2 = 'UPDATE cars SET status = $1, last_modified = $2 WHERE id = $3 RETURNING *';
-		const { car_id } = req.params;
 		try {
-			const { rows } = await db.query(queryText1, [car_id]);
+			const { car_id } = req.params;
+			validator.validateResourceId(car_id, 'Car');
+			const { rows } = await db.query(queryText.getCar, [car_id]);
 			const [car] = rows;
-			if (!car) {
-				throw new ApiError(404, 'Car not found in database.');
-			}
-			if (req.token.id !== car.owner_id) {
-				throw new ApiError(401, 'Unauthorized Access!');
-			}
-			if (car.status === 'Sold') {
-				throw new ApiError(400, 'Car already sold.');
-			}
-			const response = await db.query(queryText2, ['Sold', moment(), car_id]);
+			validator.validateResource(car, 'Car');
+			validator.validateOwner(req.token.id === car.owner_id);
+			validator.validateCarStatus(car.status === 'Sold');
+			const response = await db.query(queryText.updateCarStatus, ['Sold', moment(), car_id]);
 			const [data] = response.rows;
 			res.status(200).send({
 				status: 200,
@@ -175,39 +167,18 @@ export default {
 			.send({ status: err.statusCode, error: err.message });
 		}
 	},
-	// get a specific car give the car id
-	async getACar(req, res) {
-		const queryText = 'SELECT * FROM cars WHERE id = $1';
-		const { car_id } = req.params;
-		try {
-			const { rows } = await db.query(queryText, [car_id]);
-			if (!rows[0]) {
-				throw new ApiError(404, 'Car not found in database.');
-			}
-			res.status(200).send({ status: 200, data: rows[0] });
-		} catch (err) {
-			res.status(err.statusCode || 500)
-			.send({ status: err.statusCode, error: err.message });
-		}
-	},
 	// it's only the owner of a sale ad that can update the price of a posted ad
 	async updateCarPrice(req, res) {
-		const queryText1 = 'SELECT status, owner_id FROM cars WHERE id = $1';
-		const queryText2 = 'UPDATE cars SET price = $1, last_modified = $2 WHERE id = $3 RETURNING *';
 		try {
 			const { car_id } = req.params;
+			validator.validateResourceId(car_id, 'Car');
 			const { price } = req.body;
-			if (price === undefined || price === '') {
-				throw new ApiError(400, 'The price offered cannot be null.');
-			}
-			const { rows } = await db.query(queryText1, [car_id]);
-			if (!rows[0]) {
-				throw new ApiError(404, 'Car not found in database.');
-			}
-			if (req.token.id !== rows[0].owner_id) {
-				throw new ApiError(401, 'Unauthorized Access!');
-			}
-			const response = await db.query(queryText2, [parseFloat(price), moment(), car_id]);
+			validator.validatePrice(price);
+			const { rows } = await db.query(queryText.getCar, [car_id]);
+			validator.validateResource(rows[0], 'Car');
+			validator.validateOwner(req.token.id === rows[0].owner_id);
+			const values = [parseFloat(price), moment(), car_id];
+			const response = await db.query(queryText.updateCarPrice, values);
 			const [data] = response.rows;
 			res.status(200).send({ status: 200,	data });
 		}	catch (err) {
@@ -217,25 +188,19 @@ export default {
 	},
 	// it's only the owner of a sale ad or an admin that can delete a posted ad
 	async deleteACar(req, res) {
-		const queryText1 = 'SELECT name, owner_id, image_url FROM cars WHERE id = $1';
-		const queryText2 = 'DELETE FROM cars WHERE id = $1';
-		const queryText3 = 'SELECT num_of_ads FROM users WHERE id = $1';
-		const queryText4 = 'UPDATE users SET num_of_ads = $1 WHERE id = $2';
-		const { car_id } = req.params;
-		const { id, isAdmin } = req.token;
 		try {
-			const { rows } = await db.query(queryText1, [car_id]);
-			if (!rows[0]) {
-				throw new ApiError(404, 'Car not found in database.');
-			}
+			const { car_id } = req.params;
+			validator.validateResourceId(car_id, 'Car');
+			const { id, isAdmin } = req.token;
+			const { rows } = await db.query(queryText.getCar, [car_id]);
+			validator.validateResource(rows[0], 'Car');
 			const { owner_id, name, image_url } = rows[0];
-			if (id !== owner_id && !isAdmin) {
-				throw new ApiError(401, 'Unauthorized Access!');
-			}
-			await db.query(queryText2, [car_id]); // delete the car ad from database
-			const response = await db.query(queryText3, [owner_id]);
+			validator.validateOwnerOrAdmin(id === owner_id || isAdmin);
+
+			await db.query(queryText.deleteCar, [car_id]); // delete the car ad from database
+			const response = await db.query(queryText.getUserById, [owner_id]);
 			const [user] = response.rows;
-			await db.query(queryText4, [user.num_of_ads - 1, owner_id]);
+			await db.query(queryText.updateUserOnAdDelete, [user.num_of_ads - 1, owner_id]);
 			if (image_url !== null) {
 				let file_name = image_url.slice(image_url.indexOf('uploads/'));
 				file_name = file_name.slice(0, file_name.indexOf('.'));

@@ -1,10 +1,8 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import moment from 'moment';
 
 import ApiError from './ApiError';
 import db from '../db/index';
-import utils from './utils';
 import queryText from '../db/queryText';
 
 export default {
@@ -158,6 +156,7 @@ export default {
 			throw new ApiError(400, 'Your phone number is badly formed.');
 		}
 	},
+
 	validateNewPostForm: (req, res, next) => {
 		try {
 			const errorFields = [];
@@ -182,5 +181,14 @@ export default {
 			.send({ status: error.statusCode, error: error.message });
 		}
 	},
-
+	validateCarStatus(isSold) {
+		if (isSold) {
+			throw new ApiError(400, 'Car already sold.');
+		}
+	},
+	validatePrice(price) {
+		if (price === undefined || price === '') {
+			throw new ApiError(400, 'The price offered cannot be null.');
+		}
+	},
 };
