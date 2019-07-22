@@ -408,7 +408,7 @@ describe('Testing the car sale ads endpoints', () => {
 			.patch(`/api/v1/car/${car_id}/status`).set('authorization', `Bearer ${adminToken}`)
 			.end((err, res) => {
 				res.should.have.status(401);
-				expect(res.body.error).to.equal('Unauthorized Access!');
+				expect(res.body.error).to.equal('Unauthorized Access. Reserved only for resource owner.');
 				done();
 			});
 		});
@@ -473,7 +473,7 @@ describe('Testing the car sale ads endpoints', () => {
 			.send({ price: 20000000 })
 			.end((err, res) => {
 				res.should.have.status(401);
-				expect(res.body.error).to.equal('Unauthorized Access!');
+				expect(res.body.error).to.equal('Unauthorized Access. Reserved only for resource owner.');
 				done();
 			});
 		});
@@ -488,7 +488,7 @@ describe('Testing the car sale ads endpoints', () => {
 			done();
 		});
 	});
-	/* it('should not update the price of the car sale ad if the price is undefined', (done) => {
+	it('should not update the price of the car sale ad if the price is undefined', (done) => {
 		chai.request(app)
 		.get('/api/v1/car').set('authorization', `Bearer ${adminToken}`)
 		.end((err1, res1) => {
@@ -497,12 +497,12 @@ describe('Testing the car sale ads endpoints', () => {
 			.patch(`/api/v1/car/${car_id}/price`).set('authorization', `Bearer ${adminToken}`)
 			.send({ price: undefined })
 			.end((err, res) => {
-				res.should.have.status(206);
+				res.should.have.status(400);
 				expect(res.body.error).to.equal('The price offered cannot be null.');
 				done();
 			});
 		});
-	}); */
+	});
 
 	// testing the endpoint for deleting car ad
 	it('should delete a car sale ad if the user is the owner', (done) => {
@@ -542,7 +542,7 @@ describe('Testing the car sale ads endpoints', () => {
 			.delete(`/api/v1/car/${car_id}`).set('authorization', `Bearer ${user2Token}`)
 			.end((err, res) => {
 				res.should.have.status(401);
-				expect(res.body.error).to.equal('Unauthorized Access!');
+				expect(res.body.error).to.equal('Unauthorized Access. Reserved only for resource owner or an admin.');
 				done();
 			});
 		});

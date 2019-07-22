@@ -20,7 +20,7 @@ router.patch('/user/:email/update_details', validator.validateToken, auth.update
 router.delete('/user/:email', validator.validateToken, auth.deleteUser);
 
 // for car Ads
-router.post('/car', validator.validateToken, multipartMiddleware, cars.createNewCarAd);
+router.post('/car', validator.validateToken, multipartMiddleware, validator.validateNewPostForm, cars.createNewCarAd);
 router.get('/car/:car_id', validator.validateToken, cars.getACar);
 router.get('/car', validator.validateToken, cars.getAllCars);
 router.patch('/car/:car_id/price', validator.validateToken, cars.updateCarPrice);
