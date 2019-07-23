@@ -24,7 +24,7 @@ export default {
 
 			const { rows } = await db.query(queryText.createUser, values);
 			const token = utils.encodeToken(rows[0].email, rows[0].id, rows[0].is_admin);
-			const data = rows[0];
+			const [data] = rows;
 
 			delete data.password;
 			data.token = token;
@@ -71,7 +71,7 @@ export default {
 			validator.validateResourceId(user_id, 'User');
 			const { rows } = await db.query(queryText.getUserById, [user_id]);
 			validator.validateResource(rows[0], 'User');
-			const data = rows[0];
+			const [data] = rows;
 			delete data.password;
 			res.status(200).send({ status: 200, data });
 		} catch (err) {
@@ -110,16 +110,17 @@ export default {
 			validator.validateOwnerOrAdmin(req.token.isAdmin || req.token.email === email);
 			validator.validatePhoneNo(req.body.phone);
 			response = await db.query(queryText.getUserByEmail, [email]);
-			validator.validateResource(response.rows[0], 'User');
+			const [user] = response.rows;
+			validator.validateResource(user, 'User');
 			const {
 				street, city, state, country, phone, zip, is_admin,
-			} = response.rows[0];
+			} = user;
 			const values = [req.body.street || street, req.body.city || city, req.body.state || state,
 			req.body.country || country, req.body.phone || phone, req.body.zip || zip,
 			req.body.is_admin || is_admin, moment(), email];
 
 			response = await db.query(queryText.updateUserInfo, values);
-			const data = response.rows[0];
+			const [data] = response.rows;
 			delete data.password;
 			res.status(200).send({ status: 200, data });
 		} catch (err) {
@@ -132,8 +133,9 @@ export default {
 			const { email } = req.params;
 			validator.validateOwnerOrAdmin(req.token.isAdmin || req.token.email === email);
 			const { rows } = await db.query(queryText.getUserByEmail, [email]);
-			validator.validateResource(rows[0], 'User');
-			const { first_name, last_name } = rows[0];
+			const [user] = rows;
+			validator.validateResource(user, 'User');
+			const { first_name, last_name } = user;
 			await db.query(queryText.deleteUser, [email]);
 			res.status(200).json({
 				status: 200,

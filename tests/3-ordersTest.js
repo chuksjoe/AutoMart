@@ -128,8 +128,8 @@ describe('Tests for the orders api endpoints', () => {
 			.post('/api/v1/order').set('authorization', `Bearer ${user2Token}`)
 			.send({ car_id, buyer_id: user2Id, amount: 1400000 })
 			.end((err, res) => {
-				res.should.have.status(401);
-				expect(res.body.error).to.equal('Unauthorized Access!');
+				res.should.have.status(400);
+				expect(res.body.error).to.equal('Car already sold.');
 				done();
 			});
 		});
@@ -158,7 +158,7 @@ describe('Tests for the orders api endpoints', () => {
 		.send({ car_id: 335453554, buyer_id: user1Id, amount: 1400000 })
 		.end((err, res) => {
 			res.should.have.status(404);
-			expect(res.body.error).to.equal('Car does not exist!');
+			expect(res.body.error).to.equal('Car not found in database.');
 			done();
 		});
 	});
@@ -227,7 +227,7 @@ describe('Tests for the orders api endpoints', () => {
 		.patch('/api/v1/order/566554/accept').set('authorization', `Bearer ${user1Token}`)
 		.end((err, res) => {
 			res.should.have.status(404);
-			expect(res.body.error).to.equal('Purchase order not found in database.');
+			expect(res.body.error).to.equal('Order not found in database.');
 			done();
 		});
 	});
@@ -252,7 +252,7 @@ describe('Tests for the orders api endpoints', () => {
 		.patch('/api/v1/order/566554/reject').set('authorization', `Bearer ${user1Token}`)
 		.end((err, res) => {
 			res.should.have.status(404);
-			expect(res.body.error).to.equal('Purchase order not found in database.');
+			expect(res.body.error).to.equal('Order not found in database.');
 			done();
 		});
 	});
@@ -277,7 +277,7 @@ describe('Tests for the orders api endpoints', () => {
 		.delete('/api/v1/order/566554').set('authorization', `Bearer ${user2Token}`)
 		.end((err, res) => {
 			res.should.have.status(404);
-			expect(res.body.error).to.equal('Purchase order not found in database.');
+			expect(res.body.error).to.equal('Order not found in database.');
 			done();
 		});
 	});

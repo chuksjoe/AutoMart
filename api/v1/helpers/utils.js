@@ -1,4 +1,3 @@
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 
@@ -45,24 +44,5 @@ module.exports = {
 		} catch (err) {
 			throw new ApiError(500, err.message);
 		}
-	},
-	validateNewPostForm: (reqBody) => {
-		const errorFields = [];
-		const {
-			manufacturer, model, body_type, price, state,
-		} = reqBody;
-		if (manufacturer === undefined || manufacturer === '') {
-			errorFields.push('manufacturer');
-		}
-		if (model === undefined || model === '') errorFields.push('model');
-		if (body_type === undefined || body_type === '') {
-			errorFields.push('body_type');
-		}
-		if (price === undefined || price === '') errorFields.push('price');
-		if (state === undefined || state === '') errorFields.push('state');
-		if (errorFields.length > 0) {
-			throw new ApiError(206, 'Some required fields are not properly filled.');
-		}
-		return errorFields;
 	},
 };
