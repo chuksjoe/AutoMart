@@ -104,8 +104,8 @@ describe('Tests for the flags api endpoints', () => {
 			.post('/api/v1/flag').set('authorization', `Bearer ${user2Token}`)
 			.send({ car_id, reason: 'Pricing', description: 'the price is too high' })
 			.end((err, res) => {
-				res.should.have.status(401);
-				expect(res.body.error).to.equal('Unauthorized Access!');
+				res.should.have.status(400);
+				expect(res.body.error).to.equal('Car already sold.');
 				done();
 			});
 		});
@@ -127,6 +127,28 @@ describe('Tests for the flags api endpoints', () => {
 			});
 		});
 	});
+	it('should not flag a car Ad if the car ID is not supplied', (done) => {
+		chai.request(app)
+		.post('/api/v1/flag').set('authorization', `Bearer ${user2Token}`)
+		.send({ car_id: '', reason: 'Pricing', description: 'the price is too high' })
+		.end((err, res) => {
+			res.should.have.status(206);
+			res.body.should.have.property('error');
+			expect(res.body.error).to.equal('The car ID is required');
+			done();
+		});
+	});
+	it('should not flag a car Ad if the reason or description is not supplied', (done) => {
+		chai.request(app)
+		.post('/api/v1/flag').set('authorization', `Bearer ${user1Token}`)
+		.send({ car_id: 34, reason: '', description: 'the price is too high' })
+		.end((err, res) => {
+			res.should.have.status(206);
+			res.body.should.have.property('error');
+			expect(res.body.error).to.equal('Reason and Description cannot be null.');
+			done();
+		});
+	});
 	// car with id = 335453554 does not exist
 	it('should not allow a registered user to flag a car ad that does not exist', (done) => {
 		chai.request(app)
@@ -134,7 +156,7 @@ describe('Tests for the flags api endpoints', () => {
 		.send({ car_id: 335453554, reason: 'Pricing', description: 'the price is too high' })
 		.end((err, res) => {
 			res.should.have.status(404);
-			expect(res.body.error).to.equal('Car does not exist!');
+			expect(res.body.error).to.equal('Car not found in database.');
 			done();
 		});
 	});
@@ -165,7 +187,7 @@ describe('Tests for the flags api endpoints', () => {
 			.get(`/api/v1/flag/${car_id}`).set('authorization', `Bearer ${user2Token}`)
 			.end((err, res) => {
 				res.should.have.status(401);
-				expect(res.body.error).to.equal('Unauthorized Access!');
+				expect(res.body.error).to.equal('Unauthorized Access. Reserved only for resource owner or an admin.');
 				done();
 			});
 		});
@@ -175,7 +197,7 @@ describe('Tests for the flags api endpoints', () => {
 		.get('/api/v1/flag/58544449').set('authorization', `Bearer ${user1Token}`)
 		.end((err, res) => {
 			res.should.have.status(404);
-			expect(res.body.error).to.equal('Car does not exist!');
+			expect(res.body.error).to.equal('Car not found in database.');
 			done();
 		});
 	});
@@ -226,7 +248,7 @@ describe('Tests for the flags api endpoints', () => {
 		.patch('/api/v1/flag/34454543/status').set('authorization', `Bearer ${user2Token}`)
 		.end((er, re) => {
 			re.should.have.status(401);
-			expect(re.body.error).to.equal('Unauthorized Access!');
+			expect(re.body.error).to.equal('Unauthorized Access. Reserved only for admins.');
 			done();
 		});
 	});
@@ -267,7 +289,7 @@ describe('Tests for the flags api endpoints', () => {
 		.delete('/api/v1/flag/34454543').set('authorization', `Bearer ${user2Token}`)
 		.end((er, re) => {
 			re.should.have.status(401);
-			expect(re.body.error).to.equal('Unauthorized Access!');
+			expect(re.body.error).to.equal('Unauthorized Access. Reserved only for admins.');
 			done();
 		});
 	});

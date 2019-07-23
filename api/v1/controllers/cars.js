@@ -70,7 +70,7 @@ export default {
 				.catch((err) => {
 					if (err) {
 						debug(err);
-						return res.status(599).send({ status: 599, error: 'Seems like your network connection is down.' });
+						return res.status(501).send({ status: 501, error: 'Seems like your network connection is down.' });
 					}
 					return 0;
 				});
@@ -138,8 +138,9 @@ export default {
 			const { car_id } = req.params;
 			validator.validateResourceId(car_id, 'Car');
 			const { rows } = await db.query(queryText.getCar, [car_id]);
-			validator.validateResource(rows[0], 'Car');
-			res.status(200).send({ status: 200, data: rows[0] });
+			const [car] = rows;
+			validator.validateResource(car, 'Car');
+			res.status(200).send({ status: 200, data: car });
 		} catch (err) {
 			res.status(err.statusCode || 500)
 			.send({ status: err.statusCode, error: err.message });
@@ -175,8 +176,9 @@ export default {
 			const { price } = req.body;
 			validator.validatePrice(price);
 			const { rows } = await db.query(queryText.getCar, [car_id]);
-			validator.validateResource(rows[0], 'Car');
-			validator.validateOwner(req.token.id === rows[0].owner_id);
+			const [car] = rows;
+			validator.validateResource(car, 'Car');
+			validator.validateOwner(req.token.id === car.owner_id);
 			const values = [parseFloat(price), moment(), car_id];
 			const response = await db.query(queryText.updateCarPrice, values);
 			const [data] = response.rows;
@@ -193,8 +195,9 @@ export default {
 			validator.validateResourceId(car_id, 'Car');
 			const { id, isAdmin } = req.token;
 			const { rows } = await db.query(queryText.getCar, [car_id]);
-			validator.validateResource(rows[0], 'Car');
-			const { owner_id, name, image_url } = rows[0];
+			const [car] = rows;
+			validator.validateResource(car, 'Car');
+			const { owner_id, name, image_url } = car;
 			validator.validateOwnerOrAdmin(id === owner_id || isAdmin);
 
 			await db.query(queryText.deleteCar, [car_id]); // delete the car ad from database

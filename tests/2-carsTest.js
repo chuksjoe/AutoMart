@@ -20,12 +20,12 @@ describe('Testing the car sale ads endpoints', () => {
 		// description: 'other info about the car will go here.',
 		// doors: 4,
 		// fuel_cap: 58,
-		// ac: true,
-		// arm_rest: true,
-		// air_bag: true,
-		// dvd_player: false,
-		// fm_radio: true,
-		// tinted_windows: false,
+		ac: true,
+		arm_rest: true,
+		air_bag: true,
+		dvd_player: false,
+		fm_radio: true,
+		tinted_windows: false,
 	};
 	const car1 = {
 		year: 2011,
@@ -41,12 +41,6 @@ describe('Testing the car sale ads endpoints', () => {
 		description: 'other info about the car will go here.',
 		doors: 4,
 		fuel_cap: 58,
-		ac: true,
-		arm_rest: true,
-		air_bag: true,
-		dvd_player: false,
-		fm_radio: true,
-		tinted_windows: false,
 	};
 	const car2 = {
 		year: 2021,
@@ -62,12 +56,6 @@ describe('Testing the car sale ads endpoints', () => {
 		description: 'other info about the car will go here.',
 		doors: 4,
 		fuel_cap: 58,
-		ac: true,
-		arm_rest: true,
-		air_bag: true,
-		dvd_player: false,
-		fm_radio: true,
-		tinted_windows: false,
 	};
 	const car3 = {
 		year: 1989,
@@ -83,12 +71,6 @@ describe('Testing the car sale ads endpoints', () => {
 		description: 'other info about the car will go here.',
 		doors: 4,
 		fuel_cap: 58,
-		ac: true,
-		arm_rest: true,
-		air_bag: true,
-		dvd_player: false,
-		fm_radio: true,
-		tinted_windows: false,
 	};
 	const car4 = {
 		year: 1989,
@@ -104,12 +86,21 @@ describe('Testing the car sale ads endpoints', () => {
 		description: 'other info about the car will go here.',
 		doors: 4,
 		fuel_cap: 58,
-		ac: true,
-		arm_rest: true,
-		air_bag: true,
-		dvd_player: false,
-		fm_radio: true,
-		tinted_windows: false,
+	};
+	const car5 = {
+		year: 1989,
+		state: 'Used',
+		price: 74400000,
+		manufacturer: 'Volvo',
+		model: 'Hiace',
+		body_type: 'Sedan',
+		fuel_type: 'Petrol',
+		mileage: 3400,
+		color: 'yellow',
+		transmission_type: 'Automatic',
+		description: 'other info about the car will go here.',
+		doors: 4,
+		fuel_cap: 58,
 	};
 
 	let adminToken = null;
@@ -169,7 +160,8 @@ describe('Testing the car sale ads endpoints', () => {
 	});
 	/* it('should not create car ad if no image is selected', (done) => {
 		chai.request(app)
-    .post('/api/v1/auth/signin').type('form').send({ email: 'chuksjos@live.com', password: 'testing@123' })
+    .post('/api/v1/auth/signin').type('form')
+    .send({ email: 'chuksjos@live.com', password: 'testing@123' })
     .end((error, response) => {
 			chai.request(app)
 			.post('/api/v1/car')
@@ -246,6 +238,17 @@ describe('Testing the car sale ads endpoints', () => {
 			done();
 		});
 	});
+	it('create car sale ad 5', (done) => {
+		chai.request(app)
+		.post('/api/v1/car')
+		.set('Authorization', `Token ${user1Token}`)
+    .field('Content-Type', 'multipart/form-data')
+    .field(car5)
+		.end((err, res) => {
+			res.should.have.status(201);
+			done();
+		});
+	});
 	it('should not allow an unregistered user to post a car sale ad', (done) => {
 		chai.request(app)
 		.post('/api/v1/car').set('Accept', 'application/json').send(car)
@@ -270,7 +273,7 @@ describe('Testing the car sale ads endpoints', () => {
 				});
 				return 0;
 			});
-			expect(data.length).to.equal(5);
+			expect(data.length).to.equal(6);
 		});
 		done();
 	});
@@ -281,7 +284,7 @@ describe('Testing the car sale ads endpoints', () => {
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
-			expect(data.length).to.equal(5);
+			expect(data.length).to.equal(6);
 		});
 		done();
 	});
@@ -308,7 +311,7 @@ describe('Testing the car sale ads endpoints', () => {
 			res.should.have.status(200);
 			expect(data[0]).to.include({ status: 'Available' });
 			expect(parseFloat(data[0].price)).to.be.above(parseFloat(3000000));
-			expect(data.length).to.equal(3);
+			expect(data.length).to.equal(4);
 		});
 		done();
 	});
@@ -365,7 +368,7 @@ describe('Testing the car sale ads endpoints', () => {
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
-			expect(data.length).to.equal(3);
+			expect(data.length).to.equal(4);
 			expect(data[0].state).to.equal('Used');
 		});
 		done();
@@ -376,7 +379,7 @@ describe('Testing the car sale ads endpoints', () => {
 		.end((err, res) => {
 			const { data } = res.body;
 			res.should.have.status(200);
-			expect(data.length).to.equal(4);
+			expect(data.length).to.equal(5);
 		});
 		done();
 	});

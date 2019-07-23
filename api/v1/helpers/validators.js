@@ -191,4 +191,34 @@ export default {
 			throw new ApiError(400, 'The price offered cannot be null.');
 		}
 	},
+	validateStatus(isPending, resource) {
+		if (isPending) {
+			throw new ApiError(400, `You have a Pending ${resource} on this car Ad.`);
+		}
+	},
+	validateOwnership(isOwner, action) {
+		if (isOwner) {
+			throw new ApiError(400, `You can't place a ${action} on your car ad.`);
+		}
+	},
+	validateAvailability(isPending) {
+		if (!isPending) {
+			throw new ApiError(400, 'The offer is not available.');
+		}
+	},
+	validateNewFlagForm: (req, res, next) => {
+		try {
+			const { reason, description, car_id } = req.body;
+			if (car_id === undefined || car_id === '') {
+				throw new ApiError(206, 'The car ID is required');
+			}
+			if (reason === '' || description === '' || reason === undefined || description === undefined) {
+				throw new ApiError(206, 'Reason and Description cannot be null.');
+			}
+			next();
+		} catch (error) {
+			res.status(error.statusCode)
+			.send({ status: error.statusCode, error: error.message });
+		}
+	},
 };

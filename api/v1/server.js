@@ -37,9 +37,9 @@ router.patch('/order/:order_id/reject', validator.validateToken, orders.rejectOf
 router.delete('/order/:order_id', validator.validateToken, orders.deleteOrder);
 
 // for flagging a car ad
-router.post('/flag', validator.validateToken, flags.createNewFlag);
+router.post('/flag', validator.validateToken, validator.validateNewFlagForm, flags.createNewFlag);
 router.get('/flag/:car_id', validator.validateToken, flags.getAllFlags);
-router.patch('/flag/:flag_id/status', validator.validateToken, flags.addressFlag);
-router.delete('/flag/:flag_id', validator.validateToken, flags.deleteOrder);
+router.patch('/flag/:flag_id/status', validator.validateToken, validator.validateAdmin1, flags.addressFlag);
+router.delete('/flag/:flag_id', validator.validateToken, validator.validateAdmin1, flags.deleteFlag);
 
 module.exports = router;
