@@ -78,9 +78,7 @@ export default {
 			if (first_name === undefined || first_name === '') errorFields.push('fname');
 			if (last_name === undefined || last_name === '') errorFields.push('lname');
 			if (email === undefined || email === '') errorFields.push('no-email');
-			else if (!(/\S+@\S+\.\S+/.test(email))) {
-				errorFields.push('bad-email');
-			}
+			else if (!(/\S+@\S+\.\S+/.test(email))) errorFields.push('bad-email');
 			if (password.length === undefined || password.length < 8) errorFields.push('short-pass');
 			else if (password.search(/\d/) < 0) errorFields.push('no-digit-in-pass');
 			else if (password.search(/[!@#$%^&*(),.?":{}|<>]/) < 0) errorFields.push('no-special-in-pass');
@@ -129,7 +127,7 @@ export default {
 			let new_pass = null;
 
 			if (password && (new_password === undefined || new_password === '')) {
-				throw new ApiError(206, 'new password cannot be empty');
+				throw new ApiError(206, 'new password cannot be empty.');
 			}
 			const { rows } = await db.query(queryText.getUserByEmail, [email]);
 			if (!rows[0]) {
@@ -163,13 +161,9 @@ export default {
 			const {
 				manufacturer, model, body_type, price, state,
 			} = req.body;
-			if (manufacturer === undefined || manufacturer === '') {
-				errorFields.push('manufacturer');
-			}
+			if (manufacturer === undefined || manufacturer === '') errorFields.push('manufacturer');
 			if (model === undefined || model === '') errorFields.push('model');
-			if (body_type === undefined || body_type === '') {
-				errorFields.push('body_type');
-			}
+			if (body_type === undefined || body_type === '') errorFields.push('body_type');
 			if (price === undefined || price === '') errorFields.push('price');
 			if (state === undefined || state === '') errorFields.push('state');
 			if (errorFields.length > 0) {

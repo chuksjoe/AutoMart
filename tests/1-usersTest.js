@@ -376,6 +376,15 @@ describe('Testing User endpoints', () => {
 			done();
 		});
 	});
+	it('should not reset password if the supplied password is incorrect', (done) => {
+		chai.request(app)
+		.post('/api/v1/user/edet@live.com/reset_password').send({ password: 'wrongPass', new_password: '' })
+		.end((err, res) => {
+			res.should.have.status(206);
+			expect(res.body.error).to.equal('new password cannot be empty.');
+			done();
+		});
+	});
 	it('should reset password if the supplied password is correct', (done) => {
 		chai.request(app)
 		.post('/api/v1/user/edet@live.com/reset_password').send({ password: 'testing@123', new_password: 'newPass4edet' })

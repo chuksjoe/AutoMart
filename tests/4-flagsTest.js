@@ -286,6 +286,15 @@ describe('Tests for the flags api endpoints', () => {
 	});
 	it('should return a 401 error if the user tries to delete a flag', (done) => {
 		chai.request(app)
+		.delete('/api/v1/flag/34454543').set('authorization', `Bearer ${adminToken}`)
+		.end((er, re) => {
+			re.should.have.status(404);
+			expect(re.body.error).to.equal('Flag not found in database.');
+			done();
+		});
+	});
+	it('should return a 401 error if the user tries to delete a flag', (done) => {
+		chai.request(app)
 		.delete('/api/v1/flag/34454543').set('authorization', `Bearer ${user2Token}`)
 		.end((er, re) => {
 			re.should.have.status(401);

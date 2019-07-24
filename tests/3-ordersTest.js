@@ -245,6 +245,20 @@ describe('Tests for the orders api endpoints', () => {
 			});
 		});
 	});
+	it('should not accept an already accepted offer', (done) => {
+		chai.request(app)
+		.get('/api/v1/sale').set('authorization', `Bearer ${user1Token}`)
+		.end((err1, res1) => {
+			const order_id = res1.body.data[0].id;
+			chai.request(app)
+			.patch(`/api/v1/order/${order_id}/accept`).set('authorization', `Bearer ${user1Token}`)
+			.end((err, res) => {
+				res.should.have.status(400);
+				expect(res.body.error).to.equal('The offer is not available.');
+				done();
+			});
+		});
+	});
 
 // testing api endpoint for rejecting a purchase offer
 	it('should not reject an order that does not exit', (done) => {

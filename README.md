@@ -136,8 +136,31 @@ To install and test this application locally on your computer, first you have to
 - `npm test` : this will test all API endpoints to ensure that they are working
 - `npm run dev-start` : this will run the app so that you can check it out on your browser. Once its running, note the port the server is listening on, then open a browser on your computer and enter the url `http://localhost:<port>`. This will take you to the homepage of the application.
 
+## Deployment
+
+- The API is deployed to Heroku: [https://auto-mart-adc.herokuapp.com/api/v1](https://auto-mart-adc.herokuapp.com/api/v1/)
+- The UI is deployed to gh-pages: [https://chuksjoe.github.io/AutoMart_UI/UI/templates/](https://chuksjoe.github.io/AutoMart_UI/UI/templates/)
+- The link to the Documentation:  [https://auto-mart-adc.herokuapp.com/api/v1/api-doc](https://auto-mart-adc.herokuapp.com/api/v1/api-doc)
+
+## Technologies utilized
+
+- HTML, CSS and Javascript (UI interface),
+- Node js (Server environment),
+- Express (Server framework),
+- Mocha, Chai (Testing framework),
+- Babel (Compiler),
+- Eslint, Airbnb (Coding style),
+- Travis CI (Continuous integration),
+- Postman (API Documentation and Testing),
+- Coveralls (test coverage),
+- Code Climate (Code Analysis)
+
 ## Example Usage
 
-For examples of how the endpoints work, you can check out the documentation for the API [here.](https://documenter.getpostman.com/view/7607196/S1TYWGgG)
+For examples of how the endpoints work, you can check out the documentation for the API [here.](https://auto-mart-adc.herokuapp.com/api/v1/api-doc)
 
-You can also visit the application [here for your review](https://auto-mart-adc.herokuapp.com). Your feedback will be so much appreciated.
+You can also check out the application [here for your review](https://auto-mart-adc.herokuapp.com). Your feedback will be so much appreciated.
+
+## Author
+
+Chukwunonso Orjiakor
