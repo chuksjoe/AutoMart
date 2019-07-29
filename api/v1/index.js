@@ -1,10 +1,9 @@
 import express from 'express';
 import logger from 'morgan';
-import path from 'path';
-import compression from 'compression';
 import cors from 'cors';
 
-import router from './server';
+import serveUI from './serveUI';
+import routes from './routes';
 
 require('dotenv').config();
 require('custom-env').env(true);
@@ -21,81 +20,22 @@ app.use(express.urlencoded({ extended: false }));
 // Enable Cross-Origin Resource Sharing (CORS)
 app.use(cors());
 app.options('*', cors());
+
 /*
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-Headers',
+  'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, PATCH, OPTIONS');
   next();
 });
 */
-// serve the api endpoints built in server.js
-app.use(prefix, router);
 
-/* ========== serving the UI pages ============= */
-app.use(compression());
+// serve the api endpoints built in routes folder
+routes(app, prefix);
 
-const dirName = '../../UI/template';
-const resoursePath = path.join(__dirname, '../../UI');
-// debug(`Resource Path: ${resoursePath}`);
-
-app.use(express.static(resoursePath));
-app.use('/css', express.static(path.join(__dirname, '../../UI/css')));
-app.use('/js', express.static(path.join(__dirname, '../../UI/js')));
-app.use('/images', express.static(path.join(__dirname, '../../UI/images')));
-
-app.get(`${prefix}`, (req, res) => {
-  res.redirect(`${prefix}/index`);
-});
-
-app.get(`${prefix}/index`, (req, res) => {
-  res.sendFile(path.join(__dirname, dirName, '/index.html'));
-});
-
-app.get(`${prefix}/signup`, (req, res) => {
-  res.sendFile(path.join(__dirname, dirName, '/signup.html'));
-});
-
-app.get(`${prefix}/signin`, (req, res) => {
-  res.sendFile(path.join(__dirname, dirName, '/signin.html'));
-});
-
-app.get(`${prefix}/marketplace`, (req, res) => {
-  res.sendFile(path.join(__dirname, dirName, '/marketplace.html'));
-});
-
-app.get(`${prefix}/my-posted-ads`, (req, res) => {
-  res.sendFile(path.join(__dirname, dirName, '/my-posted-ads.html'));
-});
-
-app.get(`${prefix}/post-new-ad`, (req, res) => {
-  res.sendFile(path.join(__dirname, dirName, '/post-new-ad.html'));
-});
-
-app.get(`${prefix}/purchase-history`, (req, res) => {
-  res.sendFile(path.join(__dirname, dirName, '/purchase-history.html'));
-});
-
-app.get(`${prefix}/sales-history`, (req, res) => {
-  res.sendFile(path.join(__dirname, dirName, '/sales-history.html'));
-});
-
-app.get(`${prefix}/admin`, (req, res) => {
-  res.sendFile(path.join(__dirname, dirName, '/admin.html'));
-});
-
-app.get(`${prefix}/users-list`, (req, res) => {
-  res.sendFile(path.join(__dirname, dirName, '/users-list.html'));
-});
-
-app.get(`${prefix}/api-doc`, (req, res) => {
-  res.redirect('https://documenter.getpostman.com/view/7607196/S1TYWGgG');
-});
-
-// default page is set to the index page
-app.get('*', (req, res) => {
-	res.redirect(`${prefix}/index`);
-});
+// serve the UI pages with their resources
+serveUI(app, prefix);
 
 const listen = app.listen(port || 5000, () => {
 	debug(`AutoMart Server is running on port ${port} and in ${process.env.MODE} mode...`);
