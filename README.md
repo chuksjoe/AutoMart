@@ -146,7 +146,7 @@ To install and test this application locally on your computer, first you have to
 
 - HTML, CSS and Javascript (UI interface),
 - Node js (Server environment),
-- Express (Server framework),
+- Express (Web application framework),
 - Mocha, Chai (Testing framework),
 - Babel (Compiler),
 - Eslint, Airbnb (Coding style),
