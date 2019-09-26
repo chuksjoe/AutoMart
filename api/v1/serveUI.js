@@ -21,42 +21,6 @@ export default (app, prefix) => {
 		res.sendFile(path.join(__dirname, dirName, '/index.html'));
 	});
 
-	app.get(`${prefix}/signup`, (req, res) => {
-		res.sendFile(path.join(__dirname, dirName, '/signup.html'));
-	});
-
-	app.get(`${prefix}/signin`, (req, res) => {
-		res.sendFile(path.join(__dirname, dirName, '/signin.html'));
-	});
-
-	app.get(`${prefix}/marketplace`, (req, res) => {
-		res.sendFile(path.join(__dirname, dirName, '/marketplace.html'));
-	});
-
-	app.get(`${prefix}/my-posted-ads`, (req, res) => {
-		res.sendFile(path.join(__dirname, dirName, '/my-posted-ads.html'));
-	});
-
-	app.get(`${prefix}/post-new-ad`, (req, res) => {
-		res.sendFile(path.join(__dirname, dirName, '/post-new-ad.html'));
-	});
-
-	app.get(`${prefix}/purchase-history`, (req, res) => {
-		res.sendFile(path.join(__dirname, dirName, '/purchase-history.html'));
-	});
-
-	app.get(`${prefix}/sales-history`, (req, res) => {
-		res.sendFile(path.join(__dirname, dirName, '/sales-history.html'));
-	});
-
-	app.get(`${prefix}/admin`, (req, res) => {
-		res.sendFile(path.join(__dirname, dirName, '/admin.html'));
-	});
-
-	app.get(`${prefix}/users-list`, (req, res) => {
-		res.sendFile(path.join(__dirname, dirName, '/users-list.html'));
-	});
-
 	app.get(`${prefix}/api-doc`, (req, res) => {
 		res.redirect('https://documenter.getpostman.com/view/7607196/S1TYWGgG');
 	});

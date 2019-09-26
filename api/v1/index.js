@@ -38,7 +38,11 @@ routes(app, prefix);
 serveUI(app, prefix);
 
 const listen = app.listen(port || 5000, () => {
-	debug(`AutoMart Server is running on port ${port} and in ${process.env.MODE} mode...`);
+	debug(
+		`AutoMart Server is running on port ${port} and in ${
+			process.env.MODE
+		} mode...`,
+	);
 });
 
 // for testing

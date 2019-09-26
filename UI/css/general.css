@@ -6,6 +6,7 @@ body {
   font-family: "Oxygen", sans-serif;
   font-size: 1rem;
   background-color: #eee;
+  min-width: 350px;
 }
 .no-scroll {
   overflow: hidden;
@@ -38,7 +39,7 @@ header {
   color: #fff;
   padding: 0 10px;
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   cursor: pointer;
 }
 .menu-btn:hover {
@@ -53,10 +54,9 @@ li.current {
   border-bottom: 2px solid #fff;
   padding-top: 2px;
 }
-.menu-list li a,
-.user-info {
+.menu-list li a {
   text-decoration: none;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   color: #fff;
   cursor: pointer;
 }
@@ -111,19 +111,7 @@ ul.dropdown-list {
   border-bottom: 2px solid #fff;
   color: gold;
 }
-.user-avater {
-  border-radius: 50%;
-  font-size: 2.2rem;
-}
-.user-info .fa {
-  position: relative;
-  top: -9px;
-}
-.user-name {
-  font-weight: bold;
-  margin-top: 5px;
-  display: block;
-}
+
 /*General containers styling*/
 header nav,
 footer .inner-div {
@@ -167,7 +155,6 @@ footer {
 }
 .footer-right {
   display: flex;
-  width: 210px;
 }
 .footer-right ul {
   list-style: none;
@@ -188,328 +175,6 @@ footer {
 }
 .footer-right ul li:hover {
   background-color: #777;
-}
-
-/*General button styling*/
-.btn {
-  font-size: 1rem;
-  padding: 10px;
-  margin-top: 10px;
-  background-color: #0069d9;
-  color: #fff;
-  outline: none;
-  border: none;
-  cursor: pointer;
-}
-.btn:hover {
-  background-color: #2993e2;
-  transition: all 0.3s ease-out;
-}
-.delete {
-  background-color: #d61313;
-}
-.delete:hover {
-  background-color: #b71513;
-}
-button[disabled],
-button[disabled]:hover {
-  background-color: #888;
-  cursor: default;
-}
-.full-btn {
-  width: 100%;
-}
-.half-btn {
-  width: 49%;
-}
-
-/*General form styling*/
-.input-field {
-  margin: 2px 0px 10px 0px;
-  width: 49%;
-}
-.single {
-  width: 100%;
-}
-.input-field label {
-  opacity: 1;
-  font-size: 1rem;
-  margin-bottom: 2px;
-}
-.input-field textarea,
-.input-field select,
-.input-field input {
-  width: 100%;
-  font-size: 1.3rem;
-  display: block;
-  border: none;
-  outline: none;
-  border: 1px solid #abadb3;
-  padding: 10px;
-}
-.input-field textarea:focus,
-.input-field select:focus,
-.input-field input:focus,
-.input-field textarea:hover,
-.input-field select:hover,
-.input-field input:hover {
-  background: #e7e7e7;
-  border: 1px solid #005795;
-}
-.input-field textarea {
-  height: 120px;
-}
-.note {
-  font-size: 12px;
-  color: #1b3f7d;
-}
-.end-note {
-  text-align: center;
-  margin-bottom: 0;
-}
-
-/*General filter sidebar*/
-.filter-sidebar {
-  width: 25%;
-}
-.filter-sidebar h2 {
-  background-color: #333;
-  color: #fff;
-  padding: 15px;
-  margin: 0;
-}
-#filter-dd-btn {
-  display: none;
-}
-#filter-container {
-  display: block;
-}
-.filter-attr {
-  padding: 15px;
-  width: 100%;
-  background-color: #fff;
-  border-bottom: 2px solid #eee;
-}
-.filter-attr h3 {
-  margin: 0 0 10px;
-}
-.car-state-group,
-.price-range {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-}
-.car-state-group label {
-  width: 33%;
-}
-.price-range input {
-  font-size: 1rem;
-  padding: 5px 10px;
-  width: 49%;
-}
-.manufacturer-group,
-.body-type-group {
-  width: 100%;
-  max-height: 200px;
-  overflow: auto;
-}
-.manufacturer-group label,
-.body-type-group label {
-  width: 100%;
-  display: block;
-  margin-bottom: 5px;
-}
-
-/*General cars listing view*/
-.car-list {
-  list-style: none;
-  padding: 0;
-}
-.car-card:hover {
-  box-shadow: 0 0 3px #333;
-}
-.car-image {
-  position: relative;
-}
-.car-state-tag {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  padding: 5px 10px;
-  background-color: #fff;
-  color: #000;
-  font-size: 1rem;
-}
-.car-image {
-  cursor: pointer;
-}
-.car-image img {
-  width: 100%;
-}
-.car-info {
-  padding: 15px;
-  text-align: center;
-}
-h3.c-details-list {
-  text-align: left;
-  margin: 0;
-}
-.car-price {
-  font-size: 2rem;
-  margin: 0;
-}
-
-/*modal views and overlay*/
-.overlay {
-  display: none;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  position: fixed;
-  z-index: 100;
-  padding: 0px 20px;
-}
-.close-btn {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  width: 35px;
-  height: 35px;
-  background-color: #eee;
-  color: #D61313;
-  font-size: 2rem;
-  padding: 2.5px 6.5px;
-  cursor: pointer;
-}
-.close-btn:hover {
-  background-color: #ccc;
-  color: #B71513;
-  transition: all 0.3s ease-out;
-}
-.modal-view {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  position: fixed;
-  background-color: #fff;
-}
-.sm-m-v {
-  width: 350px;
-}
-.lg-m-v {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-  max-width: 1000px;
-  height: auto;
-  max-height: 90%;
-  background-color: #fff;
-  margin: 0 auto;
-  overflow: auto;
-}
-h2.modal-header {
-  text-align: center;
-  padding: 15px;
-  margin: 0;
-  background-color: #000;
-  color: #fff;
-}
-.modal-body {
-  padding: 15px;
-}
-h3.c-details-mv {
-  text-align: center;
-  margin-top: 0px;
-}
-.c-b-type {
-  margin: -10px 0 0;
-  text-align: center;
-  font-size: 1.3rem;
-}
-.c-price,
-.c-c-o-price {
-  text-align: center;
-  font-size: 2rem;
-  margin: 0;
-}
-
-/*modal view for specific car view*/
-.car-view-image {
-  width: 49%;
-}
-.car-view-image img {
-  width: 100%;
-}
-.car-view-main-desc {
-  width: 49%;
-  padding: 0 15px;
-}
-.added-date {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  color: #fff;
-}
-.prop-list {
-  justify-content: normal;
-}
-.prop {
-  width: 33.3%;
-  margin: 10px 0 0;
-  line-height: 1.4;
-}
-
-/*for notification modal*/
-#notification-overlay {
-  z-index: 200;
-}
-.message {
-  text-align: center;
-}
-
-@media only screen and (max-width: 800px) {
-  .content {
-    display: block;
-  }
-  .filter-sidebar,
-  .main-75 {
-    width: 100%;
-  }
-  .main-75 {
-    padding: 0;
-  }
-  #filter-container {
-    display: none;
-  }
-  #filter-dd-btn {
-    display: inline;
-    float: right;
-    padding: 0 10px;
-    cursor: pointer;
-  }
-  #filter-dd-btn:hover {
-    background-color: #fff;
-    color: #000;
-  }
-
-  /*car preview modal*/
-  .car-view-detail {
-    display: block;
-  }
-  .car-view-image,
-  .car-view-main-desc {
-    width: 100%;
-  }
-  .added-date {
-    position: absolute;
-    top: 60px;
-    left: 20px;
-    color: #000;
-    background-color: #fff;
-    padding: 5px 10px;
-  }
 }
 
 @media only screen and (max-width: 750px) {
@@ -543,11 +208,5 @@ h3.c-details-mv {
     padding-bottom: 10px;
     background-color: #000;
     color: #fff;
-  }
-}
-
-@media only screen and (max-width: 470px) {
-  .prop {
-    width: 49%;
   }
 }
