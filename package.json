@@ -74,7 +74,7 @@
   "dependencies": {
     "async": "^3.0.1",
     "babel-polyfill": "^6.26.0",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "cloudinary": "^1.14.0",
     "compression": "^1.7.4",
     "connect-multiparty": "^2.2.0",
